@@ -76,12 +76,13 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
 //rooms
     Route::get('admin/rooms/', [RoomController::class, 'index'])->name('rooms.index');
     Route::get('admin/rooms/create', [RoomController::class, 'create'])->name('rooms.create');
-    Route::post('admin/rooms/test', [RoomController::class, 'test'])->name('rooms.test');
+    Route::post('admin/rooms/store', [RoomController::class, 'store'])->name('rooms.store');
     Route::get('admin/rooms/show/{id}', [RoomController::class, 'show'])->name('rooms.show');
     Route::get('admin/rooms/edit/{id}', [RoomController::class, 'edit'])->name('rooms.edit');
     Route::patch('admin/rooms/update/{id}', [RoomController::class, 'update'])->name('rooms.update');
     Route::get('admin/rooms/delete/{id}', [RoomController::class, 'delete'])->name('rooms.delete');
-
+    Route::get('admin/rooms/upload_images/{id}', [RoomController::class, 'upload_images'])->name('rooms.upload_images');
+    Route::post('admin/rooms/save_images/{id}', [RoomController::class, 'save_images'])->name('rooms.save_images');
     Route::get('admin/rooms/card', [RoomController::class, 'room_card'])->name('rooms.card');
 
     ////Comments

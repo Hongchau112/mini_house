@@ -25,43 +25,30 @@ class RoomController extends Controller
         return view('admin.rooms.test', compact('user', 'room_category'));
     }
 
-    public function test(Request $request)
+    public function upload_images($id)
     {
         $user = Auth::guard('admin')->user();
-        $room_category = RoomCategory::all();
+        $room = Room::find($id);
+        return view('admin.rooms.test', compact('user', 'room'));
+    }
 
-        $data = $request->validate([
-            'name' => 'required',
-            'description' => 'required',
-            'room_type_id' => 'required',
-            'cost' => 'required'
-        ]);
-
-        $room = new Room();
-        $room->name = $data['name'];
-        $room->description = $data['description'];
-        $room->room_type_id = $data['room_type_id'];
-        $room->cost = $data['cost'];
-        $room->save();
-
-        $insertedId = $room->id;
-
+    public function save_images(Request $request, $id)
+    {
+        $user = Auth::guard('admin')->user();
+        $room = Room::find($id);
         $get_image = $request->file('file');
-//        dd($get_image);
-        $imageName = time().'.'.$get_image->extension();
-        $get_image->move(public_path('images'),$imageName);
-
         if($get_image){
-            foreach($get_image as $image) {
-                $room_image = new Image();
-                $room_image->room_id = $insertedId;
-                $room_image->image_path = $image->move('storage', $image->getClientOriginalName());
-                $room_image->save();
+            $room_image = new Image();
+            $room_image->room_id = $room->id;
+            $imageName = time().'.'.$get_image->extension();
+            $get_image->move('images',$imageName);
+            $imagePath = $imageName;
+            $room_image->image_path = $imagePath;
+            $room_image->save();
 
-            }
         }
-//        return redirect()->route('admin.rooms.index', ['rooms'])->with('success', 'Thêm phòng thành công!');
-        return response()->json(['success' => $imageName]);
+        return "done";
+
     }
 
 
@@ -84,25 +71,6 @@ class RoomController extends Controller
         $room->room_type_id = $data['room_type_id'];
         $room->cost = $data['cost'];
         $room->save();
-
-        //Lay id cua san pham
-        $insertedId = $room->id;
-
-        //Luu hinh anh vao bang images
-        $get_image = $request->file('file');
-//        dd($get_image);
-        $imageName = time().'.'.$get_image->extension();
-        $get_image->move(public_path('images'),$imageName);
-
-        if($get_image){
-            foreach($get_image as $image) {
-                $room_image = new Image();
-                $room_image->room_id = $insertedId;
-                $room_image->image_path = $image->move('storage', $image->getClientOriginalName());
-                $room_image->save();
-
-            }
-        }
 
         return redirect()->route('admin.rooms.index', ['rooms'])->with('success', 'Thêm món thành công!');
     }

@@ -11,19 +11,19 @@
                         <div class="product-gallery mr-xl-1 mr-xxl-5">
                             <div class="slider-init" id="sliderFor" data-slick='{"arrows": false, "fade": true, "asNavFor":"#sliderNav", "slidesToShow": 1, "slidesToScroll": 1}'>
                                 <div class="slider-item rounded">
-                                    <img src="./images/product/lg-a.jpg" class="rounded w-100" alt="">
+                                    <img src="{{asset('dashlite/./images/product/lg-a.jpg')}}" class="rounded w-100" alt="">
                                 </div>
                                 <div class="slider-item rounded">
-                                    <img src="./images/product/lg-g.jpg" class="rounded w-100" alt="">
+                                    <img src="{{asset('dashlite/./images/product/lg-a.jpg')}}" class="rounded w-100" alt="">
                                 </div>
                                 <div class="slider-item rounded">
-                                    <img src="./images/product/lg-d.jpg" class="rounded w-100" alt="">
+                                    <img src="{{asset('dashlite/./images/product/lg-a.jpg')}}" class="rounded w-100" alt="">
                                 </div>
                                 <div class="slider-item rounded">
-                                    <img src="./images/product/lg-h.jpg" class="rounded w-100" alt="">
+                                    <img src="{{asset('dashlite/./images/product/lg-a.jpg')}}" class="rounded w-100" alt="">
                                 </div>
                                 <div class="slider-item rounded">
-                                    <img src="./images/product/lg-e.jpg" class="rounded w-100" alt="">
+                                    <img src="{{asset('dashlite/./images/product/lg-a.jpg')}}" class="rounded w-100" alt="">
                                 </div>
                             </div><!-- .slider-init -->
                             <div class="slider-init slider-nav" id="sliderNav" data-slick='{"arrows": false, "slidesToShow": 5, "slidesToScroll": 1, "asNavFor":"#sliderFor", "centerMode":true, "focusOnSelect": true,
@@ -31,27 +31,27 @@
                             }'>
                                 <div class="slider-item">
                                     <div class="thumb">
-                                        <img src="./images/product/lg-a.jpg" class="rounded" alt="">
+                                        <img src="{{asset('dashlite/./images/product/lg-a.jpg')}}" class="rounded" alt="">
                                     </div>
                                 </div>
                                 <div class="slider-item">
                                     <div class="thumb">
-                                        <img src="./images/product/lg-g.jpg" class="rounded" alt="">
+                                        <img src="{{asset('dashlite/./images/product/lg-a.jpg')}}" class="rounded" alt="">
                                     </div>
                                 </div>
                                 <div class="slider-item">
                                     <div class="thumb">
-                                        <img src="./images/product/lg-d.jpg" class="rounded" alt="">
+                                        <img src="{{asset('dashlite/./images/product/lg-a.jpg')}}" class="rounded" alt="">
                                     </div>
                                 </div>
                                 <div class="slider-item">
                                     <div class="thumb">
-                                        <img src="./images/product/lg-h.jpg" class="rounded" alt="">
+                                        <img src="{{asset('dashlite/./images/product/lg-a.jpg')}}" class="rounded" alt="">
                                     </div>
                                 </div>
                                 <div class="slider-item">
                                     <div class="thumb">
-                                        <img src="./images/product/lg-e.jpg" class="rounded" alt="">
+                                        <img src="{{asset('dashlite/./images/product/lg-a.jpg')}}" class="rounded" alt="">
                                     </div>
                                 </div>
                             </div><!-- .slider-nav -->
@@ -168,7 +168,7 @@
                 <div class="row g-gs flex-lg-row-reverse pt-5">
                     <div class="col-lg-5">
                         <div class="video">
-                            <img class="video-poster w-100" src="./images/product/video-a.jpg" alt="">
+                            <img class="video-poster w-100" src="{{asset('dashlite/./images/product/lg-a.jpg')}}" alt="">
                             <a class="video-play popup-video" href="https://www.youtube.com/watch?v=SSo_EIwHSd4">
                                 <em class="icon ni ni-play"></em>
                                 <span>Watch Video</span>

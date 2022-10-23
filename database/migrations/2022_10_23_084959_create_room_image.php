@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRoomImagesTable extends Migration
+class CreateRoomImage extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateRoomImagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('room_images', function (Blueprint $table) {
+        Schema::create('room_image', function (Blueprint $table) {
             $table->id();
             $table->longText('image_path');
-            $table->unsignedBigInteger('room_id');
-            $table->timestamps();
-            $table->foreign('room_id')->references('id')->on('rooms')->onDelete('cascade');
+            $table->integer('room_id');
             $table->softDeletes();
         });
     }
@@ -30,6 +28,6 @@ class CreateRoomImagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('room_images');
+        Schema::dropIfExists('room_image');
     }
 }

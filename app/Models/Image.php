@@ -8,9 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Image extends Model
 {
     use HasFactory;
-    protected $table = 'room_images';
-    protected $fillable = [
-        'id',
-        'image_path'
-    ];
+    protected $table = 'room_image';
+    protected $fillable =['id', 'image_path', 'room_id'];
+
+    public function room()
+    {
+        return $this->belongsTo(Room::class);
+    }
+
+
 }

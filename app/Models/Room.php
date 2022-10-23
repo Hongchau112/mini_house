@@ -14,4 +14,10 @@ class Room extends Model
         'description',
         'room_type_id'
     ];
+
+    public function images()
+    {
+        $this->belongsToMany(Image::class);
+    }
+
 }
