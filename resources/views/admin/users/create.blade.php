@@ -56,20 +56,20 @@
                                     <ul class="custom-control-group">
                                         <li>
                                             <div class="custom-control custom-radio custom-control-pro no-control">
-                                                <input type="radio" class="custom-control-input" name="sex" id="sex-male" required>
-                                                <label class="custom-control-label" for="sex-male">Nam</label>
+                                                <input type="radio" class="custom-control-input" name="sex" id="sex-male" value="male" required>
+                                                <label class="custom-control-label" for="sex-male" >Nam</label>
                                             </div>
                                         </li>
                                         <li>
                                             <div class="custom-control custom-radio custom-control-pro no-control">
-                                                <input type="radio" class="custom-control-input" name="sex" id="sex-female" required>
-                                                <label class="custom-control-label" for="sex-female">Nữ</label>
+                                                <input type="radio" class="custom-control-input" name="sex" id="sex-female" value="female" required>
+                                                <label class="custom-control-label" for="sex-female" >Nữ</label>
                                             </div>
                                         </li>
                                         <li>
                                             <div class="custom-control custom-radio custom-control-pro no-control">
-                                                <input type="radio" class="custom-control-input" name="sex" id="sex-other" required>
-                                                <label class="custom-control-label" for="sex-other">Khác</label>
+                                                <input type="radio" class="custom-control-input" name="sex" id="sex-other" value="sex-other" required>
+                                                <label class="custom-control-label" for="sex-other" >Khác</label>
                                             </div>
                                         </li>
                                     </ul>

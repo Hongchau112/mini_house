@@ -19,6 +19,7 @@ class AuthController extends Controller
     public function login_auth()
     {
         return view('admin.custom_auth.login_form_auth');
+//        return view('admin.custom_auth.login.login_form');
     }
 
     public function register_auth(Request $request)

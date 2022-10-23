@@ -73,19 +73,27 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     Route::get('admin/room_categories/edit/{id}', [RoomCategoryController::class, 'edit'])->name('room_categories.edit');
     Route::patch('admin/room_categories/update/{id}', [RoomCategoryController::class, 'update'])->name('room_categories.update');
     Route::get('admin/room_categories/delete/{id}', [RoomCategoryController::class, 'delete'])->name('room_categories.delete');
-//foods
+//rooms
     Route::get('admin/rooms/', [RoomController::class, 'index'])->name('rooms.index');
     Route::get('admin/rooms/create', [RoomController::class, 'create'])->name('rooms.create');
-    Route::post('admin/rooms/store', [RoomController::class, 'store'])->name('rooms.store');
+    Route::post('admin/rooms/test', [RoomController::class, 'test'])->name('rooms.test');
     Route::get('admin/rooms/show/{id}', [RoomController::class, 'show'])->name('rooms.show');
     Route::get('admin/rooms/edit/{id}', [RoomController::class, 'edit'])->name('rooms.edit');
     Route::patch('admin/rooms/update/{id}', [RoomController::class, 'update'])->name('rooms.update');
     Route::get('admin/rooms/delete/{id}', [RoomController::class, 'delete'])->name('rooms.delete');
 
+    Route::get('admin/rooms/card', [RoomController::class, 'room_card'])->name('rooms.card');
+
     ////Comments
     Route::get('admin/comments', [CommentController::class, 'index'])->name('comments.index');
     Route::post('admin/allow_comment', [CommentController::class, 'allow_comment'])->name('comments.allow_comment');
     Route::post('admin/reply_comment', [CommentController::class, 'reply_comment'])->name('comments.reply_comment');
+
+    /////filter users
+    Route::get('admin/search', [UserController::class, 'search'])->name('users.search');
+    Route::get('admin/filter-search', [UserController::class, 'filter_search'])->name('users.filter');
+    Route::get('admin/sex-search', [UserController::class, 'sex_search'])->name('users.sex_search');
+
 
 });
 
@@ -113,6 +121,7 @@ Route::get('guest/order', [CartController::class,'order'])->name('guest.order');
 
 Route::get('admin/transaction', [TransactionController::class, 'index'])->name('admin.transactions.index');
 Route::post('guest/transaction/store', [TransactionController::class, 'store'])->name('guest.transaction.store');
+
 
 
 

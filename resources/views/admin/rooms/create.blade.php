@@ -3,7 +3,7 @@
 ])
 
 @section('content')
-    <form action="/admin/store" method="POST">
+    <form action="{{route('admin.rooms.store')}}" method="POST" enctype="multipart/form-data" class="dropzone" id="save-data">
         @csrf
         <div class="nk-block nk-block-lg">
             <div class="nk-block-head">
@@ -17,17 +17,10 @@
                     <div class="col-md-6" style="margin-left: 300px;">
                         <div class="card card-bordered h-100" style="background-color: #e2e6ea;">
                             <div class="card-inner">
-                                <form action="#" class="form-validate">
-                                    <div class="form-group">
-                                        <label class="form-label">Chọn ảnh</label>
-                                        <div class="upload-zone" data-accepted-files="image/*">
-                                            <div class="dz-message" data-dz-message>
-                                                <span class="dz-message-text">Drag and drop file</span>
-                                                <span class="dz-message-or">or</span>
-                                                <button class="btn btn-primary">SELECT</button>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <div class="form-group" >
+                                    <label for="email" style="font-weight: bold">Name</label>
+                                    <input type="email" class="form-control" name="name" id="name"  placeholder="Vui lòng nhập tên phòng">
+                                </div>
                                     <div class="form-group">
                                         <label class="form-label" for="description">Mô tả <span class="text-danger">*</span></label>
                                         <div class="form-control-wrap">
@@ -35,9 +28,9 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label" for="food_category_id">Danh mục phòng <span class="text-danger">*</span></label>
+                                        <label class="form-label" for="room_type_id">Danh mục phòng <span class="text-danger">*</span></label>
                                         <div class="form-control-wrap">
-                                            <select class="form-select" data-search="on" name="food_category_id" id="food_category_id">
+                                            <select class="form-select" data-search="on" name="room_type_id" id="room_type_id">
                                                 <option value="0">Danh mục gốc</option>
                                                 @foreach ($room_category as $cate)
                                                     <option value="{{$cate->id}}">{{$cate->name}}</option>
@@ -56,7 +49,7 @@
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" placeholder="Giá phòng">
+                                                    <input type="text" class="form-control" name="cost" id="cost" placeholder="Giá phòng">
                                                 </div>
                                             </div>
                                         </div>
@@ -73,14 +66,14 @@
                                         <div class="g-3 align-center flex-wrap">
                                             <div class="g">
                                                 <div class="custom-control custom-control-sm custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="customCheck7">
-                                                    <label class="custom-control-label" for="customCheck7">Máy lạnh</label>
+                                                    <input type="checkbox" class="custom-control-input" id="service1">
+                                                    <label class="custom-control-label" for="service1">Máy lạnh</label>
                                                 </div>
                                             </div>
                                             <div class="g">
                                                 <div class="custom-control custom-control-sm custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="customCheck">
-                                                    <label class="custom-control-label" for="customCheck">Bếp nấu ăn</label>
+                                                    <input type="checkbox" class="custom-control-input" id="service2">
+                                                    <label class="custom-control-label" for="service2">Bếp nấu ăn</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -88,7 +81,7 @@
                                     <div class="col-lg-4 col-sm-6">
 
                                     </div>
-                                </form>
+
                             </div>
                         </div>
                     </div>
@@ -100,28 +93,7 @@
                 </div>
 
             </div>
-        </div><!-- .nk-block -->
-        {{--    <div class="form-group">--}}
-        {{--        <label for="name" style="font-weight: bold">Tên *</label>--}}
-        {{--        <input type="text" class="form-control" name="name" id="name" placeholder="Vui lòng nhập tên">--}}
-        {{--    </div>--}}
-        {{--    <div class="form-group" >--}}
-        {{--        <label for="email" style="font-weight: bold">Email *</label>--}}
-        {{--        <input type="email" class="form-control" name="email"id="email"  placeholder="Vui lòng nhập địa chỉ email">--}}
-        {{--    </div>--}}
-        {{--    <div class="form-group">--}}
-        {{--        <label for="phone" style="font-weight: bold">Số điện thoại *</label>--}}
-        {{--        <input type="text" class="form-control" name="phone"id="phone"  placeholder="Vui lòng nhập số điên thoại">--}}
-        {{--    </div>--}}
-        {{--    <div class="form-group">--}}
-        {{--        <label for="new_password" style="font-weight: bold">Mật khẩu *</label>--}}
-        {{--        <input type="password" class="form-control" name="new_password" id="new_password" placeholder="Vui lòng nhập mật khẩu">--}}
-        {{--    </div>--}}
-        {{--    <div class="form-group">--}}
-        {{--        <label for="new_password_confirmation" style="font-weight: bold">Xác nhận mật khẩu *</label>--}}
-        {{--        <input type="password" class="form-control" name="new_password_confirmation" id="new_password_confirmation" placeholder="Xác nhận mật khẩu">--}}
-        {{--    </div>--}}
-        {{--    <button type="submit" class="btn btn-primary">Tạo</button>--}}
+        </div>
     </form>
 
 
@@ -221,8 +193,13 @@
             $(this).parents('tr').remove();
         });
     </script>
-    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js" integrity="sha512-U2WE1ktpMTuRBPoCFDzomoIorbOyUv0sP8B+INA3EzNAhehbzED1rOJg6bCqPf/Tuposxb5ja/MAUnC8THSbLQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>    <script>
+        Dropzone.options.imageUpload={
+            maxFilesize:1,
+            acceptedFiles: '.jpeg,.jpg,.png,.gif',
+        }
 
+    </script>
 @endpush
 
 

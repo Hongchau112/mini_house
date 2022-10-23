@@ -17,20 +17,29 @@
                             <div class="card-tools">
                                 <div class="form-inline flex-nowrap gx-3">
                                     <div class="form-wrap w-150px">
-                                        <select class="form-select form-select-sm" data-search="off" data-placeholder="Lọc">
-                                            <option value="">Bulk Action</option>
-                                            <option value="email">Người quản trị</option>
-                                            <option value="group">Nhân viên</option>
-                                            <option value="suspend">Khách trọ</option>
+                                        <select class="form-select form-select-sm"  id="filter-search" name="filter-search" data-placeholder="Lọc">
+{{--                                            <option value="">Bulk Action</option>--}}
+                                            <option value="all">Tất cả</option>
+                                            <option value="admin">Người quản trị</option>
+                                            <option value="staff">Nhân viên</option>
+                                            <option value="user">Khách trọ</option>
 {{--                                            <option value="delete">Delete User</option>--}}
                                         </select>
                                     </div>
-                                    <div class="btn-wrap">
-                                        <span class="d-none d-md-block"><button class="btn btn-dim btn-outline-light disabled">Áp dụng</button></span>
-                                        <span class="d-md-none"><button class="btn btn-dim btn-outline-light btn-icon disabled"><em class="icon ni ni-arrow-right"></em></button></span>
-                                    </div>
                                 </div><!-- .form-inline -->
                             </div><!-- .card-tools -->
+                            <ul class="nk-block-tools" style="    margin-right: 670px;">
+                                <li>
+                                    <div class="drodown">
+                                        <select class="form-select form-select-sm" id="sex-search" name="sex-search" data-placeholder="Giới tính">
+                                                <option value="all"><span>Tất cả</span></option>
+                                                <option value="male"><span>Nam</span></option>
+                                                <option value="female"><span>Nữ</span></option>
+                                                <option value="sex-other"><span>Khác</span></option>
+                                        </select>
+                                    </div>
+                                </li>
+                            </ul>
                             <div class="card-tools mr-n1">
                                 <ul class="btn-toolbar gx-1">
                                     <li>
@@ -141,16 +150,18 @@
                         <div class="card-search search-wrap" data-search="search">
                             <div class="card-body">
                                 <div class="search-content">
-                                    <a href="#" class="search-back btn btn-icon toggle-search" data-target="search"><em class="icon ni ni-arrow-left"></em></a>
-                                    <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search by user or email">
-                                    <button class="search-submit btn btn-icon"><em class="icon ni ni-search"></em></button>
+                                    <form action="{{route('admin.users.search')}}" method="GET">
+                                        <a href="#" class="search-back btn btn-icon toggle-search" data-target="search"><em class="icon ni ni-arrow-left"></em></a>
+                                        <input type="text" id="key-search" name="key-search" class="form-control border-transparent form-focus-none" placeholder="Search by user or email">
+                                        <button class="search-submit btn btn-icon"><em class="icon ni ni-search"></em></button>
+                                    </form>
                                 </div>
                             </div>
                         </div><!-- .card-search -->
                     </div><!-- .card-inner -->
-                    <div class="card-inner p-0">
-                        <div class="nk-tb-list nk-tb-ulist">
-                            <div class="nk-tb-item nk-tb-head">
+                    <div class="card-inner p-0" >
+                        <div class="nk-tb-list nk-tb-ulist" id="list">
+                            <div class="nk-tb-item nk-tb-head" >
                                 <div class="nk-tb-col nk-tb-col-check">
                                     <div class="custom-control custom-control-sm custom-checkbox notext">
                                         <input type="checkbox" class="custom-control-input" id="uid">
@@ -166,7 +177,7 @@
                                 <div class="nk-tb-col nk-tb-col-tools text-right">
                                 </div>
                             </div><!-- .nk-tb-item -->
-                            @foreach($user_list as $user_sub)
+                            @foreach($user_lists as $user_sub)
                                 <div class="nk-tb-item">
                                     <div class="nk-tb-col nk-tb-col-check">
                                         <div class="custom-control custom-control-sm custom-checkbox notext">
@@ -175,7 +186,7 @@
                                         </div>
                                     </div>
                                     <div class="nk-tb-col">
-                                        <a href="html/user-details-regular.html">
+                                        <a href="#">
                                             <div class="user-card">
                                                 <div class="user-avatar bg-primary">
                                                     <span>AB</span>
@@ -191,12 +202,24 @@
                                         <span class="tb-amount">{{$user_sub->phone}}</span></span>
                                     </div>
                                     <div class="nk-tb-col tb-col-md">
-                                        <span>{{$user_sub->account}}</span>
+                                        @if($user_sub->account=='staff')
+                                            <span>Nhân viên</span>
+                                        @elseif($user_sub->account=='user')
+                                            <span>Người dùng</span>
+                                        @else
+                                            <span>Người quản trị</span>
+                                        @endif
                                     </div>
                                     <div class="nk-tb-col tb-col-lg">
                                         <ul class="list-status">
-                                            <li><em class="icon text-success ni ni-check-circle"></em> <span>{{$user_sub->sex}}</span></li>
-
+                                            @if($user_sub->sex=='female')
+                                                <li><em class="icon text-success ni ni-check-circle"></em> <span>Nữ</span></li>
+                                            @elseif($user_sub->sex=='male')
+                                                <li><em class="icon text-success ni ni-check-circle"></em> <span>Nam</span></li>
+                                            @else
+                                                <li><em class="icon text-success ni ni-check-circle"></em> <span>Khác</span></li>
+                                            @endif
+                                            {{--                                            <li><em class="icon text-success ni ni-check-circle"></em> <span>{{$user_sub->sex}}</span></li>--}}
                                         </ul>
                                     </div>
                                     <div class="nk-tb-col tb-col-lg">
@@ -242,111 +265,67 @@
                                     </div>
                                 </div><!-- .nk-tb-item -->
                             @endforeach
-
                         </div><!-- .nk-tb-list -->
                     </div><!-- .card-inner -->
                 </div><!-- .card-inner-group -->
             </div><!-- .card -->
         </div><!-- .nk-block -->
     </div>
-{{--    <div class="card-inner p-0">--}}
-{{--        <div class="nk-tb-list nk-tb-ulist">--}}
-{{--            <div class="nk-tb-item nk-tb-head">--}}
-{{--                <div class="nk-tb-col"><span class="sub-text">STT</span></div>--}}
-{{--                <div class="nk-tb-col col"><span class="sub-text">Tên người dùng</span></div>--}}
-{{--                <div class="nk-tb-col "><span class="sub-text">Email</span></div>--}}
-{{--                <div class="nk-tb-col tb-col-md"><span class="sub-text">Trạng thái</span></div>--}}
-{{--                <div class="nk-tb-col tb-col-md"><span class="sub-text">Admin</span></div>--}}
-{{--                <div class="nk-tb-col tb-col-md"><span class="sub-text">User</span></div>--}}
-{{--                <div class="nk-tb-col tb-col-md"><span class="sub-text">Phân quyền</span></div>--}}
-{{--                <div class="nk-tb-col nk-tb-col-tools">--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--            @foreach($user_list as $user_sub)--}}
-{{--                <form action="{{route('user.assign_roles')}}" method="POST">--}}
-{{--                    @csrf--}}
-{{--                    <tr>--}}
-{{--                        <div class="nk-tb-item">--}}
-{{--                            <div class="nk-tb-col col-lg-5">--}}
-{{--                                <div class="user-info">--}}
-{{--                                    <span class="tb-lead">{{$user_sub->id}}<span class="dot dot-success d-md-none ml-1"></span></span>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                            <div class="nk-tb-col">--}}
-{{--                                <div class="user-card">--}}
-{{--                                    <div class="user-info">--}}
-{{--                                        <span class="tb-lead">{{$user_sub->name}}<span class="dot dot-success d-md-none ml-1"></span></span>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                            <div class="nk-tb-col tb-col-lg">--}}
-{{--                                <ul class="list-status">--}}
-{{--                                    <li><em class="icon text-success ni ni-check-circle"></em> <span>{{$user_sub->email}}</span></li>--}}
-{{--                                    <input type="hidden" name="email" value="{{$user_sub->email}}">--}}
-{{--                                </ul>--}}
-{{--                            </div>--}}
-{{--                            <div class="nk-tb-col tb-col-md">--}}
-{{--                                @if ($user_sub->status == 1)--}}
-{{--                                    <span class="tb-status text-success">Kích hoạt</span>--}}
-{{--                                @else--}}
-{{--                                    <span class="tb-status text-danger">Bị khóa</span>--}}
-{{--                                @endif--}}
-{{--                            </div>--}}
-{{--                            <div class="nk-tb-col tb-col-lg">--}}
-{{--                                <ul class="list-status">--}}
-{{--                                    <li><input type="checkbox" name="admin_role" {{$user_sub->has_role('admin') ? 'checked' : ''}}></li>--}}
-{{--                                </ul>--}}
-{{--                            </div>--}}
-{{--                            <div class="nk-tb-col tb-col-lg">--}}
-{{--                                <ul class="list-status">--}}
-{{--                                    <li><input type="checkbox" name="user_role" {{$user_sub->has_role('user') ? 'checked' : ''}}></li>--}}
-{{--                                </ul>--}}
-{{--                            </div>--}}
-{{--                            <div class="nk-tb-col tb-col-lg">--}}
-{{--                                <ul class="list-status">--}}
-{{--                                    <li><input type="submit" value="Thay đổi" class="btn btn-outline-light"></li>--}}
-{{--                                </ul>--}}
-{{--                            </div>--}}
 
-{{--                            <div class="nk-tb-col nk-tb-col-tools">--}}
-{{--                                <ul class="nk-tb-actions gx-1">--}}
-{{--                                    <li>--}}
-{{--                                        <div class="dropdown">--}}
-{{--                                            <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>--}}
-{{--                                            <div class="dropdown-menu dropdown-menu-right">--}}
-{{--                                                <ul class="link-list-opt no-bdr">--}}
-{{--                                                    <li><a href="{{ route('admin.show', ['id' => $user_sub->id]) }}"><em class="icon ni ni-eye"></em><span>Xem</span></a></li>--}}
-{{--                                                    <li><a href="{{ route('admin.edit', ['id' => $user_sub->id]) }}"><em class="icon ni ni-edit"></em><span>Chỉnh sửa</span></a></li>--}}
-{{--                                                    <li><a href="{{ route('admin.edit_password', ['id' => $user_sub->id]) }}"><em class="icon ni ni-repeat"></em><span>Đổi mật khẩu</span></a></li>--}}
-{{--                                                    <li><a href="{{ route('admin.block', ['id' => $user_sub->id]) }}"><em class="icon ni ni-na"></em>--}}
-{{--                                                            @if ($user_sub->status == 1)--}}
-{{--                                                                <span>Chặn</span>--}}
-{{--                                                            @else--}}
-{{--                                                                <span >Gỡ chặn</span>--}}
-{{--                                                            @endif--}}
-{{--                                                        </a></li>--}}
-{{--                                                </ul>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-{{--                                    </li>--}}
-{{--                                </ul>--}}
-{{--                            </div>--}}
-{{--                        </div><!-- .nk-tb-item -->--}}
-
-{{--                    </tr>--}}
-
-{{--                </form>--}}
-
-{{--            @endforeach--}}
-{{--        </div><!-- .nk-tb-list -->--}}
         <div class="card-inner">
             <div class="nk-block-between-md g-3">
                 <div class="g">
                     <ul class="pagination justify-content-center justify-content-md-start">
-                        {!!$user_list->links('pagination::bootstrap-4')!!}
+                        {!!$user_lists->links('pagination::bootstrap-4')!!}
                     </ul><!-- .pagination -->
                 </div>
             </div><!-- .nk-block-between -->
         </div><!-- .card-inner -->
 {{--    </div>--}}
 @endsection
+@push('footer')
+    <script type="text/javascript">
+        $(document).ready(function(){
+
+            $("#key-search").on('keyup', function (){
+                var search = $(this).val();
+                $.ajax({
+                    url: '{{route('admin.users.search')}}',
+                    type: "GET",
+                    data: {'search': search},
+                    success:function (data){
+                        $('#list').html(data);
+                        console.log(data);
+                    }
+                })
+            })
+
+            //search by account type
+            $("#filter-search").on('change', function(){
+                var filter = $(this).val();
+                $.ajax({
+                    url: '{{route('admin.users.filter')}}',
+                    type: "GET",
+                    data: {'filter': filter},
+                    success:function (data){
+                        $('#list').html(data);
+                        console.log(data);
+                    }
+                });
+            });
+            //search by sex
+            $("#sex-search").on('change', function(){
+                var sex = $(this).val();
+                $.ajax({
+                    url: '{{route('admin.users.sex_search')}}',
+                    type: "GET",
+                    data: {'sex': sex},
+                    success:function (data){
+                        $('#list').html(data);
+                        console.log(data);
+                    }
+                });
+            });
+        });
+    </script>
+@endpush

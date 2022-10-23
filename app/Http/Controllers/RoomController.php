@@ -22,10 +22,10 @@ class RoomController extends Controller
     {
         $user = Auth::guard('admin')->user();
         $room_category = RoomCategory::all();
-        return view('admin.rooms.create', compact('user', 'room_category'));
+        return view('admin.rooms.test', compact('user', 'room_category'));
     }
 
-    public function store(Request $request)
+    public function test(Request $request)
     {
         $user = Auth::guard('admin')->user();
         $room_category = RoomCategory::all();
@@ -34,13 +34,55 @@ class RoomController extends Controller
             'name' => 'required',
             'description' => 'required',
             'room_type_id' => 'required',
-            'file' => 'required'
+            'cost' => 'required'
         ]);
 
         $room = new Room();
         $room->name = $data['name'];
         $room->description = $data['description'];
         $room->room_type_id = $data['room_type_id'];
+        $room->cost = $data['cost'];
+        $room->save();
+
+        $insertedId = $room->id;
+
+        $get_image = $request->file('file');
+//        dd($get_image);
+        $imageName = time().'.'.$get_image->extension();
+        $get_image->move(public_path('images'),$imageName);
+
+        if($get_image){
+            foreach($get_image as $image) {
+                $room_image = new Image();
+                $room_image->room_id = $insertedId;
+                $room_image->image_path = $image->move('storage', $image->getClientOriginalName());
+                $room_image->save();
+
+            }
+        }
+//        return redirect()->route('admin.rooms.index', ['rooms'])->with('success', 'Thêm phòng thành công!');
+        return response()->json(['success' => $imageName]);
+    }
+
+
+    public function store(Request $request)
+    {
+//        dd($request);
+        $user = Auth::guard('admin')->user();
+        $room_category = RoomCategory::all();
+
+        $data = $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'room_type_id' => 'required',
+            'cost' => 'required'
+        ]);
+
+        $room = new Room();
+        $room->name = $data['name'];
+        $room->description = $data['description'];
+        $room->room_type_id = $data['room_type_id'];
+        $room->cost = $data['cost'];
         $room->save();
 
         //Lay id cua san pham
@@ -48,6 +90,10 @@ class RoomController extends Controller
 
         //Luu hinh anh vao bang images
         $get_image = $request->file('file');
+//        dd($get_image);
+        $imageName = time().'.'.$get_image->extension();
+        $get_image->move(public_path('images'),$imageName);
+
         if($get_image){
             foreach($get_image as $image) {
                 $room_image = new Image();
@@ -75,7 +121,7 @@ class RoomController extends Controller
     {
         $user = Auth::guard('admin')->user();
         $categories = RoomCategory::all();
-        $food = Room::find($id);
+        $room = Room::find($id);
         return view('admin.rooms.edit', compact('user', 'categories', 'room'));
     }
 
@@ -104,6 +150,14 @@ class RoomController extends Controller
         $food = Room::find($id);
         Room::where('id', $id)->delete();
         return redirect()->route('admin.rooms.index')->with('success', 'Xóa thành công!');
+    }
+
+    public function room_card()
+    {
+        $user = Auth::guard('admin')->user();
+        $room_category = RoomCategory::all();
+        $rooms = Room::all();
+        return view('admin.rooms.room-card', compact('user', 'rooms', 'room_category'));
     }
 
 }

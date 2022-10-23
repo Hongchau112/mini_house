@@ -41,8 +41,8 @@ class AdminController extends Controller
     public function index()
     {
         $user = Auth::guard('admin')->user();
-        $user_list = Admin::paginate(10);
-        return view('admin.users.index', compact('user_list', 'user'));
+        $user_lists = Admin::paginate(10);
+        return view('admin.users.index', compact('user_lists', 'user'));
     }
 
     public function create()
@@ -62,6 +62,7 @@ class AdminController extends Controller
             'account' => 'required',
 
         ]);
+//        dd($validated_data['sex']);
 
         $validated_data['password'] = Hash::make($request->new_password);
         $user = new Admin();

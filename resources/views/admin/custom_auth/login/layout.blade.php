@@ -6,7 +6,7 @@
     @stack('head')
 </head>
 
-<body class="nk-body bg-lighter npc-general has-sidebar ">
+<body>
 <div class="nk-app-root">
     <!-- main @s -->
     <div class="nk-main ">
@@ -16,8 +16,6 @@
         <!-- wrap @s -->
         <div class="nk-wrap ">
             <!-- main header @s -->
-            @include('admin.custom_auth.layout.header')
-            <!-- main header @e -->
 
             <!-- content @s -->
             @yield('main')
@@ -41,10 +39,11 @@
 {{--<script src="js/popper.min.js"></script>--}}
 {{--<script src="js/bootstrap.min.js"></script>--}}
 {{--<script src="js/main.js"></script>--}}
-<script src="{{asset('assets/js/bundle.js?ver=2.5.0')}}"></script>
+<script src="{{asset('./assets/js/bundle.js?ver=2.5.0')}}"></script>
 <script src="{{asset('./assets/js/scripts.js?ver=2.5.0')}}"></script>
 
 @stack('footer')
 </body>
 </html>
+
 
