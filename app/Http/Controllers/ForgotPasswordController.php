@@ -2,55 +2,62 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Password;
 use Psy\Util\Str;
 
 class ForgotPasswordController extends Controller
 {
-    public function show_forgot_password()
+    public function show_forgotPassword()
     {
-        dd('1');
+//        dd('1');
 
-//        return view('admin.custom_auth.forgot_password');
+        return view('admin.reset_password.forget_password');
     }
 
-    public function forgot_password(Request $request)
+    public function forget_password(Request $request)
     {
         $request->validate([
-            'email' => 'required|email|exists:users',
+            'email' => 'required|email',
         ]);
+        $status = Password::sendResetLink($request->only('email'));
 
-        $token = Str::random(64);
+        $token = \Illuminate\Support\Str::random(64);
 
-        DB::table('reset_password')->insert([
+        DB::table('password_resets')->insert([
             'email' => $request->email,
             'token' => $token,
             'created_at' => Carbon::now()
         ]);
 
-        Mail::send('admin.custom_auth.sendMail', ['token' => $token], function($message) use($request){
+        Mail::send('admin.reset_password.reset_form', ['token' => $token], function($message) use($request){
             $message->to($request->email);
             $message->subject('Reset Password');
         });
 
         return back()->with('message', 'We have e-mailed your password reset link!');
+
     }
 
+
     public function show_resetPassword($token) {
-        return view('admin.custom_auth.forgotPassword_link', ['token' => $token]);
+        return view('admin.reset_password.reset', ['token' => $token]);
     }
 
     public function reset_password(Request $request)
     {
         $request->validate([
-            'email' => 'required|email|exists:users',
+            'email' => 'required|email',
             'password' => 'required|string|min:6|confirmed',
             'password_confirmation' => 'required'
         ]);
 
-        $updatePassword = DB::table('reset_password')
+        $updatePassword = DB::table('password_resets')
             ->where([
                 'email' => $request->email,
                 'token' => $request->token
@@ -61,12 +68,12 @@ class ForgotPasswordController extends Controller
             return back()->withInput()->with('error', 'Invalid token!');
         }
 
-        $user = User::where('email', $request->email)
+        $user = Admin::where('email', $request->email)
             ->update(['password' => Hash::make($request->password)]);
 
-        DB::table('reset_password')->where(['email'=> $request->email])->delete();
+        DB::table('password_resets')->where(['email'=> $request->email])->delete();
 
-        return redirect('admin.login')->with('message', 'Your password has been changed!');
+        return redirect(route('admin.login_auth'))->with('message', 'Mật khẩu đã thay đổi thành công!');
     }
 
 

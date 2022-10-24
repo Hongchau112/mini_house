@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
 use App\Models\Room;
 use App\Models\RoomCategory;
 use App\Models\Image;
@@ -49,6 +50,30 @@ class RoomController extends Controller
         }
         return "done";
 
+    }
+
+    public function load_images(Request $request)
+    {
+//        $images = Image::all();
+        $id = $request->get('room_id');
+        $images = Image::where('room_id', $id)->get();
+        if ($images) {
+            foreach ($images as $image) {
+                $output .= '
+        <div class="col-md-2" style="margin-bottom:16px;" align="center">
+        <img src="' . asset('images/' . $image->image_path) . '" class="img-thumbnail" width="175px" height="175"style="height: 175px;"/>
+        <button type="button" class="btn btn-link " id="' . $image->image_path . '">Xóa</button>
+        </div>
+        ';
+            }
+            $output .= '<div>';
+            echo "$output";
+        }
+    }
+
+    public function store_1()
+    {
+        dd(1);
     }
 
 
@@ -126,6 +151,20 @@ class RoomController extends Controller
         $room_category = RoomCategory::all();
         $rooms = Room::all();
         return view('admin.rooms.room-card', compact('user', 'rooms', 'room_category'));
+    }
+
+    public function room_search(Request $request)
+    {
+        $user = Auth::guard('admin')->user();
+
+        $search = $request->get('search');
+//        dd($search);
+        $rooms = Room::where('name', 'LIKE', '%' . $search . '%')->get();
+        if (count($rooms)>0)
+
+            return view('admin.users.search', compact('rooms', 'user'));
+        else
+            return view('admin.users.not_found', compact('user'));
     }
 
 }

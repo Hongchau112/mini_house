@@ -8,11 +8,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoomCategoryController;
 use App\Http\Controllers\RoomController;
-use App\Http\Controllers\PageController;
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\TransactionController;
-use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\ImageController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -36,10 +33,16 @@ Route::post('admin/login', [AdminController::class, 'login'])->name('admin.login
 Route::get('admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
 Route::get('admin/register', [AuthController::class, 'register'])->name('admin.register');
 Route::post('admin/register_auth', [AuthController::class, 'register_auth'])->name('admin.register_auth');
+Route::get('admin/forget-password', [ForgotPasswordController::class, 'show_forgotPassword'])->name('admin.show_forgotPassword');
+Route::post('admin/forgetPassword/', [ForgotPasswordController::class, 'forget_password'])->name('admin.forget_password');
+
+
 
 //Login facebook
 Route::get('admin/login_facebook', [AdminController::class, 'login_facebook'])->name('admins.login_facebook');
 Route::get('admin/login_auth/callback',[AdminController::class, 'callback_facebook'])->name('admins.callback_facebook');
+
+Route::post('admin/images/load', [ImageController::class, 'load'])->name('admin.images.load');
 
 
 //Route::post('admin/login_auth', [AuthController::class, 'login_auth'])->name('admin.login_auth');
@@ -59,10 +62,8 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     Route::get('admin/edit_password/{id}', [AdminController::class, 'edit_password'])->name('edit_password');
     Route::post('admin/change_password/{id}', [AdminController::class, 'change_password'])->name('change_password');
 
-    Route::get('admin/forgot-password/', [ForgotPasswordController::class, 'show_forgot_password'])->name('show_forgotPassword');
-    Route::post('admin/forgotPassword/', [ForgotPasswordController::class, 'forgot_password'])->name('submit_forgotPassword');
     Route::get('admin/reset-password/{token}', [ForgotPasswordController::class, 'show_resetPassword'])->name('show_resetPassword');
-    Route::post('admin/reset-password/', [ForgotPasswordController::class, 'reset_password'])->name('submit_resetPassword');
+    Route::post('admin/reset_password/', [ForgotPasswordController::class, 'reset_password'])->name('reset_password');
 
 
 
@@ -84,7 +85,7 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     Route::get('admin/rooms/upload_images/{id}', [RoomController::class, 'upload_images'])->name('rooms.upload_images');
     Route::post('admin/rooms/save_images/{id}', [RoomController::class, 'save_images'])->name('rooms.save_images');
     Route::get('admin/rooms/card', [RoomController::class, 'room_card'])->name('rooms.card');
-
+    Route::post('admin/rooms/load_images', [RoomController::class, 'load_images'])->name('rooms.load_images');
     ////Comments
     Route::get('admin/comments', [CommentController::class, 'index'])->name('comments.index');
     Route::post('admin/allow_comment', [CommentController::class, 'allow_comment'])->name('comments.allow_comment');
@@ -94,6 +95,7 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     Route::get('admin/search', [UserController::class, 'search'])->name('users.search');
     Route::get('admin/filter-search', [UserController::class, 'filter_search'])->name('users.filter');
     Route::get('admin/sex-search', [UserController::class, 'sex_search'])->name('users.sex_search');
+    Route::get('admin/room_search', [RoomController::class, 'room_search'])->name('rooms.room_search');
 
 
 });

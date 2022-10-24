@@ -30,14 +30,22 @@
                         <li class="nk-menu-item">
                             <a href="{{route('admin.room_categories.index')}}" class="nk-menu-link">
                                 <span class="nk-menu-icon"><em class="icon ni ni-sign-btc-alt"></em></span>
-                                <span class="nk-menu-text">Danh mục phòng</span>
+                                <span class="nk-menu-text">Loại phòng</span>
                             </a>
                         </li><!-- .nk-menu-item -->
-                        <li class="nk-menu-item">
-                            <a href="{{route('admin.rooms.index')}}" class="nk-menu-link">
-                                <span class="nk-menu-icon"><em class="icon ni ni-sign-btc-alt"></em></span>
+                        <li class="nk-menu-item has-sub">
+                            <a href="{{route('admin.rooms.index')}}" class="nk-menu-link nk-menu-toggle">
+                                <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
                                 <span class="nk-menu-text">Danh sách phòng</span>
                             </a>
+                            <ul class="nk-menu-sub">
+                                <li class="nk-menu-item">
+                                    <a href="{{route('admin.rooms.index')}}" class="nk-menu-link"><span class="nk-menu-text">Tranx List - Basic</span></a>
+                                </li>
+                                <li class="nk-menu-item">
+                                    <a href="#" class="nk-menu-link"><span class="nk-menu-text">Tranx List - Crypto</span></a>
+                                </li>
+                            </ul><!-- .nk-menu-sub -->
                         </li><!-- .nk-menu-item -->
                         <li class="nk-menu-item">
                             <a href="#" class="nk-menu-link">
