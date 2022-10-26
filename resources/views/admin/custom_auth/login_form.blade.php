@@ -1,65 +1,161 @@
-@extends('admin.custom_auth.layout', [
-    'title' => ( $title ?? 'Login' )
-])
+<!DOCTYPE html>
+<html lang="zxx" class="js">
 
-@section('content')
-    <div class="absolute-top-right d-lg-none p-3 p-sm-5">
-        <a href="#" class="toggle btn-white btn btn-icon btn-light" data-target="athPromo"><em class="icon ni ni-info"></em></a>
+<head>
+    <base href="../../../">
+    <meta charset="utf-8">
+    <meta name="author" content="Softnio">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="A powerful and conceptual apps base dashboard template that especially build for developers and programmers.">
+    <!-- Fav Icon  -->
+    <link rel="shortcut icon" href="./images/favicon.png">
+    <!-- Page Title  -->
+    <title>Đăng nhập | Nhà trọ giá tốt</title>
+    <!-- StyleSheets  -->
+    <link rel="stylesheet" href="{{asset('dashlite/./assets/css/dashlite.css?ver=2.5.0')}}">
+    <link id="skin-default" rel="stylesheet" href="{{asset('dashlite/./assets/css/theme.css?ver=2.5.0')}}">
+</head>
+
+<body class="nk-body bg-white npc-general pg-auth">
+<div class="nk-app-root">
+    <!-- main @s -->
+    <div class="nk-main ">
+        <!-- wrap @s -->
+        <div class="nk-wrap nk-wrap-nosidebar">
+            <!-- content @s -->
+            <div class="nk-content ">
+                <div class="nk-block nk-block-middle nk-auth-body  wide-xs">
+                    <div class="brand-logo pb-4 text-center">
+                        <a href="#" class="logo-link">
+                            <img class="logo-light logo-img logo-img-lg" src="{{asset('dashlite/./images/logo.png')}}}" srcset="{{asset('dashlite/./images/logo2x.png 2x')}}" alt="logo">
+                            <img class="logo-dark logo-img logo-img-lg" src="{{asset('dashlite/./images/logo-dark.png')}}" srcset="{{asset('dashlite/./images/logo-dark2x.png 2x')}}" alt="logo-dark">
+                        </a>
+                    </div>
+                    @if(session()->has('message'))
+                        <div class="alert {{session('alert') ?? 'alert-info'}}">
+                            {{ session('message') }}
+                        </div>
+                    @endif
+                    <div class="card card-bordered">
+                        <div class="card-inner card-inner-lg">
+                            <div class="nk-block-head">
+                                <div class="nk-block-head-content">
+                                    <h4 class="nk-block-title">Đăng nhập</h4>
+                                    <div class="nk-block-des">
+                                        <p>Xin chào bạn!</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <form action="{{route('admin.login')}}" method="post">
+                                @csrf
+                                <div class="form-group">
+                                    <div class="form-label-group">
+                                        <label class="form-label" for="name">Email or Username</label>
+                                    </div>
+                                    <div class="form-control-wrap">
+                                        <input type="text" class="form-control form-control-lg" id="name" name="name" placeholder="Nhập tên đăng nhập của bạn...">
+                                        @if ($errors->has('name'))
+                                            <span class="text-danger">{{ $errors->first('name') }}</span>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-label-group">
+                                        <label class="form-label" for="password">Mật khẩu</label>
+                                        <a class="link link-primary link-sm" href="{{route('admin.show_forgotPassword')}}">Quên mật khẩu?</a>
+                                    </div>
+                                    <div class="form-control-wrap">
+                                        <a href="#" class="form-icon form-icon-right passcode-switch lg" data-target="password">
+                                            <em class="passcode-icon icon-show icon ni ni-eye"></em>
+                                            <em class="passcode-icon icon-hide icon ni ni-eye-off"></em>
+                                        </a>
+                                        <input type="password" class="form-control form-control-lg" id="password" name="password" placeholder="Nhập mật khẩu...">
+                                        @if ($errors->has('password'))
+                                            <span class="text-danger">{{ $errors->first('password') }}</span>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-lg btn-primary btn-block">Đăng nhập</button>
+                                </div>
+                            </form>
+                            <div class="form-note-s2 text-center pt-4"> Bạn chưa có tài khoản? <a href="{{route('admin.register')}}">Tạo tài khoản</a>
+                            </div>
+                            <div class="text-center pt-4 pb-3">
+                                <h6 class="overline-title overline-title-sap"><span>Hoặc</span></h6>
+                            </div>
+                            <ul class="nav justify-center gx-4">
+                                <li class="nav-item"><a class="nav-link" href="#">Facebook</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#">Google</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="nk-footer nk-auth-footer-full">
+                    <div class="container wide-lg">
+                        <div class="row g-3">
+                            <div class="col-lg-6 order-lg-last">
+                                <ul class="nav nav-sm justify-content-center justify-content-lg-end">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Terms & Condition</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Privacy Policy</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Help</a>
+                                    </li>
+                                    <li class="nav-item dropup">
+                                        <a class="dropdown-toggle dropdown-indicator has-indicator nav-link" data-toggle="dropdown" data-offset="0,10"><span>English</span></a>
+                                        <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+                                            <ul class="language-list">
+                                                <li>
+                                                    <a href="#" class="language-item">
+                                                        <img src="{{asset('dashlite/./images/flags/english.png')}}" alt="" class="language-flag">
+                                                        <span class="language-name">English</span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="language-item">
+                                                        <img src="{{asset('dashlite/./images/flags/spanish.png')}}" alt="" class="language-flag">
+                                                        <span class="language-name">Español</span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="language-item">
+                                                        <img src="{{asset('dashlite/./images/flags/french.png')}}" alt="" class="language-flag">
+                                                        <span class="language-name">Français</span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="language-item">
+                                                        <img src="{{asset('dashlite/./images/flags/turkey.png')}}" alt="" class="language-flag">
+                                                        <span class="language-name">Türkçe</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="nk-block-content text-center text-lg-left">
+                                    <p class="text-soft"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- wrap @e -->
+        </div>
+        <!-- content @e -->
     </div>
-    <div class="nk-block nk-block-middle nk-auth-body">
-        <div class="brand-logo pb-5">
-            <a href="#" class="logo-link">
-                <img class="logo-light logo-img logo-img-lg" src="#" srcset="./images/logo2x.png 2x" alt="logo">
-                <img class="logo-dark logo-img logo-img-lg" src="#" srcset="./images/logo-dark2x.png 2x" alt="logo-dark">
-            </a>
-        </div>
-        <div class="nk-block-head">
-            <div class="nk-block-head-content">
-                <h5 class="nk-block-title">Sign-In</h5>
-                <div class="nk-block-des">
-                    <p>Access the DashLite panel using your email and passcode.</p>
-                </div>
-            </div>
-        </div><!-- .nk-block-head -->
-        <form action="{{route('admin.login')}}" method="POST">
-            <div class="form-group">
-                <div class="form-label-group">
-                    <label class="form-label" for="email-address">Email or Username</label>
-                    <a class="link link-primary link-sm" tabindex="-1" href="#">Need Help?</a>
-                </div>
-                <div class="form-control-wrap">
-                    <input autocomplete="off" type="text" class="form-control form-control-lg" required id="email-address" placeholder="Enter your email address or username">
-                </div>
-            </div><!-- .form-group -->
-            <div class="form-group">
-                <div class="form-label-group">
-                    <label class="form-label" for="password">Passcode</label>
-                    <a class="link link-primary link-sm" tabindex="-1" href="html/pages/auths/auth-reset.html">Forgot Code?</a>
-                </div>
-                <div class="form-control-wrap">
-                    <a tabindex="-1" href="#" class="form-icon form-icon-right passcode-switch lg" data-target="password">
-                        <em class="passcode-icon icon-show icon ni ni-eye"></em>
-                        <em class="passcode-icon icon-hide icon ni ni-eye-off"></em>
-                    </a>
-                    <input autocomplete="new-password" type="password" class="form-control form-control-lg" required id="password" placeholder="Enter your passcode">
-                </div>
-            </div><!-- .form-group -->
-            <div class="form-group">
-                <button class="btn btn-lg btn-primary btn-block">Sign in</button>
-            </div>
-        </form><!-- form -->
-        <div class="form-note-s2 pt-4"> New on our platform? <a href="#">Create an account</a>
-        </div>
-        <div class="text-center pt-4 pb-3">
-            <h6 class="overline-title overline-title-sap"><span>OR</span></h6>
-        </div>
-        <ul class="nav justify-center gx-4">
-            <li class="nav-item"><a class="nav-link" href="#">Facebook</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Google</a></li>
-        </ul>
-        <div class="text-center mt-5">
-            <span class="fw-500">I don't have an account? <a href="#">Try 15 days free</a></span>
-        </div>
-    </div><!-- .nk-block -->
-@endsection
+    <!-- main @e -->
+</div>
+<!-- app-root @e -->
+<!-- JavaScript -->
+<script src="./assets/js/bundle.js?ver=2.5.0"></script>
+<script src="./assets/js/scripts.js?ver=2.5.0"></script>
 
+</html>

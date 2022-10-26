@@ -23,7 +23,7 @@ class RoomController extends Controller
     {
         $user = Auth::guard('admin')->user();
         $room_category = RoomCategory::all();
-        return view('admin.rooms.test', compact('user', 'room_category'));
+        return view('admin.rooms.create', compact('user', 'room_category'));
     }
 
     public function upload_images($id)
@@ -57,25 +57,21 @@ class RoomController extends Controller
 //        $images = Image::all();
         $id = $request->get('room_id');
         $images = Image::where('room_id', $id)->get();
+//        dd($images);
+        $output='';
         if ($images) {
             foreach ($images as $image) {
                 $output .= '
-        <div class="col-md-2" style="margin-bottom:16px;" align="center">
+        <div class="col-md-2" style="margin-bottom:16px;">
         <img src="' . asset('images/' . $image->image_path) . '" class="img-thumbnail" width="175px" height="175"style="height: 175px;"/>
         <button type="button" class="btn btn-link " id="' . $image->image_path . '">Xóa</button>
         </div>
         ';
             }
-            $output .= '<div>';
+            $output .= '</div>';
             echo "$output";
         }
     }
-
-    public function store_1()
-    {
-        dd(1);
-    }
-
 
     public function store(Request $request)
     {
@@ -103,11 +99,18 @@ class RoomController extends Controller
     public function show($id)
     {
         $user = Auth::guard('admin')->user();
-        $categories = RoomCategory::all();
         $room = Room::find($id);
-        $images = Image::all();
-
-        return view('admin.rooms.show', compact('user', 'categories', 'room', 'images'));
+        $categories= RoomCategory::all();
+        $room_category='';
+        foreach ($categories as $category)
+        {
+            if($category->id == $room->room_type_id)
+            {
+                $room_category = $category->name;
+            }
+        }
+        $images = Image::where('room_id', $id)->get();
+        return view('admin.rooms.show', compact('user', 'room_category', 'room', 'images'));
     }
 
     public function edit($id)
@@ -140,7 +143,7 @@ class RoomController extends Controller
 
     public function delete($id)
     {
-        $food = Room::find($id);
+        $room = Room::find($id);
         Room::where('id', $id)->delete();
         return redirect()->route('admin.rooms.index')->with('success', 'Xóa thành công!');
     }
@@ -162,7 +165,7 @@ class RoomController extends Controller
         $rooms = Room::where('name', 'LIKE', '%' . $search . '%')->get();
         if (count($rooms)>0)
 
-            return view('admin.users.search', compact('rooms', 'user'));
+            return view('admin.rooms.search', compact('rooms', 'user'));
         else
             return view('admin.users.not_found', compact('user'));
     }

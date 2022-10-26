@@ -8,7 +8,7 @@
             {{ session('success') }}
         </div>
     @endif
-    @if($user->has_role('admin'))
+    @if($user->hasRole('admin'))
         <div class="container-fluid">
             <div class="nk-content-inner">
                 <div class="nk-content-body">
@@ -137,11 +137,10 @@
                                                             <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                                             <div class="dropdown-menu dropdown-menu-right">
                                                                 <ul class="link-list-opt no-bdr">
-                                                                    <li><a href="{{route('admin.rooms.show', ['id'=>$room->id])}}"><em class="icon ni ni-edit"></em><span>Xem</span></a></li>
-                                                                    <li><a href="#"><em class="icon ni ni-trash"></em><span>Chỉnh sửa</span></a></li>
-                                                                    <li><a href="#"><em class="icon ni ni-bar-c"></em><span>Cập nhật</span></a></li>
+                                                                    <li><a href="{{route('admin.rooms.show', ['id'=>$room->id])}}"><em class="icon ni ni-view-grid"></em><span>Xem</span></a></li>
+                                                                    <li><a href="{{route('admin.rooms.edit', ['id'=>$room->id])}}"><em class="icon ni ni-edit"></em><span>Chỉnh sửa</span></a></li>
                                                                     <li><a href="{{route('admin.rooms.upload_images', ['id'=>$room->id])}}"><em class="icon ni ni-bar-c"></em><span>Thêm ảnh</span></a></li>
-                                                                    <li><a href="#"><em class="icon ni ni-bar-c"></em><span>Xóa</span></a></li>
+                                                                    <li><a href="{{route('admin.rooms.delete', ['id'=>$room->id])}}"><em class="icon ni ni-delete"  ></em><span>Xóa</span></a></li>
 
 
                                                                 </ul>

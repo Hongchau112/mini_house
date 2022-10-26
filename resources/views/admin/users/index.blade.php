@@ -159,7 +159,9 @@
                             </div>
                         </div><!-- .card-search -->
                     </div><!-- .card-inner -->
+
                     <div class="card-inner p-0" >
+                        <form action="{{route('admin.assign_roles')}}" method="post">
                         <div class="nk-tb-list nk-tb-ulist" id="list">
                             <div class="nk-tb-item nk-tb-head" >
                                 <div class="nk-tb-col nk-tb-col-check">
@@ -170,14 +172,19 @@
                                 </div>
                                 <div class="nk-tb-col"><span class="sub-text">Tài khoản</span></div>
                                 <div class="nk-tb-col tb-col-mb"><span class="sub-text">Số điện thoại</span></div>
-                                <div class="nk-tb-col tb-col-md"><span class="sub-text">Loại tài khoản</span></div>
                                 <div class="nk-tb-col tb-col-lg"><span class="sub-text">Giới tính</span></div>
                                 <div class="nk-tb-col tb-col-lg"><span class="sub-text">Trạng thái</span></div>
-                                <div class="nk-tb-col tb-col-md"><span class="sub-text">Ngày hoạt động</span></div>
+                                <div class="nk-tb-col tb-col-md"><span class="sub-text">User</span></div>
+                                <div class="nk-tb-col tb-col-md"><span class="sub-text">Staff</span></div>
+                                <div class="nk-tb-col tb-col-md"><span class="sub-text">Admin</span></div>
+                                <div class="nk-tb-col tb-col-md"><span class="sub-text">Đổi quyền</span></div>
+
+
                                 <div class="nk-tb-col nk-tb-col-tools text-right">
                                 </div>
                             </div><!-- .nk-tb-item -->
                             @foreach($user_lists as $user_sub)
+                                    @csrf
                                 <div class="nk-tb-item">
                                     <div class="nk-tb-col nk-tb-col-check">
                                         <div class="custom-control custom-control-sm custom-checkbox notext">
@@ -201,15 +208,15 @@
                                     <div class="nk-tb-col tb-col-mb">
                                         <span class="tb-amount">{{$user_sub->phone}}</span></span>
                                     </div>
-                                    <div class="nk-tb-col tb-col-md">
-                                        @if($user_sub->account=='staff')
-                                            <span>Nhân viên</span>
-                                        @elseif($user_sub->account=='user')
-                                            <span>Người dùng</span>
-                                        @else
-                                            <span>Người quản trị</span>
-                                        @endif
-                                    </div>
+{{--                                    <div class="nk-tb-col tb-col-md">--}}
+{{--                                        @if($user_sub->account=='staff')--}}
+{{--                                            <span>Nhân viên</span>--}}
+{{--                                        @elseif($user_sub->account=='user')--}}
+{{--                                            <span>Người dùng</span>--}}
+{{--                                        @else--}}
+{{--                                            <span>Người quản trị</span>--}}
+{{--                                        @endif--}}
+{{--                                    </div>--}}
                                     <div class="nk-tb-col tb-col-lg">
                                         <ul class="list-status">
                                             @if($user_sub->sex=='female')
@@ -229,26 +236,27 @@
                                             <span class="tb-status text-danger">Bị khóa</span>
                                         @endif
                                     </div>
+
                                     <div class="nk-tb-col tb-col-md">
-                                        <span class="tb-status">{{$user_sub->created_at}}</span>
+                                        <input type="checkbox" name="user_role" {{$user_sub->hasRole('user') ? 'checked' : ''}}></span>
                                     </div>
+
+                                    <div class="nk-tb-col tb-col-md">
+                                        <input type="checkbox" name="staff_role" {{$user_sub->hasRole('staff') ? 'checked' : ''}}></span>
+                                    </div>
+
+                                    <div class="nk-tb-col tb-col-md">
+                                        <input type="checkbox" name="admin_role" {{$user_sub->hasRole('admin') ? 'checked' : ''}}></span>
+                                    </div>
+
+                                    <div class="nk-tb-col tb-col-md">
+                                        <input type="hidden" name="email" value="{{$user_sub->email}}">
+                                        <input type="submit" value="Thay đổi" class="btn btn-sm btn-gray">
+                                    </div>
+
                                     <div class="nk-tb-col nk-tb-col-tools">
                                         <ul class="nk-tb-actions gx-1">
-                                            <li class="nk-tb-action-hidden">
-                                                <a href="#" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="Wallet">
-                                                    <em class="icon ni ni-wallet-fill"></em>
-                                                </a>
-                                            </li>
-                                            <li class="nk-tb-action-hidden">
-                                                <a href="#" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="Send Email">
-                                                    <em class="icon ni ni-mail-fill"></em>
-                                                </a>
-                                            </li>
-                                            <li class="nk-tb-action-hidden">
-                                                <a href="#" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="Suspend">
-                                                    <em class="icon ni ni-user-cross-fill"></em>
-                                                </a>
-                                            </li>
+
                                             <li>
                                                 <div class="drodown">
                                                     <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
@@ -264,10 +272,14 @@
                                         </ul>
                                     </div>
                                 </div><!-- .nk-tb-item -->
+
                             @endforeach
                         </div><!-- .nk-tb-list -->
+                        </form>
                     </div><!-- .card-inner -->
+
                 </div><!-- .card-inner-group -->
+
             </div><!-- .card -->
         </div><!-- .nk-block -->
     </div>

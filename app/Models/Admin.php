@@ -20,12 +20,23 @@ class Admin extends Model implements AuthenticatableContract
 
     }
 
-    public function has_role($role)
+    public function hasRole($role)
     {
-        return null != $this->roles()->where('name', $role)->first();
+        if (is_string($role)) {
+            return $this->roles->contains('name', $role);
+        }
+
+        return false;
     }
+
+
     public function login(){
         return $this->belongsTo('App\Models\Login','user');
+    }
+
+    public function getAuthPassword()
+    {
+        return $this->password;
     }
 
 }

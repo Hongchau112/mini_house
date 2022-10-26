@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Admin;
+use App\Models\Roles;
 use App\Models\Social;
 use App\Models\Login;
 use Laravel\Socialite\Facades\Socialite;
@@ -16,26 +17,32 @@ class AdminController extends Controller
     {
         $credentials = $request->only('name', 'password');
         $user = Admin::where('name', $request->name)->first();
+        $user_lists = Admin::with('roles')->orderBy('id', 'ASC')->paginate(10);
 //        dd($user->password);
         if (Auth::guard('admin')->attempt($credentials)) {
             if ($user->status == 0)
             {
-                return view('admin.custom_auth.login_form_auth');
+                return view('admin.custom_auth.login_form')->with('message', 'Tài khoản đã bị khóa!');
             }
             else{
-                if($user->has_role('user'))
+                if($user->roles()->where('name', 'admin'))
                 {
-                    return redirect()->route('user.all_foods');
+                    return view('admin.users.index', compact('user_lists', 'user'));
                 }
-                else{
-                    return redirect()->route('admin.index');
+                elseif ($user->roles()->where('name', 'user'))
+                {
+                    return view('user.dashboard');
+                }
+                else {
+                    return view('staff.dashboard');
                 }
             }
         }else{
-            return view('admin.custom_auth.login_form_auth');
+            return view('admin.custom_auth.login_form')->with('message', 'Tên đăng nhập hoặc mật khẩu không đúng!');
         }
 
     }
+
 
 
     public function index()
@@ -53,6 +60,9 @@ class AdminController extends Controller
 
     public function store(Request $request)
     {
+        $admin_roles = Roles::where('name','admin')->first();
+        $staff_roles = Roles::where('name','staff')->first();
+        $user_roles = Roles::where('name','user')->first();
         $validated_data = $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:admins',
@@ -73,8 +83,50 @@ class AdminController extends Controller
         $user->sex = $validated_data['sex'];
         $user->account = $validated_data['account'];
         $user->save();
+
+        if($user->account=='admin'){
+            $user->roles()->attach($admin_roles);
+        }
+        elseif ($user->account=='staff'){
+            $user->roles()->attach($staff_roles);
+        }
+        else {
+            $user->roles()->attach($user_roles);
+        }
+
         return redirect()->route('admin.index')->with('success', 'Tạo tài khoản thành công!');
     }
+
+    public function assign_roles(Request $request)
+    {
+//        dd($request->all());
+        $user = Admin::where('email', $request->email)->first();
+//        dd($request->email);
+        $user->roles()->detach();
+
+
+        if ($request->admin_role){
+//            dd(1);
+            $user->roles()->attach(Roles::where('name', 'admin')->first());
+            $user->account = 'admin';
+            $user->save();
+        }
+        if ($request->user_role){
+//            dd(1);
+            $user->roles()->attach(Roles::where('name', 'user')->first());
+            $user->account = 'user';
+            $user->save();
+        }
+
+        if($request->staff_role){
+            $user->roles()->attach(Roles::where('name', 'staff')->first());
+            $user->account = 'staff';
+            $user->save();
+        }
+
+        return redirect()->route('admin.index')->with('success', 'Cấp quyền thành công!');
+    }
+
 
     public function show($id)
     {

@@ -25,8 +25,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('admin/login', function(){
-    return view('admin.users.login');
+Route::get('admin/login', function(){ return view('admin.users.login');
 });
 Route::get('admin/login_auth', [AuthController::class, 'login_auth'])->name('admin.login_auth');
 Route::post('admin/login', [AdminController::class, 'login'])->name('admin.login');
@@ -104,7 +103,7 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
 Route::get('users', [UserController::class, 'index'])->name('user.index');
 Route::get('users/all_foods', [UserController::class, 'all_foods'])->name('user.all_foods');
 
-Route::post('user/assign_roles', [UserController::class, 'assign_roles'])->name('user.assign_roles');
+Route::post('admin/assign_roles', [AdminController::class, 'assign_roles'])->name('admin.assign_roles');
 
 Route::get('guest/index', [PageController::class, 'index'])->name('guest.index');
 Route::get('guest/detail/{id}', [PageController::class, 'detail'])->name('guest.detail');

@@ -40,10 +40,10 @@
                             </a>
                             <ul class="nk-menu-sub">
                                 <li class="nk-menu-item">
-                                    <a href="{{route('admin.rooms.index')}}" class="nk-menu-link"><span class="nk-menu-text">Tranx List - Basic</span></a>
+                                    <a href="{{route('admin.rooms.index')}}" class="nk-menu-link"><span class="nk-menu-text">Danh sách</span></a>
                                 </li>
                                 <li class="nk-menu-item">
-                                    <a href="#" class="nk-menu-link"><span class="nk-menu-text">Tranx List - Crypto</span></a>
+                                    <a href="#" class="nk-menu-link"><span class="nk-menu-text">Thư viện</span></a>
                                 </li>
                             </ul><!-- .nk-menu-sub -->
                         </li><!-- .nk-menu-item -->

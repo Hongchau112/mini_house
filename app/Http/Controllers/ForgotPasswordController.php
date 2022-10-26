@@ -37,10 +37,10 @@ class ForgotPasswordController extends Controller
 
         Mail::send('admin.reset_password.reset_form', ['token' => $token], function($message) use($request){
             $message->to($request->email);
-            $message->subject('Reset Password');
+            $message->subject("Đặt lại mật khẩu");
         });
 
-        return back()->with('message', 'We have e-mailed your password reset link!');
+        return view("admin.reset_password.success");
 
     }
 
