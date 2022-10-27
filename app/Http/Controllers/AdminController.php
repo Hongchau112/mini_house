@@ -5,6 +5,7 @@ use App\Models\Admin;
 use App\Models\Roles;
 use App\Models\Social;
 use App\Models\Login;
+use Illuminate\Support\Facades\Cookie;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -25,6 +26,11 @@ class AdminController extends Controller
                 return view('admin.custom_auth.login_form')->with('message', 'Tài khoản đã bị khóa!');
             }
             else{
+                if($request->has('rememberme')){
+                    Cookie::queue('adminuser', $request->name, 1440);
+                    Cookie::queue('adminpwd', $request->password, 1440);
+
+                }
                 if($user->roles()->where('name', 'admin'))
                 {
                     return view('admin.users.index', compact('user_lists', 'user'));

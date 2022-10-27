@@ -53,27 +53,26 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" placeholder="Input Regular">
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <span class="preview-title overline-title" style="margin-top: 20px;">Tiện ích <span class="text-danger">*</span> </span>
                                         <div class="g-3 align-center flex-wrap">
                                             <div class="g">
                                                 <div class="custom-control custom-control-sm custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="service1">
-                                                    <label class="custom-control-label" for="service1">Máy lạnh</label>
+                                                    <input type="checkbox" class="custom-control-input" name="maylanh" id="maylanh">
+                                                    <label class="custom-control-label" for="maylanh">Máy lạnh</label>
                                                 </div>
                                             </div>
                                             <div class="g">
                                                 <div class="custom-control custom-control-sm custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="service2">
-                                                    <label class="custom-control-label" for="service2">Bếp nấu ăn</label>
+                                                    <input type="checkbox" class="custom-control-input" name="bep" id="bep">
+                                                    <label class="custom-control-label" for="bep">Bếp nấu ăn</label>
+                                                </div>
+                                            </div>
+                                            <div class="g">
+                                                <div class="custom-control custom-control-sm custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" name="gac" id="gac">
+                                                    <label class="custom-control-label" for="gac">Phòng có gác</label>
                                                 </div>
                                             </div>
                                         </div>

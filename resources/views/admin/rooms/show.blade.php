@@ -49,38 +49,38 @@
                             <div class="product-meta">
                                 <ul class="d-flex g-3 gx-5">
                                     <li>
-                                        <div class="fs-14px text-muted">Loại phòng</div>
-                                        <div class="fs-16px fw-bold text-secondary">{{$room_category}}</div>
+                                        <div class="fs-16px fw-bold">Loại phòng: <span class="fs-16px text">{{$room_category}}</span></div>
+
                                     </li>
                                 </ul>
                             </div>
                             <div class="product-meta">
-                                <h6 class="title">Size</h6>
-                                <ul class="custom-control-group">
+                                <h6 class="title">Dịch vụ của phòng trọ: </h6>
+                                <ul class="custom-control-group" style="margin-top:10px">
+                                    @if($service_room->maylanh == 1)
                                     <li>
                                         <div class="custom-control custom-radio custom-control-pro no-control">
-                                            <input type="radio" class="custom-control-input" name="sizeCheck" id="sizeCheck1" checked>
-                                            <label class="custom-control-label" for="sizeCheck1">XS</label>
+                                            <input type="radio" class="custom-control-input" name="maylanh" id="maylanh">
+                                            <label class="custom-control-label" for="maylanh">Máy lạnh</label>
                                         </div>
                                     </li>
-                                    <li>
-                                        <div class="custom-control custom-radio custom-control-pro no-control">
-                                            <input type="radio" class="custom-control-input" name="sizeCheck" id="sizeCheck2">
-                                            <label class="custom-control-label" for="sizeCheck2">SM</label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="custom-control custom-radio custom-control-pro no-control">
-                                            <input type="radio" class="custom-control-input" name="sizeCheck" id="sizeCheck3">
-                                            <label class="custom-control-label" for="sizeCheck3">L</label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="custom-control custom-radio custom-control-pro no-control">
-                                            <input type="radio" class="custom-control-input" name="sizeCheck" id="sizeCheck4">
-                                            <label class="custom-control-label" for="sizeCheck4">XL</label>
-                                        </div>
-                                    </li>
+                                    @endif
+                                    @if($service_room->bep == 1)
+                                        <li>
+                                            <div class="custom-control custom-radio custom-control-pro no-control">
+                                                <input type="radio" class="custom-control-input" name="bep" id="bep">
+                                                <label class="custom-control-label" for="bep">Bếp nấu ăn</label>
+                                            </div>
+                                        </li>
+                                    @endif
+                                    @if($service_room->gac == 1)
+                                        <li>
+                                            <div class="custom-control custom-radio custom-control-pro no-control">
+                                                <input type="radio" class="custom-control-input" name="gac" id="gac">
+                                                <label class="custom-control-label" for="gac">Phòng có gác</label>
+                                            </div>
+                                        </li>
+                                    @endif
                                 </ul>
                             </div><!-- .product-meta -->
                             <div class="product-meta">

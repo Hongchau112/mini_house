@@ -48,9 +48,7 @@
                                                     <div class="dropdown-menu dropdown-menu-right">
                                                         <ul class="link-list-opt no-bdr">
                                                             <li><a href="#"><span>Còn phòng</span></a></li>
-                                                            <li><a href="#"><span>Hết phòng</span></a></li>
-                                                            <li><a href="#"><span>Phòng mới</span></a></li>
-                                                        </ul>
+                                                            <li><a href="#"><span>Hết phòng</span></a></li></ul>
                                                     </div>
                                                 </div>
                                             </li>

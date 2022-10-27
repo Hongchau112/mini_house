@@ -14,6 +14,6 @@
     <div class="nk-tb-col nk-tb-col-tools text-right">
     </div>
 </div><!-- .nk-tb-item -->
-<div class="row-cols-1">Không có kết quả nào trùng khớp</div>
+<div style="width: 150px; margin-left: 15px; padding: 10px;">Không tìm thấy!</div>
 
 

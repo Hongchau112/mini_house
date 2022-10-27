@@ -20,4 +20,9 @@ class Room extends Model
         $this->belongsToMany(Image::class);
     }
 
+    public function services()
+    {
+        $this->belongsToMany(Service::class);
+    }
+
 }

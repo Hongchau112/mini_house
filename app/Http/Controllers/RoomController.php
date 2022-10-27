@@ -6,6 +6,7 @@ use App\Models\Admin;
 use App\Models\Room;
 use App\Models\RoomCategory;
 use App\Models\Image;
+use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -75,7 +76,7 @@ class RoomController extends Controller
 
     public function store(Request $request)
     {
-//        dd($request);
+
         $user = Auth::guard('admin')->user();
         $room_category = RoomCategory::all();
 
@@ -86,6 +87,8 @@ class RoomController extends Controller
             'cost' => 'required'
         ]);
 
+
+
         $room = new Room();
         $room->name = $data['name'];
         $room->description = $data['description'];
@@ -93,7 +96,27 @@ class RoomController extends Controller
         $room->cost = $data['cost'];
         $room->save();
 
-        return redirect()->route('admin.rooms.index', ['rooms'])->with('success', 'Thêm món thành công!');
+        $room_id = $room->id;
+
+        if (($request->has('bep')) or ($request->has('maylanh')) or($request->has('gac')))
+        {
+            $service = new Service();
+            $service->room_id = $room_id;
+            if ($request->has('bep')){
+                $service->bep= 1;
+            }
+            if ($request->has('maylanh')){
+                $service->maylanh= 1;
+            }
+            if ($request->has('gac')){
+                $service->gac = 1;
+            }
+            $service->save();
+        }
+
+
+
+        return redirect()->route('admin.rooms.index', compact('user', 'room', 'room_category'))->with('success', 'Thêm phòng thành công!');
     }
 
     public function show($id)
@@ -101,6 +124,8 @@ class RoomController extends Controller
         $user = Auth::guard('admin')->user();
         $room = Room::find($id);
         $categories= RoomCategory::all();
+        $service_room='';
+        $services = Service::all();
         $room_category='';
         foreach ($categories as $category)
         {
@@ -109,8 +134,19 @@ class RoomController extends Controller
                 $room_category = $category->name;
             }
         }
+        $service = Service::where('room_id', $id)->get();
+//        dd($service->id);
+        foreach ($services as $service)
+        {
+            if($service->room_id == $room->id)
+            {
+                $service_room = $service;
+            }
+        }
+//        dd($service_room);
+
         $images = Image::where('room_id', $id)->get();
-        return view('admin.rooms.show', compact('user', 'room_category', 'room', 'images'));
+        return view('admin.rooms.show', compact('user', 'room_category', 'room', 'images', 'service_room'));
     }
 
     public function edit($id)

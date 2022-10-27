@@ -50,10 +50,10 @@
                                 @csrf
                                 <div class="form-group">
                                     <div class="form-label-group">
-                                        <label class="form-label" for="name">Email or Username</label>
+                                        <label class="form-label" for="name">Username</label>
                                     </div>
                                     <div class="form-control-wrap">
-                                        <input type="text" class="form-control form-control-lg" id="name" name="name" placeholder="Nhập tên đăng nhập của bạn...">
+                                        <input type="text" @if(\Illuminate\Support\Facades\Cookie::has('adminuser')) value="{{\Illuminate\Support\Facades\Cookie::get('adminuser')}}" @endif class="form-control form-control-lg" id="name" name="name" placeholder="Nhập tên đăng nhập của bạn...">
                                         @if ($errors->has('name'))
                                             <span class="text-danger">{{ $errors->first('name') }}</span>
                                         @endif
@@ -65,14 +65,20 @@
                                         <a class="link link-primary link-sm" href="{{route('admin.show_forgotPassword')}}">Quên mật khẩu?</a>
                                     </div>
                                     <div class="form-control-wrap">
-                                        <a href="#" class="form-icon form-icon-right passcode-switch lg" data-target="password">
-                                            <em class="passcode-icon icon-show icon ni ni-eye"></em>
+                                        <a class="form-icon form-icon-right passcode-switch lg" data-target="password">
+                                            <em class="passcode-icon icon-show icon ni ni-eye" id="eye" onclick="toggle()"></em>
                                             <em class="passcode-icon icon-hide icon ni ni-eye-off"></em>
                                         </a>
-                                        <input type="password" class="form-control form-control-lg" id="password" name="password" placeholder="Nhập mật khẩu...">
+                                        <input type="password" @if(\Illuminate\Support\Facades\Cookie::has('adminpwd')) value="{{\Illuminate\Support\Facades\Cookie::get('adminpwd')}}" @endif class="form-control form-control-lg" id="password" name="password" placeholder="Nhập mật khẩu...">
                                         @if ($errors->has('password'))
                                             <span class="text-danger">{{ $errors->first('password') }}</span>
                                         @endif
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" name="rememberme" id="rememberme">
+                                        <label class="custom-control-label" for="rememberme">Nhớ mật khẩu</label>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -157,5 +163,23 @@
 <!-- JavaScript -->
 <script src="./assets/js/bundle.js?ver=2.5.0"></script>
 <script src="./assets/js/scripts.js?ver=2.5.0"></script>
+<script>
+    var state=false;
+    function toggle(){
+        if(state){
+            document.getElementById("password").setAttribute("type", "password");
+            document.getElementById("eye").style.color='#7a797e';
+            state = false;
+        }
+        else {
+            document.getElementById("password").setAttribute("type","text");
+            document.getElementById("eye").style.color='#5887ef';
 
+            state = true;
+        }
+
+    }
+
+</script>
+</body>
 </html>
