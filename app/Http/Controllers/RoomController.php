@@ -189,21 +189,45 @@ class RoomController extends Controller
         $user = Auth::guard('admin')->user();
         $room_category = RoomCategory::all();
         $rooms = Room::all();
-        return view('admin.rooms.room-card', compact('user', 'rooms', 'room_category'));
+        $images = Image::all();
+        $image_path='';
+        return view('admin.rooms.room-card', compact('user', 'rooms', 'room_category', 'images', 'image_path'));
     }
 
     public function room_search(Request $request)
     {
         $user = Auth::guard('admin')->user();
-
+        $room_category = RoomCategory::all();
         $search = $request->get('search');
 //        dd($search);
         $rooms = Room::where('name', 'LIKE', '%' . $search . '%')->get();
         if (count($rooms)>0)
 
-            return view('admin.rooms.search', compact('rooms', 'user'));
+            return view('admin.rooms.search', compact('rooms', 'user', 'room_category'));
         else
-            return view('admin.users.not_found', compact('user'));
+            return view('admin.rooms.not_found', compact('user'));
     }
+
+    public function filter_search(Request $request)
+    {
+        $user = Auth::guard('admin')->user();
+        $rooms = Room::all();
+        $room_category = RoomCategory::all();
+        $filter_search = $request->get('filter');
+        if($filter_search=='all')
+            return view('admin.rooms.search' ,compact('rooms', 'user', 'room_category'));
+        else
+        {
+            $room_results = Room::where('status', $filter_search)->get();
+//        dd($room_results);
+            if(count($room_results) > 0)
+                $rooms = $room_results;
+            return view('admin.rooms.search' ,compact('rooms', 'user', 'room_category'));
+
+        }
+//        dd($filter_search);
+    }
+
+
 
 }

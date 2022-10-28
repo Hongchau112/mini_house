@@ -49,10 +49,18 @@
             <span class="tb-lead">{{$room->cost}}</span>
         </div>
         <div class="nk-tb-col">
-            <span class="tb-sub">49</span>
+            @if($room->status==0)
+                <span class="tb-sub">Còn phòng</span>
+            @else
+                <span class="tb-sub">Hết phòng</span>
+            @endif
         </div>
         <div class="nk-tb-col tb-col-md">
-            <span class="tb-sub">{{$room->room_type_id}}</span>
+            @foreach($room_category as $room_cate_sub)
+                @if($room->room_type_id == $room_cate_sub->id)
+                    <span class="tb-sub">{{$room_cate_sub->name}}</span>
+                @endif
+            @endforeach
         </div>
         <div class="nk-tb-col tb-col-md">
             <div class="asterisk tb-asterisk">
@@ -66,11 +74,10 @@
                         <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                         <div class="dropdown-menu dropdown-menu-right">
                             <ul class="link-list-opt no-bdr">
-                                <li><a href="{{route('admin.rooms.show', ['id'=>$room->id])}}"><em class="icon ni ni-edit"></em><span>Xem</span></a></li>
-                                <li><a href="#"><em class="icon ni ni-trash"></em><span>Chỉnh sửa</span></a></li>
-                                <li><a href="#"><em class="icon ni ni-bar-c"></em><span>Cập nhật</span></a></li>
+                                <li><a href="{{route('admin.rooms.show', ['id'=>$room->id])}}"><em class="icon ni ni-view-grid"></em><span>Xem</span></a></li>
+                                <li><a href="{{route('admin.rooms.edit', ['id'=>$room->id])}}"><em class="icon ni ni-edit"></em><span>Chỉnh sửa</span></a></li>
                                 <li><a href="{{route('admin.rooms.upload_images', ['id'=>$room->id])}}"><em class="icon ni ni-bar-c"></em><span>Thêm ảnh</span></a></li>
-                                <li><a href="#"><em class="icon ni ni-bar-c"></em><span>Xóa</span></a></li>
+                                <li><a href="{{route('admin.rooms.delete', ['id'=>$room->id])}}"><em class="icon ni ni-delete"  ></em><span>Xóa</span></a></li>
 
 
                             </ul>

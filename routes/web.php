@@ -10,6 +10,7 @@ use App\Http\Controllers\RoomCategoryController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\CustomerController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -95,6 +96,8 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     Route::get('admin/filter-search', [UserController::class, 'filter_search'])->name('users.filter');
     Route::get('admin/sex-search', [UserController::class, 'sex_search'])->name('users.sex_search');
     Route::get('admin/room_search', [RoomController::class, 'room_search'])->name('rooms.room_search');
+    Route::get('admin/rooms/filter_search', [RoomController::class, 'filter_search'])->name('rooms.filter_search');
+
 
 
 });
@@ -124,7 +127,9 @@ Route::get('guest/order', [CartController::class,'order'])->name('guest.order');
 Route::get('admin/transaction', [TransactionController::class, 'index'])->name('admin.transactions.index');
 Route::post('guest/transaction/store', [TransactionController::class, 'store'])->name('guest.transaction.store');
 
+Route::get('customer/', [CustomerController::class, 'index'])->name('customer.index');
 
+Route::get('customer/test', [CustomerController::class, 'test'])->name('customer.test');
 
 
 

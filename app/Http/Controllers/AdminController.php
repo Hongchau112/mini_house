@@ -31,13 +31,16 @@ class AdminController extends Controller
                     Cookie::queue('adminpwd', $request->password, 1440);
 
                 }
+
                 if($user->roles()->where('name', 'admin'))
                 {
+//                    return route('customer.index');
+//                    dd(1);
                     return view('admin.users.index', compact('user_lists', 'user'));
                 }
                 elseif ($user->roles()->where('name', 'user'))
                 {
-                    return view('user.dashboard');
+                    return view('customer.login.index');
                 }
                 else {
                     return view('staff.dashboard');

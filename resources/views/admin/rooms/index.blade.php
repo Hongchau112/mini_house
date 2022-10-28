@@ -43,13 +43,12 @@
                                                 </div>
                                             </li>
                                             <li>
-                                                <div class="drodown">
-                                                    <a href="#" class="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white" data-toggle="dropdown">Trạng thái</a>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <ul class="link-list-opt no-bdr">
-                                                            <li><a href="#"><span>Còn phòng</span></a></li>
-                                                            <li><a href="#"><span>Hết phòng</span></a></li></ul>
-                                                    </div>
+                                                <div class="drodown" style="width: 130px;">
+                                                    <select class="form-select form-select-sm" id="filter-search" name="filter-search" data-placeholder="Tìm phòng">
+                                                        <option value="all"><span>Tất cả</span></option>
+                                                        <option value="0"><span>Còn phòng</span></option>
+                                                        <option value="1"><span>Hết phòng</span></option>
+                                                    </select>
                                                 </div>
                                             </li>
                                             <li class="nk-block-tools-opt">
@@ -118,10 +117,18 @@
                                                 <span class="tb-lead">{{$room->cost}}</span>
                                             </div>
                                             <div class="nk-tb-col">
-                                                <span class="tb-sub">49</span>
+                                                @if($room->status==0)
+                                                    <span class="tb-sub">Còn phòng</span>
+                                                @else
+                                                    <span class="tb-sub">Hết phòng</span>
+                                                @endif
                                             </div>
                                             <div class="nk-tb-col tb-col-md">
-                                                <span class="tb-sub">{{$room->room_type_id}}</span>
+                                                @foreach($room_category as $room_cate_sub)
+                                                    @if($room->room_type_id == $room_cate_sub->id)
+                                                        <span class="tb-sub">{{$room_cate_sub->name}}</span>
+                                                    @endif
+                                                @endforeach
                                             </div>
                                             <div class="nk-tb-col tb-col-md">
                                                 <div class="asterisk tb-asterisk">
@@ -194,25 +201,12 @@
             $("#filter-search").on('change', function(){
                 var filter = $(this).val();
                 $.ajax({
-                    url: '{{route('admin.users.filter')}}',
+                    url: '{{route('admin.rooms.filter_search')}}',
                     type: "GET",
                     data: {'filter': filter},
                     success:function (data){
                         $('#list').html(data);
-                        console.log(data);
-                    }
-                });
-            });
-            //search by sex
-            $("#sex-search").on('change', function(){
-                var sex = $(this).val();
-                $.ajax({
-                    url: '{{route('admin.users.sex_search')}}',
-                    type: "GET",
-                    data: {'sex': sex},
-                    success:function (data){
-                        $('#list').html(data);
-                        console.log(data);
+                        // console.log(data);
                     }
                 });
             });
