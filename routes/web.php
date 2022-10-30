@@ -128,6 +128,9 @@ Route::get('admin/transaction', [TransactionController::class, 'index'])->name('
 Route::post('guest/transaction/store', [TransactionController::class, 'store'])->name('guest.transaction.store');
 
 Route::get('customer/', [CustomerController::class, 'index'])->name('customer.index');
+Route::get('customer/rooms/listing', [CustomerController::class, 'listing'])->name('customer.rooms.listing');
+Route::get('customer/rooms/details/{id}', [CustomerController::class, 'details'])->name('customer.rooms.details');
+
 
 Route::get('customer/test', [CustomerController::class, 'test'])->name('customer.test');
 

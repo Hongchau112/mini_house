@@ -4,9 +4,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- page title -->
-    <title>Stetho - Hotel Multipage Clean Bootstrap HTML5 Website Template</title>
+    <title>Nhà trọ giá tốt</title>
     <!-- favicon -->
-    <link rel="icon" href="favicon.ico" />
+    <link rel="icon" href="{{asset('boarding_house/favicon.ico')}}" />
     <!-- bootstrap core CSS -->
     <link rel="stylesheet" href="{{asset('boarding_house/css/bootstrap.min.css')}}">
     <!-- font awesome -->
