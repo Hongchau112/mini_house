@@ -18,6 +18,7 @@ class AdminController extends Controller
     {
         $credentials = $request->only('name', 'password');
         $user = Admin::where('name', $request->name)->first();
+
         $user_lists = Admin::with('roles')->orderBy('id', 'ASC')->paginate(10);
 //        dd($user->password);
         if (Auth::guard('admin')->attempt($credentials)) {
@@ -31,19 +32,15 @@ class AdminController extends Controller
                     Cookie::queue('adminpwd', $request->password, 1440);
 
                 }
-
-                if($user->roles()->where('name', 'admin'))
+                if($user->account=='user')
                 {
-//                    return route('customer.index');
-//                    dd(1);
-                    return view('admin.users.index', compact('user_lists', 'user'));
+                    return view('customer.login.index', compact('user'));
                 }
-                elseif ($user->roles()->where('name', 'user'))
-                {
-                    return view('customer.login.index');
-                }
-                else {
-                    return view('staff.dashboard');
+                else{
+                    if($user->roles()->where('name', 'admin'))
+                    {
+                        return view('admin.users.index', compact('user_lists', 'user'));
+                    }
                 }
             }
         }else{
@@ -311,6 +308,7 @@ class AdminController extends Controller
             dd($e->getMessage());
         }
     }
+
 
 
 

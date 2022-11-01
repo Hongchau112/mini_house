@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
-use App\Models\Food;
 use App\Models\RoomCategory;
 use App\Models\Image;
 use App\Models\Roles;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Symfony\Component\Console\Input\Input;
 
 class UserController extends Controller
@@ -18,6 +19,47 @@ class UserController extends Controller
         $user = Auth::guard('admin')->user();
         $user_lists = Admin::with('roles')->orderBy('id', 'DESC')->paginate(10);
         return view('admin.users.index', compact('user_lists', 'user'));
+    }
+
+    public function login_auth()
+    {
+        return view('customer.login.login_auth');
+    }
+
+    public function logout_user()
+    {
+        Auth::guard('admin')->logout();
+        return redirect()->route('customer.login_auth');
+    }
+
+    public function register_check()
+    {
+        return view('customer.login.register_auth');
+    }
+
+    public function register_auth(Request $request)
+    {
+        $user = new User();
+//        dd($request);
+        $validated_data = $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'password' => 'required',
+            'phone' => 'required',
+            'sex' => 'required'
+        ]);
+        dd(1);
+
+        $validated_data['password'] = Hash::make($request->password);
+
+        $user->name = $validated_data['name'];
+        $user->email = $validated_data['email'];
+        $user->password = $validated_data['password'];
+        $user->phone = $validated_data['phone'];
+        $user->sex = $validated_data['sex'];
+        $user->save();
+        return route('customer.login_auth')->with('message', 'Đăng ký tài khoản thành công');
+
     }
 
 

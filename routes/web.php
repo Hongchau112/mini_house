@@ -11,6 +11,7 @@ use App\Http\Controllers\RoomController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\WistListController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,6 +29,7 @@ Route::get('/', function () {
 
 Route::get('admin/login', function(){ return view('admin.users.login');
 });
+
 Route::get('admin/login_auth', [AuthController::class, 'login_auth'])->name('admin.login_auth');
 Route::post('admin/login', [AdminController::class, 'login'])->name('admin.login');
 Route::get('admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
@@ -36,7 +38,11 @@ Route::post('admin/register_auth', [AuthController::class, 'register_auth'])->na
 Route::get('admin/forget-password', [ForgotPasswordController::class, 'show_forgotPassword'])->name('admin.show_forgotPassword');
 Route::post('admin/forgetPassword/', [ForgotPasswordController::class, 'forget_password'])->name('admin.forget_password');
 
-
+Route::get('customer/register', [UserController::class, 'register_check'])->name('customer.register_check');
+Route::get('customer/login_auth', [UserController::class, 'login_auth'])->name('customer.login_auth');
+Route::post('customer/login', [UserController::class, 'login'])->name('customer.login');
+//Route::get('customer/register_auth', [UserController::class, 'register_auth'])->name('customer.register_auth');
+Route::post('customer/register_auth', [UserController::class, 'register_auth'])->name('customer.register_auth');
 
 //Login facebook
 Route::get('admin/login_facebook', [AdminController::class, 'login_facebook'])->name('admins.login_facebook');
@@ -127,9 +133,16 @@ Route::get('guest/order', [CartController::class,'order'])->name('guest.order');
 Route::get('admin/transaction', [TransactionController::class, 'index'])->name('admin.transactions.index');
 Route::post('guest/transaction/store', [TransactionController::class, 'store'])->name('guest.transaction.store');
 
+
+////customer
+Route::get('customer/logout', [UserController::class, 'logout_user'])->name('customer.logout_user');
 Route::get('customer/', [CustomerController::class, 'index'])->name('customer.index');
 Route::get('customer/rooms/listing', [CustomerController::class, 'listing'])->name('customer.rooms.listing');
 Route::get('customer/rooms/details/{id}', [CustomerController::class, 'details'])->name('customer.rooms.details');
+Route::get('customer/wistlist/{id}', [WistlistController::class, 'add_wistlist'])->name('customer.add_wistlist');
+Route::get('customer/count_wistlist/{id}', [WistlistController::class, 'count_wistlist'])->name('customer.count_wistlist');
+//Route::post('customer/wishlist/{id}', [WistlistController::class, 'wish_list'])->name('customer.wish_list');
+Route::get('customer/show_wistlist/{id}', [WistlistController::class, 'show_wishlist'])->name('customer.show_wishlist');
 
 
 Route::get('customer/test', [CustomerController::class, 'test'])->name('customer.test');

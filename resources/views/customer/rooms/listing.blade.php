@@ -195,6 +195,7 @@
                     <!-- sidebar end -->
                 </aside>
             </div>
+
             <div class="col-lg-9">
                 <!-- hotel results list -->
                 @foreach($rooms as $room)
@@ -230,6 +231,10 @@
                                         @endif
                                     @endif
                                 @endforeach
+                                    <li>
+                                        <input type="hidden" id="room_id" value="{{$room->id}}">
+                                        <a href="{{route('customer.add_wistlist', ['id'=>$room->id])}}" id="btn-wishlist"><i class="fa fa-heart"></i></a>
+                                    </li>
                             </ul>
                             <div class="btn-wrapper mt-20 d-inline-block w-100"> <a class="view-detail-btn" href="">View Details</a> <a class="book-now-btn ml-6" href="">Book Now</a> </div>
                         </div>
@@ -357,3 +362,32 @@
 </div>
 <!-- Modify search modal end -->
 @endsection
+
+@push('footer')
+{{--    <script>--}}
+{{--        $(document).ready(function(){--}}
+
+{{--            $("#btn-wishlist").click(function(){--}}
+{{--                $.ajaxSetup({--}}
+{{--                    headers: {--}}
+{{--                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')--}}
+{{--                    }--}}
+{{--                });--}}
+{{--                // var room_id = $(this).closest('#btn-wishlist').find('room_id').val();--}}
+{{--                var room_id = $('#room_id').val();--}}
+{{--                var _token = $('input[name="_token"]').val();--}}
+{{--                // console.log(room_id);--}}
+{{--                $.ajax({--}}
+{{--                    url: '/customer/wishlist/' +room_id,--}}
+{{--                    type: "POST",--}}
+{{--                    data: {room_id: room_id, _token:_token},--}}
+{{--                    success: function (result) {--}}
+{{--                        // alert('Thêm vào yêu thích thành công!');--}}
+
+{{--                    }--}}
+{{--                });--}}
+
+{{--            })--}}
+{{--        })--}}
+{{--    </script>--}}
+@endpush

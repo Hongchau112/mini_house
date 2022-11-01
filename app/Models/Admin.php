@@ -11,7 +11,7 @@ class Admin extends Model implements AuthenticatableContract
     use HasFactory;
     use Authenticatable;
     protected $fillable = [
-      'name', 'phone', 'email', 'password', 'social_id'
+      'name', 'phone', 'email', 'password'
     ];
     protected $table='admins';
 

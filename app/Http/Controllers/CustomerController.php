@@ -7,6 +7,7 @@ use App\Models\Room;
 use App\Models\RoomCategory;
 use App\Models\Service;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CustomerController extends Controller
 {
@@ -22,11 +23,13 @@ class CustomerController extends Controller
 
     public function listing()
     {
+        $user = Auth::guard('admin')->user();
+
         $rooms = Room::all();
         $room_categories = RoomCategory::all();
         $images = Image::all();
         $services = Service::all();
-        return view('customer.rooms.listing', compact('rooms', 'room_categories', 'images', 'services'));
+        return view('customer.rooms.listing', compact('rooms', 'room_categories', 'images', 'user', 'services'));
     }
 
     public function details($id)
