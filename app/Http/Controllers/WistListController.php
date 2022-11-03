@@ -54,4 +54,12 @@ class WistListController extends Controller
 
     }
 
+    public function delete($id)
+    {
+        $user_id = Auth::guard('admin')->user()->id;
+        Wistlist::where('id', $id)->where('user_id', $user_id)->delete();
+        return redirect()->route('customer.show_wishlist', ['id'=>$user_id])->with('success', 'Xóa yêu thích thành công!');
+
+    }
+
 }

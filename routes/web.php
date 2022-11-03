@@ -134,15 +134,24 @@ Route::get('admin/transaction', [TransactionController::class, 'index'])->name('
 Route::post('guest/transaction/store', [TransactionController::class, 'store'])->name('guest.transaction.store');
 
 
-////customer
+////customer info
 Route::get('customer/logout', [UserController::class, 'logout_user'])->name('customer.logout_user');
 Route::get('customer/', [CustomerController::class, 'index'])->name('customer.index');
+Route::get('customer/edit_profile/{id}', [CustomerController::class, 'edit_profile'])->name('customer.edit_profile');
+Route::post('customer/update_profile/{id}', [CustomerController::class, 'update_profile'])->name('customer.update_profile');
+
+
+//rooms details
 Route::get('customer/rooms/listing', [CustomerController::class, 'listing'])->name('customer.rooms.listing');
 Route::get('customer/rooms/details/{id}', [CustomerController::class, 'details'])->name('customer.rooms.details');
+
+//wishlists
 Route::get('customer/wistlist/{id}', [WistlistController::class, 'add_wistlist'])->name('customer.add_wistlist');
 Route::get('customer/count_wistlist/{id}', [WistlistController::class, 'count_wistlist'])->name('customer.count_wistlist');
 //Route::post('customer/wishlist/{id}', [WistlistController::class, 'wish_list'])->name('customer.wish_list');
 Route::get('customer/show_wistlist/{id}', [WistlistController::class, 'show_wishlist'])->name('customer.show_wishlist');
+Route::get('customer/wishlist/delete/{id}', [WistlistController::class, 'delete'])->name('customer.wishlist.delete');
+
 
 
 Route::get('customer/test', [CustomerController::class, 'test'])->name('customer.test');

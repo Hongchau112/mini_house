@@ -11,69 +11,69 @@
     <!-- ================ Slider area ================ -->
     <div class="slider">
         <!-- search area -->
-        <div class="search-area">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6 col-md-8 col-sm-12 col-12 offset-xl-0 offset-lg-3 offset-sm-0">
-                        <div class="center-search">
-                            <h1 class="text-white">Enjoy Your Holiday</h1>
-                            <p class="text-white">Search and Book Hotel</p>
-                            <form class="form-style-1">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Search City">
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-6">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" id="check-in" placeholder="Check In">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-6">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" id="check-out" placeholder="Check Out">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-6">
-                                        <div class="form-group">
-                                            <select class="form-control">
-                                                <option>Adult(s)(18+)</option>
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-6">
-                                        <div class="form-group">
-                                            <select class="form-control">
-                                                <option>Children(0-17)</option>
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <select class="form-control">
-                                        <option>Rooms</option>
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                    </select>
-                                </div>
-                                <button type="submit" class="btn-style-1 w-100">Search</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+{{--        <div class="search-area">--}}
+{{--            <div class="container">--}}
+{{--                <div class="row">--}}
+{{--                    <div class="col-lg-6 col-md-8 col-sm-12 col-12 offset-xl-0 offset-lg-3 offset-sm-0">--}}
+{{--                        <div class="center-search">--}}
+{{--                            <h1 class="text-white">Enjoy Your Holiday</h1>--}}
+{{--                            <p class="text-white">Search and Book Hotel</p>--}}
+{{--                            <form class="form-style-1">--}}
+{{--                                <div class="form-group">--}}
+{{--                                    <input type="text" class="form-control" placeholder="Search City">--}}
+{{--                                </div>--}}
+{{--                                <div class="row">--}}
+{{--                                    <div class="col-lg-6 col-md-6 col-sm-6 col-6">--}}
+{{--                                        <div class="form-group">--}}
+{{--                                            <input type="text" class="form-control" id="check-in" placeholder="Check In">--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="col-lg-6 col-md-6 col-sm-6 col-6">--}}
+{{--                                        <div class="form-group">--}}
+{{--                                            <input type="text" class="form-control" id="check-out" placeholder="Check Out">--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                                <div class="row">--}}
+{{--                                    <div class="col-lg-6 col-md-6 col-sm-6 col-6">--}}
+{{--                                        <div class="form-group">--}}
+{{--                                            <select class="form-control">--}}
+{{--                                                <option>Adult(s)(18+)</option>--}}
+{{--                                                <option>1</option>--}}
+{{--                                                <option>2</option>--}}
+{{--                                                <option>3</option>--}}
+{{--                                                <option>4</option>--}}
+{{--                                            </select>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="col-lg-6 col-md-6 col-sm-6 col-6">--}}
+{{--                                        <div class="form-group">--}}
+{{--                                            <select class="form-control">--}}
+{{--                                                <option>Children(0-17)</option>--}}
+{{--                                                <option>1</option>--}}
+{{--                                                <option>2</option>--}}
+{{--                                                <option>3</option>--}}
+{{--                                                <option>4</option>--}}
+{{--                                            </select>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                                <div class="form-group">--}}
+{{--                                    <select class="form-control">--}}
+{{--                                        <option>Rooms</option>--}}
+{{--                                        <option>1</option>--}}
+{{--                                        <option>2</option>--}}
+{{--                                        <option>3</option>--}}
+{{--                                        <option>4</option>--}}
+{{--                                    </select>--}}
+{{--                                </div>--}}
+{{--                                <button type="submit" class="btn-style-1 w-100">Search</button>--}}
+{{--                            </form>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
         <!-- search area end -->
         <div id="myCarousel" class="carousel slide carousel-fade" data-ride="carousel">
             <div class="carousel-inner">
@@ -98,11 +98,11 @@
                 <div class="col-lg-6 mb-30">
                     <!-- about text -->
                     <div class="about-col">
-                        <h6>About us</h6>
-                        <h2>We <span>provide solutions</span> to grow your business</h2>
-                        <p>Lorem ipsum dolor sit amet consectetur adipiscing elit amet consectetur piscing elit amet consectetur adipiscing elit sed et eletum nulla eu placerat felis etiam tincidunt orci lacus id varius dolor fermum sit amet.</p>
-                        <p>Lorem ipsum dolor sit amet consectetur adipiscing elit amet consectetur piscing elit amet consectetur adipiscing elit sed et eletum nulla eu placerat felis etiam tincidunt orci lacus id varius dolor fermum sit amet.</p>
-                        <a class=" btn-style-1" href="#" role="button">Explore More <i class="fas fa-long-arrow-alt-right pl-6"></i></a> </div>
+                        <h6>Về nhà trọ giá tốt</h6>
+                        <h2>Chúng tôi <span>cung cấp nhiều phòng trọ</span> với nhiều tiện nghi cho sinh viên và người đi làm.</h2>
+                        <p>Các bạn tân sinh viên nói riêng và người mới nhập cư nói chung, ít hay nhiều thì cũng sẽ gặp khó khăn trong việc tìm kiếm phòng trọ. Đa phần là do các bạn chưa có nhiều kinh nghiệm, cũng như phải đối diện với quá nhiều “cạm bẫy” lừa đảo tinh vi.</p>
+                        <p>Chotot.com có giao diện đẹp và thân thiện với người dùng, vì vậy website luôn thu hút được một lượng rất lớn người truy cập hàng tháng. Bên cạnh đó thì việc đăng tin rao vặt về mảng bất động sản và cho thuê phòng trọ trên trang này cũng rất hiệu quả.</p>
+                        <a class=" btn-style-1" href="#" role="button">Đọc thêm<i class="fas fa-long-arrow-alt-right pl-6"></i></a> </div>
                     <!-- about text end -->
                 </div>
                 <div class="col-lg-6 mb-30">
@@ -397,111 +397,111 @@
     </div>
     <!-- ================ Blog area end ================ -->
 
-    <!-- ================ Download app are ================ -->
-    <div class="download-app-area pt-70 pb-40">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-8 mb-30">
-                    <!-- app text -->
-                    <div class="app-text">
-                        <h5 class="text-white">Download our app</h5>
-                        <h2 class="mb-10 text-white">Wow! Get This Templete App For Your Mobile</h2>
-                        <ul class="text-white">
-                            <li class="pb-6"><i class="fas fa-check pr-6"></i> Find nearby hotel in your network with templete</li>
-                            <li class="pb-6"><i class="fas fa-check pr-6"></i> Get paperless confirmation</li>
-                            <li class="pb-6"><i class="fas fa-check pr-6"></i> Make changes whenever, wherever</li>
-                            <li class="pb-6"><i class="fas fa-check pr-6"></i> 24/7 customer service in more than 40 languages</li>
-                            <li class="pb-6"><i class="fas fa-check pr-6"></i> No booking or credit card fees</li>
-                            <li class="pb-6"><i class="fas fa-check pr-6"></i> No booking or credit card fees</li>
-                            <li><i class="fas fa-check pr-6"></i> Add your own reviews and photos</li>
-                        </ul>
-                        <div class="app-download-btn mt-20"> <a href="#"><img src="{{asset('boarding_house/img/appstore-button.png')}}" alt=""></a> <a href="#"><img src="img/google-play-button.png" alt=""></a> </div>
-                    </div>
-                    <!-- app text end -->
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-4">
-                    <!-- app img -->
-                    <div class="app-img"> <img src="{{asset('boarding_house/img/app-image-1.png')}}" alt=""> </div>
-                    <!-- app img end -->
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- ================ Download app are end ================ -->
+{{--    <!-- ================ Download app are ================ -->--}}
+{{--    <div class="download-app-area pt-70 pb-40">--}}
+{{--        <div class="container">--}}
+{{--            <div class="row">--}}
+{{--                <div class="col-lg-6 col-md-6 col-sm-8 mb-30">--}}
+{{--                    <!-- app text -->--}}
+{{--                    <div class="app-text">--}}
+{{--                        <h5 class="text-white">Download our app</h5>--}}
+{{--                        <h2 class="mb-10 text-white">Wow! Get This Templete App For Your Mobile</h2>--}}
+{{--                        <ul class="text-white">--}}
+{{--                            <li class="pb-6"><i class="fas fa-check pr-6"></i> Find nearby hotel in your network with templete</li>--}}
+{{--                            <li class="pb-6"><i class="fas fa-check pr-6"></i> Get paperless confirmation</li>--}}
+{{--                            <li class="pb-6"><i class="fas fa-check pr-6"></i> Make changes whenever, wherever</li>--}}
+{{--                            <li class="pb-6"><i class="fas fa-check pr-6"></i> 24/7 customer service in more than 40 languages</li>--}}
+{{--                            <li class="pb-6"><i class="fas fa-check pr-6"></i> No booking or credit card fees</li>--}}
+{{--                            <li class="pb-6"><i class="fas fa-check pr-6"></i> No booking or credit card fees</li>--}}
+{{--                            <li><i class="fas fa-check pr-6"></i> Add your own reviews and photos</li>--}}
+{{--                        </ul>--}}
+{{--                        <div class="app-download-btn mt-20"> <a href="#"><img src="{{asset('boarding_house/img/appstore-button.png')}}" alt=""></a> <a href="#"><img src="img/google-play-button.png" alt=""></a> </div>--}}
+{{--                    </div>--}}
+{{--                    <!-- app text end -->--}}
+{{--                </div>--}}
+{{--                <div class="col-lg-6 col-md-6 col-sm-4">--}}
+{{--                    <!-- app img -->--}}
+{{--                    <div class="app-img"> <img src="{{asset('boarding_house/img/app-image-1.png')}}" alt=""> </div>--}}
+{{--                    <!-- app img end -->--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+{{--    <!-- ================ Download app are end ================ -->--}}
 
-    <!-- ================ How it works ================ -->
-    <div class="how-it-works pt-70 pb-40 position-relative">
-        <div class="bg-style-1"></div>
-        <div class="container">
-            <!-- section title -->
-            <div class="section-title text-center">
-                <h2>How it Works</h2>
-                <span class="dashed-border"></span> </div>
-            <!-- section title -->
-            <div class="row">
-                <div class="col-lg-4 col-md-4 mb-30">
-                    <!-- how it work box -->
-                    <div class="how-it-work-box text-center">
-                        <div class="icon mb-15"><img src="{{asset('boarding_house/img/icon/1.png')}}" alt=""></div>
-                        <h4 class="mb-10">Search Multiple Destinations</h4>
-                        <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipiscing elit amet consectetur piscing elit amet consectetur adipiscing elit sed et eletum.</p>
-                    </div>
-                    <!-- how it work box end -->
-                </div>
-                <div class="col-lg-4 col-md-4 mb-30">
-                    <!-- how it work box -->
-                    <div class="how-it-work-box text-center">
-                        <div class="icon mb-15"><img src="{{asset('boarding_house/img/icon/2.png')}}" alt=""></div>
-                        <h4 class="mb-10">Find the Lowest Hotel Prices</h4>
-                        <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipiscing elit amet consectetur piscing elit amet consectetur adipiscing elit sed et eletum.</p>
-                    </div>
-                    <!-- how it work box end -->
-                </div>
-                <div class="col-lg-4 col-md-4 mb-30">
-                    <!-- how it work box -->
-                    <div class="how-it-work-box text-center">
-                        <div class="icon mb-15"><img src="{{asset('boarding_house/img/icon/3.png')}}" alt=""></div>
-                        <h4 class="mb-10">Find the Right Hotel for You</h4>
-                        <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipiscing elit amet consectetur piscing elit amet consectetur adipiscing elit sed et eletum.</p>
-                    </div>
-                    <!-- how it work box end -->
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- ================ How it works end ================ -->
+{{--    <!-- ================ How it works ================ -->--}}
+{{--    <div class="how-it-works pt-70 pb-40 position-relative">--}}
+{{--        <div class="bg-style-1"></div>--}}
+{{--        <div class="container">--}}
+{{--            <!-- section title -->--}}
+{{--            <div class="section-title text-center">--}}
+{{--                <h2>How it Works</h2>--}}
+{{--                <span class="dashed-border"></span> </div>--}}
+{{--            <!-- section title -->--}}
+{{--            <div class="row">--}}
+{{--                <div class="col-lg-4 col-md-4 mb-30">--}}
+{{--                    <!-- how it work box -->--}}
+{{--                    <div class="how-it-work-box text-center">--}}
+{{--                        <div class="icon mb-15"><img src="{{asset('boarding_house/img/icon/1.png')}}" alt=""></div>--}}
+{{--                        <h4 class="mb-10">Search Multiple Destinations</h4>--}}
+{{--                        <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipiscing elit amet consectetur piscing elit amet consectetur adipiscing elit sed et eletum.</p>--}}
+{{--                    </div>--}}
+{{--                    <!-- how it work box end -->--}}
+{{--                </div>--}}
+{{--                <div class="col-lg-4 col-md-4 mb-30">--}}
+{{--                    <!-- how it work box -->--}}
+{{--                    <div class="how-it-work-box text-center">--}}
+{{--                        <div class="icon mb-15"><img src="{{asset('boarding_house/img/icon/2.png')}}" alt=""></div>--}}
+{{--                        <h4 class="mb-10">Find the Lowest Hotel Prices</h4>--}}
+{{--                        <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipiscing elit amet consectetur piscing elit amet consectetur adipiscing elit sed et eletum.</p>--}}
+{{--                    </div>--}}
+{{--                    <!-- how it work box end -->--}}
+{{--                </div>--}}
+{{--                <div class="col-lg-4 col-md-4 mb-30">--}}
+{{--                    <!-- how it work box -->--}}
+{{--                    <div class="how-it-work-box text-center">--}}
+{{--                        <div class="icon mb-15"><img src="{{asset('boarding_house/img/icon/3.png')}}" alt=""></div>--}}
+{{--                        <h4 class="mb-10">Find the Right Hotel for You</h4>--}}
+{{--                        <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipiscing elit amet consectetur piscing elit amet consectetur adipiscing elit sed et eletum.</p>--}}
+{{--                    </div>--}}
+{{--                    <!-- how it work box end -->--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+{{--    <!-- ================ How it works end ================ -->--}}
 
-    <!-- ================ Partner area ================ -->
-    <div class="partner-section pb-50">
-        <div class="container">
-            <div class="partner-carousel p-20 rounded bg-gray owl-carousel owl-theme">
-                <div class="item">
-                    <!-- partner item -->
-                    <div class="partner-item"> <img src="{{asset('boarding_house/img/partner/1.png')}}" class="img-fluid bg-white" alt=""></div>
-                    <!-- partner item end -->
-                </div>
-                <div class="item">
-                    <!-- partner item -->
-                    <div class="partner-item"> <img src="{{asset('boarding_house/img/partner/2.png')}}" class="img-fluid bg-white" alt=""></div>
-                    <!-- partner item end -->
-                </div>
-                <div class="item">
-                    <!-- partner item -->
-                    <div class="partner-item"> <img src="{{asset('boarding_house/img/partner/3.png')}}" class="img-fluid bg-white" alt=""></div>
-                    <!-- partner item end -->
-                </div>
-                <div class="item">
-                    <!-- partner item -->
-                    <div class="partner-item"> <img src="{{asset('boarding_house/img/partner/4.png')}}" class="img-fluid bg-white" alt=""></div>
-                    <!-- partner item end -->
-                </div>
-                <div class="item">
-                    <!-- partner item -->
-                    <div class="partner-item"> <img src="{{asset('boarding_house/img/partner/5.png')}}" class="img-fluid bg-white" alt=""></div>
-                    <!-- partner item end -->
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- ================ Partner area ================ -->
+{{--    <!-- ================ Partner area ================ -->--}}
+{{--    <div class="partner-section pb-50">--}}
+{{--        <div class="container">--}}
+{{--            <div class="partner-carousel p-20 rounded bg-gray owl-carousel owl-theme">--}}
+{{--                <div class="item">--}}
+{{--                    <!-- partner item -->--}}
+{{--                    <div class="partner-item"> <img src="{{asset('boarding_house/img/partner/1.png')}}" class="img-fluid bg-white" alt=""></div>--}}
+{{--                    <!-- partner item end -->--}}
+{{--                </div>--}}
+{{--                <div class="item">--}}
+{{--                    <!-- partner item -->--}}
+{{--                    <div class="partner-item"> <img src="{{asset('boarding_house/img/partner/2.png')}}" class="img-fluid bg-white" alt=""></div>--}}
+{{--                    <!-- partner item end -->--}}
+{{--                </div>--}}
+{{--                <div class="item">--}}
+{{--                    <!-- partner item -->--}}
+{{--                    <div class="partner-item"> <img src="{{asset('boarding_house/img/partner/3.png')}}" class="img-fluid bg-white" alt=""></div>--}}
+{{--                    <!-- partner item end -->--}}
+{{--                </div>--}}
+{{--                <div class="item">--}}
+{{--                    <!-- partner item -->--}}
+{{--                    <div class="partner-item"> <img src="{{asset('boarding_house/img/partner/4.png')}}" class="img-fluid bg-white" alt=""></div>--}}
+{{--                    <!-- partner item end -->--}}
+{{--                </div>--}}
+{{--                <div class="item">--}}
+{{--                    <!-- partner item -->--}}
+{{--                    <div class="partner-item"> <img src="{{asset('boarding_house/img/partner/5.png')}}" class="img-fluid bg-white" alt=""></div>--}}
+{{--                    <!-- partner item end -->--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+{{--    <!-- ================ Partner area ================ -->--}}
 @endsection

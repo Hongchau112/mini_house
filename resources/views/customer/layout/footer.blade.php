@@ -5,13 +5,13 @@
                 <div class="col-lg-3 col-md-3 col-sm-6 mb-30">
                     <!-- title -->
                     <div class="title mb-10">
-                        <h3>About Us</h3>
+                        <h3>Liên hệ</h3>
                     </div>
                     <!-- title end -->
                     <!-- text -->
                     <div class="text">
-                        <p>Lorem ipsum dolor sit amet sectetur adipiscing elit amet consectetur scing elit amet consectetur adipiscing elit sed et eletum.</p>
-                        <p>Lorem ipsum dolor sit amet sectetur adipiscing elit amet consectetur scing elit amet.</p>
+                        <p>Nhà trọ giá tốt cung cấp cho các bạn có nhu cầu các phòng trọ theo mức giá bình dân.</p>
+                        <p>Liên hệ ngay số điện thoại hoặc đăng nhập vào hệ thống để đặt phòng một cách nhanh nhất.</p>
                     </div>
                     <!-- end text -->
                     <!-- footer social -->
@@ -21,42 +21,36 @@
                 <div class="col-lg-3 col-md-3 col-sm-6 mb-30">
                     <!-- title -->
                     <div class="title mb-10">
-                        <h3>Navigation</h3>
+                        <h3>Truy cập nhanh</h3>
                     </div>
                     <!-- title end -->
                     <!-- footer link -->
                     <ul class="footer-link">
-                        <li><i class="fas fa-caret-right"></i> <a href="#">Home</a> </li>
-                        <li><i class="fas fa-caret-right"></i> <a href="#">About Us</a> </li>
-                        <li><i class="fas fa-caret-right"></i> <a href="#">Services</a> </li>
-                        <li><i class="fas fa-caret-right"></i> <a href="#">Projects</a> </li>
-                        <li><i class="fas fa-caret-right"></i> <a href="#">Blog</a> </li>
-                        <li><i class="fas fa-caret-right"></i> <a href="#">Faq</a> </li>
-                        <li><i class="fas fa-caret-right"></i> <a href="#">Contact</a> </li>
+                        <li><i class="fas fa-caret-right"></i> <a href="#">Trang chủ</a> </li>
+                        <li><i class="fas fa-caret-right"></i> <a href="#">Liên hệ</a> </li>
+                        <li><i class="fas fa-caret-right"></i> <a href="#">Dịch vụ</a> </li>
+                        <li><i class="fas fa-caret-right"></i> <a href="#">Danh sách trọ</a> </li>
+                        <li><i class="fas fa-caret-right"></i> <a href="#">Bài đăng</a> </li>
+                        <li><i class="fas fa-caret-right"></i> <a href="#">Hỏi đáp</a> </li>
                     </ul>
                     <!-- footer link end -->
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 mb-30">
                     <!-- title -->
                     <div class="title mb-10">
-                        <h3>Recent posts</h3>
+                        <h3>Các bài đăng gần đây</h3>
                     </div>
                     <!-- title end -->
                     <!-- recent-posts -->
                     <div class="footer-recent-post">
                         <!-- footer recent post item -->
                         <div class="footer-recent-post-item"> <a href="">
-                                <p>Lorem ipsum dolor sit amet sectetur adipiscing elit amet</p>
+                                <p>Bài đăng 1</p>
                                 <small><i class="far fa-calendar-alt pr-6"></i> 01 Oct 2020</small></a> </div>
                         <!-- footer recent post item end -->
                         <!-- footer recent post item -->
                         <div class="footer-recent-post-item"> <a href="">
-                                <p>Lorem ipsum dolor sit amet sectetur adipiscing elit amet</p>
-                                <small><i class="far fa-calendar-alt pr-6"></i> 01 Oct 2020</small></a> </div>
-                        <!-- footer recent post item end -->
-                        <!-- footer recent post item -->
-                        <div class="footer-recent-post-item"> <a href="">
-                                <p>Lorem ipsum dolor sit amet sectetur adipiscing elit amet</p>
+                                <p>Bài đăng 2</p>
                                 <small><i class="far fa-calendar-alt pr-6"></i> 01 Oct 2020</small></a> </div>
                         <!-- footer recent post item end -->
                     </div>
@@ -65,12 +59,12 @@
                 <div class="col-lg-3 col-md-3 col-sm-6 mb-30">
                     <!-- title -->
                     <div class="title mb-10">
-                        <h3>Newsletter</h3>
+                        <h3>Bản tin</h3>
                     </div>
                     <!-- title end -->
                     <!-- footer newsletter text -->
                     <div class="footer-newsletter-text">
-                        <p>Lorem ipsum dolor sit amet sectetur adipiscing elit amet consectetur scing elit sed et eletum.</p>
+                        <p>Nhà trọ giá tốt</p>
                     </div>
                     <!-- footer newsletter text end -->
                     <!-- footer newsletter form -->

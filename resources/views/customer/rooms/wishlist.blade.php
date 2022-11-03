@@ -79,7 +79,7 @@
                                     <td>Hết phòng</td>
                                     <td>Không thể đặt</td>
                                 @endif
-                        <td><button type="button" class="btn btn-outline-danger" id="delete_wish" value="{{$wishlist->id}}" style="height: 30px;font-size: 12px;">X</button></td>
+                        <td><button type="button" class="btn btn-outline-danger" id="delete_wish" value="{{$wishlist->id}}" style="height: 30px;font-size: 12px;"><a href="{{route('customer.wishlist.delete', ['id'=>$wishlist->id])}}" >X</a></button></td>
                             @endif
                         @endforeach
 
@@ -98,15 +98,15 @@
     </div>
 @endsection
 @push('footer')
-    <script>
-        $(document).ready(function (){
-            $('#delete_wish').click(function(e){
-                e.preventDefault();
+{{--    <script>--}}
+{{--        $(document).ready(function (){--}}
+{{--            $('#delete_wish').click(function(e){--}}
+{{--                e.preventDefault();--}}
 
-                var wishlist_id = $(this).val();
-                $('#wishlist_id').val(wishlist_id);
-                $('#deleteModal').modal('show');
-            })
-        })
-    </script>
+{{--                var wishlist_id = $(this).val();--}}
+{{--                $('#wishlist_id').val(wishlist_id);--}}
+{{--                $('#deleteModal').modal('show');--}}
+{{--            })--}}
+{{--        })--}}
+{{--    </script>--}}
 @endpush
