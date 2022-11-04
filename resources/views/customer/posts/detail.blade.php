@@ -3,28 +3,50 @@
 ])
 
 @section('content')
-    <!-- ================ Blog single page ================ -->
     <div class="blog-single-page pt-70 pb-40">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8">
                     <!-- blog box -->
                     <div class="blog-box p-0">
-                        <div class="blog_img mb-20"><img src="{{asset('boarding_house/img/blog/blog-1.jpg')}}" alt=""></div>
+                        @foreach($images as $image)
+                            @if($post->room_id == $image->room_id)
+                                @php
+                                    $image_path = $image->image_path;
+                                @endphp
+                            @endif
+                        @endforeach
+                        <div class="blog_img mb-20"><img src="{{asset('/images/'.$image_path)}}" height="533px" width="800" alt=""></div>
                         <div class="blog-des">
-                            <h6 class="blog_date font-weight-normal text-muted"><span>business</span> January 01, 2020</h6>
-                            <h5 class="mt-10 mb-6"><a href="#" class="text-dark">The Most Advance Business Plan</a></h5>
-                            <p class="text-muted">Lorem ipsum dolor sit amet consectetur ipiscing elit amet consectetur piscing elit consectetur adipiscing elit sed et eletum. orem ipsum dolor sit amet consectetur adipiscing elit amet consectetur piscing elit amet consectetur adipiscing elit sed et eletum nulla eu placerat felis etiam tincidunt orci lacus id varius dolor fermum sit amet.</p>
-                            <p class="text-muted">Lorem ipsum dolor sit amet consectetur ipiscing elit amet consectetur piscing elit consectetur adipiscing elit sed et eletum. orem ipsum dolor sit amet consectetur adipiscing elit amet consectetur piscing elit amet consectetur adipiscing elit sed et eletum nulla eu placerat felis etiam tincidunt orci lacus id varius dolor fermum sit amet.</p>
-                            <h6 class="mb-10">Two Column Text Sample</h6>
+                            @foreach($rooms as $room)
+                                @if($room->id==$post->room_id)
+                                    <h6 class="blog_date font-weight-normal text-muted">
+                                        @if($room->status==0)
+                                            <span>Còn trống</span>
+                                        @else
+                                            <span>Đã đặt</span>
+                                        @endif
+                                        {{$post->created_at}}</h6>
+                                @endif
+                            @endforeach
+                            <h5 class="mt-10 mb-6"><a href="#" class="text-dark">{{$post->title}}</a></h5>
+                            <p class="text-muted">{{$post->content}}</p>
+                            <h6 class="mb-10">Mô tả về phòng:</h6>
                             <div class="row">
+                                @foreach($rooms as $room)
+                                    @if($room->id==$post->room_id)
+                                        <div class="col-lg-6 mb-20">
+                                            <p class="mb-0">Chiều dài: {{$room->length}} m</p>
+                                            <p class="mb-0">Chiều rộng: {{$room->width}} m</p>
+                                            <p class="mb-0">Phòng có:  </p>
+                                        </div>
+                                    @endif
+                                @endforeach
                                 <div class="col-lg-6 mb-20">
-                                    <p class="mb-0">Lorem ipsum dolor sit amet consectetur ipiscing elit amet conse amet consectetur ipiscing elit amet consectetur piscing elit consectetur adipiscing elit sed et eletum varius dolor fermum sit amet.</p>
-                                </div>
-                                <div class="col-lg-6 mb-20">
-                                    <p class="mb-0">Lorem ipsum dolor sit amet consectetur ipiscing elit amet conse amet consectetur ipiscing elit amet consectetur piscing elit consectetur adipiscing elit sed et eletum varius dolor fermum sit amet.</p>
+{{--                                    <button class="btn btn-outline-light">Trở về</button>--}}
                                 </div>
                             </div>
+
                         </div>
                     </div>
                     <!-- blog box end -->
@@ -51,16 +73,11 @@
                     <div class="comments-area mt-50">
                         <!-- title -->
                         <div class="blog-single-title">
-                            <h4>Read Comments</h4>
+                            <h4>Bình luận</h4>
                         </div>
-                        <!-- title end -->
-                        <!-- comment box -->
-
-                        <!-- comment box end -->
-                        <!-- comment box -->
                         <form>
                             @csrf
-                            <div class="comment-box ml-30 mb-30" id="comment_show">
+                            <div  id="comment_show">
 
                             </div>
 
@@ -70,20 +87,6 @@
 
                             </div>
                         </form>
-
-                        <!-- comment box end -->
-                        <!-- comment box -->
-{{--                        <div class="comment-box">--}}
-{{--                            <div class="comment">--}}
-{{--                                <div class="author-thumb"><img src="{{asset('boarding_house/img/blog/blog-1.jpg')}}" alt=""></div>--}}
-{{--                                <div class="comment-inner">--}}
-{{--                                    <div class="comment-info clearfix">Kevin Marthin – Jan 01, 2020:</div>--}}
-{{--                                    <div class="rating"> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> </div>--}}
-{{--                                    <div class="text">Lorem ipsum dolor sit amet consectetur ipiscing elit amet consectetur piscing elitsada consectetur adipiscing elit sed et eletum. orem ipsum dolor sit amet consecteturdfhdg adipiscing elit amet consectetur piscing elit amet consectetur.</div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-                        <!-- comment box end -->
                     </div>
                     <!-- comments area end -->
                     <!-- post comments -->
@@ -96,8 +99,7 @@
                         <!-- post comment form -->
                         <div class="post-comment-form">
 
-                            <form action="">
-{{--                                @csrf--}}
+                            <form>
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="form-group">
@@ -114,90 +116,14 @@
                                     <textarea class="form-control" id="cmt-content" placeholder="Bình luận" rows="5"></textarea>
                                 </div>
                                 <button type="submit" class="btn-style-1 text-uppercase" id="send-comment">Gửi</button>
-                            </form>
                                 <div id="notify"></div>
+                            </form>
+
 
                         </div>
                         <!-- post comment form end -->
                     </div>
                     <!-- post comments end -->
-                </div>
-                <div class="col-lg-4">
-                    <!-- aside -->
-                    <aside>
-                        <!-- search form -->
-                        <form class="search-form mb-50">
-{{--                            @csrf--}}
-                            <input type="text" class="form-control" placeholder="Search" value="">
-                            <button class="search-submit"><i class="fas fa-search"></i></button>
-                        </form>
-                        <!-- search form end -->
-                        <!-- widget -->
-                        <div class="widget mb-50">
-                            <!-- widget title -->
-                            <h3 class="widget-title">Categories</h3>
-                            <!-- widget title end -->
-                            <!-- categories -->
-                            <ul class="blog-categorie">
-                                <li><a href=""><i class="far fa-dot-circle"></i> Business</a></li>
-                                <li><a href=""><i class="far fa-dot-circle"></i> Traveling</a></li>
-                                <li><a href=""><i class="far fa-dot-circle"></i> Developement</a></li>
-                                <li><a href=""><i class="far fa-dot-circle"></i> Motion Designer</a></li>
-                                <li><a href=""><i class="far fa-dot-circle"></i> Content Writing</a></li>
-                                <li><a href=""><i class="far fa-dot-circle"></i> Web Developement</a></li>
-                                <li><a href=""><i class="far fa-dot-circle"></i> Business Strategy</a></li>
-                                <li><a href=""><i class="far fa-dot-circle"></i> Risk Management</a></li>
-                            </ul>
-                            <!-- categories end -->
-                        </div>
-                        <!-- widget end -->
-                        <!-- widget -->
-                        <div class="widget mb-50">
-                            <!-- widget title -->
-                            <h3 class="widget-title">Recent Post</h3>
-                            <!-- widget title end -->
-                            <!-- recent post -->
-                            <div class="blog-recent-post">
-                                <!-- recent single post -->
-                                <div class="recent-single-post mb-20">
-                                    <div class="post-img"> <a href="#"><img src="{{asset('boarding_house/img/blog/blog-1.jpg')}}" alt=""></a> </div>
-                                    <div class="pst-content">
-                                        <p><a href="#">Lorem ipsum rem ipsumsd dolorit amet consectetur ipiscing.</a></p>
-                                        <span class="date-type">01 Jan / 2020</span> </div>
-                                </div>
-                                <!-- recent single post end -->
-                                <!-- recent single post -->
-                                <div class="recent-single-post mb-20">
-                                    <div class="post-img"> <a href="#"><img src="{{asset('boarding_house/img/blog/blog-1.jpg')}}" alt=""></a> </div>
-                                    <div class="pst-content">
-                                        <p><a href="#">Lorem ipsum rem ipsumsd dolorit amet consectetur ipiscing.</a></p>
-                                        <span class="date-type">01 Jan / 2020</span> </div>
-                                </div>
-                                <!-- recent single post end -->
-                                <!-- recent single post -->
-                                <div class="recent-single-post">
-                                    <div class="post-img"> <a href="#"><img src="{{asset('boarding_house/img/blog/blog-1.jpg')}}" alt=""></a> </div>
-                                    <div class="pst-content">
-                                        <p><a href="#">Lorem ipsum rem ipsumsd dolorit amet consectetur ipiscing.</a></p>
-                                        <span class="date-type">01 Jan / 2020</span> </div>
-                                </div>
-                                <!-- recent single post end -->
-                            </div>
-                            <!-- recent post end -->
-                        </div>
-                        <!-- widget end -->
-                        <!-- widget -->
-                        <div class="widget mb-30">
-                            <!-- widget title -->
-                            <h3 class="widget-title">Tags</h3>
-                            <!-- widget title end -->
-                            <!-- tags -->
-                            <div class="blog-tags"> <a href="">Business</a> <a href="">Traveling</a> <a href="">Developement</a> <a href="">Motion</a> <a href="">Writing</a> <a href="">Strategy</a> <a href="">Management</a> </div>
-                            <!-- tags end -->
-                        </div>
-                        <!-- widget end -->
-                    </aside>
-                    <!-- aside end -->
                 </div>
             </div>
         </div>
@@ -208,7 +134,6 @@
 @push('footer')
     <script>
         $(document).ready(function(){
-
             load_comment();
 
             function load_comment(){
@@ -221,13 +146,13 @@
                     data: {_token:_token, post_id: post_id},
 
                     success:function(data){
-                        console.log(data)
+                        // console.log(data)
                         $('#comment_show').html(data);
                     }
                 });
 
             }
-            load_comment();
+            // load_comment();
 
 
             $('#send-comment').click(function(){
@@ -236,19 +161,18 @@
                 var name = $('#cmt-name').val();
                 var content = $('#cmt-content').val();
                 var phone = $('#cmt-phone').val();
-                var user_id = $('#user_id').val();
+                console.log(post_id);
+                console.log(name);
+                console.log(content);
+                console.log(phone);
 
                 $.ajax({
-                    url: '/customer/posts/send_comment',
+                    url: '',
                     type: "POST",
-                    data: {_token:_token, post_id: post_id, name: name, content: content, phone: phone, user_id: user_id},
+                    data: {_token:_token, post_id: post_id, name: name, content: content, phone: phone},
 
                     success:function(data){
-                        console.log(data);
-                        $('#notify').html('<p>Thêm bình luận thành công! Đang chờ duyệt nhá</p>');
-                        // load_comment();
-                        // $('#notify').fadeOut(5000);
-                        // $('.comment-content').val('');
+                        // console.log(data);
                     }
                 });
             });

@@ -9,6 +9,7 @@ use App\Models\RoomCategory;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CustomerController extends Controller
 {
@@ -80,6 +81,41 @@ class CustomerController extends Controller
         $room_categories = RoomCategory::all();
 
         return view('customer.rooms.detail', compact('room', 'images', 'services', 'room_categories'));
+    }
+
+    public function filter_price(Request $request)
+    {
+        $images = Image::all();
+        $user = Auth::guard('admin')->user();
+        $services = Service::all();
+        $room_categories = RoomCategory::all();
+//        $rooms = Room::all();
+        $filter_search = $request->get('filter');
+//        var_dump($filter_search);
+        if($filter_search==0)
+        {
+            $rooms = Room::where('cost', '<', 1000000)->get();
+//            dd($rooms);
+        }
+        elseif ($filter_search==1)
+        {
+            $rooms = DB::table('rooms')->whereBetween('cost',[1000000, 2000000])->get();
+
+        }
+        elseif ($filter_search==2)
+        {
+            $rooms = DB::table('rooms')->whereBetween('cost',[2000001, 3000000])->get();
+//dd($rooms);
+        }
+        else{
+            $rooms = Room::where('cost', '>', 3000000)->get();
+        }
+//dd($rooms);
+        return view('customer.rooms.filter_result' ,compact('rooms', 'user', 'images', 'services', 'room_categories'));
+
+// dd($filter_search);
+
+
     }
 
 

@@ -46,14 +46,14 @@
                                         <div class="card-header" id="headingOne4-d"> <a class="btn btn-link w-100 text-left" href="" data-toggle="collapse" data-target="#collapseOne4-m" aria-expanded="true" aria-controls="collapseOne4-m">
                                                 <!-- title widget -->
                                                 <div class="filter-title-widget">
-                                                    <h3>Hotels <i class="fas fa-plus-square float-right"></i> <i class="fas fa-minus-square float-right"></i></h3>
+                                                    <h3>Phòng trọ <i class="fas fa-plus-square float-right"></i> <i class="fas fa-minus-square float-right"></i></h3>
                                                 </div>
                                                 <!-- title widget end -->
                                             </a> </div>
                                         <div id="collapseOne4-m" class="collapse show mt-10" aria-labelledby="headingOne4-d" data-parent="#filter-widget-accordion4-d">
                                             <div class="card-body">
                                                 <ul class="list-inline select-all mb-10">
-                                                    <li class="list-inline-item">4 Hotels on screen</li>
+                                                    <li class="list-inline-item">Danh sách gồm {{count($rooms)}} phòng trọ</li>
                                                 </ul>
                                                 <div class="table-responsive">
                                                     <table class="table table-bordered bg-gray w-100 border-0">
@@ -85,18 +85,18 @@
                                         <div class="card-header" id="headingOne-d"> <a class="btn btn-link w-100 text-left" href="" data-toggle="collapse" data-target="#collapseOne-m" aria-expanded="true" aria-controls="collapseOne-m">
                                                 <!-- title widget -->
                                                 <div class="filter-title-widget">
-                                                    <h3>Price <i class="fas fa-plus-square float-right"></i> <i class="fas fa-minus-square float-right"></i></h3>
+                                                    <h3>Giá <i class="fas fa-plus-square float-right"></i> <i class="fas fa-minus-square float-right"></i></h3>
                                                 </div>
                                                 <!-- title widget end -->
                                             </a> </div>
                                         <div id="collapseOne-m" class="collapse show mt-10" aria-labelledby="headingOne-d" data-parent="#filter-widget-accordion-d">
                                             <div class="card-body">
-                                                <select class="form-control">
-                                                    <option>$100 - $200</option>
-                                                    <option>$200 - $300</option>
-                                                    <option>$300 - $400</option>
-                                                    <option>$400 - $500</option>
-                                                    <option>$500 - $600</option>
+                                                <select class="form-control" name="filter-price" id="filter-price">
+                                                    <option >Chọn...</option>
+                                                    <option value="0">Dưới 1 triệu</option>
+                                                    <option value="1">Từ 1 triệu đến 2 triệu</option>
+                                                    <option value="2">Từ 2 triệu đến 3 triệu</option>
+                                                    <option value="3">Trên 3 triệu</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -201,7 +201,7 @@
                     </aside>
                 </div>
 
-                <div class="col-lg-9">
+                <div class="col-lg-9" id="list">
                     <!-- hotel results list -->
                     @foreach($rooms as $room)
                     <div class="hotel-results-list">
@@ -369,30 +369,45 @@
 @endsection
 
 @push('footer')
-{{--    <script>--}}
-{{--        $(document).ready(function(){--}}
+    <script>
+        $(document).ready(function(){
 
-{{--            $("#btn-wishlist").click(function(){--}}
-{{--                $.ajaxSetup({--}}
-{{--                    headers: {--}}
-{{--                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')--}}
-{{--                    }--}}
-{{--                });--}}
-{{--                // var room_id = $(this).closest('#btn-wishlist').find('room_id').val();--}}
-{{--                var room_id = $('#room_id').val();--}}
-{{--                var _token = $('input[name="_token"]').val();--}}
-{{--                // console.log(room_id);--}}
-{{--                $.ajax({--}}
-{{--                    url: '/customer/wishlist/' +room_id,--}}
-{{--                    type: "POST",--}}
-{{--                    data: {room_id: room_id, _token:_token},--}}
-{{--                    success: function (result) {--}}
-{{--                        // alert('Thêm vào yêu thích thành công!');--}}
+            $("#filter-price").on('change', function(){
+                var filter = $(this).val();
+                console.log(filter);
+                $.ajax({
+                    url: '{{route('customer.posts.filter_price')}}',
+                    type: "GET",
+                    data: {'filter': filter},
+                    success:function (data){
+                        $('#list').html(data);
+                        console.log(data);
+                    }
+                });
+            });
 
-{{--                    }--}}
-{{--                });--}}
 
-{{--            })--}}
-{{--        })--}}
-{{--    </script>--}}
+            $("#btn-wishlist").click(function(){
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                // var room_id = $(this).closest('#btn-wishlist').find('room_id').val();
+                var room_id = $('#room_id').val();
+                var _token = $('input[name="_token"]').val();
+                // console.log(room_id);
+                $.ajax({
+                    url: '/customer/wishlist/' +room_id,
+                    type: "POST",
+                    data: {room_id: room_id, _token:_token},
+                    success: function (result) {
+                        // alert('Thêm vào yêu thích thành công!');
+
+                    }
+                });
+
+            })
+        })
+    </script>
 @endpush

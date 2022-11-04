@@ -12,6 +12,15 @@ use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
+    public function listing()
+    {
+        $user = Auth::guard('admin')->user();
+        $rooms = Room::all();
+        $posts = Post::all();
+        $images = Image::all();
+        return view('customer.posts.listing', compact('user', 'rooms', 'posts', 'images'));
+
+    }
 
     public function index ()
     {

@@ -172,10 +172,11 @@ Route::get('customer/wishlist/delete/{id}', [WistlistController::class, 'delete'
 
 Route::get('customer/test', [CustomerController::class, 'test'])->name('customer.test');
 
-
+Route::get('customer/posts/listing', [PostController::class, 'listing'])->name('customer.posts.listing');
 Route::get('customer/posts/details/{id}', [PostController::class, 'detail'])->name('customer.posts.details');
-Route::post('customer/posts/send_comment', [CommentController::class, 'send_comment'])->name('customer.posts.send_comment');
+Route::post('customer/send_comment', [CommentController::class, 'send_comment'])->name('customer.posts.send_comment');
 Route::post('customer/load_comment', [CommentController::class, 'load_comment'])->name('customer.load_comment');
+Route::get('customer/rooms/filter_price', [CustomerController::class, 'filter_price'])->name('customer.posts.filter_price');
 
 
 

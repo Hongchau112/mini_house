@@ -34,13 +34,16 @@ class CommentController extends Controller
 //        dd($food_id);
         $output='';
         foreach ($comments as $key => $comment){
-            $output.= '<div class="comment">
-                                <div class="author-thumb"><img src="/images/avatar-cmt.jpg" alt=""></div>
+            $output.= '<div class="comment-box mb-30">
+                            <div class="comment">
+                                <div class="author-thumb"><img src="/images/avt-cmt.png" alt=""></div>
                                 <div class="comment-inner">
-                                    <div class="comment-info clearfix">Kevin Marthin – Jan 01, 2020:</div>
+                                    <div class="comment-info clearfix">'.$comment->name.'
+                                    <span> - Bình luận ngày '.$comment->date.'</span> </div>
                                     <div class="rating"> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> </div>
-                                    <div class="text">Lorem ipsum dolor sit amet consectetur ipiscing elit amet consectetur piscing elitsada consectetur adipiscing elit sed et eletum. orem ipsum dolor sit amet consecteturdfhdg adipiscing elit amet consectetur piscing elit amet consectetur.</div>
+                                    <div class="text">'.$comment->content.'</div>
                                 </div>
+                            </div>
                             </div>
  ';
 //            foreach ($cmt_reps as $key => $reply_cmt){
