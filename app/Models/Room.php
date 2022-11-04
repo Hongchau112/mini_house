@@ -25,4 +25,8 @@ class Room extends Model
         $this->belongsToMany(Service::class);
     }
 
+    public function post(){
+        return $this->belongsTo('App\Models\Post');
+    }
+
 }

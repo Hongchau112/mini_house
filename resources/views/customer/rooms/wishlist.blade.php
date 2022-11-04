@@ -37,57 +37,61 @@
                     $i=1;
                     $image_path='';
                     @endphp
-                    @foreach($wishlists as $wishlist)
-                        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Xóa phòng trong Danh sách yêu thích</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <h5>Bạn có muốn xóa phòng đã chọn ra khỏi danh sách yêu thích?</h5>
-                                        <input type="hidden" value="{{$wishlist->id}}" id="wishlist_id">
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                                        <button type="button" class="btn btn-primary">Xóa</button>
+                    @if($wishlists->count()>0)
+                        @foreach($wishlists as $wishlist)
+                            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Xóa phòng trong Danh sách yêu thích</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h5>Bạn có muốn xóa phòng đã chọn ra khỏi danh sách yêu thích?</h5>
+                                            <input type="hidden" value="{{$wishlist->id}}" id="wishlist_id">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                            <button type="button" class="btn btn-primary">Xóa</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    <tr>
-                        <th scope="row">{{$i}}</th>
-                        <td class="w-25">
-                            @php
-                            foreach($images as $image)
-                                if($image->room_id==$wishlist->room_id){
-                                    $image_path = $image->image_path;
-//                                    dd($image_path);
-                                }
-                            @endphp
-                            <img src="{{asset('/images/'.$image_path)}}" class="img-fluid img-thumbnail" alt="Sheep">
-                        </td>
-                        @foreach($rooms as $room)
-                            @if($room->id==$wishlist->room_id)
-                                <td>{{$room->name}}</td>
-                                @if($room->status==0)
-                                    <td>Phòng trống</td>
-                                    <td><button type="button" class="btn btn-primary btn-sm btn-success">Đặt ngay</button>
-                                    </td>
-                                @else
-                                    <td>Hết phòng</td>
-                                    <td>Không thể đặt</td>
+                        <tr>
+                            <th scope="row">{{$i}}</th>
+                            <td class="w-25">
+                                @php
+                                foreach($images as $image)
+                                    if($image->room_id==$wishlist->room_id){
+                                        $image_path = $image->image_path;
+    //                                    dd($image_path);
+                                    }
+                                @endphp
+                                <img src="{{asset('/images/'.$image_path)}}" class="img-fluid img-thumbnail" alt="Sheep">
+                            </td>
+                            @foreach($rooms as $room)
+                                @if($room->id==$wishlist->room_id)
+                                    <td>{{$room->name}}</td>
+                                    @if($room->status==0)
+                                        <td>Phòng trống</td>
+                                        <td><button type="button" class="btn btn-primary btn-sm btn-success">Đặt ngay</button>
+                                        </td>
+                                    @else
+                                        <td>Hết phòng</td>
+                                        <td>Không thể đặt</td>
+                                    @endif
+                            <td><button type="button" class="btn btn-outline-danger" id="delete_wish" value="{{$wishlist->id}}" style="height: 30px;font-size: 12px;"><a href="{{route('customer.wishlist.delete', ['id'=>$wishlist->id])}}" >X</a></button></td>
                                 @endif
-                        <td><button type="button" class="btn btn-outline-danger" id="delete_wish" value="{{$wishlist->id}}" style="height: 30px;font-size: 12px;"><a href="{{route('customer.wishlist.delete', ['id'=>$wishlist->id])}}" >X</a></button></td>
-                            @endif
-                        @endforeach
+                            @endforeach
 
-                    </tr>
-                        @php
-                        $i++;
-                        @endphp
-                    @endforeach
+                        </tr>
+                            @php
+                            $i++;
+                            @endphp
+                        @endforeach
+                    @else
+                        <p>Bạn chưa có mục yêu thích nào!</p>
+                    @endif
                     <tr>
                         <td colspan="4"></td>
                     </tr>

@@ -12,6 +12,8 @@ use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\WistListController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\CommentController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -92,10 +94,24 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     Route::post('admin/rooms/save_images/{id}', [RoomController::class, 'save_images'])->name('rooms.save_images');
     Route::get('admin/rooms/card', [RoomController::class, 'room_card'])->name('rooms.card');
     Route::post('admin/rooms/load_images', [RoomController::class, 'load_images'])->name('rooms.load_images');
+
+    ///Post controller
+    Route::get('admin/posts/', [PostController::class, 'index'])->name('posts.index');
+    Route::get('admin/posts/create', [PostController::class, 'create'])->name('posts.create');
+    Route::post('admin/posts/store', [PostController::class, 'store'])->name('posts.store');
+    Route::get('admin/posts/show/{id}', [PostController::class, 'show'])->name('posts.show');
+    Route::get('admin/posts/edit/{id}', [PostController::class, 'edit'])->name('posts.edit');
+    Route::patch('admin/posts/update/{id}', [PostController::class, 'update'])->name('posts.update');
+    Route::get('admin/posts/delete/{id}', [PostController::class, 'delete'])->name('posts.delete');
+
+
     ////Comments
     Route::get('admin/comments', [CommentController::class, 'index'])->name('comments.index');
     Route::post('admin/allow_comment', [CommentController::class, 'allow_comment'])->name('comments.allow_comment');
     Route::post('admin/reply_comment', [CommentController::class, 'reply_comment'])->name('comments.reply_comment');
+
+
+    //user-comment
 
     /////filter users
     Route::get('admin/search', [UserController::class, 'search'])->name('users.search');
@@ -156,6 +172,10 @@ Route::get('customer/wishlist/delete/{id}', [WistlistController::class, 'delete'
 
 Route::get('customer/test', [CustomerController::class, 'test'])->name('customer.test');
 
+
+Route::get('customer/posts/details/{id}', [PostController::class, 'detail'])->name('customer.posts.details');
+Route::post('customer/posts/send_comment', [CommentController::class, 'send_comment'])->name('customer.posts.send_comment');
+Route::post('customer/load_comment', [CommentController::class, 'load_comment'])->name('customer.load_comment');
 
 
 

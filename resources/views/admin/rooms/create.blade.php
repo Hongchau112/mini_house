@@ -18,7 +18,7 @@
                         <div class="card card-bordered h-100" style="background-color: #e2e6ea;">
                             <div class="card-inner">
                                     <div class="form-group" >
-                                    <label for="name" style="font-weight: bold">Name</label>
+                                    <label for="name" style="font-weight: bold">Phòng</label>
                                     <input type="text" class="form-control" name="name" id="name"  placeholder="Vui lòng nhập tên phòng">
                                 </div>
                                     <div class="form-group">
@@ -28,7 +28,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label" for="room_type_id">Danh mục phòng <span class="text-danger">*</span></label>
+                                        <label class="form-label" for="room_type_id">Loại phòng<span class="text-danger">*</span></label>
                                         <div class="form-control-wrap">
                                             <select class="form-select" data-search="on" name="room_type_id" id="room_type_id">
                                                 <option value="0">Danh mục gốc</option>
