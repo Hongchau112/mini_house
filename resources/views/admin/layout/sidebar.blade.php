@@ -55,7 +55,7 @@
                         </li><!-- .nk-menu-item -->
 
                         <li class="nk-menu-item">
-                            <a href="#" class="nk-menu-link">
+                            <a href="{{route('admin.comments.index')}}" class="nk-menu-link">
                                 <span class="nk-menu-icon"><em class="icon ni ni-sign-btc-alt"></em></span>
                                 <span class="nk-menu-text">Bình luận</span>
                             </a>

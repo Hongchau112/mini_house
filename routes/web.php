@@ -14,6 +14,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\WistListController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\BookingController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -135,11 +136,6 @@ Route::get('guest/detail/{id}', [PageController::class, 'detail'])->name('guest.
 Route::get('guest/search', [PageController::class, 'search'])->name('guest.search');
 Route::get('guest/show_category/{id}', [PageController::class, 'show_category'])->name('guest.show_category');
 
-//comment
-Route::post('guest/load_comment', [PageController::class, 'load_comment'])->name('guest.load_comment');
-Route::post('guest/send_comment', [PageController::class, 'send_comment'])->name('guest.send_comment');
-
-
 Route::get('guest/add_cart/{id}', [CartController::class, 'add_cart'])->name('guest.add_cart');
 Route::get('guest/show_cart', [CartController::class, 'show_cart'])->name('guest.show_cart');
 Route::get('guest/delete_cart/{id}', [CartController::class, 'delete_cart'])->name('guest.delete_cart');
@@ -174,9 +170,14 @@ Route::get('customer/test', [CustomerController::class, 'test'])->name('customer
 
 Route::get('customer/posts/listing', [PostController::class, 'listing'])->name('customer.posts.listing');
 Route::get('customer/posts/details/{id}', [PostController::class, 'detail'])->name('customer.posts.details');
-Route::post('customer/send_comment', [CommentController::class, 'send_comment'])->name('customer.posts.send_comment');
-Route::post('customer/load_comment', [CommentController::class, 'load_comment'])->name('customer.load_comment');
 Route::get('customer/rooms/filter_price', [CustomerController::class, 'filter_price'])->name('customer.posts.filter_price');
 
 
+//comments
+Route::post('customer/send_comment', [CommentController::class, 'send_comment'])->name('customer.posts.send_comment');
+Route::post('customer/load_comment', [CommentController::class, 'load_comment'])->name('customer.load_comment');
 
+//order
+Route::get('customer/booking/{id}', [BookingController::class, 'booking'])->name('customer.rooms.booking');
+Route::post('customer/booking/store', [BookingController::class, 'store'])->name('customer.booking.store');
+Route::get('customer/rooms/payment', [BookingController::class, 'payment'])->name('customer.rooms.payment');

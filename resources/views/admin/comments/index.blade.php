@@ -1,4 +1,4 @@
-@extends('admin.transactions.layout', [
+@extends('admin.comments.layout', [
     'title' => ($title ?? 'Danh sách bình luận')
 ])
 
@@ -58,7 +58,7 @@
                                             </th>
                                             <th class="tb-tnx-info">
                                                                 <span class="tb-tnx-info">
-                                                                    <span>Món ăn</span>
+                                                                    <span>Bài đăng</span>
                                                                 </span>
                                             </th>
                                             <th class="tb-tnx-info">
@@ -77,9 +77,9 @@
                                                 <td class="tb-tnx-amount is-alt">
                                                     <div class="tb-tnx-status" style="width: 80px; margin-right: 20px">
                                                         @if($comment->status==0)
-                                                            <input type="button" data-comment_status="1" data-comment_id = "{{$comment->id}}" id="{{$comment->food_id}}" class="btn btn-danger btn-xs comment-approve-btn" value="Duyệt" ></input>
+                                                            <input type="button" data-comment_status="1" data-comment_id = "{{$comment->id}}" id="{{$comment->post_id}}" class="btn btn-danger btn-xs comment-approve-btn" value="Duyệt" ></input>
                                                         @else
-                                                            <input type="button"  data-comment_status="0" data-comment_id = "{{$comment->id}}" id="{{$comment->food_id}}" class="btn btn-primary btn-xs comment-approve-btn" value="Bỏ Duyệt" ></input>
+                                                            <input type="button"  data-comment_status="0" data-comment_id = "{{$comment->id}}" id="{{$comment->post_id}}" class="btn btn-primary btn-xs comment-approve-btn" value="Bỏ Duyệt" ></input>
                                                         @endif
                                                     </div>
                                                 </td>
@@ -90,7 +90,7 @@
                                                 </td>
                                                 <td>
                                                     <div class="tb-tnx-date">
-                                                        <span class="date" style="width: 100px;">{{$comment->food->name}}</span>
+                                                        <span class="date" style="width: 100px;">{{$comment->post->name}}</span>
                                                     </div>
                                                 </td>
                                                 <td>
@@ -113,7 +113,7 @@
                                                         </ul>
                                                         @if($comment->status==0)
                                                             <br><textarea rows="3" class="form-control reply_comment_{{$comment->id}}" data-width="300px"></textarea>
-                                                            <br><button class="btn-primary btn-default btn-xs btn_reply_comment" data-food_id="{{$comment->food_id}}" data-comment_id="{{$comment->id}}">Trả lời</button>
+                                                            <br><button class="btn-primary btn-default btn-xs btn_reply_comment" data-post_id="{{$comment->post_id}}" data-comment_id="{{$comment->id}}">Trả lời</button>
                                                         @endif
                                                     </div>
                                                 </td>
@@ -140,54 +140,52 @@
 
 @push('footer')
     <script>
-        // $('.comment-approve-btn').click(function(){
-        //     var status = $(this).data('comment_status');
-        //     var id = $(this).data('comment_id');
-        //     var food_id = $(this).attr('id');
-        //
-        //     if(status==0) {
-        //         alert("Thay đổi thành không duyệt thành công");
-        //     }else {
-        //         alert("Thay đổi thành duyệt thành công!");
-        //     }
-        //
-        //
-        //     $.ajax({
-        //         url: '/admin/allow_comment',
-        //         type: "POST",
-        //         data: {status: status, id: id, food_id: food_id},
-        //         headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-        //
-        //         success: function (result) {
-        //             window.location.reload(true);
-        //         }
-        //     });
-        //
-        // })
-        //
-        //
-        // $('.btn_reply_comment').click(function(){
-        //     var comment_id = $(this).data('comment_id');
-        //     var comment = $('.reply_comment_'+comment_id).val();
-        //     var food_id = $(this).data('food_id');
-        //
-        //
-        //     $.ajax({
-        //         url: '/admin/reply_comment',
-        //         type: "POST",
-        //         data: {comment_id: comment_id, comment: comment, food_id: food_id},
-        //         headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-        //
-        //         success: function (result) {
-        //             alert("Reply thành công!");
-        //             window.location.reload(true);
-        //
-        //         }
-        //     });
-        //
-        // })
+        $('.comment-approve-btn').click(function(){
+            var status = $(this).data('comment_status');
+            var id = $(this).data('comment_id');
+            var post_id = $(this).attr('id');
+
+            if(status==0) {
+                alert("Thay đổi thành không duyệt thành công");
+            }else {
+                alert("Thay đổi thành duyệt thành công!");
+            }
 
 
+            $.ajax({
+                url: '/admin/allow_comment',
+                type: "POST",
+                data: {status: status, id: id, post_id: post_id},
+                headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+
+                success: function (result) {
+                    window.location.reload(true);
+                }
+            });
+
+        })
+        //
+        //
+        $('.btn_reply_comment').click(function(){
+            var comment_id = $(this).data('comment_id');
+            var content = $('.reply_comment_'+comment_id).val();
+            var post_id = $(this).data('post_id');
+
+
+            $.ajax({
+                url: '/admin/reply_comment',
+                type: "POST",
+                data: {comment_id: comment_id, content: content, post_id: post_id},
+                headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+
+                success: function (result) {
+                    alert("Reply thành công!");
+                    window.location.reload(true);
+
+                }
+            });
+
+        })
     </script>
 @endpush
 

@@ -58,7 +58,7 @@
                                         </div>
                                     </div>
                                     </li>
-                                    <li><a href="{{route('customer.logout_user')}}"><i class="fa fa-sign-out-alt" style="font-size: 18px;margin-top: 5px;"></i></a></li>
+                                    <li><a href="{{route('admin.logout')}}"><i class="fa fa-sign-out-alt" style="font-size: 18px;margin-top: 5px;"></i></a></li>
                                 @else
                                     <li><a href=""><i class="fas fa-chevron-right"></i>Đăng nhập</a></li>
                                     <li><a href="contact-us.html" class="header-request">Request a Quote</a></li>

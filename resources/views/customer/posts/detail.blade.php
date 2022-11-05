@@ -115,7 +115,7 @@
                                 <div class="form-group">
                                     <textarea class="form-control" id="cmt-content" placeholder="Bình luận" rows="5"></textarea>
                                 </div>
-                                <button type="submit" class="btn-style-1 text-uppercase" id="send-comment">Gửi</button>
+                                <button type="button" class="btn-style-1 text-uppercase" id="send-comment">Gửi</button>
                                 <div id="notify"></div>
                             </form>
 
@@ -161,17 +161,22 @@
                 var name = $('#cmt-name').val();
                 var content = $('#cmt-content').val();
                 var phone = $('#cmt-phone').val();
+                var user_id = $('#user_id').val();
                 console.log(post_id);
                 console.log(name);
                 console.log(content);
                 console.log(phone);
 
                 $.ajax({
-                    url: '',
+                    url: '{{route('customer.posts.send_comment')}}',
                     type: "POST",
-                    data: {_token:_token, post_id: post_id, name: name, content: content, phone: phone},
+                    data: {_token:_token, post_id: post_id, name: name, content: content, phone: phone, user_id: user_id},
 
                     success:function(data){
+                        $('#notify').html('<p style="margin-top: 10px">Thêm bình luận thành công! Đang chờ duyệt nhá</p>');
+                        load_comment();
+                        $('#notify').fadeOut(5000);
+                        $('.comment-content').val('');
                         // console.log(data);
                     }
                 });
