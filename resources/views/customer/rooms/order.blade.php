@@ -56,6 +56,7 @@
                                 </div>
                             </div>
                         </div>
+                        <input type="hidden" name="room_id" value="{{$room->id}}">
                         <button type="submit" class="btn-style-1">Tiếp tục với thanh toán</button>
                     </form>
                 </div>

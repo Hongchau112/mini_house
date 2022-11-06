@@ -5,33 +5,43 @@
             <div class="row">
                 <div class="col-lg-8 col-md-8 mb-30">
                     <form class="form-style-1">
-                        <h4 class="mb-15">Card Details</h4>
-                        <div class="card-type">
-                            <div class="row">
-                                <div class="col-lg-6 mb-20">
-                                    <div class="card-type-img border rounded p-20 text-center position-relative">
-                                        <input class="form-check-input" type="radio" name="option2" value="option2">
-                                        <img src="img/card-type-img-1.jpg" alt=""> </div>
-                                </div>
-                                <div class="col-lg-6 mb-20">
-                                    <div class="card-type-img border rounded p-20 text-center position-relative">
-                                        <input class="form-check-input" type="radio" name="option2" value="option2">
-                                        <img src="img/card-type-img-2.jpg" alt=""> </div>
-                                </div>
+                        <h4 class="mb-15">Thanh toán rồi nè</h4>
+                        <div class="list-box mb-30">
+                            <div class="owl-carousel list-box-carousel">
+                                @foreach($images as $image)
+                                    @if($room->id == $image->room_id)
+                                        @php
+                                            $image_path = $image->image_path;
+                                        @endphp
+                                        <figure class="item"> <img src="{{asset('/images/'.$image_path)}}" alt="img description"> </figure>
+                                    @endif
+                                @endforeach
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label>Card Holder Name<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control">
+                            <div class="list-box-content">
+                                <div class="list-box-title">
+                                    <h3>Phòng {{$room->name}}<span>{{number_format($room->cost)}} VND<em></em></span></h3>
                                 </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label>Card Number<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control">
-                                </div>
+                                <div class="list-box-rating"> <span class="at-stars"> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="far fa-star"></i> </span> <em>1000 review</em> </div>
+                                <ul class="hotel-featured">
+                                    @foreach($services as $service)
+                                        @if($service->room_id==$room->id)
+                                            @if($service->bep==1)
+                                                <li><span><i class="fas fa-home"></i> Bếp nấu ăn</span></li>
+                                            @endif
+                                            @if($service->gac==1)
+                                                <li><span><i class="fas fa-home"></i> Phòng có gác</span></li>
+                                            @endif
+                                            @if($service->maylanh==1)
+                                                <li><span><i class="fas fa-sad-cry"></i> Máy lạnh</span></li>
+                                            @endif
+                                        @endif
+                                    @endforeach
+                                    <li>
+                                        <input type="hidden" id="room_id" value="{{$room->id}}">
+                                        <a href="{{route('customer.add_wistlist', ['id'=>$room->id])}}" id="btn-wishlist"><i class="fa fa-heart"></i></a>
+                                    </li>
+                                </ul>
+                                <div class="btn-wrapper mt-20 d-inline-block w-100"> <a class="view-detail-btn" href="">Chi tiết</a> <a class="book-now-btn ml-6" href="{{route('customer.rooms.booking', ['id' =>$room->id])}}">Đặt ngay</a> </div>
                             </div>
                         </div>
                         <div class="row">
@@ -58,9 +68,23 @@
                             <input type="checkbox" class="form-check-input" id="exampleCheck1">
                             <label class="form-check-label font-size-14" for="exampleCheck1">By continuing, you agree to the <a href="">Terms and Conditions.</a></label>
                         </div>
-                        <button type="submit" class="btn-style-1">Confirm Booking</button>
                     </form>
+                    <div class="row">
+                        <div class="col-lg-6 mb-20">
+                            <form action="{{route('customer.payment.vnpay')}}" method="post">
+                                @csrf
+                                <button type="submit" style="border: none"  name="redirect"><img src="/images/vnpay.jpg" width="240px" height="100px"></button>
+                            </form>
+                        </div>
+                        <div class="col-lg-6 mb-20">
+                            <form action="{{route('customer.payment.momo')}}" method="post">
+                                @csrf
+                                <button type="submit" name="redirect" style="border: none"><img src="/images/momo.png" width="240px" height="100px"></button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
+
                 <div class="col-lg-4 col-md-4">
                     <aside>
                         <!-- filter widget -->

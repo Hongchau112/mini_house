@@ -181,3 +181,5 @@ Route::post('customer/load_comment', [CommentController::class, 'load_comment'])
 Route::get('customer/booking/{id}', [BookingController::class, 'booking'])->name('customer.rooms.booking');
 Route::post('customer/booking/store', [BookingController::class, 'store'])->name('customer.booking.store');
 Route::get('customer/rooms/payment', [BookingController::class, 'payment'])->name('customer.rooms.payment');
+Route::post('customer/payment/vnpay', [BookingController::class, 'vnpay'])->name('customer.payment.vnpay');
+Route::post('customer/payment/momo', [BookingController::class, 'momo'])->name('customer.payment.momo');
