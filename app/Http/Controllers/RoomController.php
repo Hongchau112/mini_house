@@ -179,7 +179,6 @@ class RoomController extends Controller
 
     public function delete($id)
     {
-        $room = Room::find($id);
         Room::where('id', $id)->delete();
         return redirect()->route('admin.rooms.index')->with('success', 'Xóa thành công!');
     }

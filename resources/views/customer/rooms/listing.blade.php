@@ -163,25 +163,21 @@
                                         <div id="collapseOne3-m" class="collapse show mt-10" aria-labelledby="headingOne3-d" data-parent="#filter-widget-accordion3-d">
                                             <div class="card-body">
                                                 <ul class="list-inline select-all mb-10">
-                                                    <li class="list-inline-item"> <a href="">Select All</a> </li>
-                                                    <li class="list-inline-item"><a href="">Clear</a></li>
+                                                    <li class="list-inline-item"> <a href="">Tất cả</a> </li>
+                                                    <li class="list-inline-item"><a href="">Bỏ chọn</a></li>
                                                 </ul>
                                                 <div class="filter-checkbox-widget">
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="checkbox">
-                                                        <label class="form-check-label"> Resort <small>(2)</small> </label>
+                                                        <label class="form-check-label"> Có gác <small>(2)</small> </label>
                                                     </div>
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="checkbox">
-                                                        <label class="form-check-label"> West <small>(3)</small> </label>
+                                                        <label class="form-check-label">Tủ lạnh<small>(3)</small> </label>
                                                     </div>
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="checkbox">
-                                                        <label class="form-check-label"> Downtown <small>(1)</small> </label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox">
-                                                        <label class="form-check-label"> South <small>(2)</small> </label>
+                                                        <label class="form-check-label">Chỗ nấu ăn<small>(1)</small> </label>
                                                     </div>
                                                 </div>
                                             </div>

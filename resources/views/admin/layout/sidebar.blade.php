@@ -30,7 +30,7 @@
                         <li class="nk-menu-item">
                             <a href="{{route('admin.room_categories.index')}}" class="nk-menu-link">
                                 <span class="nk-menu-icon"><em class="icon ni ni-sign-btc-alt"></em></span>
-                                <span class="nk-menu-text">Loại phòng</span>
+                                <span class="nk-menu-text">Danh mục</span>
                             </a>
                         </li><!-- .nk-menu-item -->
                         <li class="nk-menu-item has-sub">
