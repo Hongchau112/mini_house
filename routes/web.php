@@ -110,7 +110,7 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     Route::get('admin/comments', [CommentController::class, 'index'])->name('comments.index');
     Route::post('admin/allow_comment', [CommentController::class, 'allow_comment'])->name('comments.allow_comment');
     Route::post('admin/reply_comment', [CommentController::class, 'reply_comment'])->name('comments.reply_comment');
-
+    Route::get('admin/comments/reply/{id}', [CommentController::class, 'reply'])->name('comments.reply');
 
     //user-comment
 
@@ -180,6 +180,6 @@ Route::post('customer/load_comment', [CommentController::class, 'load_comment'])
 //order
 Route::get('customer/booking/{id}', [BookingController::class, 'booking'])->name('customer.rooms.booking');
 Route::post('customer/booking/store', [BookingController::class, 'store'])->name('customer.booking.store');
-Route::get('customer/rooms/payment', [BookingController::class, 'payment'])->name('customer.rooms.payment');
+Route::get('customer/rooms/payment/{id}', [BookingController::class, 'payment'])->name('customer.rooms.payment');
 Route::post('customer/payment/vnpay', [BookingController::class, 'vnpay'])->name('customer.payment.vnpay');
 Route::post('customer/payment/momo', [BookingController::class, 'momo'])->name('customer.payment.momo');

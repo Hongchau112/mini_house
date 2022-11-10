@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\Admin;
 use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
@@ -11,10 +12,12 @@ class CommentController extends Controller
 {
     public function index()
     {
+        $users = \App\Models\Admin::all();
+        $posts = Post::all();
         $user = Auth::guard('admin')->user();
         $comments = Comment::with('post')->where('comment_parent_id', '=', 0)->orderBy('status', 'DESC')->paginate(10);
         $cmt_reps = Comment::with('post')->where('comment_parent_id','>',0)->get();
-        return view('admin.comments.index', compact('comments', 'user', 'cmt_reps'));
+        return view('admin.comments.index', compact('comments', 'user', 'cmt_reps', 'users', 'posts'));
     }
 
     public function allow_comment(Request $request)
@@ -23,6 +26,16 @@ class CommentController extends Controller
         $comment = Comment::find($data['id']);
         $comment->status = $data['status'];
         $comment->save();
+    }
+
+    public function reply($id)
+    {
+        $user = Auth::guard('admin')->user();
+
+        $comment = Comment::find($id);
+        $comments = Comment::with('post')->where('comment_parent_id', '=', 0)->orderBy('status', 'DESC')->paginate(10);
+        $cmt_reps = Comment::with('post')->where('comment_parent_id','>',0)->get();
+        return view('admin.comments.reply_cmt', compact('comment', 'comments', 'cmt_reps', 'user'));
     }
 
     public function reply_comment(Request $request)

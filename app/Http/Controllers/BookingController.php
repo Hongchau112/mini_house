@@ -43,21 +43,23 @@ class BookingController extends Controller
         $booking->phone = $validated_data['phone'];
         $booking->birthday = $birthday;
         $booking->sex = $validated_data['sex'];
+        $booking->room_id = $request->room_id;
         $booking->address = $validated_data['address'];
         $booking->save();
 
         $bookings = Booking::all();
 
-        return redirect()->route('customer.rooms.payment', compact('user', 'room', 'images', 'services', 'bookings'));
+        return redirect()->route('customer.rooms.payment', ['id'=>$room->id]);
 
     }
 
-    public function payment()
+    public function payment($id)
     {
+        $room = Room::find($id);
         $images = Image::all();
         $services = Service::all();
         $user = Auth::guard('admin')->user();
-        return view('customer.rooms.payment', compact('user', 'images', 'services'));
+        return view('customer.rooms.payment', compact('user', 'images', 'services', 'room'));
     }
 
     public function vnpay()
