@@ -1,10 +1,15 @@
 @extends('admin.rooms.layout', [
-    'title' => ( $title ?? 'Thêm hình ảnh mô tả phòng' )
+    'title' => ( $title ?? 'Thêm ảnh' )
 ])
 
 @section('content')
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
     <div class="nk-block-des text-soft" style="margin-bottom: 20px; margin-left: 15px;">
-        <p>Phòng: {{$room->name}}</p>
+        <p>Thêm ảnh mô tả cho: {{$room->name}}</p>
 
     </div>
     <div></div>

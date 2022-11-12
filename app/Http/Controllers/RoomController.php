@@ -9,6 +9,7 @@ use App\Models\Image;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Ramsey\Collection\Collection;
 
 class RoomController extends Controller
 {
@@ -65,13 +66,20 @@ class RoomController extends Controller
                 $output .= '
         <div class="col-md-2" style="margin-bottom:16px;">
         <img src="' . asset('images/' . $image->image_path) . '" class="img-thumbnail" width="175px" height="175"style="height: 175px;"/>
-        <button type="button" class="btn btn-link " id="' . $image->image_path . '">Xóa</button>
+        <button type="button" class="btn btn-link " id="' . $image->image_path . '"><a class="btn btn-danger" href="'.route('admin.rooms.delete_image',['id'=>$image->id]) .'">Xóa</a></button>
         </div>
         ';
             }
             $output .= '</div>';
             echo "$output";
         }
+    }
+
+    public function delete_image($id)
+    {
+//        dd($id);
+        Image::where('id', $id)->delete();
+        return back()->with('success', 'Xóa ảnh thành công!');
     }
 
     public function store(Request $request)
@@ -84,35 +92,35 @@ class RoomController extends Controller
             'name' => 'required',
             'description' => 'required',
             'room_type_id' => 'required',
-            'cost' => 'required'
+            'cost' => 'required',
+            'short_intro' => 'nullable'
         ]);
-
-
 
         $room = new Room();
         $room->name = $data['name'];
         $room->description = $data['description'];
         $room->room_type_id = $data['room_type_id'];
         $room->cost = $data['cost'];
+        $room->short_intro = $data['short_intro'];
+
+        if ($request->has('bep'))
+        {
+            $room->bep=1;
+        }
+
+        if ($request->has('maylanh'))
+        {
+            $room->maylanh=1;
+        }
+        if ($request->has('gac'))
+        {
+            $room->gac=1;
+        }
+
         $room->save();
 
         $room_id = $room->id;
 
-        if (($request->has('bep')) or ($request->has('maylanh')) or($request->has('gac')))
-        {
-            $service = new Service();
-            $service->room_id = $room_id;
-            if ($request->has('bep')){
-                $service->bep= 1;
-            }
-            if ($request->has('maylanh')){
-                $service->maylanh= 1;
-            }
-            if ($request->has('gac')){
-                $service->gac = 1;
-            }
-            $service->save();
-        }
 
 
 
@@ -124,8 +132,6 @@ class RoomController extends Controller
         $user = Auth::guard('admin')->user();
         $room = Room::find($id);
         $categories= RoomCategory::all();
-        $service_room='';
-        $services = Service::all();
         $room_category='';
         foreach ($categories as $category)
         {
@@ -134,19 +140,10 @@ class RoomController extends Controller
                 $room_category = $category->name;
             }
         }
-        $service = Service::where('room_id', $id)->get();
-//        dd($service->id);
-        foreach ($services as $service)
-        {
-            if($service->room_id == $room->id)
-            {
-                $service_room = $service;
-            }
-        }
-//        dd($service_room);
 
         $images = Image::where('room_id', $id)->get();
-        return view('admin.rooms.show', compact('user', 'room_category', 'room', 'images', 'service_room'));
+
+        return view('admin.rooms.show', compact('user', 'room_category', 'room', 'images'));
     }
 
     public function edit($id)
@@ -161,18 +158,37 @@ class RoomController extends Controller
     {
         $user = Auth::guard('admin')->user();
         $room_category = RoomCategory::all();
-        $validated_data = $request->validate([
+        $data = $request->validate([
             'name' => 'required',
             'description' => 'required',
             'room_type_id' => 'required',
+            'cost' => 'required',
+            'short_intro' => 'nullable'
         ]);
 
 
         $room = Room::find($id);
 
-        $room->name = $validated_data['name'];
-        $room->description = $validated_data['description'];
-        $room->food_category_id = $validated_data['room_type_id'];
+        $room->name = $data['name'];
+        $room->description = $data['description'];
+        $room->room_type_id = $data['room_type_id'];
+        $room->cost = $data['cost'];
+        $room->short_intro = $data['short_intro'];
+
+        if ($request->has('bep'))
+        {
+            $room->bep=1;
+        }
+
+        if ($request->has('maylanh'))
+        {
+            $room->maylanh=1;
+        }
+        if ($request->has('gac'))
+        {
+            $room->gac=1;
+        }
+
         $room->save();
         return redirect()->route('admin.rooms.index', compact('user', 'room_category'))->with('success', 'Sửa thông tin thành công!');
     }
@@ -226,6 +242,29 @@ class RoomController extends Controller
         }
 //        dd($filter_search);
     }
+
+    public function filter_service(Request $request)
+    {
+        $services = $request->services;
+//        dd($services);
+        $user = Auth::guard('admin')->user();
+//        $rooms = Room::all();
+        $room_categories = RoomCategory::all();
+        $room_filters = '';
+        $images = Image::all();
+        $getRoom = Room::query();
+        foreach ($services as $service)
+        {
+            $getRoom->where($service, 1);
+
+//            dd($service);
+        }
+        $rooms = $getRoom->get();
+
+        return view('customer.rooms.filter_result' ,compact('rooms', 'user', 'images', 'services', 'room_categories'));
+
+    }
+
 
 
 

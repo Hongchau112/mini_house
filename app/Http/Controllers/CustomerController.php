@@ -111,7 +111,15 @@ class CustomerController extends Controller
             $rooms = Room::where('cost', '>', 3000000)->get();
         }
 //dd($rooms);
-        return view('customer.rooms.filter_result' ,compact('rooms', 'user', 'images', 'services', 'room_categories'));
+        if(count($rooms)>0)
+        {
+            return view('customer.rooms.filter_result' ,compact('rooms', 'user', 'images', 'services', 'room_categories'));
+
+        }
+        else
+            {
+                return view('customer.rooms.not_found', compact('user'));
+            }
 
 // dd($filter_search);
 

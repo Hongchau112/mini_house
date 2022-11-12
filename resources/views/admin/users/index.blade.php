@@ -175,7 +175,6 @@
                                 <div class="nk-tb-col tb-col-lg"><span class="sub-text">Giới tính</span></div>
                                 <div class="nk-tb-col tb-col-lg"><span class="sub-text">Trạng thái</span></div>
                                 <div class="nk-tb-col tb-col-md"><span class="sub-text">User</span></div>
-                                <div class="nk-tb-col tb-col-md"><span class="sub-text">Staff</span></div>
                                 <div class="nk-tb-col tb-col-md"><span class="sub-text">Admin</span></div>
                                 <div class="nk-tb-col tb-col-md"><span class="sub-text">Đổi quyền</span></div>
 
@@ -184,8 +183,9 @@
                                 </div>
                             </div><!-- .nk-tb-item -->
                             @foreach($user_lists as $user_sub)
-                                    @csrf
+                                @csrf
                                 <div class="nk-tb-item">
+                                    <input type="hidden" name="role_email" id="role_email" value="{{$user_sub->email}}">
                                     <div class="nk-tb-col nk-tb-col-check">
                                         <div class="custom-control custom-control-sm custom-checkbox notext">
                                             <input type="checkbox" class="custom-control-input" id="uid1">
@@ -238,19 +238,14 @@
                                     </div>
 
                                     <div class="nk-tb-col tb-col-md">
-                                        <input type="checkbox" name="user_role" {{$user_sub->hasRole('user') ? 'checked' : ''}}></span>
+                                        <input type="checkbox" name="user_role" {{($user_sub->account=='user') ? 'checked' : ''}}></span>
                                     </div>
 
                                     <div class="nk-tb-col tb-col-md">
-                                        <input type="checkbox" name="staff_role" {{$user_sub->hasRole('staff') ? 'checked' : ''}}></span>
+                                        <input type="checkbox" name="admin_role" {{($user_sub->account=='admin') ? 'checked' : ''}}></span>
                                     </div>
 
                                     <div class="nk-tb-col tb-col-md">
-                                        <input type="checkbox" name="admin_role" {{$user_sub->hasRole('admin') ? 'checked' : ''}}></span>
-                                    </div>
-
-                                    <div class="nk-tb-col tb-col-md">
-                                        <input type="hidden" name="email" value="{{$user_sub->email}}">
                                         <input type="submit" value="Thay đổi" class="btn btn-sm btn-gray">
                                     </div>
 
@@ -272,7 +267,6 @@
                                         </ul>
                                     </div>
                                 </div><!-- .nk-tb-item -->
-
                             @endforeach
                         </div><!-- .nk-tb-list -->
                         </form>

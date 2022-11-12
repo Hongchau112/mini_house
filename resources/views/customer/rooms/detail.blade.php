@@ -1,4 +1,4 @@
-@extends('customer.login.layout', [
+@extends('customer.rooms.layout', [
     'title' => ( $title ?? 'Trang chủ' )
 ])
 

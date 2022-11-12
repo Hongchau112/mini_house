@@ -105,9 +105,9 @@ class AdminController extends Controller
 
     public function assign_roles(Request $request)
     {
-//        dd($request->all());
+        dd($request->all());
         $user = Admin::where('email', $request->email)->first();
-//        dd($request->email);
+        dd($request->email_role);
         $user->roles()->detach();
 
 
@@ -121,12 +121,6 @@ class AdminController extends Controller
 //            dd(1);
             $user->roles()->attach(Roles::where('name', 'user')->first());
             $user->account = 'user';
-            $user->save();
-        }
-
-        if($request->staff_role){
-            $user->roles()->attach(Roles::where('name', 'staff')->first());
-            $user->account = 'staff';
             $user->save();
         }
 

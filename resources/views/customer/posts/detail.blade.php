@@ -27,10 +27,11 @@
                                             <span>Đã đặt</span>
                                         @endif
                                         {{$post->created_at}}</h6>
+                                    <div><h3>{{number_format($room->cost)}} đ</h3></div>
                                 @endif
                             @endforeach
                             <h5 class="mt-10 mb-6"><a href="#" class="text-dark">{{$post->title}}</a></h5>
-                            <p class="text-muted">{{$post->content}}</p>
+                            <p class="text-muted">{!!$post->content!!}</p>
                             <h6 class="mb-10">Mô tả về phòng:</h6>
                             <div class="row">
                                 @foreach($rooms as $room)
@@ -38,12 +39,23 @@
                                         <div class="col-lg-6 mb-20">
                                             <p class="mb-0">Chiều dài: {{$room->length}} m</p>
                                             <p class="mb-0">Chiều rộng: {{$room->width}} m</p>
-                                            <p class="mb-0">Phòng có:  </p>
+                                        </div>
+                                        <div class="col-lg-6 mb-20">Phòng có:
+                                            <li><i class="fas fa-camera-retro pr-6"></i>Camera an ninh</li>
+                                            @if($room->maylanh==1)
+                                                <li><i class="fas fa-home"></i> Máy lạnh</li>
+                                            @endif
+                                            @if($room->bep==1)
+                                                <li><i class="fas fa-home"></i> Bếp nấu ăn</li>
+                                            @endif
+                                            @if($room->gac==1)
+                                                <li><i class="fas fa-home"></i> Phòng có gác</li>
+                                            @endif
                                         </div>
                                     @endif
                                 @endforeach
                                 <div class="col-lg-6 mb-20">
-{{--                                    <button class="btn btn-outline-light">Trở về</button>--}}
+                                    <button class="btn btn-outline-light">Trở về</button>
                                 </div>
                             </div>
 
@@ -52,12 +64,12 @@
                     <!-- blog box end -->
                     <!-- tags share -->
                     <div class="tags-share mt-30 pb-15 d-inline-block w-100">
-                        <div class="tags d-flex float-lg-left pt-15"> <span>Tags :</span>
-                            <ul>
-                                <li><a href="#">Design</a></li>
-                                <li><a href="#">business</a></li>
-                                <li><a href="#">corporate</a></li>
-                            </ul>
+                        <div class="tags d-flex float-lg-left pt-15"> <span>Từ khóa :</span>
+{{--                            <ul>--}}
+{{--                                <li><a href="#">Design</a></li>--}}
+{{--                                <li><a href="#">business</a></li>--}}
+{{--                                <li><a href="#">corporate</a></li>--}}
+{{--                            </ul>--}}
                         </div>
                         <div class="share d-flex float-lg-right pt-15"> <span>Share :</span>
                             <ul class="list-inline">
@@ -93,7 +105,7 @@
                     <div class="post-comments mt-50 mb-30">
                         <!-- title -->
                         <div class="blog-single-title">
-                            <h4>Post Comments</h4>
+                            <h4>Để lại bình luận</h4>
                         </div>
                         <!-- title end -->
                         <!-- post comment form -->
@@ -124,6 +136,67 @@
                         <!-- post comment form end -->
                     </div>
                     <!-- post comments end -->
+                </div>
+                <div class="col-lg-4">
+                    <!-- aside -->
+                    <aside>
+                        <!-- search form -->
+
+                        <!-- search form end -->
+                        <!-- widget -->
+                        <div class="widget mb-50">
+                            <!-- widget title -->
+                            <h3 class="widget-title">Danh mục</h3>
+                            <!-- widget title end -->
+                            <!-- categories -->
+                            <ul class="blog-categorie">
+                                @foreach($categories as $category)
+                                    <li><a href=""><i class="far fa-dot-circle"></i>{{$category->name}}</a></li>
+                                @endforeach
+                            </ul>
+                            <!-- categories end -->
+                        </div>
+                        <!-- widget end -->
+                        <!-- widget -->
+                        <div class="widget mb-50">
+                            <!-- widget title -->
+                            <h3 class="widget-title">Bài đăng gần đây</h3>
+                            <!-- widget title end -->
+                            <!-- recent post -->
+                            <div class="blog-recent-post">
+                                @foreach($post_infos as $post_info)
+                                    <!-- recent single post -->
+                                    <div class="recent-single-post mb-20">
+                                        @foreach($images as $image)
+                                            @if($post->room_id == $image->room_id)
+                                                @php
+                                                    $image_path = $image->image_path;
+                                                @endphp
+                                            @endif
+                                        @endforeach
+                                        {{--                                    <div class="blog_img mb-20"><img src="{{asset('/images/'.$image_path)}}" alt="" HEIGHT="250px" WIDTH="320PX"></div>--}}
+                                        <div class="post-img"> <a href="#"><img src="{{asset('/images/'.$image_path)}}" alt=""></a> </div>
+                                        <div class="pst-content">
+                                            <p><a href="#">{{$post_info->title}}</a></p>
+                                            <span class="date-type">{{$post_info->created_at}}</span> </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                            <!-- recent post end -->
+                        </div>
+                        <!-- widget end -->
+                        <!-- widget -->
+                        <div class="widget mb-30">
+                            <!-- widget title -->
+                            <h3 class="widget-title">Tags</h3>
+                            <!-- widget title end -->
+                            <!-- tags -->
+                            <div class="blog-tags"> <a href="">Business</a> <a href="">Traveling</a> <a href="">Developement</a> <a href="">Motion</a> <a href="">Writing</a> <a href="">Strategy</a> <a href="">Management</a> </div>
+                            <!-- tags end -->
+                        </div>
+                        <!-- widget end -->
+                    </aside>
+                    <!-- aside end -->
                 </div>
             </div>
         </div>

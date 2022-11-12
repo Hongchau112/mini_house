@@ -1,4 +1,4 @@
-@extends('admin.rooms.layout', [
+@extends('admin.posts.layout', [
     'title' => ( $title ?? 'Thêm bài đăng' )
 ])
 

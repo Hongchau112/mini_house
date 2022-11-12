@@ -22,7 +22,7 @@
                                 @endphp
                             @endif
                             @endforeach
-                                <img class="card-img-top" src="{{asset('/images/'.$image_path)}}" alt="">
+                                <img class="card-img-top" src="{{asset('/images/'.$image_path)}}" width="350px" height="300px" alt="">
                         </a>
                         <ul class="product-badges">
                             <li><span class="badge badge-success">New</span></li>

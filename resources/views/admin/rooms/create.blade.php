@@ -21,12 +21,18 @@
                                     <label for="name" style="font-weight: bold">Phòng</label>
                                     <input type="text" class="form-control" name="name" id="name"  placeholder="Vui lòng nhập tên phòng">
                                 </div>
-                                    <div class="form-group">
-                                        <label class="form-label" for="description">Mô tả <span class="text-danger">*</span></label>
-                                        <div class="form-control-wrap">
-                                            <textarea class="form-control form-control-sm ckeditor" id="description" name="description"  required></textarea>
-                                        </div>
+                                <div class="form-group">
+                                    <label for="name" style="font-weight: bold">Giới thiệu ngắn</label>
+                                    <div class="form-control-wrap">
+                                        <textarea type="text" name="short_intro" class="form-control" cols="2" placeholder="Giới thiệu ngắn"></textarea>
                                     </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="description">Mô tả <span class="text-danger">*</span></label>
+                                    <div class="form-control-wrap">
+                                        <textarea class="form-control form-control-sm ckeditor" id="description" name="description"  required></textarea>
+                                    </div>
+                                </div>
                                     <div class="form-group">
                                         <label class="form-label" for="room_type_id">Loại phòng<span class="text-danger">*</span></label>
                                         <div class="form-control-wrap">
@@ -38,15 +44,9 @@
                                             </select>
                                         </div>
                                     </div>
+
                                     <div class="row gy-4 align-center">
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" placeholder="Giá người">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4">
+                                        <div class="col-lg-6">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
                                                     <input type="text" class="form-control" name="cost" id="cost" placeholder="Giá phòng">

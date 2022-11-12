@@ -15,6 +15,7 @@ use App\Http\Controllers\WistListController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\InformationController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -95,6 +96,9 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     Route::post('admin/rooms/save_images/{id}', [RoomController::class, 'save_images'])->name('rooms.save_images');
     Route::get('admin/rooms/card', [RoomController::class, 'room_card'])->name('rooms.card');
     Route::post('admin/rooms/load_images', [RoomController::class, 'load_images'])->name('rooms.load_images');
+    Route::get('admin/rooms/delete_images/{id}', [RoomController::class, 'delete_image'])->name('rooms.delete_image');
+
+
 
     ///Post controller
     Route::get('admin/posts/', [PostController::class, 'index'])->name('posts.index');
@@ -167,11 +171,14 @@ Route::get('customer/wishlist/delete/{id}', [WistlistController::class, 'delete'
 
 
 Route::get('customer/test', [CustomerController::class, 'test'])->name('customer.test');
+Route::get('customer/about_us', [InformationController::class, 'about_us'])->name('customer.about_us');
+Route::get('customer/categories', [InformationController::class, 'categories'])->name('customer.categories');
 
+Route::get('customer/rooms/filter_service', [RoomController::class, 'filter_service'])->name('customer.rooms.filter_service');
 Route::get('customer/posts/listing', [PostController::class, 'listing'])->name('customer.posts.listing');
 Route::get('customer/posts/details/{id}', [PostController::class, 'detail'])->name('customer.posts.details');
 Route::get('customer/rooms/filter_price', [CustomerController::class, 'filter_price'])->name('customer.posts.filter_price');
-
+Route::get('customer/posts/search', [PostController::class, 'search'])->name('customer.posts.search');
 
 //comments
 Route::post('customer/send_comment', [CommentController::class, 'send_comment'])->name('customer.posts.send_comment');
@@ -183,3 +190,6 @@ Route::post('customer/booking/store', [BookingController::class, 'store'])->name
 Route::get('customer/rooms/payment/{id}', [BookingController::class, 'payment'])->name('customer.rooms.payment');
 Route::post('customer/payment/vnpay', [BookingController::class, 'vnpay'])->name('customer.payment.vnpay');
 Route::post('customer/payment/momo', [BookingController::class, 'momo'])->name('customer.payment.momo');
+Route::get('customer/payment/success', [BookingController::class, 'payment_success'])->name('customer.payment.success');
+Route::get('customer/payment/vnpay_online/{id}', [BookingController::class, 'vnpay_online'])->name('customer.payment.vnpay_online');
+Route::post('customer/payment/vnpay_payment', [BookingController::class, 'vnpay_payment'])->name('customer.payment.vnpay_payment');

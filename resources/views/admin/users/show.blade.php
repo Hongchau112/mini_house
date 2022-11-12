@@ -123,9 +123,7 @@
 {{--                            </div><!-- .card-inner -->--}}
                             <div class="card-inner p-0">
                                 <ul class="link-list-menu">
-                                    <li><a class="active" href="html/user-profile-regular.html"><em class="icon ni ni-user-fill-c"></em><span>Thông tin cá nhân</span></a></li>
-                                    <li><a href="html/user-profile-notification.html"><em class="icon ni ni-bell-fill"></em><span>Thông báo</span></a></li>
-                                    <li><a href="html/user-profile-activity.html"><em class="icon ni ni-activity-round-fill"></em><span>Hoạt động</span></a></li>
+                                    <li><a class="active" href="#"><em class="icon ni ni-user-fill-c"></em><span>Thông tin cá nhân</span></a></li>
                                 </ul>
                             </div><!-- .card-inner -->
                         </div><!-- .card-inner-group -->

@@ -105,49 +105,49 @@
                             </div>
                             <!-- filter widget end -->
                             <!-- filter widget -->
-                            <div class="filter-widget mb-20">
-                                <div class="accordion filter-accordion" id="filter-widget-accordion2-d">
-                                    <div class="card">
-                                        <div class="card-header" id="headingOne2-d"> <a class="btn btn-link w-100 text-left" href="" data-toggle="collapse" data-target="#collapseOne2-m" aria-expanded="true" aria-controls="collapseOne2-m">
-                                                <!-- title widget -->
-                                                <div class="filter-title-widget">
-                                                    <h3>Star Rating <i class="fas fa-plus-square float-right"></i> <i class="fas fa-minus-square float-right"></i></h3>
-                                                </div>
-                                                <!-- title widget end -->
-                                            </a> </div>
-                                        <div id="collapseOne2-m" class="collapse show mt-10" aria-labelledby="headingOne2-d" data-parent="#filter-widget-accordion2-d">
-                                            <div class="card-body">
-                                                <ul class="list-inline select-all mb-10">
-                                                    <li class="list-inline-item"> <a href="">Select All</a> </li>
-                                                    <li class="list-inline-item"><a href="">Clear</a></li>
-                                                </ul>
-                                                <div class="filter-checkbox-widget">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox">
-                                                        <label class="form-check-label"> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <small>(5)</small> </label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox">
-                                                        <label class="form-check-label"> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="far fa-star"></i> <small>(4)</small> </label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox">
-                                                        <label class="form-check-label"> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <small>(3)</small> </label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox">
-                                                        <label class="form-check-label"> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <small>(2)</small> </label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox">
-                                                        <label class="form-check-label"> <i class="fas fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <small>(1)</small> </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+{{--                            <div class="filter-widget mb-20">--}}
+{{--                                <div class="accordion filter-accordion" id="filter-widget-accordion2-d">--}}
+{{--                                    <div class="card">--}}
+{{--                                        <div class="card-header" id="headingOne2-d"> <a class="btn btn-link w-100 text-left" href="" data-toggle="collapse" data-target="#collapseOne2-m" aria-expanded="true" aria-controls="collapseOne2-m">--}}
+{{--                                                <!-- title widget -->--}}
+{{--                                                <div class="filter-title-widget">--}}
+{{--                                                    <h3>Star Rating <i class="fas fa-plus-square float-right"></i> <i class="fas fa-minus-square float-right"></i></h3>--}}
+{{--                                                </div>--}}
+{{--                                                <!-- title widget end -->--}}
+{{--                                            </a> </div>--}}
+{{--                                        <div id="collapseOne2-m" class="collapse show mt-10" aria-labelledby="headingOne2-d" data-parent="#filter-widget-accordion2-d">--}}
+{{--                                            <div class="card-body">--}}
+{{--                                                <ul class="list-inline select-all mb-10">--}}
+{{--                                                    <li class="list-inline-item"> <a href="">Select All</a> </li>--}}
+{{--                                                    <li class="list-inline-item"><a href="">Clear</a></li>--}}
+{{--                                                </ul>--}}
+{{--                                                <div class="filter-checkbox-widget">--}}
+{{--                                                    <div class="form-check">--}}
+{{--                                                        <input class="form-check-input" type="checkbox">--}}
+{{--                                                        <label class="form-check-label"> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <small>(5)</small> </label>--}}
+{{--                                                    </div>--}}
+{{--                                                    <div class="form-check">--}}
+{{--                                                        <input class="form-check-input" type="checkbox">--}}
+{{--                                                        <label class="form-check-label"> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="far fa-star"></i> <small>(4)</small> </label>--}}
+{{--                                                    </div>--}}
+{{--                                                    <div class="form-check">--}}
+{{--                                                        <input class="form-check-input" type="checkbox">--}}
+{{--                                                        <label class="form-check-label"> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <small>(3)</small> </label>--}}
+{{--                                                    </div>--}}
+{{--                                                    <div class="form-check">--}}
+{{--                                                        <input class="form-check-input" type="checkbox">--}}
+{{--                                                        <label class="form-check-label"> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <small>(2)</small> </label>--}}
+{{--                                                    </div>--}}
+{{--                                                    <div class="form-check">--}}
+{{--                                                        <input class="form-check-input" type="checkbox">--}}
+{{--                                                        <label class="form-check-label"> <i class="fas fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <small>(1)</small> </label>--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
                             <!-- filter widget end -->
                             <!-- filter widget -->
                             <div class="filter-widget mb-20">
@@ -156,10 +156,11 @@
                                         <div class="card-header" id="headingOne3-d"> <a class="btn btn-link w-100 text-left" href="" data-toggle="collapse" data-target="#collapseOne3-m" aria-expanded="true" aria-controls="collapseOne3-m">
                                                 <!-- title widget -->
                                                 <div class="filter-title-widget">
-                                                    <h3>Area and Direction <i class="fas fa-plus-square float-right"></i> <i class="fas fa-minus-square float-right"></i></h3>
+                                                    <h3>Các tiện ích<i class="fas fa-plus-square float-right"></i> <i class="fas fa-minus-square float-right"></i></h3>
                                                 </div>
                                                 <!-- title widget end -->
                                             </a> </div>
+                                        <form>
                                         <div id="collapseOne3-m" class="collapse show mt-10" aria-labelledby="headingOne3-d" data-parent="#filter-widget-accordion3-d">
                                             <div class="card-body">
                                                 <ul class="list-inline select-all mb-10">
@@ -168,29 +169,30 @@
                                                 </ul>
                                                 <div class="filter-checkbox-widget">
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox">
-                                                        <label class="form-check-label"> Có gác <small>(2)</small> </label>
+                                                        <input class="form-check-input" name="service" value="gac" id="filter-gac" type="checkbox">
+                                                        <label class="form-check-label">Có gác</small> </label>
                                                     </div>
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox">
-                                                        <label class="form-check-label">Tủ lạnh<small>(3)</small> </label>
+                                                        <input class="form-check-input" name="service" value="maylanh" id="filter-maylanh" type="checkbox">
+                                                        <label class="form-check-label">Tủ lạnh</label>
                                                     </div>
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox">
-                                                        <label class="form-check-label">Chỗ nấu ăn<small>(1)</small> </label>
+                                                        <input class="form-check-input" name="service" value="bep" id="filter-bep" type="checkbox">
+                                                        <label class="form-check-label">Chỗ nấu ăn</label>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
                             <!-- filter widget end -->
                             <!-- help us -->
                             <div class="help-us mb-30">
-                                <h3>How can we help you?</h3>
-                                <p>Lorem ipsum dolor sit ametdf consectetur adipiscing elitdgsh ametdf consectetur piscing.</p>
-                                <a class="view-detail-btn" href=""><i class="fas fa-phone-alt"></i> Contact Us</a> </div>
+                                <h3>Bạn chưa tìm được phòng trọ ưng ý?</h3>
+                                <p>Đừng ngần ngại hãy liên hệ với chúng tôi về yêu cầu của bạn, chúng tôi sẽ cung cấp cho bạn những kết quả  phù hợp nhất</p>
+                                <a class="view-detail-btn" href=""><i class="fas fa-phone-alt"></i>Liên hệ</a> </div>
                             <!-- help us end -->
                         </div>
                         <!-- sidebar end -->
@@ -209,7 +211,7 @@
                                         @php
                                             $image_path = $image->image_path;
                                         @endphp
-                                        <figure class="item"> <img src="{{asset('/images/'.$image_path)}}" alt="img description"> </figure>
+                                        <figure class="item"> <img src="{{asset('/images/'.$image_path)}}" alt="img description" width="300px" height="208px"> </figure>
                                     @endif
                                 @endforeach
                             </div>
@@ -217,21 +219,17 @@
                                 <div class="list-box-title">
                                     <h3>Phòng {{$room->name}}<span>{{number_format($room->cost)}} VND<em></em></span></h3>
                                 </div>
-                                <div class="list-box-rating"> <span class="at-stars"> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="far fa-star"></i> </span> <em>1000 review</em> </div>
+{{--                                <div class="list-box-rating"> <span class="at-stars"> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="far fa-star"></i> </span> <em>1000 review</em> </div>--}}
                                 <ul class="hotel-featured">
-                                    @foreach($services as $service)
-                                        @if($service->room_id==$room->id)
-                                            @if($service->bep==1)
-                                                <li><span><i class="fas fa-home"></i> Bếp nấu ăn</span></li>
-                                            @endif
-                                            @if($service->gac==1)
-                                                <li><span><i class="fas fa-home"></i> Phòng có gác</span></li>
-                                            @endif
-                                            @if($service->maylanh==1)
-                                                <li><span><i class="fas fa-sad-cry"></i> Máy lạnh</span></li>
-                                            @endif
-                                        @endif
-                                    @endforeach
+                                    @if($room->bep==1)
+                                        <li><span><i class="fas fa-home"></i> Bếp nấu ăn</span></li>
+                                    @endif
+                                    @if($room->gac==1)
+                                        <li><span><i class="fas fa-home"></i> Phòng có gác</span></li>
+                                    @endif
+                                    @if($room->maylanh==1)
+                                        <li><span><i class="fas fa-sad-cry"></i> Máy lạnh</span></li>
+                                    @endif
                                         <li>
                                             <input type="hidden" id="room_id" value="{{$room->id}}">
                                             <a href="{{route('customer.add_wistlist', ['id'=>$room->id])}}" id="btn-wishlist"><i class="fa fa-heart"></i></a>
@@ -381,6 +379,25 @@
                     }
                 });
             });
+
+            $(document).on('click', '.filter-checkbox-widget', function (){
+                var services=[];
+                  $('input[name="service"]:checked').each(function (element){
+                      services.push($('input[name="service"]:checked')[element].value);
+                      // console.log(services);
+                  });
+                $.ajax({
+                    url: '{{route('customer.rooms.filter_service')}}',
+                    type: "GET",
+                    data: {services: services},
+                    success:function (data){
+                        $('#list').html(data);
+                        console.log(data);
+                    }
+                });
+            })
+
+
 
 
             $("#btn-wishlist").click(function(){

@@ -1,5 +1,5 @@
 @extends('admin.rooms.layout', [
-    'title' => ( $title ?? 'Sửa thông tin món ăn' )
+    'title' => ( $title ?? 'Sửa thông tin phòng trọ' )
 ])
 
 @section('content')
@@ -9,54 +9,83 @@
                 <div class="row g-gs">
                     <div class="col-lg-12">
                         <div class="card-inner card-inner-sm">
-                            <form action="/admin/rooms/update/{{$room->id}}" method="POST">
+                            <form action="{{route('admin.rooms.update', ['id'=>$room->id])}}" method="POST">
                                 @csrf
                                 @method('PATCH')
-                                <div class="form-group">
-                                    <label class="form-label" for="name">Tiêu đề <span class="text-danger">*</span></label>
-                                    <div class="form-control-wrap">
-                                        <input type="text" class="form-control" id="name" name="name" placeholder="Tên sản phẩm" value="{{$food->name}}"required>
+
+                                <div class="row g-gs">
+                                    <div class="col-md-12" style="">
+                                        <div class="card card-bordered h-100" style="background-color: #e2e6ea;">
+                                            <div class="card-inner">
+                                                <div class="form-group" >
+                                                    <label for="name" style="font-weight: bold">Phòng <span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" name="name" id="name" value="{{$room->name}}" placeholder="Vui lòng nhập tên phòng">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="name" style="font-weight: bold">Giới thiệu ngắn</label>
+                                                    <div class="form-control-wrap">
+                                                        <textarea type="text" name="short_intro" class="form-control"  cols="2" placeholder="Giới thiệu ngắn">{{$room->short_intro}}</textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-label" for="description">Mô tả <span class="text-danger">*</span></label>
+                                                    <div class="form-control-wrap">
+                                                        <textarea class="form-control form-control-sm ckeditor"  id="description" name="description"  required>{{$room->description}}</textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-label" for="room_type_id">Loại phòng <span class="text-danger">*</span></label>
+                                                    <div class="form-control-wrap">
+                                                        <select class="form-select" data-search="on" name="room_type_id" id="room_type_id">
+                                                            <option {{($room->room_type_id == 0) ? 'selected' : ''}} value="0">Thư mục gốc</option>
+                                                            @foreach ($categories as $cate)
+                                                                <option {{($cate->id == $room->room_type_id) ? 'selected' : ''}} value="{{$cate->id}}">{{$cate->name}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row gy-4 align-center">
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <label class="form-label" for="cost">Giá phòng <span class="text-danger">*</span></label>
+                                                                <input type="text" class="form-control" value="{{$room->cost}}" name="cost" id="cost" placeholder="Giá phòng">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <span class="preview-title overline-title" style="margin-top: 20px;">Tiện ích <span class="text-danger">*</span> </span>
+                                                    <div class="g-3 align-center flex-wrap">
+                                                        <div class="g">
+                                                            <div class="custom-control custom-control-sm custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input"  name="maylanh" id="maylanh" {{($room->maylanh == 1) ? 'checked' : ''}} >
+                                                                <label class="custom-control-label" for="maylanh">Máy lạnh</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="g">
+                                                            <div class="custom-control custom-control-sm custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" name="bep" id="bep" {{($room->bep == 1) ? 'checked' : ''}}>
+                                                                <label class="custom-control-label" for="bep">Bếp nấu ăn</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="g">
+                                                            <div class="custom-control custom-control-sm custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" name="gac" id="gac" {{($room->gac == 1) ? 'checked' : ''}}>
+                                                                <label class="custom-control-label" for="gac">Phòng có gác</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="form-label" for="description">Mô tả <span class="text-danger">*</span></label>
-                                    <div class="form-control-wrap">
-                                        <textarea class="form-control form-control-sm ckeditor" id="description" name="description"  required>{{$food->description}}</textarea>
-                                    </div>
-                                </div>
-
-
-
-                                <div class="form-group">
-                                    <label class="form-label" for="food_category_id">Danh mục cha <span class="text-danger">*</span></label>
-                                    <div class="form-control-wrap">
-                                        <!-- Lay ten cua danh muc cha: so sanh trong the option: neu == thì selected, ngược lại ''-->
-                                        <select class="form-select" name="food_category_id" id="food_category_id">
-                                            <option {{($food->food_category_id == 0) ? 'selected' : ''}} value="0">Thư mục gốc</option>
-                                            @foreach ($categories as $cate)
-                                                <option {{($cate->id == $food->food_category_id) ? 'selected' : ''}} value="{{$cate->id}}">{{$cate->name}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="form-label" for="price">Giá<span class="text-danger">*</span></label>
-                                    <div class="form-control-wrap">
-                                        <input class="form-control form-control-sm" id="price" name="price" value="{{$food->price}}" required>
-                                    </div>
-                                </div>
-
-
-                                <div class="row g-3">
-                                    <div class="col-lg-6 col-md-4 ">
-                                        {{--                                        <div class="form-group mt-3">--}}
-                                        {{--                                            <a href="{{ url()->previous() }}"><span class=" text-primary"> <em class="icon ni ni-arrow-long-left"></em>  Quay lại</span></a>--}}
-                                        {{--                                        </div>--}}
-                                    </div>
-                                    <div class="form-group">
-                                        <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                                    <div class="col-lg-7 offset-lg-5">
+                                        <div class="form-group mt-2">
+                                            <button type="submit" class="btn btn-lg btn-primary">Lưu</button>
+                                        </div>
                                     </div>
                                 </div>
                             </form>
