@@ -8,6 +8,7 @@ use App\Models\Payment;
 use App\Models\Room;
 use App\Models\Service;
 use Carbon\Carbon;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -80,7 +81,8 @@ class BookingController extends Controller
         $user = Auth::guard('admin')->user();
         if($room->status==0)
         {
-
+            $room->status =1;
+            $room->save();
             return view('customer.rooms.payment', compact('user', 'images','booking', 'services', 'room', 'total_cost'));
         }
         else{
@@ -92,7 +94,30 @@ class BookingController extends Controller
     {
 //        dd($request->toArray());
         /// luu thong tin thanh toan o day ne nha
-        ///
+        if($request->vnp_ResponseCode =='00')
+        {
+            $vnpayData = $request->all();
+        }
+        $user = Auth::guard('admin')->user();
+
+//        dd($user->id);
+        $dataPayment = [
+          'transaction_id' => $vnpayData['vnp_TransactionNo'],
+            'transaction_code' => $vnpayData['vnp_TxnRef'],
+            'user_id' => $user->id,
+            'money' => $vnpayData['vnp_Amount'],
+            'note' => $vnpayData['vnp_OrderInfo'],
+            'vnp_response_code' => $vnpayData['vnp_ResponseCode'],
+            'code_vnpay' => $vnpayData['vnp_TransactionNo'],
+            'code_bank' => $vnpayData['vnp_BankCode'],
+            'time' => date('Y-m-d H:i', strtotime($vnpayData['vnp_PayDate']))
+        ];
+//        dd($dataPayment);
+        Payment::insert($dataPayment);
+        \Illuminate\Support\Facades\Session::flash('toastr',
+        ['type' => 'success',
+        'message' => 'Đơn hàng của bạn đã được lưu']);
+        return view('customer.vnpay.vnpay_return', compact('vnpayData'));
     }
 
 
@@ -161,19 +186,6 @@ class BookingController extends Controller
         , 'data' => $vnp_Url);
 
         //luu vao db
-        if ($returnData['message']=='success')
-        {
-            dd(1);
-            $payment = new Payment();
-            $payment->user_id=$_POST['user_id'];
-            $payment->booking_id=$_POST['booking_id'];
-            $payment->money=$_POST['cost'];
-            $payment->type_payment='vnpay';
-            $payment->status = 1;
-            $payment->payment_code = $code_vnpay;
-            $payment->save();
-
-        }
 
 
         if (isset($_POST['redirect'])) {
@@ -280,7 +292,7 @@ class BookingController extends Controller
         $vnp_HashSecret = "UCAIBLHEMJCGUVGHFPGURNAJCXYFXGHZ"; //Chuỗi bí mật
 
         $vnp_TxnRef = $code_vnpay; //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
-        $vnp_OrderInfo = 'thanh toán đơn hàng';
+        $vnp_OrderInfo = $request->order_desc;
         $vnp_OrderType = 'billpayment';
         $vnp_Amount = $request->cost * 100;
         $vnp_Locale = 'vn';

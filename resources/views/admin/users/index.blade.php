@@ -161,7 +161,6 @@
                     </div><!-- .card-inner -->
 
                     <div class="card-inner p-0" >
-                        <form action="{{route('admin.assign_roles')}}" method="post">
                         <div class="nk-tb-list nk-tb-ulist" id="list">
                             <div class="nk-tb-item nk-tb-head" >
                                 <div class="nk-tb-col nk-tb-col-check">
@@ -183,9 +182,7 @@
                                 </div>
                             </div><!-- .nk-tb-item -->
                             @foreach($user_lists as $user_sub)
-                                @csrf
                                 <div class="nk-tb-item">
-                                    <input type="hidden" name="role_email" id="role_email" value="{{$user_sub->email}}">
                                     <div class="nk-tb-col nk-tb-col-check">
                                         <div class="custom-control custom-control-sm custom-checkbox notext">
                                             <input type="checkbox" class="custom-control-input" id="uid1">
@@ -236,19 +233,21 @@
                                             <span class="tb-status text-danger">Bị khóa</span>
                                         @endif
                                     </div>
+                                    <form action="{{route('admin.assign_roles')}}" method="post">
+                                        @csrf
+                                        <div class="nk-tb-col tb-col-md">
+                                            <input type="checkbox" name="user_role" {{($user_sub->account=='user') ? 'checked' : ''}}></span>
+                                        </div>
 
-                                    <div class="nk-tb-col tb-col-md">
-                                        <input type="checkbox" name="user_role" {{($user_sub->account=='user') ? 'checked' : ''}}></span>
-                                    </div>
+                                        <div class="nk-tb-col tb-col-md">
+                                            <input type="checkbox" name="admin_role" {{($user_sub->account=='admin') ? 'checked' : ''}}></span>
+                                        </div>
 
-                                    <div class="nk-tb-col tb-col-md">
-                                        <input type="checkbox" name="admin_role" {{($user_sub->account=='admin') ? 'checked' : ''}}></span>
-                                    </div>
-
-                                    <div class="nk-tb-col tb-col-md">
-                                        <input type="submit" value="Thay đổi" class="btn btn-sm btn-gray">
-                                    </div>
-
+                                        <div class="nk-tb-col tb-col-md">
+                                            <input type="hidden" name="email" id="email" value="{{$user_sub->email}}">
+                                            <input type="submit" value="Thay đổi" class="btn btn-sm btn-gray">
+                                        </div>
+                                    </form>
                                     <div class="nk-tb-col nk-tb-col-tools">
                                         <ul class="nk-tb-actions gx-1">
 
@@ -269,7 +268,7 @@
                                 </div><!-- .nk-tb-item -->
                             @endforeach
                         </div><!-- .nk-tb-list -->
-                        </form>
+
                     </div><!-- .card-inner -->
 
                 </div><!-- .card-inner-group -->

@@ -30,7 +30,6 @@
                 <select name="order_type" id="order_type" class="form-control">
                     <option value="topup">Nạp tiền điện thoại</option>
                     <option value="billpayment">Thanh toán hóa đơn</option>
-                    <option value="fashion">Thời trang</option>
                     <option value="other">Khác - Xem thêm tại VNPAY</option>
                 </select>
             </div>

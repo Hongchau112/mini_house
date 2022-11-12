@@ -16,8 +16,10 @@ class CustomerController extends Controller
     public function index()
 
     {
+        $rooms = Room::all();
+        $images = Image::all();
         $user = Auth::guard('admin')->user();
-        return view('customer.login.index', compact('user'));
+        return view('customer.login.index', compact('user', 'images', 'rooms'));
     }
 
     public function edit_profile($id)

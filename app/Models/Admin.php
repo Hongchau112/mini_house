@@ -16,7 +16,7 @@ class Admin extends Model implements AuthenticatableContract
     protected $table='admins';
 
     public function roles(){
-        return $this->belongsToMany('App\Models\Roles');
+        return $this->belongsToMany(Roles::class);
 
     }
 
