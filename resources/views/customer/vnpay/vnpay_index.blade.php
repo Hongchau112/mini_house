@@ -19,7 +19,7 @@
 <?php require_once("vnpay_php/config.php"); ?>
 <div class="container">
     <div class="header clearfix">
-        <h3 class="text-muted">VNPAY DEMO</h3>
+        <h3 class="text-muted">Thanh toán với VNPAY</h3>
     </div>
     <h3>Tạo mới đơn hàng</h3>
     <div class="table-responsive">
@@ -28,7 +28,7 @@
             <div class="form-group">
                 <label for="language">Loại hàng hóa </label>
                 <select name="order_type" id="order_type" class="form-control">
-                    <option value="topup">Nạp tiền điện thoại</option>
+                    <option value="topup">Thanh toán tiền đặt phòng</option>
                     <option value="billpayment">Thanh toán hóa đơn</option>
                     <option value="other">Khác - Xem thêm tại VNPAY</option>
                 </select>
@@ -36,6 +36,15 @@
             <div class="form-group">
                 <label for="order_id">Mã hóa đơn</label>
                 <input class="form-control" id="order_id" name="order_id" type="text" value="<?php echo date("YmdHis") ?>"/>
+            </div>
+            <div class="form-group">
+                <label for="amount">Phòng</label>
+                <input class="form-control" id="cost" type="text"
+                       name="room_name" value="{{$room->name}}"/>
+                <input class="form-control" id="cost" type="hidden"
+                       name="room_id" value="{{$room->id}}"/>
+                <input class="form-control" id="cost" type="hidden"
+                       name="booking" value="{{$booking->id}}"/>
             </div>
             <div class="form-group">
                 <label for="amount">Số tiền</label>
@@ -84,7 +93,7 @@
             <div class="form-group">
                 <label >Thời hạn thanh toán</label>
                 <input class="form-control" id="txtexpire"
-                       name="txtexpire" type="text" value="<?php echo $expire; ?>"/>
+                       name="txtexpire" type="text" value="{{date('Y-m-d H:i', strtotime($expire))}}"/>
             </div>
             <button type="submit" class="btn btn-primary" id="btnPopup">Thanh toán</button>
 

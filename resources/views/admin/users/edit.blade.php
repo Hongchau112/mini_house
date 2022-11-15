@@ -89,19 +89,19 @@
                         <ul class="custom-control-group g-3 align-center flex-wrap">
                             <li>
                                 <div class="custom-control custom-radio">
-                                    <input type="radio" class="custom-control-input" name="sex" id="sex-male" {{$user_edit->sex=='Nam' ? 'checked' : ''}}>
+                                    <input type="radio" class="custom-control-input" name="sex" id="sex-male" {{$user_edit->sex=='male' ? 'checked' : ''}}>
                                     <label class="custom-control-label" for="reg-enable">Nam</label>
                                 </div>
                             </li>
                             <li>
                                 <div class="custom-control custom-radio">
-                                    <input type="radio" class="custom-control-input" name="sex" id="sex-female" {{$user_edit->sex=='Nữ' ? 'checked' : ''}}>
+                                    <input type="radio" class="custom-control-input" name="sex" id="sex-female" {{$user_edit->sex=='female' ? 'checked' : ''}}>
                                     <label class="custom-control-label" for="reg-disable">Nữ</label>
                                 </div>
                             </li>
                             <li>
                                 <div class="custom-control custom-radio">
-                                    <input type="radio" class="custom-control-input" name="sex" id="sex-other" {{$user_edit->sex=='Khác' ? 'checked' : ''}}>
+                                    <input type="radio" class="custom-control-input" name="sex" id="sex-other" {{$user_edit->sex=='other' ? 'checked' : ''}}>
                                     <label class="custom-control-label" for="reg-request">Khác</label>
                                 </div>
                             </li>

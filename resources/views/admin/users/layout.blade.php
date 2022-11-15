@@ -7,7 +7,8 @@
     <div class="nk-content nk-content-fluid" style="background: white;">
         <div class="container-fluid">
             <div class="nk-content-inner">
-                <div class="nk-content-body"><div class="nk-block-head nk-block-head-sm">
+                <div class="nk-content-body">
+                    <div class="nk-block-head nk-block-head-sm">
                         <ul class="breadcrumb breadcrumb-arrow">
                             <li class="breadcrumb-item"><a href="{{route('admin.index')}}">Trang chủ</a></li>
                             <li class="breadcrumb-item active">{{$title}}</li>

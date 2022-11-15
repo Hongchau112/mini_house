@@ -13,19 +13,50 @@
                         <div class="collapse navbar-collapse" id="navbarTheme">
                             <ul class="navbar-nav align-items-start align-items-lg-center">
                                 <li class="active"><a class="nav-link" href="{{route('customer.index')}}">Trang chủ</a></li>
-                                <li><a class="nav-link" href="{{route('customer.about_us')}}">Giới thiệu</a></li>
-                                <li><a class="nav-link" href="{{route('customer.categories')}}">Danh mục</a></li>
-                                <li><a class="nav-link" href="{{route('customer.posts.listing')}}">Bài đăng</a></li>
-{{--                                <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Destinations</a>--}}
-{{--                                    <div class="dropdown-menu" aria-labelledby="dropdown02"> <a class="dropdown-item" href="destinations.html">Destinations</a> <a class="dropdown-item" href="destination-detail.html">Destination Detail</a> </div>--}}
-{{--                                </li>--}}
-{{--                                <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Blog</a>--}}
-{{--                                    <div class="dropdown-menu" aria-labelledby="dropdown04"> <a class="dropdown-item" href="blog.html">Blog</a> <a class="dropdown-item" href="blog-single.html">Blog Singal</a> </div>--}}
-{{--                                </li>--}}
-                                <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" id="dropdown05" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Danh mục trọ</a>
-                                    <div class="dropdown-menu" aria-labelledby="dropdown05"> <a class="dropdown-item" href="{{route('customer.rooms.listing')}}">Danh sách trọ</a> <a class="dropdown-item" href="{{route('customer.posts.listing')}}">Bài đăng</a>  <a class="dropdown-item" href="payment-information.html">Thanh toán</a> </div>
-                                </li>
-                                <li><a class="nav-link" href="contact-us.html">Liên hệ</a></li>
+{{--                                <ul class="navbar-nav navbar-left" >--}}
+                                    @php
+                                        $count=0;
+                                    @endphp
+
+                                    @foreach($room_categories as $i => $cate)
+                                        @if($cate->parent_category_id == 0)
+                                            @php
+                                                $count=$count+1;
+                                            @endphp
+                                        @endif
+
+                                        @if($count < 6)
+                                            @if($cate->parent_category_id==0)
+                                                <li class="nav-item dropdown">
+                                                    @php
+                                                        $flag = 0;
+                                                    @endphp
+                                                    @foreach($room_categories as $cate3)
+                                                        @if($cate3->parent_category_id==$cate->id)
+                                                            @php
+                                                                $flag = 1
+                                                            @endphp
+                                                        @endif
+                                                    @endforeach
+                                                    @if($flag==1)
+                                                        <a class="nav-link dropdown-toggle"  href="{{route('customer.show_category', ['id'=> $cate->id])}}">{{$cate->name}}</a>
+
+                                                    @else
+                                                        <a class="nav-link" href="{{route('customer.show_category', ['id'=> $cate->id])}}">{{$cate->name}}</a>
+                                                    @endif
+                                                    <div class="dropdown-menu" style="padding: 0px; ">
+                                                        @foreach($room_categories as $cate2)
+                                                            @if($cate2->parent_category_id==$cate->id)
+                                                                <a class="nav-link" href="{{route('customer.show_category', ['id'=> $cate2->id])}}">{{$cate2->name}}</a>
+                                                            @endif
+                                                        @endforeach
+                                                    </div>
+                                                </li>
+                                            @endif
+                                        @endif
+                                    @endforeach
+
+{{--                                </ul>--}}
                             </ul>
                         </div>
                         <!-- top menu end -->
@@ -35,15 +66,16 @@
                 <div class="col-lg-4 col-md-6 col-sm-8 col-10 text-right">
                     <!-- header right link -->
                     <div class="header-right-link">
-                        @php
-                            $wish_count = \App\Models\Wistlist::count();
-                        @endphp
+
                             <ul>
-                                @if($user)
+                                @if($user!=null)
+                                    @php
+                                        $wish_count = \App\Models\Wistlist::where('user_id', $user->id)->get();
+                                    @endphp
                                     <li>
                                         <div style="margin-right: 10px;">
                                             <a href="{{route('customer.show_wishlist', ['id'=>$user->id])}}"><i class="fa fa-heart" style="font-size: 20px; margin-top: 5px"></i></a>
-                                            <span style="margin-left: -10px; font-weight: bold; font-size: 14px;"> {{$wish_count}}</span>
+                                            <span style="margin-left: -10px; font-weight: bold; font-size: 14px;">{{count($wish_count)}}</span>
                                         </div>
                                     </li>
                                     <li>
@@ -53,7 +85,7 @@
                                             <i class="fa fa-user" style="font-size: 15px"></i>
                                         </button>
                                         <div class="dropdown-menu" style="font-size: 12px;" aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item" href="{{route('customer.edit_profile', ['id'=>$user->id])}}">Thông tin</a>
+                                            <a class="dropdown-item" href="{{route('customer.edit_profile', [$user->id])}}">Thông tin</a>
                                             <a class="dropdown-item" href="#">Cập nhật</a>
                                             <a class="dropdown-item" href="#">Đổi mật khẩu</a>
                                         </div>
@@ -61,7 +93,7 @@
                                     </li>
                                     <li><a href="{{route('admin.logout')}}"><i class="fa fa-sign-out-alt" style="font-size: 18px;margin-top: 5px;"></i></a></li>
                                 @else
-                                    <li><a href=""><i class="fas fa-chevron-right"></i>Đăng nhập</a></li>
+                                    <li><a href="{{route('admin.login_auth')}}"><i class="fas fa-chevron-right"></i>Đăng nhập</a></li>
                                     <li><a href="contact-us.html" class="header-request">Request a Quote</a></li>
 
                             </ul>
@@ -79,7 +111,14 @@
             <div class="row align-items-center">
                 <div class="col-lg-3 col-md-12">
                     <!-- brand -->
-                    <div class="logo"><a class="navbar-brand p-0" href="index.html"><img src="{{asset('boarding_house/img/logo.png')}}" alt=""></a></div>
+                    <form class="search-form mb-50" method="POST" action="{{route('customer.search')}}">
+                        @csrf
+                        <div class="logo"><input id="key-submit" name="key-submit" class="form-control" placeholder="Tìm kiếm..." value="">
+                        <button class="search-submit"><i class="fas fa-search"></i></button>
+                        </div>
+                        <div id="search-ajax"></div>
+                    </form>
+{{--                    <div class="logo"><a class="navbar-brand p-0" href="index.html"><img src="{{asset('boarding_house/img/logo.png')}}" alt=""></a></div>--}}
                     <!-- brand end -->
                 </div>
                 <div class="col-lg-9 col-md-12">
@@ -116,3 +155,35 @@
     </div>
     <!-- header lover end -->
 </header>
+@push('footer')
+    <script>
+        $(document).ready(function(){
+            $("#key-submit").on('keyup', function (){
+                var search = $(this).val();
+                if(search!='')
+                {
+                    var _token = $('input[name="_token"]').val();
+                    $.ajax({
+                        url: '{{route('customer.global_search')}}',
+                        type: "POST",
+                        data: {'search': search, _token: _token},
+                        success:function (data){
+                            $('#search-ajax').fadeIn();
+                            $('#search-ajax').html(data);
+                            console.log(data);
+                        }
+                    })
+                }
+                else{
+                    $('#search-ajax').fadeOut();
+                }
+
+            })
+            $(document).on('click', '.search_room_ajax', function (){
+                $('#key-submit').val($(this).text());
+                $('#search-ajax').fadeOut();
+            })
+
+        })
+    </script>
+@endpush

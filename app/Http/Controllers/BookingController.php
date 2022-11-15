@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendEmail;
 use App\Models\Booking;
 use App\Models\Image;
 use App\Models\Payment;
 use App\Models\Room;
+use App\Models\RoomCategory;
 use App\Models\Service;
 use Carbon\Carbon;
 use Illuminate\Contracts\Session\Session;
@@ -16,42 +18,79 @@ class BookingController extends Controller
 {
     public function booking($id)
     {
+        $room_categories = RoomCategory::all();
         $room = Room::find($id);
+        $room_category = RoomCategory::find($room->room_type_id);
         $user = Auth::guard('admin')->user();
-        return view('customer.rooms.order', compact('user', 'room'));
+        return view('customer.rooms.order', compact('user', 'room', 'room_categories', 'room_category'));
     }
 
     public function store(Request $request)
     {
+//        dd($request->payment_method);
         $images = Image::all();
         $services = Service::all();
-//        dd($request);
         $room = Room::find($request->room_id);
+//        dd($room->id);
         $user = Auth::guard('admin')->user();
-        $validated_data = $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:booking',
-            'phone' => 'required',
-            'birthday' => 'required',
-            'sex' => 'required',
-            'address' => 'required',
-        ]);
-        $birthday = date('Y-m-d H:i:s');
-//        dd($birthday);
+//        dd(1);
+        $booking_check = Booking::where('booking_room_id', '=' , $request->room_id)->exists();
+        if($booking_check)
+        {
+            return redirect()->route('customer.rooms.listing', compact('user'))->with('error', 'Không thể đặt');
+        }
+        else {
+            $validated_data = $request->validate([
+                'user_name' => 'required',
+                'user_email' => 'required|email|unique:booking',
+                'user_phone' => 'required',
+                'user_birthday' => 'required',
+                'user_sex' => 'required',
+                'user_address' => 'required',
+                'payment_method' => 'required'
+            ]);
+//dd(1);
+            $dataBooking = [
+                'user_name' => $validated_data['user_name'],
+                'user_email' => $validated_data['user_email'],
+                'user_phone' => $validated_data['user_phone'],
+                'user_birthday' => date('Y-m-d H:i', strtotime($validated_data['user_birthday'])),
+                'user_sex' => $validated_data['user_sex'],
+                'booking_room_id' => $request->room_id,
+                'user_address' => $validated_data['user_address'],
+                'payment_method' => $validated_data['payment_method']
+            ];
 
-        $booking = new Booking();
-        $booking->name = $validated_data['name'];
-        $booking->email = $validated_data['email'];
-        $booking->phone = $validated_data['phone'];
-        $booking->birthday = $birthday;
-        $booking->sex = $validated_data['sex'];
-        $booking->room_id = $request->room_id;
-        $booking->address = $validated_data['address'];
-        $booking->save();
+            if($validated_data['payment_method']=='cash')
+            {
+//            dd(1);
+                $booking = Booking::insert($dataBooking);
+//            dd($booking);
+                $booking_inserted = Booking::where('booking_room_id', $room->id)->first();
+                SendEmail::dispatch($booking)->delay(now()->addMinute(1));
+                return view('customer.rooms.booking_success', ['id'=>$booking_inserted->id]);
+            }
+            elseif ($validated_data['payment_method']=='vnpay')
+            {
+                Booking::insert($dataBooking);
+                return redirect()->route('customer.payment.vnpay_online', ['id'=>$room->id]);
+            }
+
+        }
+
+
+//        $booking = new Booking();
+//        $booking->name = $validated_data['name'];
+//        $booking->email = $validated_data['email'];
+//        $booking->phone = $validated_data['phone'];
+//        $booking->birthday = $birthday;
+//        $booking->sex = $validated_data['sex'];
+//        $booking->room_id = $request->room_id;
+//        $booking->address = $validated_data['address'];
+//        $booking->save();
 
 //        $bookings = Booking::all();
 
-        return redirect()->route('customer.rooms.payment', ['id'=>$booking->id]);
 
     }
 
@@ -81,13 +120,11 @@ class BookingController extends Controller
         $user = Auth::guard('admin')->user();
         if($room->status==0)
         {
-            $room->status =1;
+            $room->status=1;
             $room->save();
-            return view('customer.rooms.payment', compact('user', 'images','booking', 'services', 'room', 'total_cost'));
         }
-        else{
-            return view('customer.rooms.fail', compact('user'));
-        }
+        return view('customer.rooms.payment', compact('user', 'images','booking', 'services', 'room', 'total_cost'));
+
     }
 
     public function payment_success(Request $request)
@@ -263,7 +300,8 @@ class BookingController extends Controller
         $user = Auth::guard('admin')->user();
         $total_cost = 0;
         $room = Room::find($id);
-        $booking = Booking::where('room_id', $id)->get();
+        $booking = Booking::where('booking_room_id', $room->id)->get()->id;
+//        dd($booking);
         $total_cost+=$room->cost;
         if ($room->maylanh==1)
         {
@@ -277,7 +315,6 @@ class BookingController extends Controller
         {
             $total_cost+=200000;
         }
-
 
         return view('customer.vnpay.vnpay_index', compact('user', 'total_cost', 'booking', 'room'));
     }

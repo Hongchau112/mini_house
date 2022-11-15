@@ -2,9 +2,9 @@
     'title' => ( $title ?? 'Trang chủ' )
 ])
 @section('content')
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
         </div>
     @endif
 <!-- ================ Inner banner ================ -->
@@ -55,24 +55,24 @@
                                                 <ul class="list-inline select-all mb-10">
                                                     <li class="list-inline-item">Danh sách gồm {{count($rooms)}} phòng trọ</li>
                                                 </ul>
-                                                <div class="table-responsive">
-                                                    <table class="table table-bordered bg-gray w-100 border-0">
-                                                        <tr>
-                                                            <td>Check In</td>
-                                                            <td>Jan 01, 2020 Wed</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Check Out</td>
-                                                            <td>Jan 01, 2020 Fri</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Room 1</td>
-                                                            <td>1  Adult(s)</td>
-                                                        </tr>
-                                                    </table>
-                                                </div>
-                                                <button type="button" class="btn-style-1" data-toggle="modal" data-target="#modify-search-Modal"><i class="fas fa-search"></i> Modify Search </button>
-                                            </div>
+{{--                                                <div class="table-responsive">--}}
+{{--                                                    <table class="table table-bordered bg-gray w-100 border-0">--}}
+{{--                                                        <tr>--}}
+{{--                                                            <td>Check In</td>--}}
+{{--                                                            <td>Jan 01, 2020 Wed</td>--}}
+{{--                                                        </tr>--}}
+{{--                                                        <tr>--}}
+{{--                                                            <td>Check Out</td>--}}
+{{--                                                            <td>Jan 01, 2020 Fri</td>--}}
+{{--                                                        </tr>--}}
+{{--                                                        <tr>--}}
+{{--                                                            <td>Room 1</td>--}}
+{{--                                                            <td>1  Adult(s)</td>--}}
+{{--                                                        </tr>--}}
+{{--                                                    </table>--}}
+{{--                                                </div>--}}
+{{--                                                <button type="button" class="btn-style-1" data-toggle="modal" data-target="#modify-search-Modal"><i class="fas fa-search"></i> Modify Search </button>--}}
+{{--                                            </div>--}}
                                         </div>
                                     </div>
                                 </div>
@@ -235,7 +235,7 @@
                                             <a href="{{route('customer.add_wistlist', ['id'=>$room->id])}}" id="btn-wishlist"><i class="fa fa-heart"></i></a>
                                         </li>
                                 </ul>
-                                <div class="btn-wrapper mt-20 d-inline-block w-100"> <a class="view-detail-btn" href="">Chi tiết</a> <a class="book-now-btn ml-6" href="{{route('customer.rooms.booking', ['id' =>$room->id])}}">Đặt ngay</a> </div>
+                                <div class="btn-wrapper mt-20 d-inline-block w-100"> <a class="view-detail-btn" href="{{route('customer.rooms.details', ['id'=>$room->id])}}">Chi tiết</a> <a class="book-now-btn ml-6" href="{{route('customer.rooms.booking', ['id' =>$room->id])}}">Đặt ngay</a> </div>
                             </div>
                         </div>
                         <!-- list box end -->

@@ -21,7 +21,6 @@
 {{--                                            <option value="">Bulk Action</option>--}}
                                             <option value="all">Tất cả</option>
                                             <option value="admin">Người quản trị</option>
-                                            <option value="staff">Nhân viên</option>
                                             <option value="user">Khách trọ</option>
 {{--                                            <option value="delete">Delete User</option>--}}
                                         </select>
@@ -60,64 +59,6 @@
                                                                 <div class="dot dot-primary"></div>
                                                                 <em class="icon ni ni-filter-alt"></em>
                                                             </a>
-                                                            <div class="filter-wg dropdown-menu dropdown-menu-xl dropdown-menu-right">
-                                                                <div class="dropdown-head">
-                                                                    <span class="sub-title dropdown-title">Filter Users</span>
-                                                                    <div class="dropdown">
-                                                                        <a href="#" class="btn btn-sm btn-icon">
-                                                                            <em class="icon ni ni-more-h"></em>
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="dropdown-body dropdown-body-rg">
-                                                                    <div class="row gx-6 gy-3">
-                                                                        <div class="col-6">
-                                                                            <div class="custom-control custom-control-sm custom-checkbox">
-                                                                                <input type="checkbox" class="custom-control-input" id="hasBalance">
-                                                                                <label class="custom-control-label" for="hasBalance"> Have Balance</label>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-6">
-                                                                            <div class="custom-control custom-control-sm custom-checkbox">
-                                                                                <input type="checkbox" class="custom-control-input" id="hasKYC">
-                                                                                <label class="custom-control-label" for="hasKYC"> KYC Verified</label>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-6">
-                                                                            <div class="form-group">
-                                                                                <label class="overline-title overline-title-alt">Role</label>
-                                                                                <select class="form-select form-select-sm">
-                                                                                    <option value="any">Any Role</option>
-                                                                                    <option value="investor">Investor</option>
-                                                                                    <option value="seller">Seller</option>
-                                                                                    <option value="buyer">Buyer</option>
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-6">
-                                                                            <div class="form-group">
-                                                                                <label class="overline-title overline-title-alt">Status</label>
-                                                                                <select class="form-select form-select-sm">
-                                                                                    <option value="any">Any Status</option>
-                                                                                    <option value="active">Active</option>
-                                                                                    <option value="pending">Pending</option>
-                                                                                    <option value="suspend">Suspend</option>
-                                                                                    <option value="deleted">Deleted</option>
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-12">
-                                                                            <div class="form-group">
-                                                                                <button type="button" class="btn btn-secondary">Filter</button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="dropdown-foot between">
-                                                                    <a class="clickable" href="#">Reset Filter</a>
-                                                                    <a href="#">Save Filter</a>
-                                                                </div>
-                                                            </div><!-- .filter-wg -->
                                                         </div><!-- .dropdown -->
                                                     </li><!-- li -->
                                                     <li>
@@ -159,9 +100,11 @@
                             </div>
                         </div><!-- .card-search -->
                     </div><!-- .card-inner -->
-
+                    <form action="{{route('admin.assign_roles')}}" method="post">
+                        @csrf
                     <div class="card-inner p-0" >
                         <div class="nk-tb-list nk-tb-ulist" id="list">
+
                             <div class="nk-tb-item nk-tb-head" >
                                 <div class="nk-tb-col nk-tb-col-check">
                                     <div class="custom-control custom-control-sm custom-checkbox notext">
@@ -181,6 +124,7 @@
                                 <div class="nk-tb-col nk-tb-col-tools text-right">
                                 </div>
                             </div><!-- .nk-tb-item -->
+
                             @foreach($user_lists as $user_sub)
                                 <div class="nk-tb-item">
                                     <div class="nk-tb-col nk-tb-col-check">
@@ -233,14 +177,12 @@
                                             <span class="tb-status text-danger">Bị khóa</span>
                                         @endif
                                     </div>
-                                    <form action="{{route('admin.assign_roles')}}" method="post">
-                                        @csrf
                                         <div class="nk-tb-col tb-col-md">
-                                            <input type="checkbox" name="user_role" {{($user_sub->account=='user') ? 'checked' : ''}}></span>
+                                            <input type="checkbox" name="role" {{($user_sub->account=='user') ? 'checked' : ''}}></span>
                                         </div>
 
                                         <div class="nk-tb-col tb-col-md">
-                                            <input type="checkbox" name="admin_role" {{($user_sub->account=='admin') ? 'checked' : ''}}></span>
+                                            <input type="checkbox" name="role" {{($user_sub->account=='admin') ? 'checked' : ''}}></span>
                                         </div>
 
                                         <div class="nk-tb-col tb-col-md">

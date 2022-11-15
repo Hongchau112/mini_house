@@ -42,7 +42,7 @@
                                 <div class="form-control-wrap">
                                     <div class="input-group">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text" id="phone">+84</span>
+                                            <span class="input-group-text" id="phone"></span>
                                         </div>
                                         <input type="text" class="form-control" id="phone" name="phone" required>
                                     </div>

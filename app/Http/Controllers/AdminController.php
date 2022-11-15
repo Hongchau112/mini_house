@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 use App\Models\Admin;
+use App\Models\Image;
 use App\Models\Roles;
+use App\Models\Room;
 use App\Models\Social;
 use App\Models\Login;
 use Illuminate\Support\Facades\Cookie;
@@ -12,16 +14,19 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Rule;
+use Session;
 class AdminController extends Controller
 {
     public function login(Request $request)
     {
         $credentials = $request->only('name', 'password');
         $user = Admin::where('name', $request->name)->first();
-
+        $rooms = Room::all();
+        $images = Image::all();
         $user_lists = Admin::with('roles')->orderBy('id', 'ASC')->paginate(10);
 //        dd($user->password);
         if (Auth::guard('admin')->attempt($credentials)) {
+            Session::put('user_id', $user->id);
             if ($user->status == 0)
             {
                 return view('admin.custom_auth.login_form')->with('message', 'Tài khoản đã bị khóa!');
@@ -34,7 +39,7 @@ class AdminController extends Controller
                 }
                 if($user->account=='user')
                 {
-                    return view('customer.login.index', compact('user'));
+                    return redirect()->route('customer.index', 'user');
                 }
                 else{
                     if($user->roles()->where('name', 'admin'))

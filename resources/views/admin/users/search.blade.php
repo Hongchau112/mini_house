@@ -10,7 +10,6 @@
     <div class="nk-tb-col tb-col-lg"><span class="sub-text">Giới tính</span></div>
     <div class="nk-tb-col tb-col-lg"><span class="sub-text">Trạng thái</span></div>
     <div class="nk-tb-col tb-col-md"><span class="sub-text">User</span></div>
-    <div class="nk-tb-col tb-col-md"><span class="sub-text">Staff</span></div>
     <div class="nk-tb-col tb-col-md"><span class="sub-text">Admin</span></div>
     <div class="nk-tb-col tb-col-md"><span class="sub-text">Đổi quyền</span></div>
     <div class="nk-tb-col nk-tb-col-tools text-right">
@@ -73,9 +72,6 @@
             <input type="checkbox" name="user_role" {{$user_sub->hasRole('user') ? 'checked' : ''}}></span>
         </div>
 
-        <div class="nk-tb-col tb-col-md">
-            <input type="checkbox" name="staff_role" {{$user_sub->hasRole('staff') ? 'checked' : ''}}></span>
-        </div>
 
         <div class="nk-tb-col tb-col-md">
             <input type="checkbox" name="admin_role" {{$user_sub->hasRole('admin') ? 'checked' : ''}}></span>

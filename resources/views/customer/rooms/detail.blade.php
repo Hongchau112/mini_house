@@ -71,28 +71,21 @@
                                 <div class="col-lg-4">
                                     <ul class="ameneties-list">
                                         <li><i class="fas fa-wifi pr-6"></i>Wi-Fi miễn phí</li>
-                                        @foreach($services as $service)
-                                            @if($service->room_id==$room->id)
-                                                @if($service->bep==1)
-                                                    <li><i class="fas fa-wifi pr-6"></i> Bếp nấu ăn</li>
-                                                @endif
-                                            @endif
-                                        @endforeach
+                                        @if($room->bep==1)
+                                            <li><i class="fas fa-home"></i> Bếp nấu ăn</li>
+                                        @endif
 
                                     </ul>
                                 </div>
                                 <div class="col-lg-4">
                                     <ul class="ameneties-list">
-                                        @foreach($services as $service)
-                                            @if($service->room_id==$room->id)
-                                                @if($service->gac==1)
-                                                    <li><i class="fas fa-home"></i> Phòng có gác</li>
-                                                @endif
-                                                @if($service->maylanh==1)
-                                                    <li><i class="fas fa-sad-cry"></i> Máy lạnh</li>
-                                                @endif
-                                            @endif
-                                        @endforeach
+                                        @if($room->maylanh==1)
+                                            <li><i class="fas fa-home"></i> Máy lạnh</li>
+                                        @endif
+
+                                        @if($room->gac==1)
+                                            <li><i class="fas fa-home"></i> Phòng có gác</li>
+                                        @endif
                                     </ul>
                                 </div>
                                 <div class="col-lg-4">

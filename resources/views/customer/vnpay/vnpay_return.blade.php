@@ -44,6 +44,7 @@ $secureHash = hash_hmac('sha512', $hashData, $vnp_HashSecret);
 <div class="container">
     <div class="header clearfix">
         <h3 class="text-muted">KẾT QUẢ GIAO DỊCH VNPAY</h3>
+        <p>Thanh toán thành công, hệ thống sẽ gửi email xác nhận giao dịch đến bạn, vui lòng chờ giây lát!</p>
     </div>
     <div class="table-responsive">
         <div class="form-group">

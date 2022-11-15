@@ -23,6 +23,7 @@
                                     <h6 class="blog_date font-weight-normal text-muted">
                                         @if($room->status==0)
                                             <span>Còn trống</span>
+                                            <div><button class="btn btn-success"><a style="text-underline: none; color: white" href="{{route('customer.rooms.booking', ['id' =>$room->id])}}">Đặt phòng ngay</a></button></div>
                                         @else
                                             <span>Đã đặt</span>
                                         @endif

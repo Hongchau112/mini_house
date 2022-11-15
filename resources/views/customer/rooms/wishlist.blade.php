@@ -74,7 +74,7 @@
                                     <td>{{$room->name}}</td>
                                     @if($room->status==0)
                                         <td>Phòng trống</td>
-                                        <td><button type="button" class="btn btn-primary btn-sm btn-success">Đặt ngay</button>
+                                        <td><button type="button" class="btn btn-primary btn-sm btn-success"><a style="color: white; text-decoration: none" href="{{route('customer.rooms.booking', ['id' =>$room->id])}}">Đặt ngay</a></button>
                                         </td>
                                     @else
                                         <td>Hết phòng</td>

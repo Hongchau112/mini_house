@@ -61,7 +61,7 @@
                             </a>
                         </li><!-- .nk-menu-item -->
                         <li class="nk-menu-item">
-                            <a href="#" class="nk-menu-link">
+                            <a href="{{route('admin.transactions.index')}}" class="nk-menu-link">
                                 <span class="nk-menu-icon"><em class="icon ni ni-sign-btc-alt"></em></span>
                                 <span class="nk-menu-text">Đặt phòng</span>
                             </a>
@@ -69,30 +69,8 @@
                         <li class="nk-menu-item has-sub">
                             <a href="#" class="nk-menu-link nk-menu-toggle">
                                 <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
-                                <span class="nk-menu-text">Cơ sở vật chất</span>
+                                <span class="nk-menu-text">Thống kê</span>
                             </a>
-                            <ul class="nk-menu-sub">
-                                <li class="nk-menu-item">
-                                    <a href="html/transaction-basic.html" class="nk-menu-link"><span class="nk-menu-text">Tranx List - Basic</span></a>
-                                </li>
-                                <li class="nk-menu-item">
-                                    <a href="html/transaction-crypto.html" class="nk-menu-link"><span class="nk-menu-text">Tranx List - Crypto</span></a>
-                                </li>
-                            </ul><!-- .nk-menu-sub -->
-                        </li><!-- .nk-menu-item -->
-                        <li class="nk-menu-item has-sub">
-                            <a href="#" class="nk-menu-link nk-menu-toggle">
-                                <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
-                                <span class="nk-menu-text">Thư viện ảnh</span>
-                            </a>
-                            <ul class="nk-menu-sub">
-                                <li class="nk-menu-item">
-                                    <a href="html/transaction-basic.html" class="nk-menu-link"><span class="nk-menu-text">Tranx List - Basic</span></a>
-                                </li>
-                                <li class="nk-menu-item">
-                                    <a href="html/transaction-crypto.html" class="nk-menu-link"><span class="nk-menu-text">Tranx List - Crypto</span></a>
-                                </li>
-                            </ul><!-- .nk-menu-sub -->
                         </li><!-- .nk-menu-item -->
 
 {{--                            <ul class="nk-menu-sub">--}}

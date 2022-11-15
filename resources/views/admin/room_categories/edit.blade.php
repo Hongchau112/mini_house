@@ -1,5 +1,5 @@
 @extends('admin.room_categories.layout', [
-    'title' => ( $title ?? 'Sửa danh mục món ăn' )
+    'title' => ( $title ?? 'Sửa danh mục' )
 ])
 
 @section('content')

@@ -26,11 +26,11 @@
                                         @if($room->id==$post->room_id)
                                             <h6 class="blog_date font-weight-normal text-muted">
                                                 @if($room->status==0)
-                                                    <span>Còn trống</span>
+                                                    <span>Còn trống</span></h6>
                                                 @else
                                                     <span>Đã đặt</span>
                                                 @endif
-                                                    {{$post->created_at}}</h6>
+                                                    <h6>{{$post->created_at}}</h6>
                                         @endif
                                     @endforeach
                                     <h5 class="mt-10 mb-6"><a href="{{route('customer.posts.details', ['id'=>$post->id])}}" class="text-dark">{{$post->title}}</a></h5>

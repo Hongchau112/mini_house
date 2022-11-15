@@ -10,11 +10,13 @@ use App\Models\RoomCategory;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Session;
 class PostController extends Controller
 {
     public function listing()
     {
+//        Session::get('user_id');
+//        dd(Session::get('user_id'));
         $user = Auth::guard('admin')->user();
         $rooms = Room::all();
         $posts = Post::all();
@@ -50,12 +52,14 @@ class PostController extends Controller
             'title' => 'required',
             'content' => 'required',
             'room_id' => 'required',
+
         ]);
 
         $post = new Post();
         $post->title = $data['title'];
         $post->content = $data['content'];
         $post->room_id = $data['room_id'];
+        $post->post_type_id = 'information';
         $post->save();
 
         return redirect()->route('admin.posts.index', compact('user'))->with('success', 'Thêm phòng thành công!');

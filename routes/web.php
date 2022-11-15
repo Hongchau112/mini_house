@@ -16,6 +16,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\InformationController;
+use App\Http\Controllers\TransactionController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -127,6 +128,11 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
 
 
 
+    //transaction
+    Route::get('admin/transaction', [TransactionController::class, 'index'])->name('transactions.index');
+    Route::get('admin/transaction/show/{id}', [TransactionController::class, 'show'])->name('transactions.show');
+
+
 });
 
 //user controller
@@ -193,3 +199,7 @@ Route::post('customer/payment/momo', [BookingController::class, 'momo'])->name('
 Route::get('customer/payment/success', [BookingController::class, 'payment_success'])->name('customer.payment.success');
 Route::get('customer/payment/vnpay_online/{id}', [BookingController::class, 'vnpay_online'])->name('customer.payment.vnpay_online');
 Route::post('customer/payment/vnpay_payment', [BookingController::class, 'vnpay_payment'])->name('customer.payment.vnpay_payment');
+
+Route::get('customer/show_category/{id}', [CustomerController::class, 'show_category'])->name('customer.show_category');
+Route::post('customer/global_search', [CustomerController::class, 'global_search'])->name('customer.global_search');
+Route::post('customer/search', [CustomerController::class, 'search'])->name('customer.search');

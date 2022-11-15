@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Image;
 use App\Models\Room;
+use App\Models\RoomCategory;
 use App\Models\Wistlist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -41,11 +42,12 @@ class WistListController extends Controller
     public function show_wishlist($id)
     {
         $rooms = Room::all();
+        $room_categories = RoomCategory::all();
         $images = Image::all();
         $user = Auth::guard('admin')->user();
         $wishlists = Wistlist::where('user_id', $id)->get();
 //        dd($wishlist);
-        return view('customer.rooms.wishlist', compact('wishlists', 'user', 'rooms', 'images'));
+        return view('customer.rooms.wishlist', compact('wishlists', 'user', 'rooms', 'images', 'room_categories'));
     }
 
     public function wish_list(Request $request)
