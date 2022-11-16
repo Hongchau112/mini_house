@@ -161,6 +161,12 @@ Route::get('customer/logout', [UserController::class, 'logout_user'])->name('cus
 Route::get('customer/', [CustomerController::class, 'index'])->name('customer.index');
 Route::get('customer/edit_profile/{id}', [CustomerController::class, 'edit_profile'])->name('customer.edit_profile');
 Route::post('customer/update_profile/{id}', [CustomerController::class, 'update_profile'])->name('customer.update_profile');
+Route::get('customer/booking_history/{id}', [CustomerController::class, 'booking_history'])->name('customer.booking_history');
+Route::get('customer/booking_history/show/{id}', [CustomerController::class, 'booking_details'])->name('customer.booking_details');
+
+
+//test-modal
+Route::get('customer/test_modal', [CustomerController::class, 'test_modal'])->name('customer.test_modal');
 
 
 //rooms details

@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class BookingController extends Controller
 {
@@ -33,11 +34,14 @@ class BookingController extends Controller
         $room = Room::find($request->room_id);
 //        dd($room->id);
         $user = Auth::guard('admin')->user();
+        $user_email = $request->user_email;
+        $user_name = $request->user_name;
+
 //        dd(1);
         $booking_check = Booking::where('booking_room_id', '=' , $request->room_id)->exists();
         if($booking_check)
         {
-            return redirect()->route('customer.rooms.listing', compact('user'))->with('error', 'Không thể đặt');
+            return redirect()->route('customer.rooms.listing', compact('user'))->with('error', 'Phòng đã được đặt, bạn không thể đặt thêm nữa');
         }
         else {
             $validated_data = $request->validate([
@@ -51,6 +55,7 @@ class BookingController extends Controller
             ]);
 //dd(1);
             $dataBooking = [
+                'user_id' => $user->id,
                 'user_name' => $validated_data['user_name'],
                 'user_email' => $validated_data['user_email'],
                 'user_phone' => $validated_data['user_phone'],
@@ -67,8 +72,23 @@ class BookingController extends Controller
                 $booking = Booking::insert($dataBooking);
 //            dd($booking);
                 $booking_inserted = Booking::where('booking_room_id', $room->id)->first();
-                SendEmail::dispatch($booking)->delay(now()->addMinute(1));
-                return view('customer.rooms.booking_success', ['id'=>$booking_inserted->id]);
+
+                Mail::send('customer.email.booking_room', [
+                    'user_name' => $user_name,
+                    'booking' => $booking_inserted,
+                    'room_id' => $room->id
+                ], function ($mail) use ($user_email, $user_name, $request){
+                    $mail->to($user_email, $user_name);
+                    $mail->from('hongchau2000st@gmail.com');
+                    $mail->subject("Đặt phòng trọ thành công");
+                });
+                if($booking_inserted)
+                {
+                    $room->status = 1;
+                    $room->save();
+                }
+
+                return redirect()->route('customer.rooms.listing', ['id'=>$booking_inserted->id])->with('success', 'Đặt phòng thành công, bạn vui lòng kiểm tra email để biết thêm chi tiết!');
             }
             elseif ($validated_data['payment_method']=='vnpay')
             {
@@ -139,7 +159,7 @@ class BookingController extends Controller
 
 //        dd($user->id);
         $dataPayment = [
-          'transaction_id' => $vnpayData['vnp_TransactionNo'],
+          'booking_id' => $vnpayData['vnp_booking_id'],
             'transaction_code' => $vnpayData['vnp_TxnRef'],
             'user_id' => $user->id,
             'money' => $vnpayData['vnp_Amount'],
@@ -147,7 +167,8 @@ class BookingController extends Controller
             'vnp_response_code' => $vnpayData['vnp_ResponseCode'],
             'code_vnpay' => $vnpayData['vnp_TransactionNo'],
             'code_bank' => $vnpayData['vnp_BankCode'],
-            'time' => date('Y-m-d H:i', strtotime($vnpayData['vnp_PayDate']))
+            'time' => date('Y-m-d H:i', strtotime($vnpayData['vnp_PayDate'])),
+            'room_id' => $vnpayData['vnp_room_id']
         ];
 //        dd($dataPayment);
         Payment::insert($dataPayment);
@@ -300,8 +321,8 @@ class BookingController extends Controller
         $user = Auth::guard('admin')->user();
         $total_cost = 0;
         $room = Room::find($id);
-        $booking = Booking::where('booking_room_id', $room->id)->get()->id;
-//        dd($booking);
+        $booking = Booking::where('booking_room_id', $room->id)->first();
+//        dd($booking->id);
         $total_cost+=$room->cost;
         if ($room->maylanh==1)
         {
@@ -321,7 +342,7 @@ class BookingController extends Controller
 
     public function vnpay_payment(Request $request)
     {
-//        dd($request->toArray());
+        $data = $request->all();
         $code_vnpay = rand(00, 9999);
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
         $vnp_Returnurl = "http://localhost:8000/customer/payment/success"; //thanh toan thanh cong se tra ve
@@ -335,6 +356,8 @@ class BookingController extends Controller
         $vnp_Locale = 'vn';
         $vnp_BankCode = 'NCB';
         $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
+        $room_id = $data['room_id'];
+        $booking_id = $data['booking_id'];
 
         $inputData = array(
             "vnp_Version" => "2.1.0",
@@ -348,7 +371,9 @@ class BookingController extends Controller
             "vnp_OrderInfo" => $vnp_OrderInfo,
             "vnp_OrderType" => $vnp_OrderType,
             "vnp_ReturnUrl" => $vnp_Returnurl,
-            "vnp_TxnRef" => $vnp_TxnRef,
+            "vnp_TxnRef" => $vnp_TxnRef
+//            "vnp_room_id" => $room_id,
+//            "vnp_booking_id" => $booking_id
 
         );
 

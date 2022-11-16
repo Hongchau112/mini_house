@@ -36,6 +36,11 @@
                             {{ session('message') }}
                         </div>
                     @endif
+                    @if(session()->has('error'))
+                        <div class="alert alert-danger">
+                            {{ session()->get('error')}}
+                        </div>
+                    @endif
                     <div class="card card-bordered">
                         <div class="card-inner card-inner-lg">
                             <div class="nk-block-head">

@@ -44,7 +44,7 @@
                 <input class="form-control" id="cost" type="hidden"
                        name="room_id" value="{{$room->id}}"/>
                 <input class="form-control" id="cost" type="hidden"
-                       name="booking" value="{{$booking->id}}"/>
+                       name="booking_id" value="{{$booking->id}}"/>
             </div>
             <div class="form-group">
                 <label for="amount">Số tiền</label>

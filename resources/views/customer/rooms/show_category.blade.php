@@ -7,29 +7,12 @@
             {{ session('success') }}
         </div>
     @endif
-    <!-- ================ Inner banner ================ -->
-    <div class="inner-banner inner-banner-bg pt-70 pb-40">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-8 col-md-8 mb-30">
-                    <!-- page-title -->
-                    <div class="page-title">
-                        <h1>Searched Best Result</h1>
-                    </div>
-                    <!-- page-title end -->
-                </div>
-                <div class="col-lg-4 col-md-4 mb-30">
-                    <!-- breadcrumb -->
-                    <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
-                        <li class="breadcrumb-item active">Phòng trọ</li>
-                    </ol>
-                    <!-- breadcrumb end -->
-                </div>
-            </div>
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
         </div>
-    </div>
-    <!-- ================ Inner banner end ================ -->
+    @endif
+
 
     <!-- ================ Listing page ================ -->
     <div class="listing-page pt-70 pb-40">
@@ -103,53 +86,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- filter widget end -->
-                                <!-- filter widget -->
-                                {{--                            <div class="filter-widget mb-20">--}}
-                                {{--                                <div class="accordion filter-accordion" id="filter-widget-accordion2-d">--}}
-                                {{--                                    <div class="card">--}}
-                                {{--                                        <div class="card-header" id="headingOne2-d"> <a class="btn btn-link w-100 text-left" href="" data-toggle="collapse" data-target="#collapseOne2-m" aria-expanded="true" aria-controls="collapseOne2-m">--}}
-                                {{--                                                <!-- title widget -->--}}
-                                {{--                                                <div class="filter-title-widget">--}}
-                                {{--                                                    <h3>Star Rating <i class="fas fa-plus-square float-right"></i> <i class="fas fa-minus-square float-right"></i></h3>--}}
-                                {{--                                                </div>--}}
-                                {{--                                                <!-- title widget end -->--}}
-                                {{--                                            </a> </div>--}}
-                                {{--                                        <div id="collapseOne2-m" class="collapse show mt-10" aria-labelledby="headingOne2-d" data-parent="#filter-widget-accordion2-d">--}}
-                                {{--                                            <div class="card-body">--}}
-                                {{--                                                <ul class="list-inline select-all mb-10">--}}
-                                {{--                                                    <li class="list-inline-item"> <a href="">Select All</a> </li>--}}
-                                {{--                                                    <li class="list-inline-item"><a href="">Clear</a></li>--}}
-                                {{--                                                </ul>--}}
-                                {{--                                                <div class="filter-checkbox-widget">--}}
-                                {{--                                                    <div class="form-check">--}}
-                                {{--                                                        <input class="form-check-input" type="checkbox">--}}
-                                {{--                                                        <label class="form-check-label"> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <small>(5)</small> </label>--}}
-                                {{--                                                    </div>--}}
-                                {{--                                                    <div class="form-check">--}}
-                                {{--                                                        <input class="form-check-input" type="checkbox">--}}
-                                {{--                                                        <label class="form-check-label"> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="far fa-star"></i> <small>(4)</small> </label>--}}
-                                {{--                                                    </div>--}}
-                                {{--                                                    <div class="form-check">--}}
-                                {{--                                                        <input class="form-check-input" type="checkbox">--}}
-                                {{--                                                        <label class="form-check-label"> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <small>(3)</small> </label>--}}
-                                {{--                                                    </div>--}}
-                                {{--                                                    <div class="form-check">--}}
-                                {{--                                                        <input class="form-check-input" type="checkbox">--}}
-                                {{--                                                        <label class="form-check-label"> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <small>(2)</small> </label>--}}
-                                {{--                                                    </div>--}}
-                                {{--                                                    <div class="form-check">--}}
-                                {{--                                                        <input class="form-check-input" type="checkbox">--}}
-                                {{--                                                        <label class="form-check-label"> <i class="fas fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <small>(1)</small> </label>--}}
-                                {{--                                                    </div>--}}
-                                {{--                                                </div>--}}
-                                {{--                                            </div>--}}
-                                {{--                                        </div>--}}
-                                {{--                                    </div>--}}
-                                {{--                                </div>--}}
-                                {{--                            </div>--}}
-                                <!-- filter widget end -->
-                                <!-- filter widget -->
                                 <div class="filter-widget mb-20">
                                     <div class="accordion filter-accordion" id="filter-widget-accordion3-d">
                                         <div class="card">
@@ -236,7 +172,13 @@
                                             <a href="{{route('customer.add_wistlist', ['id'=>$room->id])}}" id="btn-wishlist"><i class="fa fa-heart"></i></a>
                                         </li>
                                     </ul>
-                                    <div class="btn-wrapper mt-20 d-inline-block w-100"> <a class="view-detail-btn" href="{{route('customer.rooms.details', ['id'=>$room->id])}}">Chi tiết</a> <a class="book-now-btn ml-6" href="{{route('customer.rooms.booking', ['id' =>$room->id])}}">Đặt ngay</a> </div>
+                                    <div class="btn-wrapper mt-20 d-inline-block w-100"> <a class="view-detail-btn" href="{{route('customer.rooms.details', ['id'=>$room->id])}}">Chi tiết</a>
+                                        @if($room->status==0)
+                                            <a class="book-now-btn ml-6" href="{{route('customer.rooms.booking', ['id' =>$room->id])}}">Đặt ngay</a>
+                                        @else
+                                            <button class="btn btn-outline-danger">Hết phòng</button>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
                             <!-- list box end -->
@@ -247,11 +189,9 @@
                     <!-- hotel results list end -->
                     <!-- pagination -->
                     <ul class="pagination pagination-box mb-30">
-                        <li class="page-item"> <a class="page-link" href="#" aria-label="Previous"> <span aria-hidden="true">&laquo;</span> </a> </li>
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"> <a class="page-link" href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span> </a> </li>
+                        <ul class="pagination pagination-box mb-30">
+                            {!!$rooms->links('pagination::bootstrap-4')!!}
+                        </ul>
                     </ul>
                     <!-- pagination end -->
                 </div>

@@ -78,7 +78,7 @@
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="payment_method" value="vnpay" id="vnpay">
                                     <label class="form-check-label" for="vnpay">
-                                        Default radio
+                                        Thanh toán với VNPAY
                                     </label>
                                 </div>
                                 {{--                            <form action="{{route('customer.payment.vnpay')}}" method="post">--}}
@@ -92,12 +92,12 @@
                                 <a href="{{route('customer.payment.vnpay_online', ['id'=>$room->id])}}"><img src="/images/vnpay.jpg"></a>
                             </div>
                             <div class="col-lg-6 mb-20">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="payment_method" id="momo" >
-                                    <label class="form-check-label" for="momo">
-                                        Default checked radio
-                                    </label>
-                                </div>
+{{--                                <div class="form-check">--}}
+{{--                                    <input class="form-check-input" type="radio" name="payment_method" id="momo" >--}}
+{{--                                    <label class="form-check-label" for="momo">--}}
+{{--                                        Default checked radio--}}
+{{--                                    </label>--}}
+{{--                                </div>--}}
 {{--                                <form action="{{route('customer.payment.momo')}}" method="post">--}}
 {{--                                    @csrf--}}
 {{--                                    <button type="submit" name="redirect" style="border: none"><img src="/images/momo.png" width="240px" height="100px"></button>--}}

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use App\Models\Booking;
 use App\Models\Image;
 use App\Models\Room;
 use App\Models\RoomCategory;
@@ -10,6 +11,7 @@ use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Session;
 
 class CustomerController extends Controller
 {
@@ -70,7 +72,7 @@ class CustomerController extends Controller
     {
         $user = Auth::guard('admin')->user();
 
-        $rooms = Room::all();
+        $rooms = Room::paginate(5);
         $room_categories = RoomCategory::all();
         $images = Image::all();
         $services = Service::all();
@@ -167,7 +169,7 @@ class CustomerController extends Controller
         {
             $output.='
             <li class="search_room_ajax"><a href ="#">'.$room->name.'</a>
-            <p>'.$room->cost.'</p></li>';
+            <p>'.number_format($room->cost).'<span>đ</span></p></li>';
         }
          $output.= '</ul>';
         echo $output;
@@ -182,6 +184,47 @@ class CustomerController extends Controller
         $images = Image::all();
         $rooms = Room::where('name', 'LIKE', '%' .$data['key-submit'].'%')->orWhere('cost', 'LIKE', '%' .$data['key-submit'].'%')->get();
         return view('customer.rooms.show_category', compact('rooms', 'room_categories', 'images', 'user'));
+    }
+
+
+    public function booking_history($id)
+    {
+        $user = Auth::guard('admin')->user();
+        $rooms = Room::all();
+        $customer_id = Session::get('user_id');
+        $room_categories = RoomCategory::all();
+
+        $images = Image::all();
+        if (!$customer_id)
+        {
+            return redirect()->route('admin.login_auth')->with('message', 'Vui lòng đăng nhập');
+        }
+        else{
+            $booking_rooms = Booking::where('user_id', $customer_id)->orderby('id', 'DESC')->get();
+//            dd($booking_rooms);
+            return view('customer.login.booking_history', compact('user', 'room_categories', 'rooms', 'booking_rooms', 'images'));
+        }
+
+    }
+
+    public function booking_details($id)
+    {
+        $images = Image::all();
+        $booking = Booking::find($id);
+//        dd($booking->id);
+        $room = Room::where('id', $booking->booking_room_id)->get()->first();
+        $get_category = RoomCategory::where('id', $room->room_type_id)->get()->first();
+        $image = Image::where('room_id', $room->id)->get()->first();
+//        dd($image);
+        $user = Auth::guard('admin')->user();
+        $room_categories = RoomCategory::all();
+        $services = Service::all();
+        return view('customer.login.booking_details', compact('booking', 'services','get_category', 'image','room', 'room_categories', 'images', 'user'));
+    }
+
+    public function test_modal()
+    {
+        return view('customer.rooms.test_modal');
     }
 
 

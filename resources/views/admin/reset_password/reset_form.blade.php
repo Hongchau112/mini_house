@@ -1,4 +1,4 @@
-<h1>Forget Password Email</h1>
+<h1>Quên mật khẩu</h1>
 
-You can reset password from bellow link:
-<a href="{{ route('admin.show_resetPassword', $token) }}">Reset Password</a>
+Bạn có thể đặt lại mật khẩu bằng việc nhấp vào link bên dưới:
+<a href="{{ route('admin.show_resetPassword', $token) }}">Đặt lại mật khẩu</a>

@@ -42,7 +42,7 @@
                             @php
                                 $image_path = $image->image_path;
                             @endphp
-                            <figure class="item"> <img src="{{asset('/images/'.$image_path)}}" alt="img description"> </figure>
+                            <figure class="item"> <img src="{{asset('/images/'.$image_path)}}" width="500px" height="470px" alt="img description"> </figure>
                         @endif
                     @endforeach
 {{--                    <figure class="item mb-0"> <img src="img/hotel-detail/img-01.jpg" alt="img description"> </figure>--}}
@@ -60,7 +60,7 @@
                         <div class="tab-pane fade show active p-15" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
                             <!-- overview -->
                             <h4 class="mb-6">Mô tả</h4>
-                            <p>{{$room->description}}</p>
+                            <p>{!! $room->description !!}</p>
 {{--                            <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipiscing dolor sit amet consectetur adipiscing elit amet consectetur piscing elit amet consectetur adipiscing elit sed et eletum nulla eu placerat felis etiam tincidunt orci lacus id varius dolor fermum sit amet.</p>--}}
                             <!-- overview end -->
                         </div>
