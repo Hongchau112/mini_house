@@ -222,3 +222,5 @@ Route::get('customer/post_category/{id}', [PostController::class, 'post_category
 Route::get('customer/show_category/{id}', [CustomerController::class, 'show_category'])->name('customer.show_category');
 Route::post('customer/global_search', [CustomerController::class, 'global_search'])->name('customer.global_search');
 Route::post('customer/search', [CustomerController::class, 'search'])->name('customer.search');
+Route::get('admin/customer_profile/{id}', [TransactionController::class, 'customer_profile'])->name('admin.customer_profile');
+Route::post('admin/update_status/{id}', [TransactionController::class, 'update_status'])->name('admin.update_status');

@@ -6,6 +6,7 @@ use App\Models\Admin;
 use App\Models\Booking;
 use App\Models\BookingDetail;
 use App\Models\Image;
+use App\Models\Post;
 use App\Models\PostCategory;
 use App\Models\Room;
 use App\Models\RoomCategory;
@@ -28,19 +29,26 @@ class CustomerController extends Controller
         $images = Image::all();
         $user = Auth::guard('admin')->user();
         $post_categories = PostCategory::all();
-        return view('customer.login.index', compact('user', 'post_categories','images', 'rooms', 'room_categories'));
+        $posts = Post::all();
+        return view('customer.login.index', compact('user', 'post_categories','images', 'rooms', 'room_categories', 'posts'));
     }
 
     public function edit_profile($id)
     {
+
         $user = Auth::guard('admin')->user();
+        $post_categories = PostCategory::all();
+        $room_categories = RoomCategory::all();
+
         $user_find = Admin::find($id);
-        return view('customer.login.edit_profile', compact('user', 'user_find'));
+        return view('customer.login.edit_profile', compact('user', 'user_find', 'post_categories', 'room_categories'));
     }
 
     public function update_profile(Request $request, $id)
     {
         $user = Auth::guard('admin')->user();
+        $post_categories = PostCategory::all();
+        $room_categories = RoomCategory::all();
 //dd($request);
         $validated_data = $request->validate([
             'name' => 'required',

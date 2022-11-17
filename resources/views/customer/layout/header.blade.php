@@ -130,9 +130,9 @@
                                             <i class="fa fa-user" style="font-size: 15px"></i>
                                         </button>
                                         <div class="dropdown-menu" style="font-size: 12px;" aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item" href="{{route('customer.edit_profile', ['id' => $user->id])}}">Thông tin</a>
-                                            <a class="dropdown-item" href="#">Cập nhật</a>
-                                            <a class="dropdown-item" href="#">Đổi mật khẩu</a>
+                                            <a class="dropdown-item" href="{{route('customer.edit_profile', ['id' => $user->id])}}">Cập nhật thông tin</a>
+{{--                                            <a class="dropdown-item" href="#">Cập nhật</a>--}}
+                                            <a class="dropdown-item" href="{{route('admin.show_forgotPassword')}}">Đổi mật khẩu</a>
                                             <a class="dropdown-item" href="{{route('customer.booking_history', ['id'=> $user->id])}}">Lịch sử đặt phòng</a>
 
                                         </div>

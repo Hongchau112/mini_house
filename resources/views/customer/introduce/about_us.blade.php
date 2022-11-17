@@ -3,27 +3,7 @@
 ])
 
 @section('content')
-    <div class="inner-banner inner-banner-bg pt-70 pb-40">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-8 col-md-8 mb-30">
-                    <!-- page-title -->
-                    <div class="page-title">
-                        <h1>Giới thiệu</h1>
-                    </div>
-                    <!-- page-title end -->
-                </div>
-                <div class="col-lg-4 col-md-4 mb-30">
-                    <!-- breadcrumb -->
-                    <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item"><a href="{{route('customer.index')}}">Trang chủ</a></li>
-                        <li class="breadcrumb-item active">Giới thiệu</li>
-                    </ol>
-                    <!-- breadcrumb end -->
-                </div>
-            </div>
-        </div>
-    </div>
+
     <div class="about-page pt-70 pb-60">
         <div class="container">
             <div class="row">

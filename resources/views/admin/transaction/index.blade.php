@@ -3,6 +3,11 @@
 ])
 
 @section('content')
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
     <div class="nk-block">
         <div class="card card-bordered card-stretch">
             <div class="card-inner-group">
@@ -59,7 +64,7 @@
                         @foreach($bookings as $booking)
                         <tr class="tb-tnx-item">
                             <td class="tb-tnx-id">
-                                <a href="#"><span>{{$booking->booking_room_id}}</span></a>
+                                <a href="{{route('admin.rooms.show', ['id'=>$booking->booking_room_id])}}"><span>{{$booking->booking_room_id}}</span></a>
                             </td>
                             <td class="tb-tnx-info">
                                 <div class="tb-tnx-desc">
@@ -80,10 +85,10 @@
                                 <div class="tb-tnx-status">
                                     @if($booking->booking_status=='pending')
                                         <span class="badge badge-dot badge-warning">Đang xử lý</span>
-                                    @elseif($booking->booking_status ='error')
-                                        <span class="badge badge-dot danger">Thất bại</span>
-                                    @elseif($booking->booking_status ='booked')
-                                        <span class="btn btn-success">Thành công</span>
+                                    @elseif($booking->booking_status ='success')
+                                        <span class="badge badge-dot badge-success">Thành công</span>
+                                    @elseif($booking->booking_status ='hired')
+                                        <span class="btn btn-success">Đã vào ở</span>
                                     @endif
                                 </div>
                             </td>
@@ -92,7 +97,7 @@
                                     <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-xs">
                                         <ul class="link-list-plain">
-                                            <li><a href="{{route('admin.transactions.show', ['id' => 43])}}">Xem</a></li>
+                                            <li><a href="{{route('admin.transactions.show', ['id' => $booking->id])}}">Xem</a></li>
                                         </ul>
                                     </div>
                                 </div>

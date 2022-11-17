@@ -2,6 +2,16 @@
     'title' => ( $title ?? 'Trang chủ' )
 ])
 @section('content')
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
     <!-- ================ Preloader ================ -->
     <div id="preloader">
         <div class="spinner-grow" role="status"> <span class="sr-only">Loading...</span> </div>
@@ -143,7 +153,7 @@
                         @endforeach
                             <div class="imege mb-10"><img src="{{asset('/images/'.$image_path)}}" width="300px" height="250px" alt=""></div>
                         <div class="reting"> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> </div>
-                        <h4><a href="">{{$room->name}}</a></h4>
+                        <h4><a href="{{route('customer.rooms.details',['id'=>$room->id])}}">{{$room->name}}</a></h4>
                         <div class="price">{{number_format($room->cost)}} đ<span>/Tháng</span></div>
                     </div>
 
@@ -167,21 +177,23 @@
                 <span class="dashed-border"></span> </div>
             <!-- section title -->
             <div class="row">
+                @foreach($posts as $post)
                 <div class="col-lg-4 col-md-6 mb-30">
                     <!-- blog box -->
                     <div class="blog-box shadow">
-                        <div class="blog_img mb-20"><img src="{{asset('boarding_house/img/blog/blog-1.jpg')}}" alt=""></div>
+                        <div class="blog_img mb-20"><img src="{{asset('/images/'.$post->image)}}" width="320px" height="250px" alt=""></div>
                         <div class="blog-des">
-                            <h6 class="blog_date font-weight-normal text-muted"><span>business</span> January 01, 2020</h6>
-                            <h5 class="mt-10 mb-6"><a href="#" class="text-dark">The Most Advance Business Plan</a></h5>
-                            <p class="text-muted">Lorem ipsum dolor sit amet consectetur ipiscing elit amet consectetur piscing elit consectetur adipiscing elit sed et eletum.</p>
+                            <h6 class="blog_date font-weight-normal text-muted"><span>Thông tin</span> {{$post->created_at}}</h6>
+                            <h5 class="mt-10 mb-6"><a href="{{route('customer.posts.details', ['id'=>$post->id])}}" class="text-dark">{{$post->title}}</a></h5>
+                            <p class="text-muted">{{$post->intro}}</p>
                             <div class="read_more">
                                 <div class="blog_border"></div>
-                                <a href="#" class="text-dark text-uppercase"> Read More</a> </div>
+                                <a href="{{route('customer.posts.details', ['id'=>$post->id])}}" class="text-dark text-uppercase">Đọc thêm...</a> </div>
                         </div>
                     </div>
                     <!-- blog box end -->
                 </div>
+                @endforeach
             </div>
         </div>
     </div>

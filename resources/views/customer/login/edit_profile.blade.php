@@ -3,6 +3,16 @@
 ])
 
 @section('content')
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
     <div class="contact-us-page pt-70 pb-40">
         <div class="container">
             <div class="row">

@@ -79,7 +79,7 @@
                                                 <div class="dropdown-menu dropdown-menu-right">
                                                     <ul class="link-list-opt no-bdr">
                                                         <li><a href="{{route('customer.posts.details', ['id'=>$post->id])}}" target="_blank"><em class="icon ni ni-eye"></em><span>Xem bài đăng</span></a></li>
-                                                        <li><a href="#"><em class="icon ni ni-edit"></em><span>Chỉnh sửa bài đăng</span></a></li>
+{{--                                                        <li><a href="#"><em class="icon ni ni-edit"></em><span>Chỉnh sửa bài đăng</span></a></li>--}}
                                                         <li><a href="{{route('admin.posts.delete', ['id'=>$post->id])}}"><em class="icon ni ni-delete"></em><span>Xóa bài</span></a></li>
                                                     </ul>
                                                 </div>
