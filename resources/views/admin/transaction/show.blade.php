@@ -13,21 +13,23 @@
                     <img src="" srcset="" alt="">
                 </div>
                 <div class="invoice-head">
+                    @foreach($customer as $cus)
                     <div class="invoice-contact">
                         <span class="overline-title">Người giao dịch</span>
                         <div class="invoice-contact-info">
-                            <h4 class="title">{{$customer->name}}</h4>
+                            <h4 class="title">{{$cus->name}}</h4>
                             <ul class="list-plain">
-                                <li><em class="icon ni ni-map-pin-fill">{{$customer->address}}</em><span></span></li>
-                                <li><em class="icon ni ni-call-fill"></em><span>{{$customer->phone}}</span></li>
+                                <li><em class="icon ni ni-map-pin-fill">{{$cus->address}}</em><span></span></li>
+                                <li><em class="icon ni ni-call-fill"></em><span>{{$cus->phone}}</span></li>
                             </ul>
                         </div>
                     </div>
+                    @endforeach
                     <div class="invoice-desc">
                         <h3 class="title">Hóa đơn</h3>
                         <ul class="list-plain">
-                            <li class="invoice-id"><span>Mã giao dịch</span>:<span>{{$transaction->transaction_id}}</span></li>
-                            <li class="invoice-date"><span>Ngày giao dịch</span>:<span>{{$transaction->time}}</span></li>
+                            <li class="invoice-id"><span>Mã giao dịch</span>:<span>{{$booking->id}}</span></li>
+                            <li class="invoice-date"><span>Ngày giao dịch</span>:<span>{{$booking->date}}</span></li>
                         </ul>
                     </div>
                 </div><!-- .invoice-head -->

@@ -14,4 +14,9 @@ class RoomCategory extends Model
         'description',
         'parent_category_id'
     ];
+
+    public function getCategory()
+    {
+        return $this->name;
+    }
 }

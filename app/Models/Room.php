@@ -29,5 +29,10 @@ class Room extends Model
         return $this->belongsTo('App\Models\Post');
     }
 
+    public function users()
+    {
+        $this->belongsToMany(User::class);
+    }
+
 
 }

@@ -131,6 +131,7 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     //transaction
     Route::get('admin/transaction', [TransactionController::class, 'index'])->name('transactions.index');
     Route::get('admin/transaction/show/{id}', [TransactionController::class, 'show'])->name('transactions.show');
+    Route::get('admin/transaction/edit/{id}', [TransactionController::class, 'edit'])->name('transactions.edit');
 
 
 });

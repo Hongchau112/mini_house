@@ -12,18 +12,25 @@
                     <form class="form-style-1" action="{{route('customer.booking.store')}}" method="post">
                         @csrf
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                 <div class="form-group">
                                     <label>Họ và tên<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" value="{{$user->name}}" name="user_name" id="user-name">
-                                    <span class="text-danger">@error('user_name'){{$message}}@enderror</span>
+                                    <input type="text" class="form-control" value="{{$user->name}}" name="name" id="name">
+                                    <span class="text-danger">@error('name'){{$message}}@enderror</span>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                 <div class="form-group">
                                     <label>Số điện thoại<span class="text-danger">*</span></label>
-                                    <input type="text" name="user_phone" value="{{$user->phone}}" id="user_phone" class="form-control">
-                                    <span class="text-danger">@error('user_phone'){{$message}}@enderror</span>
+                                    <input type="text" name="phone" value="{{$user->phone}}" id="phone" class="form-control">
+                                    <span class="text-danger">@error('phone'){{$message}}@enderror</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label>CCCD/CMND<span class="text-danger">*</span></label>
+                                    <input type="text" name="identified_no" id="identified_no" class="form-control">
+                                    <span class="text-danger">@error('identified_no'){{$message}}@enderror</span>
                                 </div>
                             </div>
                         </div>
@@ -31,7 +38,7 @@
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label>Giới tính<span class="text-danger">*</span></label>
-                                    <select class="form-control" name="user_sex">
+                                    <select class="form-control" name="sex">
                                         <option value="0">- Chọn -</option>
                                         <option value="male">Nam</option>
                                         <option value="female">Nữ</option>
@@ -42,24 +49,36 @@
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label>Email<span class="text-danger">*</span></label>
-                                    <input type="email" name="user_email" value="{{$user->email}}" class="form-control">
-                                    <span class="text-danger">@error('user_email'){{$message}}@enderror</span>
+                                    <input type="email" name="email" value="{{$user->email}}" class="form-control">
+                                    <span class="text-danger">@error('email'){{$message}}@enderror</span>
                                 </div>
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label>Ngày sinh<span class="text-danger">*</span></label>
-                                    <input name="user_birthday" type="text" id="datepickerdob" class="form-control">
-                                    <span class="text-danger">@error('user_birthday'){{$message}}@enderror</span>
+                                    <input name="birthday" type="text" id="datepickerdob" class="form-control">
+                                    <span class="text-danger">@error('birthday'){{$message}}@enderror</span>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-12">
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label>Nghề nghiệp<span class="text-danger">*</span></label>
+                                    <select class="form-control" name="title">
+                                        <option value="0">- Chọn -</option>
+                                        <option value="student">Sinh viên</option>
+                                        <option value="adult">Người đi làm</option>
+                                        <option value="other">Khác</option>
+                                    </select>
+                                    <span class="text-danger">@error('title'){{$message}}@enderror</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
                                 <div class="form-group">
                                     <label>Địa chỉ<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="user_address">
-                                    <span class="text-danger">@error('user_address'){{$message}}@enderror</span>
+                                    <input type="text" class="form-control" name="address">
+                                    <span class="text-danger">@error('address'){{$message}}@enderror</span>
                                 </div>
                             </div>
                         </div>

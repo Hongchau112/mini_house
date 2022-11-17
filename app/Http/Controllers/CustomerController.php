@@ -10,6 +10,7 @@ use App\Models\Room;
 use App\Models\RoomCategory;
 use App\Models\Service;
 use App\Models\ServiceRoom;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -216,15 +217,17 @@ class CustomerController extends Controller
         $images = Image::all();
         $booking = Booking::find($id);
         $booking_detail = BookingDetail::where('booking_id', $id)->get()->first();
-//        dd($booking_detail->id);
         $room = Room::where('id', $booking->booking_room_id)->get()->first();
         $get_category = RoomCategory::where('id', $room->room_type_id)->get()->first();
         $image = Image::where('room_id', $room->id)->get()->first();
-//        dd($image);
         $user = Auth::guard('admin')->user();
+        $customers = User::where('room_id', $room->id)->get();
+//        dd($customer->name);
         $room_categories = RoomCategory::all();
         $services = Service::all();
-        return view('customer.login.booking_details', compact('booking', 'booking_detail', 'services','get_category', 'image','room', 'room_categories', 'images', 'user'));
+
+        $serviceRooms = ServiceRoom::where('room_id', $room->id)->get();
+        return view('customer.login.booking_details', compact('booking', 'serviceRooms','customers', 'booking_detail', 'services','get_category', 'image','room', 'room_categories', 'images', 'user'));
     }
 
     public function test_modal()

@@ -19,9 +19,15 @@
         @foreach($booking_rooms as $get_booking)
             <tr>
                 <th scope="row">{{$i}}</th>
-                <td>{{$get_booking->booking_room_id}}</td>
-                <td>{{$get_booking->created_at}}</td>
-                <td>Đang thuê</td>
+                @foreach($rooms as $room)
+                    @if($get_booking->booking_room_id==$room->id)
+                        <td>{{$room->name}}</td>
+                    @endif
+                @endforeach
+                    <td>{{$get_booking->date}}</td>
+                @if($get_booking->booking_status=='pending')
+                    <td style="color: green;">Đặt thành công - Chờ nhận phòng</td>
+                @endif
                 <td><button class="btn btn-success" style="font-size: 12px;"><a href="{{route('customer.booking_details', ['id'=> $get_booking->id])}}" style="    color: white;
     font-weight: bold;">Xem chi tiết</a></button></td>
             </tr>

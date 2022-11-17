@@ -17,13 +17,23 @@ class User extends Authenticatable
      *
      * @var array
      */
+    protected $table='users';
+    public $timestamps=false;
     protected $fillable = [
         'name',
         'email',
         'phone',
-        'password',
-        'sex'
+        'identified_no',
+        'address',
+        'title',
+        'sex',
+        'birthday'
     ];
+
+    public function room()
+    {
+        $this->belongsTo(Room::class);
+    }
 
     /**
      * The attributes that should be hidden for arrays.

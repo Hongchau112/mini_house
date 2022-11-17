@@ -52,11 +52,14 @@
                                 <div>
                                     <span class="me-3">Ngày đặt: </span>
                                     <span class="me-3">{{$booking_detail->date}}</span>
+
                                     @if($booking->booking_status=='old')
                                         <span style="margin-left: 25px; padding: 12px; font-size: 13px; color: white;" class="badge rounded-pill bg-info">Đã trả phòng</span>
 
                                     @elseif($booking->booking_status=='booked')
-                                        <span style="margin-left: 25px; padding: 12px; font-size: 13px; color: white;" class="badge rounded-pill bg-info">Đang thuê</span>
+                                        <span style="margin-left: 25px; padding: 12px; font-size: 13px; color: white;" class="badge rounded-pill bg-info">Đặt thành công - Đang thuê</span>
+                                    @elseif($booking->booking_status=='pending')
+                                        <span style="margin-left: 25px; padding: 12px; font-size: 13px; color: white;" class="badge rounded-pill bg-info">Đặt thành công - Chờ nhận phòng</span>
                                     @endif
                                 </div>
                             </div>
@@ -66,7 +69,7 @@
                                     <td>
                                         <div class="d-flex mb-2">
                                             <div class="flex-shrink-0">
-                                                <img src="{{asset('/images/'.$image->image_path)}}" alt="" width="150" class="img-fluid">
+                                                <img src="{{asset('/images/'.$image->image_path)}}" alt="" width="130" class="img-fluid">
                                             </div>
                                             <div class="flex-lg-grow-1 ms-3" style="margin-left: 20px;}">
                                                 <h6 class="small mb-0"><a href="#" class="text-reset">{{$room->name}}</a></h6>
@@ -74,9 +77,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                    @if($get_category->room_limit==1)
-                                        <td>Phòng 1 người</td>
-                                    @endif
+                                    <td>{{$get_category->getCategory()}}</td>
                                     <td class="text-end">{{number_format($room->cost)}} đ</td>
                                 </tr>
                                 </tbody>
@@ -85,37 +86,19 @@
                                     <td colspan="2">Dịch vụ phòng</td>
 
                                 </tr>
-                                @php
-                                    $tong=$room->cost;
-                                @endphp
-                                @if($room->maylanh==1)
-                                <tr>
-                                    <td colspan="2">Máy lạnh</td>
-                                    <td class="text-end">{{number_format(300000)}} đ</td>
-                                    @php
-                                        $tong+=300000;
-                                    @endphp
-                                </tr>
-                                @endif
-                                @if($room->bep==1)
-                                    <tr>
-                                        <td colspan="2">Bếp nấu ăn</td>
-                                        <td class="text-end">{{number_format(100000)}} đ</td>
-                                    </tr>
-                                    @php
-                                        $tong+=100000;
-                                    @endphp
-                                @endif
-                                <tr>
-                                    <td colspan="2">Phòng có gác</td>
-                                    <td class="text-end">{{number_format(200000)}} đ</td>
-                                    @php
-                                        $tong+=200000;
-                                    @endphp
-                                </tr>
+                                @foreach($serviceRooms as $serviceRoom)
+                                    @foreach($services as $service)
+                                        @if($serviceRoom->service_id==$service->id)
+                                            <tr>
+                                                <td colspan="2">{{$service->getName()}}</td>
+                                                <td class="text-end">{{number_format($service->getCost())}} đ</td>
+                                            </tr>
+                                        @endif
+                                    @endforeach
+                                @endforeach
                                 <tr class="fw-bold">
                                     <td colspan="2">Tổng thanh toán</td>
-                                    <td class="text-end" style="font-weight: bold;">{{number_format($tong)}} đ</td>
+                                    <td class="text-end" style="font-weight: bold;">{{number_format($booking_detail->total_cost)}} đ</td>
                                 </tr>
                                 </tfoot>
                             </table>
@@ -127,16 +110,22 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <h3 class="h6">Thanh toán thông qua: </h3>
-                                    <p style="font-size: 14px;"><br>
-                                        {{number_format($tong)}} đ<span style="margin-left: 10px" class="badge bg-success rounded-pill"> PAID</span></p>
+                                    <p style="font-size: 14px;">
+                                        @if($booking_detail->payment_method=='cash')
+                                        <span>Thanh toán tiền mặt khi nhận phòng</span>
+                                    @elseif($booking_detail->payment_method=='vnpay')
+                                            <span>Thanh toán bằng VNPAY <span style="margin-left: 10px" class="badge bg-success rounded-pill">Đã thanh toán</span></span>
+                                        @endif<br>
+                                    </p>
+                                    <img src="/images/paid.png" width="100px">
                                 </div>
                                 <div class="col-lg-6">
                                     <h3 class="h6">Người thanh toán</h3>
                                     <address>
-                                        <strong>{{$user->name}}</strong><br>
-                                        <br>Địa chỉ: {{$user->address}}
-                                        <br>
-                                        <abbr title="Phone">SĐT: </abbr> {{$user->phone}}
+                                        <strong>{{$user->name}}</strong><br><br>
+                                        <p>Địa chỉ: {{$user->address}}</p>
+                                        <p>Email: {{$user->email}}</p>
+                                        <p>Số điện thoại: {{$user->phone}}</p>
                                     </address>
                                 </div>
                             </div>
@@ -145,26 +134,44 @@
                 </div>
                 <div class="col-lg-4">
                     <!-- Customer Notes -->
-                    <div class="card mb-4" style="background-color: #c3fed0;">
-                        <div class="card-body">
-                            <h3 class="h6">Customer Notes</h3>
-                            <p>Sed enim, faucibus litora velit vestibulum habitasse. Cras lobortis cum sem aliquet mauris rutrum. Sollicitudin. Morbi, sem tellus vestibulum porttitor.</p>
-                        </div>
-                    </div>
+{{--                    <div class="card mb-4" style="background-color: #c3fed0;">--}}
+{{--                        <div class="card-body">--}}
+{{--                            <h3 class="h6">Customer Notes</h3>--}}
+{{--                            <p>Sed enim, faucibus litora velit vestibulum habitasse. Cras lobortis cum sem aliquet mauris rutrum. Sollicitudin. Morbi, sem tellus vestibulum porttitor.</p>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
                     <div class="card mb-4" style="background-color: #c3fed0;">
                         <!-- Shipping information -->
                         <div class="card-body">
-                            <h3 class="h6">Shipping Information</h3>
-                            <strong>FedEx</strong>
-                            <span><a href="#" class="text-decoration-underline" target="_blank">FF1234567890</a> <i class="bi bi-box-arrow-up-right"></i> </span>
+                            <h3 >Thông tin người ở trọ</h3>
+                            <strong></strong>
+                            <span>Số người: {{count($customers)}}</span>
                             <hr>
-                            <h3 class="h6">Address</h3>
-                            <address>
-                                <strong>John Doe</strong><br>
-                                1355 Market St, Suite 900<br>
-                                San Francisco, CA 94103<br>
-                                <abbr title="Phone">P:</abbr> (123) 456-7890
-                            </address>
+                            <h3 class="h6">Thông tin cá nhân</h3>
+                            @foreach($customers as $customer)
+                                <table class="table table-borderless">
+                                    <tr>
+                                        <td style="font-weight: bold;">Họ và tên:</td>
+                                        <td class="label"> {{$customer->name}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-weight: bold;">SĐT</td>
+                                        <td colspan="2"> {{$customer->phone}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-weight: bold;">CCCD</td>
+                                        <td class="label"> {{$customer->identified_no}}</td>
+                                    </tr>
+                                    <tr >
+                                        <td style="font-weight: bold;">Giới tính:</td>
+                                        <td class="label"> {{$customer->sex}}</td>
+                                    </tr>
+                                    <tr >
+                                        <td style="font-weight: bold;">Nghề nghiệp</td>
+                                        <td class="label"> {{$customer->title}}</td>
+                                    </tr>
+                                </table>
+                            @endforeach
                         </div>
                     </div>
                 </div>
