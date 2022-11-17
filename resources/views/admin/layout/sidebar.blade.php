@@ -48,6 +48,12 @@
                             </ul><!-- .nk-menu-sub -->
                         </li><!-- .nk-menu-item -->
                         <li class="nk-menu-item">
+                            <a href="{{route('admin.post_categories.index')}}" class="nk-menu-link">
+                                <span class="nk-menu-icon"><em class="icon ni ni-sign-btc-alt"></em></span>
+                                <span class="nk-menu-text">Danh mục bài đăng</span>
+                            </a>
+                        </li><!-- .nk-menu-item -->
+                        <li class="nk-menu-item">
                             <a href="{{route('admin.posts.index')}}" class="nk-menu-link">
                                 <span class="nk-menu-icon"><em class="icon ni ni-sign-btc-alt"></em></span>
                                 <span class="nk-menu-text">Bài đăng</span>

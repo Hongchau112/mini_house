@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Admin;
 use App\Models\Image;
 use App\Models\Post;
+use App\Models\PostCategory;
 use App\Models\Room;
 use App\Models\RoomCategory;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Session;
 class PostController extends Controller
 {
@@ -41,7 +43,8 @@ class PostController extends Controller
         $user = Auth::guard('admin')->user();
         $room_category = RoomCategory::all();
         $rooms = Room::all();
-        return view('admin.posts.create', compact('user', 'room_category', 'rooms'));
+        $post_category = PostCategory::all();
+        return view('admin.posts.create', compact('user', 'room_category', 'rooms', 'post_category'));
     }
 
     public function store(Request $request)
@@ -51,16 +54,28 @@ class PostController extends Controller
         $data = $request->validate([
             'title' => 'required',
             'content' => 'required',
-            'room_id' => 'required',
+            'room_id' => 'nullable',
+            'post_type_id' => 'required',
 
         ]);
 
         $post = new Post();
+        $image = $request->file('image');
+        if ($image)
+        {
+//            $post->image = $image->move('storage', $image->getClientOriginalName());
+        }
+
         $post->title = $data['title'];
+
         $post->content = $data['content'];
+
         $post->room_id = $data['room_id'];
-        $post->post_type_id = 'information';
+
+        $post->post_type_id = ['post_type_id'];
+//        dd(1);
         $post->save();
+
 
         return redirect()->route('admin.posts.index', compact('user'))->with('success', 'Thêm phòng thành công!');
 
@@ -73,9 +88,10 @@ class PostController extends Controller
         $post = Post::find($id);
         $images = Image::all();
         $rooms = Room::all();
-        $categories = RoomCategory::all();
+        $room_categories = RoomCategory::all();
+        $post_categories = PostCategory::all();
         $post_infos = Post::where('post_type_id', 2)->get();
-        return view('customer.posts.detail', compact('rooms', 'images', 'post', 'categories', 'user', 'post_infos'));
+        return view('customer.posts.detail', compact('rooms', 'post_categories','images', 'post', 'room_categories', 'user', 'post_infos'));
 
     }
 
@@ -101,6 +117,29 @@ class PostController extends Controller
             return view('customer.posts.search', compact('posts', 'user', 'images', 'rooms', 'categories'));
         else
             return view('customer.posts.not_found', compact('user'));
+    }
+
+    public function post_category($id)
+    {
+        $post_selected = DB::select(
+            'SELECT * FROM posts WHERE posts.post_type_id IN
+            (SELECT category.id FROM post_types as category WHERE (category.parent_category_id = ? ) OR (category.id=?))',[$id, $id]);
+
+        for($i = 0 ; $i <count($post_selected);$i++){
+            $post_selected[$i] = [$post_selected[$i]->id];
+            // dd($test);
+        }
+
+        $posts = Post::whereIn('id',$post_selected)->paginate(5);
+//dd($posts);
+        $category = PostCategory::find($id);
+        $post_categories = PostCategory::all();
+        $room_categories = RoomCategory::all();
+        $images = Image::all();
+        $services = Service::all();
+        $user = Auth::guard('admin')->user();
+        return view('customer.posts.post_category', compact('user', 'room_categories','services', 'post_categories','posts' , 'images', 'post_selected', 'category'));
+
     }
 
 

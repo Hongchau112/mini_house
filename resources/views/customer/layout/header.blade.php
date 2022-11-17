@@ -55,8 +55,53 @@
                                             @endif
                                         @endif
                                     @endforeach
+                                @php
+                                    $count=0;
+                                @endphp
 
-{{--                                </ul>--}}
+                                @foreach($post_categories as $i => $cate)
+                                    @if($cate->parent_category_id == 0)
+                                        @php
+                                            $count=$count+1;
+                                        @endphp
+                                    @endif
+
+                                    @if($count < 6)
+                                        @if($cate->parent_category_id==0)
+                                            <li class="nav-item dropdown">
+                                                @php
+                                                    $flag = 0;
+                                                @endphp
+                                                @foreach($post_categories as $cate3)
+                                                    @if($cate3->parent_category_id==$cate->id)
+                                                        @php
+                                                            $flag = 1
+                                                        @endphp
+                                                    @endif
+                                                @endforeach
+                                                @if($flag==1)
+                                                    <a class="nav-link dropdown-toggle"  href="{{route('customer.post_category', ['id'=> $cate->id])}}">{{$cate->name}}</a>
+
+                                                @else
+                                                    <a class="nav-link" href="{{route('customer.post_category', ['id'=> $cate->id])}}">{{$cate->name}}</a>
+                                                @endif
+                                                <div class="dropdown-menu" style="padding: 0px; ">
+                                                    @foreach($post_categories as $cate2)
+                                                        @if($cate2->parent_category_id==$cate->id)
+                                                            <a class="nav-link" href="{{route('customer.post_category', ['id'=> $cate2->id])}}">{{$cate2->name}}</a>
+                                                        @endif
+                                                    @endforeach
+                                                </div>
+                                            </li>
+                                        @endif
+                                    @endif
+                                @endforeach
+                                <li class=""><a class="nav-link" href="{{route('customer.about_us')}}">Liên hệ</a></li>
+                                <li class=""><a class="nav-link" href="{{route('customer.rooms.listing')}}">Tất cả trọ</a></li>
+
+
+
+                                {{--                                </ul>--}}
                             </ul>
                         </div>
                         <!-- top menu end -->
@@ -93,7 +138,7 @@
                                         </div>
                                     </div>
                                     </li>
-                                    <li><a href="{{route('admin.logout')}}"><i class="fa fa-sign-out-alt" style="font-size: 18px;margin-top: 5px;"></i></a></li>
+                                    <li><a href="{{route('customer.logout')}}"><i class="fa fa-sign-out-alt" style="font-size: 18px;margin-top: 5px;"></i></a></li>
                                 @else
                                     <li><a href="{{route('admin.login_auth')}}"><i class="fas fa-chevron-right"></i>Đăng nhập</a></li>
                                     <li><a href="contact-us.html" class="header-request">Request a Quote</a></li>

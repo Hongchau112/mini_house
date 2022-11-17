@@ -2,17 +2,17 @@
     'title' => ( $title ?? 'Trang chủ' )
 ])
 @section('content')
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
     @if (session('error'))
         <div class="alert alert-danger">
             {{ session('error') }}
         </div>
     @endif
-
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+    <!-- ================ Inner banner ================ -->
 
     <!-- ================ Listing page ================ -->
     <div class="listing-page pt-70 pb-40">
@@ -38,6 +38,24 @@
                                                 <ul class="list-inline select-all mb-10">
                                                     <li class="list-inline-item">Danh sách gồm {{count($rooms)}} phòng trọ</li>
                                                 </ul>
+                                                {{--                                                <div class="table-responsive">--}}
+                                                {{--                                                    <table class="table table-bordered bg-gray w-100 border-0">--}}
+                                                {{--                                                        <tr>--}}
+                                                {{--                                                            <td>Check In</td>--}}
+                                                {{--                                                            <td>Jan 01, 2020 Wed</td>--}}
+                                                {{--                                                        </tr>--}}
+                                                {{--                                                        <tr>--}}
+                                                {{--                                                            <td>Check Out</td>--}}
+                                                {{--                                                            <td>Jan 01, 2020 Fri</td>--}}
+                                                {{--                                                        </tr>--}}
+                                                {{--                                                        <tr>--}}
+                                                {{--                                                            <td>Room 1</td>--}}
+                                                {{--                                                            <td>1  Adult(s)</td>--}}
+                                                {{--                                                        </tr>--}}
+                                                {{--                                                    </table>--}}
+                                                {{--                                                </div>--}}
+                                                {{--                                                <button type="button" class="btn-style-1" data-toggle="modal" data-target="#modify-search-Modal"><i class="fas fa-search"></i> Modify Search </button>--}}
+                                                {{--                                            </div>--}}
                                             </div>
                                         </div>
                                     </div>
@@ -68,6 +86,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <!-- filter widget end -->
                                 <div class="filter-widget mb-20">
                                     <div class="accordion filter-accordion" id="filter-widget-accordion3-d">
                                         <div class="card">
@@ -114,7 +133,6 @@
                                 <!-- help us end -->
                             </div>
                             <!-- sidebar end -->
-                        </div>
                     </aside>
                 </div>
 
@@ -146,7 +164,7 @@
                                         @foreach($serviceRooms as $serviceRoom)
                                             @foreach($services as $service)
                                                 @if($serviceRoom->service_id==$service->id)
-                                                    <li><span><i class="fas fa-home"></i> {{$service->getName()}}</span></li>
+                                                    <li><span><i class="fas fa-home"></i>{{$service->getName()}}</span></li>
                                                 @endif
                                             @endforeach
                                         @endforeach
@@ -172,9 +190,7 @@
                     <!-- hotel results list end -->
                     <!-- pagination -->
                     <ul class="pagination pagination-box mb-30">
-                        <ul class="pagination pagination-box mb-30">
-                            {!!$rooms->links('pagination::bootstrap-4')!!}
-                        </ul>
+                        {!!$rooms->links('pagination::bootstrap-4')!!}
                     </ul>
                     <!-- pagination end -->
                 </div>

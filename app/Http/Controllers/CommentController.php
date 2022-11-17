@@ -48,7 +48,7 @@ class CommentController extends Controller
         $comment->post_id = $data['post_id'];
         $comment->comment_parent_id = $data['comment_id'];
         $comment->date = now();
-        $comment->user_id = $user->id;
+//        $comment->user_id = $user->id;
         $comment->status = 1;
         $comment->save();
 

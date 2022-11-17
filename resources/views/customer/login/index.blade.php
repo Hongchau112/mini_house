@@ -107,8 +107,7 @@
                 </div>
                 <div class="col-lg-6 mb-30">
                     <!-- about video -->
-                    <div class="about-video-img-box position-relative rounded"> <img src="{{asset('boarding_house/img/about-us/about-video-img-1.jpg')}}" alt="" class="img-fluid rounded">
-                        <div class="hoverlay d-flex flex-row align-items-center justify-content-center"> <a class="venobox d-inline" data-gall="gall-video" data-autoplay="true" data-vbtype="video" href="https://www.youtube.com/watch?v=668nUCeBHyY&t=28s"><i class="fab fa-google-play"></i></a> </div>
+                    <div > <img src="/images/index.jpg" alt="" class="img-fluid rounded">
                     </div>
                     <!-- about video end -->
                 </div>
@@ -157,146 +156,6 @@
     </div>
     <!-- ================ Most popular hotel end ================ -->
 
-    <!-- ================ Popular destinations ================ -->
-    <div class="popular-destinations pt-70 pb-40 position-relative">
-        <div class="bg-style-1"></div>
-        <div class="container">
-            <!-- section title -->
-            <div class="section-title text-center">
-                <h2>Most Popular Destinations</h2>
-                <span class="dashed-border"></span> </div>
-            <!-- section title -->
-            <div class="row">
-                <div class="col-lg-4 col-md-6 col-sm-6 mb-30">
-                    <!-- popular destination box -->
-                    <div class="popular-destination-box">
-                        <div class="img-holder-overlay">
-                            <div class="img-holder"><img src="{{asset('boarding_house/img/popular-destination/1.jpg')}}" alt=""></div>
-                            <div class="overlay"><a href="#"><i class="fas fa-share"></i></a></div>
-                        </div>
-                        <div class="title">
-                            <h3><a href="">Orlando</a></h3>
-                        </div>
-                    </div>
-                    <!-- popular destination box end -->
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 mb-30">
-                    <!-- popular destination box -->
-                    <div class="popular-destination-box">
-                        <div class="img-holder-overlay">
-                            <div class="img-holder"><img src="{{asset('boarding_house/img/popular-destination/2.jpg')}}" alt=""></div>
-                            <div class="overlay"><a href="#"><i class="fas fa-share"></i></a></div>
-                        </div>
-                        <div class="title">
-                            <h3><a href="">Miami</a></h3>
-                        </div>
-                    </div>
-                    <!-- popular destination box end -->
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 mb-30">
-                    <!-- popular destination box -->
-                    <div class="popular-destination-box">
-                        <div class="img-holder-overlay">
-                            <div class="img-holder"><img src="{{asset('boarding_house/img/popular-destination/3.jpg')}}" alt=""></div>
-                            <div class="overlay"><a href="#"><i class="fas fa-share"></i></a></div>
-                        </div>
-                        <div class="title">
-                            <h3><a href="">Los Angeles</a></h3>
-                        </div>
-                    </div>
-                    <!-- popular destination box end -->
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 mb-30">
-                    <!-- popular destination box -->
-                    <div class="popular-destination-box">
-                        <div class="img-holder-overlay">
-                            <div class="img-holder"><img src="{{asset('boarding_house/img/popular-destination/4.jpg')}}" alt=""></div>
-                            <div class="overlay"><a href="#"><i class="fas fa-share"></i></a></div>
-                        </div>
-                        <div class="title">
-                            <h3><a href="">San Diego</a></h3>
-                        </div>
-                    </div>
-                    <!-- popular destination box end -->
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 mb-30">
-                    <!-- popular destination box -->
-                    <div class="popular-destination-box">
-                        <div class="img-holder-overlay">
-                            <div class="img-holder"><img src="{{asset('boarding_house/img/popular-destination/5.jpg')}}" alt=""></div>
-                            <div class="overlay"><a href="#"><i class="fas fa-share"></i></a></div>
-                        </div>
-                        <div class="title">
-                            <h3><a href="">Houston</a></h3>
-                        </div>
-                    </div>
-                    <!-- popular destination box end -->
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 mb-30">
-                    <!-- popular destination box -->
-                    <div class="popular-destination-box">
-                        <div class="img-holder-overlay">
-                            <div class="img-holder"><img src="{{asset('boarding_house/img/popular-destination/6.jpg')}}" alt=""></div>
-                            <div class="overlay"><a href="#"><i class="fas fa-share"></i></a></div>
-                        </div>
-                        <div class="title">
-                            <h3><a href="">New York</a></h3>
-                        </div>
-                    </div>
-                    <!-- popular destination box end -->
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- ================ Popular destinations end ================ -->
-
-    <!-- ================ Testimonials ================ -->
-    <div class="testimonials-area testimonial-bg  pt-70 pb-70">
-        <div class="container">
-            <div class="testimonial-carousel owl-carousel owl-theme">
-                <div class="item">
-                    <!-- testimonial box -->
-                    <div class="testimonial-box position-relative shadow rounded">
-                        <p class="text-muted border-bottom font-italic pb-3">" Lorem ipsum dolor sit amet consectetur adipiscing elit amet consectetur piscing elit amet consectetur adipiscing elit sed et eletum orem ipsum dolor sit amet consectetur adipiscing elit amet consectetur piscing elit amet consectetur adipiscing elit sed et eletum. "</p>
-                        <div class="reviewer d-inline-block"> <img src="{{asset('boarding_house/img/testimonial/01.jpg')}}" class="float-left mr-3 rounded" alt="">
-                            <div class="content d-block overflow-hidden">
-                                <h4 class="name mb-0 text-uppercase">Kevin Marthin</h4>
-                                <small class="designation text-muted">Developer</small> </div>
-                        </div>
-                        <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
-                    </div>
-                    <!-- testimonial box end -->
-                </div>
-                <div class="item">
-                    <!-- testimonial box -->
-                    <div class="testimonial-box position-relative shadow rounded">
-                        <p class="text-muted border-bottom font-italic pb-3">" Lorem ipsum dolor sit amet consectetur adipiscing elit amet consectetur piscing elit amet consectetur adipiscing elit sed et eletum orem ipsum dolor sit amet consectetur adipiscing elit amet consectetur piscing elit amet consectetur adipiscing elit sed et eletum. "</p>
-                        <div class="reviewer d-inline-block"> <img src="{{asset('boarding_house/img/testimonial/02.jpg')}}" class="float-left mr-3 rounded" alt="">
-                            <div class="content d-block overflow-hidden">
-                                <h4 class="name mb-0 text-uppercase">Joe Gabriel</h4>
-                                <small class="designation text-muted">Designer</small> </div>
-                        </div>
-                        <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
-                    </div>
-                    <!-- testimonial box end -->
-                </div>
-                <div class="item">
-                    <!-- testimonial box -->
-                    <div class="testimonial-box position-relative shadow rounded">
-                        <p class="text-muted border-bottom font-italic pb-3">" Lorem ipsum dolor sit amet consectetur adipiscing elit amet consectetur piscing elit amet consectetur adipiscing elit sed et eletum orem ipsum dolor sit amet consectetur adipiscing elit amet consectetur piscing elit amet consectetur adipiscing elit sed et eletum. "</p>
-                        <div class="reviewer d-inline-block"> <img src="{{asset('boarding_house/img/testimonial/03.jpg')}}" class="float-left mr-3 rounded" alt="">
-                            <div class="content d-block overflow-hidden">
-                                <h4 class="name mb-0 text-uppercase">Join Mansoor</h4>
-                                <small class="designation text-muted">Support-Marketing</small> </div>
-                        </div>
-                        <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
-                    </div>
-                    <!-- testimonial box end -->
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- ================ Testimonials end ================ -->
 
     <!-- ================ Blog area ================ -->
     <div class="blog-area pt-70 pb-40 position-relative">
@@ -304,7 +163,7 @@
         <div class="container">
             <!-- section title -->
             <div class="section-title text-center">
-                <h2>Latest News</h2>
+                <h2>Bài đăng gần đây</h2>
                 <span class="dashed-border"></span> </div>
             <!-- section title -->
             <div class="row">
@@ -315,36 +174,6 @@
                         <div class="blog-des">
                             <h6 class="blog_date font-weight-normal text-muted"><span>business</span> January 01, 2020</h6>
                             <h5 class="mt-10 mb-6"><a href="#" class="text-dark">The Most Advance Business Plan</a></h5>
-                            <p class="text-muted">Lorem ipsum dolor sit amet consectetur ipiscing elit amet consectetur piscing elit consectetur adipiscing elit sed et eletum.</p>
-                            <div class="read_more">
-                                <div class="blog_border"></div>
-                                <a href="#" class="text-dark text-uppercase"> Read More</a> </div>
-                        </div>
-                    </div>
-                    <!-- blog box end -->
-                </div>
-                <div class="col-lg-4 col-md-6 mb-30">
-                    <!-- blog box -->
-                    <div class="blog-box shadow">
-                        <div class="blog_img mb-20"><img src="{{asset('boarding_house/img/blog/blog-2.jpg')}}" alt=""></div>
-                        <div class="blog-des">
-                            <h6 class="blog_date font-weight-normal text-muted"><span>business</span> January 01, 2020</h6>
-                            <h5 class="mt-10 mb-6"><a href="#" class="text-dark">Beautiful Home Page</a></h5>
-                            <p class="text-muted">Lorem ipsum dolor sit amet consectetur ipiscing elit amet consectetur piscing elit consectetur adipiscing elit sed et eletum.</p>
-                            <div class="read_more">
-                                <div class="blog_border"></div>
-                                <a href="#" class="text-dark text-uppercase"> Read More</a> </div>
-                        </div>
-                    </div>
-                    <!-- blog box end -->
-                </div>
-                <div class="col-lg-4 col-md-6 mb-30">
-                    <!-- blog box -->
-                    <div class="blog-box shadow">
-                        <div class="blog_img mb-20"><img src="{{asset('boarding_house/img/blog/blog-3.jpg')}}" alt=""></div>
-                        <div class="blog-des">
-                            <h6 class="blog_date font-weight-normal text-muted"><span>business</span> January 01, 2020</h6>
-                            <h5 class="mt-10 mb-6"><a href="#" class="text-dark">Modern Design Concept</a></h5>
                             <p class="text-muted">Lorem ipsum dolor sit amet consectetur ipiscing elit amet consectetur piscing elit consectetur adipiscing elit sed et eletum.</p>
                             <div class="read_more">
                                 <div class="blog_border"></div>

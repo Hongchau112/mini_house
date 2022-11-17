@@ -23,14 +23,14 @@
                                 <div class="form-group">
                                     <label>Số điện thoại<span class="text-danger">*</span></label>
                                     <input type="text" name="phone" value="{{$user->phone}}" id="phone" class="form-control">
-                                    <span class="text-danger">@error('phone'){{$message}}@enderror</span>
+                                    <span class="text-danger" id="phone_error">@error('phone'){{$message}}@enderror</span>
                                 </div>
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label>CCCD/CMND<span class="text-danger">*</span></label>
                                     <input type="text" name="identified_no" id="identified_no" class="form-control">
-                                    <span class="text-danger">@error('identified_no'){{$message}}@enderror</span>
+                                    <span class="text-danger" id="ident_error">@error('identified_no'){{$message}}@enderror</span>
                                 </div>
                             </div>
                         </div>
@@ -84,6 +84,7 @@
                         </div>
                         <div class="row">
                             <h4>Chọn phương thức thanh toán</h4>
+                            <br><br>
                             <div class="col-lg-12">
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="payment_method" value="cash" id="cash">
@@ -119,7 +120,7 @@
                     </style>
                     <aside>
                         <!-- help us -->
-                        <div class="help-us mb-30" style="font-size: 16px;color: white;">
+                        <div class="help-us mb-30" style="font-size: 14px;color: white;">
                             <h3>Thanh toán trọ</h3>
                             @php
                             $tong=$room->cost;
@@ -138,7 +139,7 @@
                                     <td>{{number_format($room->cost)}} đ</td>
                                 </tr>
                                 <tr class="label">
-                                    <td>Các dịch vụ (Nếu có) </td>
+                                    <td colspan="2">Các dịch vụ (Nếu có) </td>
                                 </tr>
                                 @foreach($serviceRooms as $serviceRoom)
                                     @foreach($services as $service)
@@ -152,8 +153,8 @@
                                 @endforeach
 
                                 <tr>
-                                    <td class="label">Tổng tiền cần thu</td>
-                                    <td>{{number_format($total_cost)}} đ</td>
+                                    <td class="label">Tổng tiền</td>
+                                    <td class="label" style="font-size: 16px">{{number_format($total_cost)}} đ</td>
                                 </tr>
                             </table>
                             </div>
@@ -165,3 +166,20 @@
         </div>
     </div>
 @endsection
+@push('footer')
+    <script type="text/javascript">
+        function validation()
+        {
+            var email = document.getElementById('email');
+            var ident = document.getElementById('identified_no');
+
+            var reg = /{9,12};
+            if (reg.test(ident)==false)
+            {
+                document.getElementById('ident_error').innerHTML= "Lỗi";
+            }
+        }
+
+
+    </script>
+@endpush

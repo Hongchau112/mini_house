@@ -1,18 +1,81 @@
-<h2>Xin chào {{$user_name}}</h2>
-<p>Bạn đã đặt phòng trọ nhatrogiatot</p>
-<table>
-    <thead>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        table, td, th {
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 70%;
+        }
+
+        th, td {
+            padding: 10px;
+        }
+        .th {
+            font-weight: bold;
+            width: 230px;
+        }
+    </style>
+</head>
+<body>
+<p>XIn chào {{$user_name}}<br><br>Chúng tôi sẽ liên hệ với anh chị để xác nhận việc đặt phòng. Khi nhận phòng vui lòng đem theo CCCD để làm thủ tục.</p>
+<table border="1px">
     <tr>
-        <th>Họ tên</th>
-        <th>Số điện thoại</th>
-        <th>Phòng đã đặt</th>
+        <td class="th">
+            Họ tên khách hàng
+        </td>
+        <td>
+            {{$user_name}}
+        </td>
     </tr>
-    </thead>
-    <tbody>
     <tr>
-        <td>{{$user->name}}</td>
-        <td>{{$user->phone}}</td>
-        <td>{{$room_id}}</td>
+        <td class="th">
+            Phòng đã đặt
+        </td>
+        <td>
+            {{$room_name}}
+        </td>
     </tr>
-    </tbody>
+    <tr>
+        <td class="th">
+            Thanh toán tiền
+        </td>
+        <td>
+            {{number_format($total_cost)}} đ
+        </td>
+    </tr>
+
+    <tr>
+        <td class="th">
+            Hình thức thanh toán:
+        </td>
+        @if($method=='cash')
+            <td>
+                Thanh toán khi tiền mặt
+            </td>
+        @else
+            <td>
+                Thanh toán qua ví VNPAY
+            </td>
+        @endif
+    </tr>
+
+
 </table>
+
+<h5>Ghi chú:</h5>
+<p id="p">
+    Nếu Anh/chị có bất kỳ thắc mắc, xin liên hệ với chúng tôi qua số điện thoại 0965149361.
+    <br>
+<p id="footer">Trân trọng,</p>
+
+</body>
+</html>

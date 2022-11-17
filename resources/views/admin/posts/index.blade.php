@@ -86,14 +86,7 @@
                                             </div>
                                         </div>
                                         <a class="gallery-image popup-image" href="">
-                                            @foreach($images as $image)
-                                                @if($post->room_id==$image->room_id)
-                                                    @php
-                                                        $image_path = $image->image_path;
-                                                    @endphp
-                                                @endif
-                                            @endforeach
-                                                <img class="w-100 rounded-top" src="{{asset('/images/'.$image_path)}}" width="300px" height="250px" alt="">
+                                                <img class="w-100 rounded-top" src="{{asset('/images/'.$post->image)}}" width="300px" height="250px" alt="">
                                         </a>
                                         <div class="project-details">
                                             <br>

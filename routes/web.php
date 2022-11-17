@@ -17,6 +17,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\InformationController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\PostCategoryController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -110,6 +111,15 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     Route::patch('admin/posts/update/{id}', [PostController::class, 'update'])->name('posts.update');
     Route::get('admin/posts/delete/{id}', [PostController::class, 'delete'])->name('posts.delete');
 
+///postcategory
+    Route::get('admin/post_categories/', [PostCategoryController::class, 'index'])->name('post_categories.index');
+    Route::get('admin/post_categories/create', [PostCategoryController::class, 'create'])->name('post_categories.create');
+    Route::post('admin/post_categories/store', [PostCategoryController::class, 'store'])->name('post_categories.store');
+    Route::get('admin/post_categories/show/{id}', [PostCategoryController::class, 'show'])->name('post_categories.show');
+    Route::get('admin/post_categories/edit/{id}', [PostCategoryController::class, 'edit'])->name('post_categories.edit');
+    Route::patch('admin/post_categories/update/{id}', [PostCategoryController::class, 'update'])->name('post_categories.update');
+    Route::get('admin/post_categories/delete/{id}', [PostCategoryController::class, 'delete'])->name('post_categories.delete');
+
 
     ////Comments
     Route::get('admin/comments', [CommentController::class, 'index'])->name('comments.index');
@@ -158,7 +168,7 @@ Route::post('guest/transaction/store', [TransactionController::class, 'store'])-
 
 
 ////customer info
-Route::get('customer/logout', [UserController::class, 'logout_user'])->name('customer.logout_user');
+Route::get('customer/logout', [CustomerController::class, 'logout'])->name('customer.logout');
 Route::get('customer/', [CustomerController::class, 'index'])->name('customer.index');
 Route::get('customer/edit_profile/{id}', [CustomerController::class, 'edit_profile'])->name('customer.edit_profile');
 Route::post('customer/update_profile/{id}', [CustomerController::class, 'update_profile'])->name('customer.update_profile');
@@ -193,6 +203,7 @@ Route::get('customer/posts/details/{id}', [PostController::class, 'detail'])->na
 Route::get('customer/rooms/filter_price', [CustomerController::class, 'filter_price'])->name('customer.posts.filter_price');
 Route::get('customer/posts/search', [PostController::class, 'search'])->name('customer.posts.search');
 
+
 //comments
 Route::post('customer/send_comment', [CommentController::class, 'send_comment'])->name('customer.posts.send_comment');
 Route::post('customer/load_comment', [CommentController::class, 'load_comment'])->name('customer.load_comment');
@@ -207,6 +218,7 @@ Route::get('customer/payment/success', [BookingController::class, 'payment_succe
 Route::get('customer/payment/vnpay_online/{id}', [BookingController::class, 'vnpay_online'])->name('customer.payment.vnpay_online');
 Route::post('customer/payment/vnpay_payment', [BookingController::class, 'vnpay_payment'])->name('customer.payment.vnpay_payment');
 
+Route::get('customer/post_category/{id}', [PostController::class, 'post_category'])->name('customer.post_category');
 Route::get('customer/show_category/{id}', [CustomerController::class, 'show_category'])->name('customer.show_category');
 Route::post('customer/global_search', [CustomerController::class, 'global_search'])->name('customer.global_search');
 Route::post('customer/search', [CustomerController::class, 'search'])->name('customer.search');

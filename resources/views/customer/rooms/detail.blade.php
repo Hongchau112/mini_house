@@ -4,6 +4,16 @@
 
 @section('content')
 <!-- ================ Inner banner ================ -->
+@if (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
+@if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
 <div class="inner-banner inner-banner-bg pt-70 pb-40">
     <div class="container">
         <div class="row align-items-center">
@@ -14,6 +24,7 @@
                 </div>
                 <!-- page-title end -->
             </div>
+
             <div class="col-lg-4 col-md-4 mb-30">
                 <!-- breadcrumb -->
                 <ol class="breadcrumb mb-0">
@@ -54,7 +65,7 @@
                         <li class="nav-item"> <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1" aria-selected="true">Mô tả</a> </li>
                         <li class="nav-item"> <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2" aria-selected="false">Tiện nghi</a> </li>
                         <li class="nav-item"> <a class="nav-link" id="tab3-tab" data-toggle="tab" href="#tab3" role="tab" aria-controls="tab3" aria-selected="false">Tìm trọ tương tự</a> </li>
-                        <li class="nav-item"> <a class="nav-link" id="tab4-tab" data-toggle="tab" href="#tab4" role="tab" aria-controls="tab4" aria-selected="false">Bình luận/Đánh giá</a> </li>
+{{--                        <li class="nav-item"> <a class="nav-link" id="tab4-tab" data-toggle="tab" href="#tab4" role="tab" aria-controls="tab4" aria-selected="false">Bình luận/Đánh giá</a> </li>--}}
                     </ul>
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active p-15" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
@@ -85,142 +96,84 @@
                         </div>
                         <div class="tab-pane fade p-15" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
                             <!-- rooms -->
-                            <h4 class="mb-6">Rooms</h4>
+                            <h4 class="mb-6">Phòng cùng danh mục</h4>
                             <div class="room-type-wrapper">
                                 <!-- list box -->
+                                @foreach($roomSameCategory as $same_room)
                                 <div class="list-box mb-30">
-                                    <div class="list-box-img"> <a href="img/rooms/img-big-01.jpg" class="venobox" data-gall="gallery1"> <img src="img/rooms/img-thum-01.jpg" alt=""> </a> <a href="img/rooms/img-big-02.jpg" class="venobox" data-gall="gallery1"></a> <a href="img/rooms/img-big-03.jpg" class="venobox" data-gall="gallery1"></a> <a href="img/rooms/img-big-04.jpg" class="venobox" data-gall="gallery1"></a>
-                                        <div class="form-check">
-                                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                                            <label class="form-check-label" for="exampleCheck1">Select Room</label>
-                                        </div>
+                                    <div class="list-box-img">
+                                            @foreach($images as $image)
+                                                @if($same_room->id == $image->room_id)
+                                                    @php
+                                                        $image_path = $image->image_path;
+                                                    @endphp
+
+{{--                                                    <figure class="item"> <img src="{{asset('/images/'.$image_path)}}" width="500px" height="470px" alt="img description"> </figure>--}}
+                                                @endif
+                                            @endforeach
+                                                <img src="{{asset('/images/'.$image_path)}}" width="260px" height="225px" alt="room">
                                     </div>
                                     <div class="list-box-content">
                                         <div class="list-box-title">
-                                            <h3>Standard Single Room <span>$240 <em>/ night</em></span></h3>
-                                            <address>
-                                                Max : 2 Persons
-                                            </address>
+                                            <h3>{{$same_room->name}}<span>{{number_format($same_room->cost)}} đ<em>/tháng</em></span></h3>
+                                            <address>Loại phòng: {{$room_category->name}}</address>
                                         </div>
                                         <ul class="hotel-featured">
-                                            <li><span><i class="fas fa-car"></i> Parking Facility</span></li>
-                                            <li><span><i class="fas fa-bath"></i> Attached Bathroom</span></li>
-                                            <li><span><i class="fas fa-home"></i> Daily Housekeeping</span></li>
-                                            <li><span><i class="fas fa-swimming-pool"></i> Swimming Pool</span></li>
+                                            @php
+                                                $serviceSame = \App\Models\ServiceRoom::where('room_id', $same_room->id)->get();
+                                            @endphp
+                                            @foreach($serviceSame as $room_service_s)
+                                                @foreach($services as $service)
+                                                    @if($room_service_s->service_id==$service->id)
+                                                        <li><span><i class="fas fa-swimming-pool"></i>{{$service->getName()}}</span></li>
+                                                    @endif
+                                                @endforeach
+                                            @endforeach
                                         </ul>
-                                        <div class="btn-wrapper mt-20 d-inline-block w-100"> <a class="view-detail-btn" href="">View Details</a> <a class="book-now-btn ml-6" href="">Book Now</a> </div>
+                                        <div class="btn-wrapper mt-20 d-inline-block w-100"> <a class="view-detail-btn" href="{{route('customer.rooms.details', ['id'=>$same_room->id])}}">Chi tiết</a>
+                                            @if($same_room->status==0)
+                                                <a class="book-now-btn ml-6" href="{{route('customer.rooms.booking', ['id' =>$same_room->id])}}">Đặt ngay</a>
+                                            @else
+                                                <button class="btn btn-outline-danger">Hết phòng</button>
+                                            @endif </div>
                                     </div>
                                 </div>
-                                <!-- list box end -->
-                                <!-- list box -->
-                                <div class="list-box mb-30">
-                                    <div class="list-box-img"> <a href="img/rooms/img-big-01.jpg" class="venobox" data-gall="gallery2"> <img src="img/rooms/img-thum-01.jpg" alt=""></a> <a href="img/rooms/img-big-02.jpg" class="venobox" data-gall="gallery2"></a> <a href="img/rooms/img-big-03.jpg" class="venobox" data-gall="gallery2"></a> <a href="img/rooms/img-big-04.jpg" class="venobox" data-gall="gallery2"></a>
-                                        <div class="form-check">
-                                            <input type="checkbox" class="form-check-input" id="exampleCheck11">
-                                            <label class="form-check-label" for="exampleCheck1">Select Room</label>
-                                        </div>
-                                    </div>
-                                    <div class="list-box-content">
-                                        <div class="list-box-title">
-                                            <h3>Deluxe Room <span>$340 <em>/ night</em></span></h3>
-                                            <address>
-                                                Max : 5 Persons
-                                            </address>
-                                        </div>
-                                        <ul class="hotel-featured">
-                                            <li><span><i class="fas fa-car"></i> Parking Facility</span></li>
-                                            <li><span><i class="fas fa-bath"></i> Attached Bathroom</span></li>
-                                            <li><span><i class="fas fa-home"></i> Daily Housekeeping</span></li>
-                                            <li><span><i class="fas fa-swimming-pool"></i> Swimming Pool</span></li>
-                                        </ul>
-                                        <div class="btn-wrapper mt-20 d-inline-block w-100"> <a class="view-detail-btn" href="">View Details</a> <a class="book-now-btn ml-6" href="">Book Now</a> </div>
-                                    </div>
-                                </div>
-                                <!-- list box end -->
-                                <!-- list box -->
-                                <div class="list-box mb-30">
-                                    <div class="list-box-img"> <a href="img/rooms/img-big-01.jpg" class="venobox" data-gall="gallery3"> <img src="img/rooms/img-thum-01.jpg" alt=""> </a><a href="img/rooms/img-big-02.jpg" class="venobox" data-gall="gallery3"></a> <a href="img/rooms/img-big-03.jpg" class="venobox" data-gall="gallery3"></a> <a href="img/rooms/img-big-04.jpg" class="venobox" data-gall="gallery3"></a>
-                                        <div class="form-check">
-                                            <input type="checkbox" class="form-check-input" id="exampleCheck12">
-                                            <label class="form-check-label" for="exampleCheck1">Select Room</label>
-                                        </div>
-                                    </div>
-                                    <div class="list-box-content">
-                                        <div class="list-box-title">
-                                            <h3>Signature Room <span>$440 <em>/ night</em></span></h3>
-                                            <address>
-                                                Max : 3 Persons
-                                            </address>
-                                        </div>
-                                        <ul class="hotel-featured">
-                                            <li><span><i class="fas fa-car"></i> Parking Facility</span></li>
-                                            <li><span><i class="fas fa-bath"></i> Attached Bathroom</span></li>
-                                            <li><span><i class="fas fa-home"></i> Daily Housekeeping</span></li>
-                                            <li><span><i class="fas fa-swimming-pool"></i> Swimming Pool</span></li>
-                                        </ul>
-                                        <div class="btn-wrapper mt-20 d-inline-block w-100"> <a class="view-detail-btn" href="">View Details</a> <a class="book-now-btn ml-6" href="">Book Now</a> </div>
-                                    </div>
-                                </div>
-                                <!-- list box end -->
-                                <!-- list box -->
-                                <div class="list-box">
-                                    <div class="list-box-img"> <a href="img/rooms/img-big-01.jpg" class="venobox" data-gall="gallery4"> <img src="img/rooms/img-thum-01.jpg" alt=""></a> <a href="img/rooms/img-big-02.jpg" class="venobox" data-gall="gallery4"></a> <a href="img/rooms/img-big-03.jpg" class="venobox" data-gall="gallery4"></a> <a href="img/rooms/img-big-04.jpg" class="venobox" data-gall="gallery4"></a>
-                                        <div class="form-check">
-                                            <input type="checkbox" class="form-check-input" id="exampleCheck13">
-                                            <label class="form-check-label" for="exampleCheck1">Select Room</label>
-                                        </div>
-                                    </div>
-                                    <div class="list-box-content">
-                                        <div class="list-box-title">
-                                            <h3>Signature Room <span>$540 <em>/ night</em></span></h3>
-                                            <address>
-                                                Max : 4 Persons
-                                            </address>
-                                        </div>
-                                        <ul class="hotel-featured">
-                                            <li><span><i class="fas fa-car"></i> Parking Facility</span></li>
-                                            <li><span><i class="fas fa-bath"></i> Attached Bathroom</span></li>
-                                            <li><span><i class="fas fa-home"></i> Daily Housekeeping</span></li>
-                                            <li><span><i class="fas fa-swimming-pool"></i> Swimming Pool</span></li>
-                                        </ul>
-                                        <div class="btn-wrapper mt-20 d-inline-block w-100"> <a class="view-detail-btn" href="">View Details</a> <a class="book-now-btn ml-6" href="">Book Now</a> </div>
-                                    </div>
-                                </div>
+                                @endforeach
                                 <!-- list box end -->
                             </div>
                             <!-- rooms -->
                         </div>
-                        <div class="tab-pane fade p-15" id="tab4" role="tabpanel" aria-labelledby="tab4-tab">
-                            <!-- reviews -->
-                            <h4 class="mb-6">Đánh giá</h4>
-                            <div class="reviews-wrapper">
-                                <!-- review item -->
-                                <div class="media review-item"> <img src="{{asset('boarding_house/img/Review/1.jpg')}}" class="mr-3" alt="...">
-                                    <div class="media-body">
-                                        <h5 class="mt-0">John Doe <span>January 01, 2020 - <a href="">Reply</a></span></h5>
-                                        <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipiscing elit amet consectetur piscing elit amet consectetur adipiscing elit sed et eletum nulla eu placerat felis etiam tincidunt orci lacus id varius dolor fermum sit amet.</p>
-                                    </div>
-                                </div>
-                                <!-- review item end -->
-                                <!-- review item -->
-                                <div class="media review-item"> <img src="img/Review/2.jpg" class="mr-3" alt="...">
-                                    <div class="media-body">
-                                        <h5 class="mt-0">John Doe <span>January 01, 2020 - <a href="">Reply</a></span></h5>
-                                        <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipiscing elit amet consectetur piscing elit amet consectetur adipiscing elit sed et eletum nulla eu placerat felis etiam tincidunt orci lacus id varius dolor fermum sit amet.</p>
-                                    </div>
-                                </div>
-                                <!-- review item end -->
-                                <!-- review item -->
-                                <div class="media review-item"> <img src="img/Review/3.jpg" class="mr-3" alt="...">
-                                    <div class="media-body">
-                                        <h5 class="mt-0">John Doe <span>January 01, 2020 - <a href="">Reply</a></span></h5>
-                                        <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipiscing elit amet consectetur piscing elit amet consectetur adipiscing elit sed et eletum nulla eu placerat felis etiam tincidunt orci lacus id varius dolor fermum sit amet.</p>
-                                    </div>
-                                </div>
-                                <!-- review item end -->
-                            </div>
-                            <!-- reviews end -->
-                        </div>
+{{--                        <div class="tab-pane fade p-15" id="tab4" role="tabpanel" aria-labelledby="tab4-tab">--}}
+{{--                            <!-- reviews -->--}}
+{{--                            <h4 class="mb-6">Đánh giá</h4>--}}
+{{--                            <div class="reviews-wrapper">--}}
+{{--                                <!-- review item -->--}}
+{{--                                <div class="media review-item"> <img src="{{asset('boarding_house/img/Review/1.jpg')}}" class="mr-3" alt="...">--}}
+{{--                                    <div class="media-body">--}}
+{{--                                        <h5 class="mt-0">John Doe <span>January 01, 2020 - <a href="">Reply</a></span></h5>--}}
+{{--                                        <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipiscing elit amet consectetur piscing elit amet consectetur adipiscing elit sed et eletum nulla eu placerat felis etiam tincidunt orci lacus id varius dolor fermum sit amet.</p>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                                <!-- review item end -->--}}
+{{--                                <!-- review item -->--}}
+{{--                                <div class="media review-item"> <img src="img/Review/2.jpg" class="mr-3" alt="...">--}}
+{{--                                    <div class="media-body">--}}
+{{--                                        <h5 class="mt-0">John Doe <span>January 01, 2020 - <a href="">Reply</a></span></h5>--}}
+{{--                                        <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipiscing elit amet consectetur piscing elit amet consectetur adipiscing elit sed et eletum nulla eu placerat felis etiam tincidunt orci lacus id varius dolor fermum sit amet.</p>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                                <!-- review item end -->--}}
+{{--                                <!-- review item -->--}}
+{{--                                <div class="media review-item"> <img src="img/Review/3.jpg" class="mr-3" alt="...">--}}
+{{--                                    <div class="media-body">--}}
+{{--                                        <h5 class="mt-0">John Doe <span>January 01, 2020 - <a href="">Reply</a></span></h5>--}}
+{{--                                        <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipiscing elit amet consectetur piscing elit amet consectetur adipiscing elit sed et eletum nulla eu placerat felis etiam tincidunt orci lacus id varius dolor fermum sit amet.</p>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                                <!-- review item end -->--}}
+{{--                            </div>--}}
+{{--                            <!-- reviews end -->--}}
+{{--                        </div>--}}
                     </div>
                 </div>
                 <!-- tabs end -->
@@ -234,24 +187,24 @@
                                 <div class="card-header" id="headingOne4-d"> <a class="btn btn-link w-100 text-left" href="" data-toggle="collapse" data-target="#collapseOne4-m" aria-expanded="true" aria-controls="collapseOne4-m">
                                         <!-- title widget -->
                                         <div class="filter-title-widget">
-                                            <h3>Hotel Details <i class="fas fa-plus-square float-right"></i> <i class="fas fa-minus-square float-right"></i></h3>
+                                            <h2>{{number_format($room->cost)}} đ<i class="fas fa-plus-square float-right"></i> <i class="fas fa-minus-square float-right"></i></h2>
                                         </div>
                                         <!-- title widget end -->
                                     </a> </div>
                                 <div id="collapseOne4-m" class="collapse show mt-10" aria-labelledby="headingOne4-d" data-parent="#filter-widget-accordion4-d">
                                     <div class="card-body">
                                         <ul class="list-inline select-all mb-10">
-                                            <li class="list-inline-item">Hilton Miami Downtown</li>
+                                            <li class="list-inline-item"></li>
                                         </ul>
                                         <div class="table-responsive">
                                             <table class="table table-bordered bg-gray w-100 border-0">
                                                 <tr>
-                                                    <td>Check In</td>
-                                                    <td>Jan 01, 2020 Wed</td>
+                                                    <td>Chiều dài: </td>
+                                                    <td>{{$room->length}} m</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Check Out</td>
-                                                    <td>Jan 01, 2020 Fri</td>
+                                                    <td>Chiều rộng</td>
+                                                    <td>{{$room->width}} m</td>
                                                 </tr>
                                                 <tr>
                                                     @foreach($room_categories as $room_cate_sub)
@@ -263,7 +216,11 @@
                                                 </tr>
                                             </table>
                                         </div>
-                                        <a class="btn-style-1" href="">Book Selected Rooms</a> </div>
+                                        @if($room->status==0)
+                                            <a class="btn-style-1" href="{{route('customer.rooms.booking', ['id' =>$room->id])}}">Đặt ngay</a>
+                                        @else
+                                            <button class="btn btn-danger">Hết phòng</button>
+                                        @endif </div>
                                 </div>
                             </div>
                         </div>
@@ -271,8 +228,8 @@
                     <!-- filter widget end -->
                     <!-- help us -->
                     <div class="help-us mb-30">
-                        <h3>How can we help you?</h3>
-                        <p>Lorem ipsum dolor sit ametdf consectetur adipiscing elitdgsh ametdf consectetur piscing.</p>
+                        <h3>Chúng tôi có thể giúp gì được cho bạn?</h3>
+                        <p>Nếu bạn chưa chọn được cho mình phòng trọ ưng ý, đừng ngần ngại nói với chúng tôi</p>
                         <a class="view-detail-btn" href=""><i class="fas fa-phone-alt"></i> Contact Us</a> </div>
                     <!-- help us end -->
                 </aside>

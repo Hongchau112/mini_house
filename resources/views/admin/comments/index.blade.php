@@ -63,14 +63,10 @@
                                             </td>
                                             <td class="nk-tb-col">
                                                 <a href="" class="project-title">
-                                                    @foreach($users as $user)
-                                                        @if($comment->user_id==$user->id)
-                                                    <div class="user-avatar sq bg-purple"><span>{{$user->id}}</span></div>
+                                                    <div class="user-avatar sq bg-purple"><span>Guest</span></div>
                                                     <div class="project-info">
-                                                        <h6 class="title">{{$user->name}}</h6>
+                                                        <h6 class="title">{{$comment->name}}</h6>
                                                     </div>
-                                                        @endif
-                                                    @endforeach
                                                 </a>
                                             </td>
 

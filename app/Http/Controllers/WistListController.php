@@ -18,8 +18,7 @@ class WistListController extends Controller
         $wish = Wistlist::where('room_id', $room_id)->where('user_id', $id)->first();
         if(isset($wish))
         {
-            Session::flash('message', 'Phòng đã được thêm vào yêu thích!');
-            return back();
+            return redirect()->back()->with('error', 'Phòng đã nằm trong danh sách yêu thích, không thêm được nữa!');
         }
 //        dd($room_id);
         else{
@@ -27,8 +26,7 @@ class WistListController extends Controller
                 'user_id' => $id,
                 'room_id' => $room_id
             ]);
-            Session::flash('message', 'Phòng đã được thêm vào yêu thích!');
-            return back();
+            return redirect()->back()->with('success', 'Thêm vào yêu thích thành công!');
         }
 
     }

@@ -3,20 +3,24 @@
 ])
 
 @section('content')
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
     <div class="blog-single-page pt-70 pb-40">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8">
                     <!-- blog box -->
                     <div class="blog-box p-0">
-                        @foreach($images as $image)
-                            @if($post->room_id == $image->room_id)
-                                @php
-                                    $image_path = $image->image_path;
-                                @endphp
-                            @endif
-                        @endforeach
-                        <div class="blog_img mb-20"><img src="{{asset('/images/'.$image_path)}}" height="533px" width="800" alt=""></div>
+
+                        <div class="blog_img mb-20"><img src="{{asset('/images/'.$post->image)}}" height="533px" width="800" alt=""></div>
                         <div class="blog-des">
                             @foreach($rooms as $room)
                                 @if($room->id==$post->room_id)
@@ -35,26 +39,6 @@
                             <p class="text-muted">{!!$post->content!!}</p>
                             <h6 class="mb-10">Mô tả về phòng:</h6>
                             <div class="row">
-                                @foreach($rooms as $room)
-                                    @if($room->id==$post->room_id)
-                                        <div class="col-lg-6 mb-20">
-                                            <p class="mb-0">Chiều dài: {{$room->length}} m</p>
-                                            <p class="mb-0">Chiều rộng: {{$room->width}} m</p>
-                                        </div>
-                                        <div class="col-lg-6 mb-20">Phòng có:
-                                            <li><i class="fas fa-camera-retro pr-6"></i>Camera an ninh</li>
-                                            @if($room->maylanh==1)
-                                                <li><i class="fas fa-home"></i> Máy lạnh</li>
-                                            @endif
-                                            @if($room->bep==1)
-                                                <li><i class="fas fa-home"></i> Bếp nấu ăn</li>
-                                            @endif
-                                            @if($room->gac==1)
-                                                <li><i class="fas fa-home"></i> Phòng có gác</li>
-                                            @endif
-                                        </div>
-                                    @endif
-                                @endforeach
                                 <div class="col-lg-6 mb-20">
                                     <button class="btn btn-outline-light">Trở về</button>
                                 </div>
@@ -96,7 +80,7 @@
 
                             <div class="bg-white p-2">
                                 <input type="hidden" id="post_id" value="{{$post->id}}" class="post_id">
-                                <input type="hidden"  value="{{$user->id}}" id=user_id class="cmt-userid">
+{{--                                <input type="hidden"  value="" id=user_id class="cmt-userid">--}}
 
                             </div>
                         </form>
@@ -116,12 +100,12 @@
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <input type="text" name="name" id="cmt-name" placeholder="Tên của bạn" value="{{$user->name}}" class="form-control">
+                                            <input type="text" name="name" id="cmt-name" placeholder="Tên của bạn" class="form-control" required>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <input type="text" name="phone" id="cmt-phone" value="{{$user->phone}}" placeholder="Số điện thoại" class="form-control">
+                                            <input type="text" name="phone" id="cmt-phone"  placeholder="Số điện thoại" class="form-control" required>
                                         </div>
                                     </div>
                                 </div>
@@ -151,8 +135,8 @@
                             <!-- widget title end -->
                             <!-- categories -->
                             <ul class="blog-categorie">
-                                @foreach($categories as $category)
-                                    <li><a href=""><i class="far fa-dot-circle"></i>{{$category->name}}</a></li>
+                                @foreach($post_categories as $category)
+                                    <li><a href="{{route('customer.post_category', ['id'=> $category->id])}}"><i class="far fa-dot-circle"></i>{{$category->name}}</a></li>
                                 @endforeach
                             </ul>
                             <!-- categories end -->

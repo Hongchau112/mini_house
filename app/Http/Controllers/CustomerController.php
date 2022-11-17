@@ -6,6 +6,7 @@ use App\Models\Admin;
 use App\Models\Booking;
 use App\Models\BookingDetail;
 use App\Models\Image;
+use App\Models\PostCategory;
 use App\Models\Room;
 use App\Models\RoomCategory;
 use App\Models\Service;
@@ -26,7 +27,8 @@ class CustomerController extends Controller
         $rooms = Room::all();
         $images = Image::all();
         $user = Auth::guard('admin')->user();
-        return view('customer.login.index', compact('user', 'images', 'rooms', 'room_categories'));
+        $post_categories = PostCategory::all();
+        return view('customer.login.index', compact('user', 'post_categories','images', 'rooms', 'room_categories'));
     }
 
     public function edit_profile($id)
@@ -74,13 +76,13 @@ class CustomerController extends Controller
     public function listing()
     {
         $user = Auth::guard('admin')->user();
-
+        $post_categories = PostCategory::all();
         $rooms = Room::paginate(5);
         $room_categories = RoomCategory::all();
         $images = Image::all();
         $services = Service::all();
 //        $serviceRooms = ServiceRoom::all();
-        return view('customer.rooms.listing', compact('rooms','room_categories', 'images', 'user', 'services'));
+        return view('customer.rooms.listing', compact('rooms', 'post_categories','room_categories', 'images', 'user', 'services'));
     }
 
     public function details($id)
@@ -92,7 +94,11 @@ class CustomerController extends Controller
         $room_categories = RoomCategory::all();
         $services = Service::all();
         $serviceRooms = ServiceRoom::where('room_id', $id)->get();
-        return view('customer.rooms.detail', compact('room', 'serviceRooms','images', 'services', 'room_categories', 'user'));
+        $roomSameCategory = Room::where('room_type_id', $room->room_type_id)->get();
+        $room_category = RoomCategory::find($room->room_type_id);
+        $post_categories = PostCategory::all();
+
+        return view('customer.rooms.detail', compact('room','post_categories','room_category', 'roomSameCategory','serviceRooms','images', 'services', 'room_categories', 'user'));
     }
 
     public function filter_price(Request $request)
@@ -154,27 +160,29 @@ class CustomerController extends Controller
         $category = RoomCategory::find($id);
         $room_categories = RoomCategory::all();
         $images = Image::all();
-
+        $post_categories = PostCategory::all();
+        $services = Service::all();
         $user = Auth::guard('admin')->user();
-        if ($user)
-        {
-            return view('customer.rooms.show_category', compact('user','rooms', 'room_categories' , 'images', 'room_selected', 'category'));
-        }
+        return view('customer.rooms.show_category', compact('user', 'services', 'post_categories','rooms', 'room_categories' , 'images', 'room_selected', 'category'));
 
     }
 
     public function global_search(Request $request)
     {
         $data = $request->all();
+        $user = Auth::guard('admin')->user();
+        $services = Service::all();
+        $room_categories = RoomCategory::all();
+        $post_categories = PostCategory::all();
+        $images = Image::all();
 //        dd($data);
-        $not_found = '<p>Không có kết quả nào</p>';
         $rooms = Room::where('name', 'LIKE', '%' .$data['search'].'%')->orWhere('cost', 'LIKE', '%' .$data['search'].'%')->get();
-        $output = '<ul class="dropdown-menu" style="display: block; position: relative">';
+        $output = '<ul class="dropdown-menu" style="display: block; position: relative; ">';
         foreach ($rooms as $room)
         {
             $output.='
-            <li class="search_room_ajax"><a href ="#">'.$room->name.'</a>
-            <p>'.number_format($room->cost).'<span>đ</span></p></li>';
+            <li style="padding: 5px; width: 300px; color: black; border: #0a0f18" class="list-group-item search_room_ajax"><a href ="/customer/rooms/details/'.$room->id.'">'.$room->name.'</a>
+            </li>';
         }
          $output.= '</ul>';
         echo $output;
@@ -198,7 +206,7 @@ class CustomerController extends Controller
         $rooms = Room::all();
         $customer_id = Session::get('user_id');
         $room_categories = RoomCategory::all();
-
+$post_categories = PostCategory::all();
         $images = Image::all();
         if (!$customer_id)
         {
@@ -207,7 +215,7 @@ class CustomerController extends Controller
         else{
             $booking_rooms = Booking::where('user_id', $customer_id)->orderby('id', 'DESC')->get();
 //            dd($booking_rooms);
-            return view('customer.login.booking_history', compact('user', 'room_categories', 'rooms', 'booking_rooms', 'images'));
+            return view('customer.login.booking_history', compact('user', 'room_categories','post_categories', 'rooms', 'booking_rooms', 'images'));
         }
 
     }
@@ -224,15 +232,24 @@ class CustomerController extends Controller
         $customers = User::where('room_id', $room->id)->get();
 //        dd($customer->name);
         $room_categories = RoomCategory::all();
+        $post_categories = PostCategory::all();
+
         $services = Service::all();
 
         $serviceRooms = ServiceRoom::where('room_id', $room->id)->get();
-        return view('customer.login.booking_details', compact('booking', 'serviceRooms','customers', 'booking_detail', 'services','get_category', 'image','room', 'room_categories', 'images', 'user'));
+        return view('customer.login.booking_details', compact('booking', 'post_categories','serviceRooms','customers', 'booking_detail', 'services','get_category', 'image','room', 'room_categories', 'images', 'user'));
     }
 
     public function test_modal()
     {
         return view('customer.rooms.test_modal');
+    }
+
+    public function logout()
+    {
+        Auth::guard('admin')->logout();
+        Session::forget('user_id');
+        return redirect()->route('customer.index');
     }
 
 

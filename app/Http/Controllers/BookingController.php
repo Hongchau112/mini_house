@@ -8,6 +8,7 @@ use App\Models\Booking;
 use App\Models\BookingDetail;
 use App\Models\Image;
 use App\Models\Payment;
+use App\Models\PostCategory;
 use App\Models\Room;
 use App\Models\RoomCategory;
 use App\Models\Service;
@@ -23,14 +24,16 @@ class BookingController extends Controller
 {
     public function booking($id)
     {
+//        dd(1);
+//        dd(Session::get('user_id'));
         if(Session::get('user_id')==null)
-            return redirect()->route('admin.login_auth');
+            return redirect()->back()->with('error', 'Bạn vui lòng đăng nhập để thực hiện chức năng đặt phòng');
         else{
             $room_categories = RoomCategory::all();
+            $post_categories = PostCategory::all();
             $room = Room::find($id);
 //            dd($room->room_type_id);
             $room_category = RoomCategory::find($room->room_type_id);
-//            dd($room_category->id);
             $total_cost = $room->cost;
             //tinh tien dich vu
             $services = Service::all();
@@ -49,7 +52,7 @@ class BookingController extends Controller
 //            dd($total_cost);
 
             $user = Auth::guard('admin')->user();
-            return view('customer.rooms.order', compact('user', 'serviceRooms','room', 'room_categories', 'room_category', 'total_cost', 'services'));
+            return view('customer.rooms.order', compact('user', 'post_categories','serviceRooms','room', 'room_categories', 'room_category', 'total_cost', 'services'));
         }
 
     }
@@ -73,7 +76,7 @@ class BookingController extends Controller
             'address' => 'required',
             'payment_method' => 'required',
             'title' => 'required',
-            'identified_no' => 'required'
+            'identified_no' => 'required|string|min:9|max:12'
         ]);
 //        dd(1);
 
@@ -146,7 +149,10 @@ class BookingController extends Controller
                 Mail::send('customer.email.booking_room', [
                     'user_name' => $user_name,
                     'booking' => $booking_inserted,
-                    'room_id' => $room->id
+                    'room_id' => $room->id,
+                    'total_cost' => $booking_detail->total_cost,
+                    'room_name' => $room->name,
+                    'method' => $booking_detail->payment_method
                 ], function ($mail) use ($user_email, $user_name, $request){
                     $mail->to($user_email, $user_name);
                     $mail->from('hongchau2000st@gmail.com');
@@ -178,8 +184,11 @@ class BookingController extends Controller
         $user = \App\Models\Admin::find($user_id);
 //        dd($user)
         $user_name = $user->name;
+        $user_email = $user->email;
         $booking= Booking::find($booking_id);
-        $room = Room::where('id', $booking->room_id)->get()->first();
+//        dd($booking->id);
+        $room = Room::where('id', $booking->booking_room_id)->get()->first();
+//        dd($room);
         $booking_detail = BookingDetail::where('booking_id', $booking_id)->get()->first();
 //        dd($booking_detail);
         if($request->vnp_ResponseCode =='00' and ($request->vnp_TransactionStatus=='00'))
@@ -187,9 +196,13 @@ class BookingController extends Controller
             $booking_detail->vnp_code ='00';
             $booking_detail->save();
 
-            Mail::send('customer.email.booking_vnpay', [
+            Mail::send('customer.email.booking_room', [
+                'user_name' => $user_name,
                 'booking' => $booking,
-                ['user_name' => $user_name]
+                'room_id' => $room->id,
+                'total_cost' => $booking_detail->total_cost,
+                'room_name' => $room->name,
+                'method' => $booking_detail->payment_method
             ], function ($mail) use ($user, $booking, $room, $booking_detail, $user_name){
                 $mail->to($user->email, $user_name, $user, $room);
                 $mail->from('hongchau2000st@gmail.com');
