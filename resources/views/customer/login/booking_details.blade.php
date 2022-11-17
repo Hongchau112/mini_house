@@ -51,7 +51,7 @@
                             <div class="mb-3 d-flex justify-content-between">
                                 <div>
                                     <span class="me-3">Ngày đặt: </span>
-                                    <span class="me-3">{{$booking->created_at}}</span>
+                                    <span class="me-3">{{$booking_detail->date}}</span>
                                     @if($booking->booking_status=='old')
                                         <span style="margin-left: 25px; padding: 12px; font-size: 13px; color: white;" class="badge rounded-pill bg-info">Đã trả phòng</span>
 

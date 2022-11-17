@@ -4,13 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Jobs\SendEmail;
 use App\Models\Booking;
+use App\Models\BookingDetail;
 use App\Models\Image;
 use App\Models\Payment;
 use App\Models\Room;
 use App\Models\RoomCategory;
 use App\Models\Service;
+use App\Models\ServiceRoom;
 use Carbon\Carbon;
-use Illuminate\Contracts\Session\Session;
+use Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -19,15 +21,46 @@ class BookingController extends Controller
 {
     public function booking($id)
     {
-        $room_categories = RoomCategory::all();
-        $room = Room::find($id);
-        $room_category = RoomCategory::find($room->room_type_id);
-        $user = Auth::guard('admin')->user();
-        return view('customer.rooms.order', compact('user', 'room', 'room_categories', 'room_category'));
+        if(Session::get('user_id')==null)
+            return redirect()->route('admin.login_auth');
+        else{
+            $room_categories = RoomCategory::all();
+            $room = Room::find($id);
+            $room_category = RoomCategory::find($room->room_type_id);
+            $total_cost = $room->cost;
+            //tinh tien dich vu
+            $services = Service::all();
+            $serviceRooms = ServiceRoom::where('room_id', $id)->get();
+//            dd($serviceRooms);
+            foreach ($serviceRooms as $serviceRoom)
+            {
+                foreach ($services as $service)
+                {
+                    if($serviceRoom->service_id==$service->id)
+                    {
+                        $total_cost+=$service->getCost();
+                    }
+                }
+            }
+//            dd($total_cost);
+
+            $user = Auth::guard('admin')->user();
+            return view('customer.rooms.order', compact('user', 'serviceRooms','room', 'room_categories', 'room_category', 'total_cost', 'services'));
+        }
+
     }
 
     public function store(Request $request)
     {
+        $validated_data = $request->validate([
+            'user_name' => 'required',
+            'user_email' => 'required|email|unique:booking',
+            'user_phone' => 'required',
+            'user_birthday' => 'required',
+            'user_sex' => 'required',
+            'user_address' => 'required',
+            'payment_method' => 'required'
+        ]);
 //        dd($request->payment_method);
         $images = Image::all();
         $services = Service::all();
@@ -44,15 +77,7 @@ class BookingController extends Controller
             return redirect()->route('customer.rooms.listing', compact('user'))->with('error', 'Phòng đã được đặt, bạn không thể đặt thêm nữa');
         }
         else {
-            $validated_data = $request->validate([
-                'user_name' => 'required',
-                'user_email' => 'required|email|unique:booking',
-                'user_phone' => 'required',
-                'user_birthday' => 'required',
-                'user_sex' => 'required',
-                'user_address' => 'required',
-                'payment_method' => 'required'
-            ]);
+
 //dd(1);
             $dataBooking = [
                 'user_id' => $user->id,
@@ -66,13 +91,29 @@ class BookingController extends Controller
                 'payment_method' => $validated_data['payment_method']
             ];
 
+            //luu thong tin nguoi dat phong
+            $booking = Booking::insert($dataBooking);
+            $booking_inserted = Booking::where('booking_room_id', $room->id)->first();
+            //luu thong tin bookking details
+            $booking_detail = new BookingDetail();
+            $booking_detail->payment_method = $dataBooking['payment_method'];
+            $booking_detail->booking_id = $booking_inserted->id;
+            $booking_detail->room_id = $dataBooking['booking_room_id'];
+            $booking_detail->total_cost = $request->total_cost;
+            $booking_detail->date = now();
+            $booking_detail->booking_status = "pending";
+            $booking_detail->save();
+            if($booking_inserted)
+            {
+                $room->status = 1;
+                $room->save();
+            }
+
             if($validated_data['payment_method']=='cash')
             {
-//            dd(1);
-                $booking = Booking::insert($dataBooking);
-//            dd($booking);
-                $booking_inserted = Booking::where('booking_room_id', $room->id)->first();
 
+
+                //gui email xac nhan dat hang thanh cong
                 Mail::send('customer.email.booking_room', [
                     'user_name' => $user_name,
                     'booking' => $booking_inserted,
@@ -82,68 +123,20 @@ class BookingController extends Controller
                     $mail->from('hongchau2000st@gmail.com');
                     $mail->subject("Đặt phòng trọ thành công");
                 });
-                if($booking_inserted)
-                {
-                    $room->status = 1;
-                    $room->save();
-                }
+
+                ///doi status cua phong sau khi dat
 
                 return redirect()->route('customer.rooms.listing', ['id'=>$booking_inserted->id])->with('success', 'Đặt phòng thành công, bạn vui lòng kiểm tra email để biết thêm chi tiết!');
             }
             elseif ($validated_data['payment_method']=='vnpay')
             {
-                Booking::insert($dataBooking);
-                return redirect()->route('customer.payment.vnpay_online', ['id'=>$room->id]);
+                Session::put('booking_id', $booking_inserted->id);
+//                Booking::insert($dataBooking);
+//                dd(1);
+                return redirect()->route('customer.payment.vnpay_online', ['id'=>$booking_inserted->id]);
             }
 
         }
-
-
-//        $booking = new Booking();
-//        $booking->name = $validated_data['name'];
-//        $booking->email = $validated_data['email'];
-//        $booking->phone = $validated_data['phone'];
-//        $booking->birthday = $birthday;
-//        $booking->sex = $validated_data['sex'];
-//        $booking->room_id = $request->room_id;
-//        $booking->address = $validated_data['address'];
-//        $booking->save();
-
-//        $bookings = Booking::all();
-
-
-    }
-
-    public function payment($id)
-    {
-        $booking = Booking::find($id);
-        $total_cost = 0;
-        $room = Room::find($booking->room_id);
-        $total_cost+=$room->cost;
-        if ($room->maylanh==1)
-        {
-            $total_cost+=300000;
-        }
-        if ($room->bep==1)
-        {
-            $total_cost+=100000;
-        }
-        if ($room->gac==1)
-        {
-            $total_cost+=200000;
-        }
-
-//        dd($total_cost);
-//        dd($booking->room_id);
-        $images = Image::all();
-        $services = Service::all();
-        $user = Auth::guard('admin')->user();
-        if($room->status==0)
-        {
-            $room->status=1;
-            $room->save();
-        }
-        return view('customer.rooms.payment', compact('user', 'images','booking', 'services', 'room', 'total_cost'));
 
     }
 
@@ -151,108 +144,38 @@ class BookingController extends Controller
     {
 //        dd($request->toArray());
         /// luu thong tin thanh toan o day ne nha
-        if($request->vnp_ResponseCode =='00')
+        $booking_id = Session::get('booking_id');
+        $booking= Booking::find($booking_id);
+        $room = Room::where('id', $booking->room_id)->get()->first();
+        $booking_detail = BookingDetail::where('booking_id', $booking_id)->get()->first();
+//        dd($booking_detail);
+        if($request->vnp_ResponseCode =='00' and ($request->vnp_TransactionStatus=='00'))
         {
-            $vnpayData = $request->all();
-        }
-        $user = Auth::guard('admin')->user();
+            $booking_detail->vnp_code ='00';
+            $booking_detail->save();
 
-//        dd($user->id);
-        $dataPayment = [
-          'booking_id' => $vnpayData['vnp_booking_id'],
-            'transaction_code' => $vnpayData['vnp_TxnRef'],
-            'user_id' => $user->id,
-            'money' => $vnpayData['vnp_Amount'],
-            'note' => $vnpayData['vnp_OrderInfo'],
-            'vnp_response_code' => $vnpayData['vnp_ResponseCode'],
-            'code_vnpay' => $vnpayData['vnp_TransactionNo'],
-            'code_bank' => $vnpayData['vnp_BankCode'],
-            'time' => date('Y-m-d H:i', strtotime($vnpayData['vnp_PayDate'])),
-            'room_id' => $vnpayData['vnp_room_id']
-        ];
-//        dd($dataPayment);
-        Payment::insert($dataPayment);
-        \Illuminate\Support\Facades\Session::flash('toastr',
-        ['type' => 'success',
-        'message' => 'Đơn hàng của bạn đã được lưu']);
-        return view('customer.vnpay.vnpay_return', compact('vnpayData'));
+            Mail::send('customer.email.booking_room', [
+                'booking' => $booking,
+                'room_id' => $room->id
+            ], function ($mail) use ($booking, $room, $booking_detail){
+                $mail->to($user_email, $user_name);
+                $mail->from('hongchau2000st@gmail.com');
+                $mail->subject("Đặt phòng trọ thành công");
+            });
+
+
+            return redirect()->route('customer.rooms.listing')->with('success', 'Đặt phòng thành công, bạn vui lòng kiểm tra email để biết thêm chi tiết!');
+        }
+        else{
+            $booking_detail->vnp_code ='error';
+            $booking_detail->save();
+            return redirect()->route('customer.rooms.listing')->with('error', 'Có lỗi khi thanh toán, vui lòng thực hiện lại sau');
+        }
+
     }
 
 
-    public function vnpay(Request $request)
-    {
-        $code_vnpay = rand(00, 9999);
-        $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = "http://localhost:8000/customer/payment/success"; //thanh toan thanh cong se tra ve
-        $vnp_TmnCode = "ZRTWFNN6";//Mã website tại VNPAY
-        $vnp_HashSecret = "UCAIBLHEMJCGUVGHFPGURNAJCXYFXGHZ"; //Chuỗi bí mật
 
-        $vnp_TxnRef = $code_vnpay; //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
-        $vnp_OrderInfo = 'thanh toán đơn hàng';
-        $vnp_OrderType = 'billpayment';
-        $vnp_Amount = $_POST['cost'] * 100;
-        $vnp_Locale = 'vn';
-        $vnp_BankCode = 'NCB';
-        $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
-
-        $inputData = array(
-            "vnp_Version" => "2.1.0",
-            "vnp_TmnCode" => $vnp_TmnCode,
-            "vnp_Amount" => $vnp_Amount,
-            "vnp_Command" => "pay",
-            "vnp_CreateDate" => date('YmdHis'),
-            "vnp_CurrCode" => "VND",
-            "vnp_IpAddr" => $vnp_IpAddr,
-            "vnp_Locale" => $vnp_Locale,
-            "vnp_OrderInfo" => $vnp_OrderInfo,
-            "vnp_OrderType" => $vnp_OrderType,
-            "vnp_ReturnUrl" => $vnp_Returnurl,
-            "vnp_TxnRef" => $vnp_TxnRef,
-
-        );
-
-        if (isset($vnp_BankCode) && $vnp_BankCode != "") {
-            $inputData['vnp_BankCode'] = $vnp_BankCode;
-        }
-        if (isset($vnp_Bill_State) && $vnp_Bill_State != "") {
-            $inputData['vnp_Bill_State'] = $vnp_Bill_State;
-        }
-
-//var_dump($inputData);
-        ksort($inputData);
-        $query = "";
-        $i = 0;
-        $hashdata = "";
-        foreach ($inputData as $key => $value) {
-            if ($i == 1) {
-                $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
-            } else {
-                $hashdata .= urlencode($key) . "=" . urlencode($value);
-                $i = 1;
-            }
-            $query .= urlencode($key) . "=" . urlencode($value) . '&';
-        }
-
-
-        $vnp_Url = $vnp_Url . "?" . $query;
-        if (isset($vnp_HashSecret)) {
-            $vnpSecureHash =   hash_hmac('sha512', $hashdata, $vnp_HashSecret);//
-            $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
-        }
-        $returnData = array('code' => '00'
-        , 'message' => 'success'
-        , 'data' => $vnp_Url);
-
-        //luu vao db
-
-
-        if (isset($_POST['redirect'])) {
-            header('Location: ' . $vnp_Url);
-            die();
-        } else {
-            echo json_encode($returnData);
-        }
-    }
 
     function execPostRequest($url, $data)
     {
@@ -319,24 +242,12 @@ class BookingController extends Controller
     public function vnpay_online($id)
     {
         $user = Auth::guard('admin')->user();
-        $total_cost = 0;
-        $room = Room::find($id);
-        $booking = Booking::where('booking_room_id', $room->id)->first();
+        $booking = Booking::find($id);
 //        dd($booking->id);
-        $total_cost+=$room->cost;
-        if ($room->maylanh==1)
-        {
-            $total_cost+=300000;
-        }
-        if ($room->bep==1)
-        {
-            $total_cost+=100000;
-        }
-        if ($room->gac==1)
-        {
-            $total_cost+=200000;
-        }
-
+        $booking_detail = BookingDetail::where('booking_id', $booking->id)->get()->first();
+        $room = Room::where('id', $booking->booking_room_id)->first();
+        $total_cost= $booking_detail->total_cost;
+        Session::put('booking_id', $booking->id);
         return view('customer.vnpay.vnpay_index', compact('user', 'total_cost', 'booking', 'room'));
     }
 
@@ -356,8 +267,6 @@ class BookingController extends Controller
         $vnp_Locale = 'vn';
         $vnp_BankCode = 'NCB';
         $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
-        $room_id = $data['room_id'];
-        $booking_id = $data['booking_id'];
 
         $inputData = array(
             "vnp_Version" => "2.1.0",

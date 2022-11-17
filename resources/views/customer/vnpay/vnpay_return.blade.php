@@ -80,7 +80,11 @@ $secureHash = hash_hmac('sha512', $hashData, $vnp_HashSecret);
         <div class="form-group">
             <label >Kết quả:</label>
             <label>
-                <p>Giao dịch thành công</p
+                @if($vnpayData['vnp_response_code']=='00')
+                <p>Giao dịch thành công</p>
+                @else
+                    <p>Đã có lỗi khi xử lý giao dịch</p>
+                @endif
             </label>
         </div>
         <div><button class="btn btn-success" ><a href="{{route('customer.index')}}">Trở về trang chủ</a></button></div>

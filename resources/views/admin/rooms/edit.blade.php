@@ -58,24 +58,14 @@
                                                 <div class="form-group">
                                                     <span class="preview-title overline-title" style="margin-top: 20px;">Tiện ích <span class="text-danger">*</span> </span>
                                                     <div class="g-3 align-center flex-wrap">
-                                                        <div class="g">
-                                                            <div class="custom-control custom-control-sm custom-checkbox">
-                                                                <input type="checkbox" class="custom-control-input"  name="maylanh" id="maylanh" {{($room->maylanh == 1) ? 'checked' : ''}} >
-                                                                <label class="custom-control-label" for="maylanh">Máy lạnh</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="g">
-                                                            <div class="custom-control custom-control-sm custom-checkbox">
-                                                                <input type="checkbox" class="custom-control-input" name="bep" id="bep" {{($room->bep == 1) ? 'checked' : ''}}>
-                                                                <label class="custom-control-label" for="bep">Bếp nấu ăn</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="g">
-                                                            <div class="custom-control custom-control-sm custom-checkbox">
-                                                                <input type="checkbox" class="custom-control-input" name="gac" id="gac" {{($room->gac == 1) ? 'checked' : ''}}>
-                                                                <label class="custom-control-label" for="gac">Phòng có gác</label>
-                                                            </div>
-                                                        </div>
+                                                            @foreach($services as $service)
+                                                                <div class="g">
+                                                                    <div class="custom-control custom-control-sm custom-checkbox">
+                                                                        <input type="checkbox" class="custom-control-input"  name="services[]" id="service{{$service->id}}" >
+                                                                        <label class="custom-control-label" for="service{{$service->id}}">{{$service->service}}</label>
+                                                                    </div>
+                                                                </div>
+                                                            @endforeach
                                                     </div>
                                                 </div>
 

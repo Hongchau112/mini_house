@@ -63,30 +63,18 @@
                             <div class="product-meta">
                                 <h6 class="title">Tiện ích phòng trọ: </h6>
                                 <ul class="custom-control-group" style="margin-top:10px">
-                                    @if($room->maylanh == 1)
-                                    <li>
-                                        <div class="custom-control custom-radio custom-control-pro no-control">
-                                            <input type="radio" class="custom-control-input" name="maylanh" id="maylanh">
-                                            <label class="custom-control-label" for="maylanh">Máy lạnh</label>
-                                        </div>
-                                    </li>
-                                    @endif
-                                    @if($room->bep == 1)
-                                        <li>
-                                            <div class="custom-control custom-radio custom-control-pro no-control">
-                                                <input type="radio" class="custom-control-input" name="bep" id="bep">
-                                                <label class="custom-control-label" for="bep">Bếp nấu ăn</label>
-                                            </div>
-                                        </li>
-                                    @endif
-                                    @if($room->gac == 1)
-                                        <li>
-                                            <div class="custom-control custom-radio custom-control-pro no-control">
-                                                <input type="radio" class="custom-control-input" name="gac" id="gac">
-                                                <label class="custom-control-label" for="gac">Phòng có gác</label>
-                                            </div>
-                                        </li>
-                                    @endif
+                                    @foreach($services as $service)
+                                        @foreach($serviceRooms as $serviceRoom)
+                                            @if($serviceRoom->service_id==$service->id)
+                                            <li>
+                                                <div class="custom-control custom-radio custom-control-pro no-control">
+                                                    <input type="radio" class="custom-control-input" name="services[]" id="{{$serviceRoom->id}}">
+                                                    <label class="custom-control-label" for="{{$serviceRoom->id}}">{{$service->getName()}}</label>
+                                                </div>
+                                            </li>
+                                            @endif
+                                        @endforeach
+                                    @endforeach
                                 </ul>
                             </div><!-- .product-meta -->
                             <div class="product-meta">

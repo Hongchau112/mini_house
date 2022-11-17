@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Admin;
 use App\Models\Booking;
+use App\Models\BookingDetail;
 use App\Models\Image;
 use App\Models\Room;
 use App\Models\RoomCategory;
 use App\Models\Service;
+use App\Models\ServiceRoom;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -76,7 +78,8 @@ class CustomerController extends Controller
         $room_categories = RoomCategory::all();
         $images = Image::all();
         $services = Service::all();
-        return view('customer.rooms.listing', compact('rooms', 'room_categories', 'images', 'user', 'services'));
+//        $serviceRooms = ServiceRoom::all();
+        return view('customer.rooms.listing', compact('rooms','room_categories', 'images', 'user', 'services'));
     }
 
     public function details($id)
@@ -86,8 +89,9 @@ class CustomerController extends Controller
         $images = Image::all();
         $services = Service::all();
         $room_categories = RoomCategory::all();
-
-        return view('customer.rooms.detail', compact('room', 'images', 'services', 'room_categories', 'user'));
+        $services = Service::all();
+        $serviceRooms = ServiceRoom::where('room_id', $id)->get();
+        return view('customer.rooms.detail', compact('room', 'serviceRooms','images', 'services', 'room_categories', 'user'));
     }
 
     public function filter_price(Request $request)
@@ -211,7 +215,8 @@ class CustomerController extends Controller
     {
         $images = Image::all();
         $booking = Booking::find($id);
-//        dd($booking->id);
+        $booking_detail = BookingDetail::where('booking_id', $id)->get()->first();
+//        dd($booking_detail->id);
         $room = Room::where('id', $booking->booking_room_id)->get()->first();
         $get_category = RoomCategory::where('id', $room->room_type_id)->get()->first();
         $image = Image::where('room_id', $room->id)->get()->first();
@@ -219,7 +224,7 @@ class CustomerController extends Controller
         $user = Auth::guard('admin')->user();
         $room_categories = RoomCategory::all();
         $services = Service::all();
-        return view('customer.login.booking_details', compact('booking', 'services','get_category', 'image','room', 'room_categories', 'images', 'user'));
+        return view('customer.login.booking_details', compact('booking', 'booking_detail', 'services','get_category', 'image','room', 'room_categories', 'images', 'user'));
     }
 
     public function test_modal()

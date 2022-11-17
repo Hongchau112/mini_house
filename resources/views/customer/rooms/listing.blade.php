@@ -139,6 +139,9 @@
                 <div class="col-lg-9" id="list">
                     <!-- hotel results list -->
                     @foreach($rooms as $room)
+                        @php
+                            $serviceRooms = \App\Models\ServiceRoom::where('room_id', $room->id)->get();
+                        @endphp
                     <div class="hotel-results-list">
                         <!-- list box -->
                         <div class="list-box mb-30">
@@ -158,15 +161,13 @@
                                 </div>
 {{--                                <div class="list-box-rating"> <span class="at-stars"> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="far fa-star"></i> </span> <em>1000 review</em> </div>--}}
                                 <ul class="hotel-featured">
-                                    @if($room->bep==1)
-                                        <li><span><i class="fas fa-home"></i> Bếp nấu ăn</span></li>
-                                    @endif
-                                    @if($room->gac==1)
-                                        <li><span><i class="fas fa-home"></i> Phòng có gác</span></li>
-                                    @endif
-                                    @if($room->maylanh==1)
-                                        <li><span><i class="fas fa-sad-cry"></i> Máy lạnh</span></li>
-                                    @endif
+                                    @foreach($serviceRooms as $serviceRoom)
+                                        @foreach($services as $service)
+                                            @if($serviceRoom->service_id==$service->id)
+                                                <li><span><i class="fas fa-home"></i>{{$service->getName()}}</span></li>
+                                            @endif
+                                        @endforeach
+                                    @endforeach
                                         <li>
                                             <input type="hidden" id="room_id" value="{{$room->id}}">
                                             <a href="{{route('customer.add_wistlist', ['id'=>$room->id])}}" id="btn-wishlist"><i class="fa fa-heart"></i></a>

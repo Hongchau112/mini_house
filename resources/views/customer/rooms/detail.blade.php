@@ -71,26 +71,13 @@
                                 <div class="col-lg-4">
                                     <ul class="ameneties-list">
                                         <li><i class="fas fa-wifi pr-6"></i>Wi-Fi miễn phí</li>
-                                        @if($room->bep==1)
-                                            <li><i class="fas fa-home"></i> Bếp nấu ăn</li>
-                                        @endif
-
-                                    </ul>
-                                </div>
-                                <div class="col-lg-4">
-                                    <ul class="ameneties-list">
-                                        @if($room->maylanh==1)
-                                            <li><i class="fas fa-home"></i> Máy lạnh</li>
-                                        @endif
-
-                                        @if($room->gac==1)
-                                            <li><i class="fas fa-home"></i> Phòng có gác</li>
-                                        @endif
-                                    </ul>
-                                </div>
-                                <div class="col-lg-4">
-                                    <ul class="ameneties-list">
-                                        <li><i class="fas fa-camera-retro pr-6"></i>Camera an ninh</li>
+                                        @foreach($serviceRooms as $serviceRoom)
+                                            @foreach($services as $service)
+                                                @if($serviceRoom->service_id==$service->id)
+                                                    <li><span><i class="fas fa-home"></i> {{$service->getName()}}</span></li>
+                                                @endif
+                                            @endforeach
+                                        @endforeach
                                     </ul>
                                 </div>
                             </div>

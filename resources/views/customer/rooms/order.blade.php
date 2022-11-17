@@ -81,31 +81,14 @@
                                         Thanh toán với VNPAY
                                     </label>
                                 </div>
-                                {{--                            <form action="{{route('customer.payment.vnpay')}}" method="post">--}}
-                                {{--                            <form action="{{route('customer.payment.vnpay')}}" method="post">--}}
-                                {{--                                @csrf--}}
-                                {{--                                <input type="hidden" name="user_id" id="user-id" value="{{$user->id}}">--}}
-                                {{--                                <input type="hidden" name="booking_id" id="booking_id" value="{{$booking->id}}">--}}
-                                {{--                                <input type="hidden" name="cost" id="cost" value="{{$total_cost}}">--}}
-                                {{--                                <button type="submit" style="border: none"  name="redirect"><img src="/images/vnpay.jpg" width="240px" height="100px"></button>--}}
-                                {{--                            </form>--}}
                                 <a href="{{route('customer.payment.vnpay_online', ['id'=>$room->id])}}"><img src="/images/vnpay.jpg"></a>
                             </div>
                             <div class="col-lg-6 mb-20">
-{{--                                <div class="form-check">--}}
-{{--                                    <input class="form-check-input" type="radio" name="payment_method" id="momo" >--}}
-{{--                                    <label class="form-check-label" for="momo">--}}
-{{--                                        Default checked radio--}}
-{{--                                    </label>--}}
-{{--                                </div>--}}
-{{--                                <form action="{{route('customer.payment.momo')}}" method="post">--}}
-{{--                                    @csrf--}}
-{{--                                    <button type="submit" name="redirect" style="border: none"><img src="/images/momo.png" width="240px" height="100px"></button>--}}
-{{--                                </form>--}}
                             </div>
                         </div>
 
                         <input type="hidden" name="room_id" value="{{$room->id}}">
+                        <input type="hidden" name="total_cost" value="{{$total_cost}}">
                         <button type="submit" class="btn-style-1">Tiếp tục với thanh toán</button>
                     </form>
                 </div>
@@ -138,36 +121,20 @@
                                 <tr class="label">
                                     <td>Các dịch vụ (Nếu có) </td>
                                 </tr>
-                                @if($room->gac==1)
-                                    @php
-                                        $tong+=100000;
-                                    @endphp
-                                    <tr>
-                                        <td class="label">Phòng có gác</td>
-                                        <td>{{number_format(100000)}} đ</td>
-                                    </tr>
-                                @endif
-                                @if($room->maylanh==1)
-                                    @php
-                                        $tong+=300000;
-                                    @endphp
-                                    <tr>
-                                        <td class="label">Máy lạnh</td>
-                                        <td>{{number_format(300000)}} đ</td>
-                                    </tr>
-                                @endif
-                                @if($room->bep==1)
-                                    @php
-                                        $tong+=200000;
-                                    @endphp
-                                    <tr>
-                                        <td>Bếp nấu ăn</td>
-                                        <td>{{number_format(200000)}} đ</td>
-                                    </tr>
-                                @endif
+                                @foreach($serviceRooms as $serviceRoom)
+                                    @foreach($services as $service)
+                                        @if($serviceRoom->service_id==$service->id)
+                                            <tr>
+                                                <td class="label">{{$service->getName()}}</td>
+                                                <td>{{number_format($service->getCost())}} đ</td>
+                                            </tr>
+                                        @endif
+                                    @endforeach
+                                @endforeach
+
                                 <tr>
                                     <td class="label">Tổng tiền cần thu</td>
-                                    <td>{{number_format($tong)}} đ</td>
+                                    <td>{{number_format($total_cost)}} đ</td>
                                 </tr>
                             </table>
                             </div>
@@ -175,6 +142,7 @@
                     </aside>
                 </div>
             </div>
+            </form>
         </div>
     </div>
 @endsection

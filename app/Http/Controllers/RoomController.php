@@ -7,6 +7,7 @@ use App\Models\Room;
 use App\Models\RoomCategory;
 use App\Models\Image;
 use App\Models\Service;
+use App\Models\ServiceRoom;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Ramsey\Collection\Collection;
@@ -25,7 +26,8 @@ class RoomController extends Controller
     {
         $user = Auth::guard('admin')->user();
         $room_category = RoomCategory::all();
-        return view('admin.rooms.create', compact('user', 'room_category'));
+        $services = Service::all();
+        return view('admin.rooms.create', compact('user', 'room_category', 'services'));
     }
 
     public function upload_images($id)
@@ -93,31 +95,28 @@ class RoomController extends Controller
             'description' => 'required',
             'room_type_id' => 'required',
             'cost' => 'required',
-            'short_intro' => 'nullable'
+            'short_intro' => 'nullable',
+            'services' => 'required'
         ]);
-
-        $room = new Room();
+      $room = new Room();
         $room->name = $data['name'];
         $room->description = $data['description'];
         $room->room_type_id = $data['room_type_id'];
         $room->cost = $data['cost'];
         $room->short_intro = $data['short_intro'];
-
-        if ($request->has('bep'))
-        {
-            $room->bep=1;
-        }
-
-        if ($request->has('maylanh'))
-        {
-            $room->maylanh=1;
-        }
-        if ($request->has('gac'))
-        {
-            $room->gac=1;
-        }
-
         $room->save();
+        //luu service
+        $services = $request->services;
+        foreach ($services as $service)
+        {
+            $serviceRoom = new ServiceRoom();
+            $serviceRoom->room_id = $room->id;
+            $serviceRoom->service_id = $service;
+            $serviceRoom->save();
+        }
+
+
+
 
         $room_id = $room->id;
 
@@ -140,10 +139,13 @@ class RoomController extends Controller
                 $room_category = $category->name;
             }
         }
-
+//dd($id);
+        $serviceRooms = ServiceRoom::where('room_id', $id)->get();
+//        dd($serviceRooms);
+        $services = Service::all();
         $images = Image::where('room_id', $id)->get();
 
-        return view('admin.rooms.show', compact('user', 'room_category', 'room', 'images'));
+        return view('admin.rooms.show', compact('user', 'room_category','serviceRooms', 'room', 'images', 'services'));
     }
 
     public function edit($id)
@@ -151,7 +153,9 @@ class RoomController extends Controller
         $user = Auth::guard('admin')->user();
         $categories = RoomCategory::all();
         $room = Room::find($id);
-        return view('admin.rooms.edit', compact('user', 'categories', 'room'));
+        $serviceRooms = ServiceRoom::where('room_id', $id)->get();
+        $services = Service::all();
+        return view('admin.rooms.edit', compact('user', 'categories', 'room', 'serviceRooms', 'services'));
     }
 
     public function update(Request $request, $id)
