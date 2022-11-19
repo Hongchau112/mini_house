@@ -14,7 +14,7 @@ class SendEmail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $trans;
+    protected $booking;
     protected $users;
 
     /**
@@ -22,9 +22,9 @@ class SendEmail implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($trans)
+    public function __construct($booking)
     {
-        $this->trans = $trans;
+        $this->$booking = $booking;
 
     }
 
@@ -35,6 +35,6 @@ class SendEmail implements ShouldQueue
      */
     public function handle()
     {
-            Mail::to($this->trans->email)->send(new MailNotify($this->trans));
+            Mail::to($this->booking->email)->send(new MailNotify($this->booking));
     }
 }

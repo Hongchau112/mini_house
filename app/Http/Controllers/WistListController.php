@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Image;
+use App\Models\PostCategory;
 use App\Models\Room;
 use App\Models\RoomCategory;
 use App\Models\Wistlist;
@@ -14,19 +15,27 @@ class WistListController extends Controller
 {
     public function add_wistlist($room_id)
     {
-        $id = Auth::guard('admin')->user()->id;
-        $wish = Wistlist::where('room_id', $room_id)->where('user_id', $id)->first();
-        if(isset($wish))
+        $getUser = Session::get('user_id');
+        if($getUser==null)
         {
-            return redirect()->back()->with('error', 'Phòng đã nằm trong danh sách yêu thích, không thêm được nữa!');
+            return redirect()->back()->with('error', 'Vui lòng đăng nhập để thêm phòng vào danh sách yêu thích!');
         }
-//        dd($room_id);
         else{
-            Wistlist::insert([
-                'user_id' => $id,
-                'room_id' => $room_id
-            ]);
-            return redirect()->back()->with('success', 'Thêm vào yêu thích thành công!');
+            $id = Auth::guard('admin')->user()->id;
+            $wish = Wistlist::where('room_id', $room_id)->where('user_id', $id)->first();
+            if(isset($wish))
+            {
+                return redirect()->back()->with('error', 'Phòng đã nằm trong danh sách yêu thích, không thêm được nữa!');
+            }
+//        dd($room_id);
+            else{
+                Wistlist::insert([
+                    'user_id' => $id,
+                    'room_id' => $room_id
+                ]);
+                return redirect()->back()->with('success', 'Thêm vào yêu thích thành công!');
+            }
+
         }
 
     }
@@ -41,11 +50,12 @@ class WistListController extends Controller
     {
         $rooms = Room::all();
         $room_categories = RoomCategory::all();
+        $post_categories = PostCategory::all();
         $images = Image::all();
         $user = Auth::guard('admin')->user();
         $wishlists = Wistlist::where('user_id', $id)->get();
 //        dd($wishlist);
-        return view('customer.rooms.wishlist', compact('wishlists', 'user', 'rooms', 'images', 'room_categories'));
+        return view('customer.rooms.wishlist', compact('post_categories','wishlists', 'user', 'rooms', 'images', 'room_categories'));
     }
 
     public function wish_list(Request $request)

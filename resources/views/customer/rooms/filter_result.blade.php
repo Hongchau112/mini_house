@@ -33,7 +33,13 @@
                         <a href="{{route('customer.add_wistlist', ['id'=>$room->id])}}" id="btn-wishlist"><i class="fa fa-heart"></i></a>
                     </li>
                 </ul>
-                <div class="btn-wrapper mt-20 d-inline-block w-100"> <a class="view-detail-btn" href="">Chi tiết</a> <a class="book-now-btn ml-6" href="{{route('customer.rooms.booking', ['id' =>$room->id])}}">Đặt ngay</a> </div>
+                <div class="btn-wrapper mt-20 d-inline-block w-100"> <a class="view-detail-btn" href="{{route('customer.rooms.details', ['id'=>$room->id])}}">Chi tiết</a>
+                    @if($room->status==0)
+                        <a class="book-now-btn ml-6" href="{{route('customer.rooms.booking', ['id' =>$room->id])}}">Đặt ngay</a>
+                    @else
+                        <button class="btn btn-outline-danger">Hết phòng</button>
+                    @endif
+                </div>
             </div>
         </div>
         <!-- list box end -->

@@ -18,6 +18,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\InformationController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\PostCategoryController;
+use App\Http\Controllers\DashboardController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -142,6 +143,13 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     Route::get('admin/transaction', [TransactionController::class, 'index'])->name('transactions.index');
     Route::get('admin/transaction/show/{id}', [TransactionController::class, 'show'])->name('transactions.show');
     Route::get('admin/transaction/edit/{id}', [TransactionController::class, 'edit'])->name('transactions.edit');
+    Route::get('admin/transaction/key_search', [TransactionController::class, 'key_search'])->name('transactions.key_search');
+    Route::get('admin/transaction/payment_search', [TransactionController::class, 'payment_search'])->name('transactions.payment_search');
+    Route::get('admin/transaction/mail_reminder', [TransactionController::class, 'mail_reminder'])->name('transactions.mail_reminder');
+
+    ////dashboard
+    Route::get('admin/dashboard/index', [DashboardController::class, 'index'])->name('dashboard.index');
+    Route::post('admin/dashboard/statistic_order', [DashboardController::class, 'statistic_order'])->name('dashboard.statistic_order');
 
 
 });

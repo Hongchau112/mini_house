@@ -2,6 +2,16 @@
     'title' => ( $title ?? 'Trang chủ' )
 ])
 @section('content')
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
     <style>
         .container {
             padding: 2rem 0rem;

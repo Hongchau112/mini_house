@@ -29,6 +29,7 @@
     <link rel="stylesheet" href="{{asset('/dashlite/assets/css/dashlite.css?ver=2.5.0')}}">
     <link id="skin-default" rel="stylesheet" href="{{asset('/dashlite/assets/css/theme.css?ver=2.5.0')}}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
 
 
 </head>

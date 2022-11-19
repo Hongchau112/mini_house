@@ -21,12 +21,16 @@
         }
         .th {
             font-weight: bold;
-            width: 230px;
+            width: 200px;
         }
     </style>
 </head>
 <body>
-<p>XIn chào {{$user_name}}<br><br>Chúng tôi sẽ liên hệ với anh chị để xác nhận việc đặt phòng. Khi nhận phòng vui lòng đem theo CCCD để làm thủ tục.</p>
+<p>Xin chào {{$user_name}}.<br><br> Trước tiên, cảm ơn bạn đã đặt phòng trọ tại nhatrogiatot</p>
+<p>Email này được gửi để nhắc nhở bạn, hãy nhanh chóng đến phòng trọ để thanh toán tiền phòng trước khi hết hạn vào ngày {{date_format(new DateTime($date_expire), 'd-m-Y')}}
+    . Nếu quá hạn thì việc đặt phòng của bạn sẽ hết hiệu lực bạn nhé.</p>
+
+<p>Thông tin về việc đặt phòng và thanh toán</p>
 <table border="1px">
     <tr>
         <td class="th">
@@ -49,7 +53,7 @@
             Thanh toán tiền
         </td>
         <td>
-            {{number_format($total_cost)}} đ
+            {{number_format($cost)}} đ
         </td>
     </tr>
 
@@ -57,15 +61,25 @@
         <td class="th">
             Hình thức thanh toán:
         </td>
-        @if($method=='cash')
             <td>
                 Thanh toán tiền mặt
             </td>
-        @else
-            <td>
-                Thanh toán qua ví VNPAY
-            </td>
-        @endif
+    </tr>
+    <tr>
+        <td class="th">
+            Ngày đặt phòng:
+        </td>
+        <td>
+            {{date_format(new DateTime($date_booking), 'd-m-Y')}}
+        </td>
+    </tr>
+    <tr>
+        <td class="th">
+            Ngày hết hạn:
+        </td>
+        <td>
+            {{date_format(new DateTime($date_expire), 'd-m-Y')}}
+        </td>
     </tr>
 
 
@@ -79,3 +93,4 @@
 
 </body>
 </html>
+

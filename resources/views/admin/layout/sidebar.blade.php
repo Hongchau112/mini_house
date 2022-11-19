@@ -72,8 +72,8 @@
                                 <span class="nk-menu-text">Đặt phòng</span>
                             </a>
                         </li><!-- .nk-menu-item -->
-                        <li class="nk-menu-item has-sub">
-                            <a href="#" class="nk-menu-link nk-menu-toggle">
+                        <li class="nk-menu-item">
+                            <a href="{{route('admin.dashboard.index')}}" class="nk-menu-link">
                                 <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
                                 <span class="nk-menu-text">Thống kê</span>
                             </a>

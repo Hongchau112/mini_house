@@ -115,14 +115,14 @@
                     <div class="modal-body">
 
                         <div class="form-group">
-                            <label class="form-label" for="room_type_id">Trạng thái đơn<span class="text-danger">*</span></label>
+                            <label class="form-label" for="booking_status">Trạng thái đơn<span class="text-danger">*</span></label>
                             <div class="form-control-wrap">
                                 <select class="form-select" data-search="on" name="booking_status" id="booking_status">
-                                    <option value="pending">Đang xử lý</option>
-                                    <option value="booked">Thành công</option>
-                                    <option value="hired">Đã vào ở</option>
-                                    <option value="cancel">Đã hủy</option>
-                                    <option value="refund">Hoàn tiền</option>
+                                    <option value="pending" {{$booking->booking_status=='pending' ? 'selected' : ''}}>Đang xử lý</option>
+                                    <option value="booked" {{$booking->booking_status=='success' ? 'selected' : ''}}>Thành công</option>
+                                    <option value="hired" {{$booking->booking_status=='hired' ? 'selected' : ''}}>Đã vào ở</option>
+                                    <option value="cancel" {{$booking->booking_status=='cancel' ? 'selected' : ''}}>Đã hủy</option>
+                                    <option value="refund" {{$booking->booking_status=='refund' ? 'selected' : ''}}>Hoàn tiền</option>
                                 </select>
                             </div>
                         </div>
