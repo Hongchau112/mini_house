@@ -316,6 +316,34 @@ class BookingController extends Controller
         return redirect($vnp_Url);
     }
 
+    public function cancel_booking($id)
+    {
+        $booking=Booking::find($id);
+        $book_user = Auth::guard('admin')->user();
+        $booked_email = $book_user->email;
+        $booking_detail = BookingDetail::where('booking_id', $booking->id)->get()->first();
+        $title_mail = 'Hủy đặt phòng';
+        $room = Room::where('id', $booking->booking_room_id)->get()->first();
+        $room->status=0;
+        $room->save();
+        $booking->booking_status='cancel';
+        $booking->save();
+        $booking_detail->booking_status = 'cancel';
+        $booking_detail->save();
+        User::where('booking_id', $booking->id)->delete();
+        Mail::send('customer.email.cancel_booking',
+            ['room_name' => $room->name,
+                'date_booking' => $booking->date,
+                'user_name' => $book_user->name,
+                'cost' => $booking_detail->total_cost,
+                'date_cancel' => Carbon::now()],
+            function ($message) use ($title_mail, $booked_email){
+                $message->to($booked_email)->subject($title_mail);
+                $message->from($booked_email, $title_mail);
+            });
+        return redirect()->back()->with('success', 'Hủy đặt hàng thành công');
+    }
+
 
 
 }

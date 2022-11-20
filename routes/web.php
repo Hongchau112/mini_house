@@ -226,6 +226,9 @@ Route::get('customer/payment/success', [BookingController::class, 'payment_succe
 Route::get('customer/payment/vnpay_online/{id}', [BookingController::class, 'vnpay_online'])->name('customer.payment.vnpay_online');
 Route::post('customer/payment/vnpay_payment', [BookingController::class, 'vnpay_payment'])->name('customer.payment.vnpay_payment');
 
+Route::get('customer/cancel_booking/{id}', [BookingController::class, 'cancel_booking'])->name('customer.cancel_booking');
+
+
 Route::get('customer/post_category/{id}', [PostController::class, 'post_category'])->name('customer.post_category');
 Route::get('customer/show_category/{id}', [CustomerController::class, 'show_category'])->name('customer.show_category');
 Route::post('customer/global_search', [CustomerController::class, 'global_search'])->name('customer.global_search');

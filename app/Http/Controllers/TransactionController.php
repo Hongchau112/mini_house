@@ -23,7 +23,7 @@ class TransactionController extends Controller
         $user = Auth::guard('admin')->user();
         $bookings = Booking::paginate(10);
         $booking_details = BookingDetail::all();
-        return view('admin.transaction.index', compact('user', 'bookings', 'users', 'booking_details'));
+        return view('admin.transaction.listing', compact('user', 'bookings', 'users', 'booking_details'));
 
     }
 
@@ -31,7 +31,7 @@ class TransactionController extends Controller
     {
         $user = Auth::guard('admin')->user();
         $booking = Booking::find($id);
-        $customer = User::where('room_id', $booking->booking_room_id)->get();
+        $customer = User::where('booking_id', $booking->id)->get();
         $user_booked = Admin::where('id', $booking->user_id)->get()->first();
         $room = Room::find($booking->booking_room_id);
         $booking_detail = BookingDetail::where('booking_id', $booking->id)->get()->first();
@@ -44,14 +44,33 @@ class TransactionController extends Controller
 
     public function update_status(Request $request, $id)
     {
+
         $booking=Booking::find($id);
-//        dd($booking->id);
-//        dd($request->booking_status);
+        $booked_user = Admin::where('id', $booking->user_id)->get()->first();
+        $booked_email = $booked_user->email;
         $booking->booking_status = $request->booking_status;
         $booking->save();
         $booking_detail = BookingDetail::where('booking_id', $booking->id)->get()->first();
         $booking_detail->booking_status =$request->booking_status;
         $booking_detail->save();
+        $title_mail = 'Hủy đặt phòng';
+        if ($booking->booking_status=='cancel'){
+            $room = Room::where('id', $booking->booking_room_id)->get()->first();
+            $room->status=0;
+            $room->save();
+            User::where('booking_id', $booking->id)->delete();
+            Mail::send('admin.transaction.cancel_booking',
+                ['room_name' => $room->name,
+                    'date_booking' => $booking->date,
+                    'user_name' => $booked_user->name,
+                    'cost' => $booking_detail->total_cost,
+                    'date_cancel' => Carbon::now()],
+                function ($message) use ($title_mail, $booked_email){
+                    $message->to($booked_email)->subject($title_mail);
+                    $message->from($booked_email, $title_mail);
+                });
+
+        }
         return redirect()->back()->with('success', 'Cập nhật trạng thái thành công!');
 
     }
@@ -140,14 +159,6 @@ class TransactionController extends Controller
                     }
                 }
         }
-
-//        dd($data);
-//        Mail::send('admin.transaction.mail_reminder',
-//            compact('room', 'cost', 'date_expired'),
-//            function ($message) use ($title_mail, $data){
-//            $message->to($data['email'])->subject($title_mail);
-//            $message->from($data['email'], $title_mail);
-//        });
         return redirect()->back()->with('message', 'Gửi email thành công!');
     }
 }

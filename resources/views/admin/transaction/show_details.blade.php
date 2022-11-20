@@ -105,7 +105,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Cập nhật giao dịch</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -118,11 +118,10 @@
                             <label class="form-label" for="booking_status">Trạng thái đơn<span class="text-danger">*</span></label>
                             <div class="form-control-wrap">
                                 <select class="form-select" data-search="on" name="booking_status" id="booking_status">
+                                    <option value="new" {{$booking->booking_status=='new' ? 'selected' : ''}}>Mới</option>
                                     <option value="pending" {{$booking->booking_status=='pending' ? 'selected' : ''}}>Đang xử lý</option>
-                                    <option value="booked" {{$booking->booking_status=='success' ? 'selected' : ''}}>Thành công</option>
-                                    <option value="hired" {{$booking->booking_status=='hired' ? 'selected' : ''}}>Đã vào ở</option>
+                                    <option value="success" {{$booking->booking_status=='success' ? 'selected' : ''}}>Thành công</option>
                                     <option value="cancel" {{$booking->booking_status=='cancel' ? 'selected' : ''}}>Đã hủy</option>
-                                    <option value="refund" {{$booking->booking_status=='refund' ? 'selected' : ''}}>Hoàn tiền</option>
                                 </select>
                             </div>
                         </div>
@@ -167,8 +166,7 @@
                                         <span class="text-body">Thanh toán qua ví VNPAY</span>
                                     @endif
                                 </p>
-                                <p class="text-muted"><span class="text-body">Trạng thái đơn: </span></p>
-
+                                <p class="text-muted"><span class="text-body">Trạng thái đơn:  </span></p>
                             </div>
                             <div>
                                 <img class="align-self-center img-fluid"
@@ -176,50 +174,51 @@
                             </div>
                         </div>
                         <ul id="progressbar-1" class="mx-0 mt-0 mb-5 px-0 pt-0 pb-4">
-                            @if($booking_detail->booking_status=='pending')
+                            @if($booking_detail->booking_status=='new')
                                 <li class="step0 active" id="step1">
-                                    <span style="margin-left: 22px; margin-top: 12px;">Đang xử lý</span>
+                                    <span style="margin-left: 22px; margin-top: 12px;">Mới</span>
                                 </li>
                                 <li class="step0 text-center" id="step2">
-                                    <span>Thành công</span>
+                                    <span>Đang xử lý</span>
                                 </li>
                                 <li class="step0 text-muted text-end" id="step3">
                                     <span
-                                        style="margin-right: 25px;">Đã vào ở</span>
+                                        style="margin-right: 25px;">Thành công</span>
+                                </li>
+                            @elseif($booking_detail->booking_status=='pending')
+                                <li class="step0 active" id="step1">
+                                    <span style="margin-left: 22px; margin-top: 12px;">Mới</span>
+                                </li>
+                                <li class="step0 text-center active" id="step2">
+                                    <span>Đang xử lý</span>
+                                </li>
+                                <li class="step0 text-muted text-end" id="step3">
+                                    <span
+                                        style="margin-right: 25px;">Thành công</span>
                                 </li>
                             @elseif($booking_detail->booking_status=='success')
                                 <li class="step0 active" id="step1">
-                                    <span style="margin-left: 22px; margin-top: 12px;">Đang xử lý</span>
+                                    <span style="margin-left: 22px; margin-top: 12px;">Mới</span>
                                 </li>
-                                <li class="step0 active text-center" id="step2">
-                                    <span>Thành công</span>
+                                <li class="step0 text-center active" id="step2">
+                                    <span>Đang xử lý</span>
                                 </li>
-                                <li class="step0 text-muted text-end" id="step3">
+                                <li class="step0 text-muted text-end active" id="step3">
                                     <span
-                                        style="margin-right: 25px;">Đã vào ở</span>
+                                        style="margin-right: 25px;">Thành công</span>
                                 </li>
                             @elseif($booking_detail->booking_status=='cancel')
                                 <li class="step0 active" id="step1">
-                                    <span style="margin-left: 22px; margin-top: 12px;">Đang xử lý</span>
+                                    <span style="margin-left: 22px; margin-top: 12px;">Mới</span>
                                 </li>
-                                <li class="step0 active text-center" id="step2">
-                                    <span>Xử lý thất bại</span>
+                                <li class="step0 text-center active" id="step2">
+                                    <span>Đang xử lý</span>
                                 </li>
-                                <li class="step0 active text-muted text-end" id="step3">
+                                <li class="step0 text-muted text-end active" id="step3">
                                     <span
-                                        style="margin-right: 25px;">Đã hủy</span>
+                                        style="margin-right: 25px;; color:red;">Đã hủy</span>
                                 </li>
-                            @elseif($booking_detail->booking_status=='hired')
-                                <li class="step0 active" id="step1">
-                                    <span style="margin-left: 22px; margin-top: 12px;">Đang xử lý</span>
-                                </li>
-                                <li class="step0 active text-center" id="step2">
-                                    <span>Thành công</span>
-                                </li>
-                                <li class="step0 active text-muted text-end" id="step3">
-                                    <span
-                                        style="margin-right: 25px;">Đã vào ở</span>
-                                </li>
+
                             @endif
                         </ul>
                     </div>
