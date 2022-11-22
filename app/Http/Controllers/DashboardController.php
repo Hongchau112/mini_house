@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Middleware\Admin;
 use App\Models\Booking;
+use App\Models\BookingDetail;
 use App\Models\Post;
 use App\Models\Room;
 use Carbon\Carbon;
@@ -21,20 +22,25 @@ class DashboardController extends Controller
         $posts = Post::all()->count();
         $rooms = Room::all()->count();
         $bookings = Booking::all()->count();
-        return view('admin.dashboard.index', compact('user', 'users', 'posts', 'rooms', 'bookings'));
+        $booking_new = Booking::where('booking_status', 'new')->get()->count();
+        $booking_pending = Booking::where('booking_status', 'pending')->get()->count();
+        $booking_success = Booking::where('booking_status', 'success')->get()->count();
+        $booking_cancel = Booking::where('booking_status', 'cancel')->get()->count();
+        $new_bookings = Booking::where('booking_status', 'new')->get();
+        $booking_details = BookingDetail::all();
+//        dd($booking_details);
+        return view('admin.dashboard.room_dashboard', compact('user','booking_details', 'new_bookings','users', 'posts', 'rooms', 'bookings', 'booking_new', 'booking_pending', 'booking_success', 'booking_cancel'));
     }
+
     public function statistic_order(Request $request)
     {
         $data = '';
         $user = Auth::guard('admin')->user();
         $thoigian = $request->thoigian;
+//        dd($thoigian);
         $subdays = Carbon::now()->subDays(365)->toDateString();
         //xu ly ngay
-        if ($thoigian=='1ngay')
-        {
-            $subdays = Carbon::now()->subDays(1)->toDateString();
-        }
-        elseif ($thoigian=='7ngay')
+        if ($thoigian=='7ngay')
         {
             $subdays = Carbon::now()->subDays(7)->toDateString();
         }
@@ -46,13 +52,22 @@ class DashboardController extends Controller
         {
             $subdays = Carbon::now()->subDays(365)->toDateString();
         }
-
+        $get_bookings=[];
         $now = Carbon::now('Asia/Ho_Chi_Minh')->toDateString();
         $bookings = Booking::whereBetween('date',[$subdays, $now])->get();
 
-        $num = count($bookings);
+        //get array
+        foreach ($bookings as $booking)
+        {
+            $get_booking[] = array(
+              'date' => $booking->date,
+              'status' => $booking->booking_status,
+                'booking' => 1
+            );
+        }
+//        dd($get_booking);
+        echo $data = json_encode($get_booking);
 
-        echo $data = $num;
 
     }
 

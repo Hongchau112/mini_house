@@ -148,8 +148,9 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     Route::get('admin/transaction/mail_reminder', [TransactionController::class, 'mail_reminder'])->name('transactions.mail_reminder');
 
     ////dashboard
-    Route::get('admin/dashboard/index', [DashboardController::class, 'index'])->name('dashboard.index');
     Route::post('admin/dashboard/statistic_order', [DashboardController::class, 'statistic_order'])->name('dashboard.statistic_order');
+    Route::get('admin/dashboard/index', [DashboardController::class, 'index'])->name('dashboard.index');
+//    Route::post('admin/dashboard/statistic_order', [DashboardController::class, 'statistic_order'])->name('dashboard.statistic_order');
 
 
 });
