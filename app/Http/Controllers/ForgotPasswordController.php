@@ -65,7 +65,7 @@ class ForgotPasswordController extends Controller
             ->first();
 
         if(!$updatePassword){
-            return back()->withInput()->with('error', 'Invalid token!');
+            return back()->withInput()->with('error', 'Token không hợp lệ');
         }
 
         $user = Admin::where('email', $request->email)

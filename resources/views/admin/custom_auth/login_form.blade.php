@@ -58,9 +58,9 @@
                                         <label class="form-label" for="name">Username</label>
                                     </div>
                                     <div class="form-control-wrap">
-                                        <input type="text" @if(\Illuminate\Support\Facades\Cookie::has('adminuser')) value="{{\Illuminate\Support\Facades\Cookie::get('adminuser')}}" @endif class="form-control form-control-lg" id="name" name="name" placeholder="Nhập tên đăng nhập của bạn...">
-                                        @if ($errors->has('name'))
-                                            <span class="text-danger">{{ $errors->first('name') }}</span>
+                                        <input type="text" @if(\Illuminate\Support\Facades\Cookie::has('adminuser')) value="{{\Illuminate\Support\Facades\Cookie::get('adminuser')}}" @endif class="form-control form-control-lg" id="email" name="email" placeholder="Nhập email của bạn...">
+                                        @if ($errors->has('email'))
+                                            <span class="text-danger">{{ $errors->first('email') }}</span>
                                         @endif
                                     </div>
                                 </div>

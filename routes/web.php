@@ -159,7 +159,8 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
 Route::get('users', [UserController::class, 'index'])->name('user.index');
 Route::get('users/all_foods', [UserController::class, 'all_foods'])->name('user.all_foods');
 
-Route::post('admin/assign_roles', [AdminController::class, 'assign_roles'])->name('admin.assign_roles');
+Route::get('admin/change_roles/{id}', [AdminController::class, 'change_role'])->name('admin.change_role');
+Route::post('admin/assign_roles/{id}', [AdminController::class, 'assign_roles'])->name('admin.assign_roles');
 
 Route::get('guest/index', [PageController::class, 'index'])->name('guest.index');
 Route::get('guest/detail/{id}', [PageController::class, 'detail'])->name('guest.detail');

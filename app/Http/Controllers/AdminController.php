@@ -15,12 +15,14 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Rule;
 use Session;
+use Symfony\Component\Console\Input\Input;
+
 class AdminController extends Controller
 {
     public function login(Request $request)
     {
-        $credentials = $request->only('name', 'password');
-        $user = Admin::where('name', $request->name)->first();
+        $credentials = $request->only('email', 'password');
+        $user = Admin::where('email', $request->email)->first();
         $rooms = Room::all();
         $images = Image::all();
         $user_lists = Admin::with('roles')->orderBy('id', 'ASC')->paginate(10);
@@ -78,9 +80,10 @@ class AdminController extends Controller
             'name' => 'required',
             'email' => 'required|email|unique:admins',
             'new_password' => 'required|confirmed',
-            'phone' => 'required',
+            'phone' => 'required | between: 10,12',
             'sex' => 'required',
             'account' => 'required',
+            'address' => 'required',
 
         ]);
 //        dd($validated_data['sex']);
@@ -108,28 +111,50 @@ class AdminController extends Controller
         return redirect()->route('admin.index')->with('success', 'Tạo tài khoản thành công!');
     }
 
-    public function assign_roles(Request $request)
+    public function change_role($id)
     {
-        $user = Admin::where('email', $request->email)->first();
-//        dd($request->email_role);
-//        dd($user->id);
-        $user->roles()->detach();
-//dd($request->email);
-//dd($request->admin_role);
-        if ($request->admin_role){
+        $user = Auth::guard('admin')->user();
+        $user_find = Admin::find($id);
+        return view('admin.users.change_role', compact('user', 'user_find'));
+    }
+
+
+    public function assign_roles(Request $request, $id)
+    {
+//        dd($request->change_role);
+        $user = Auth::guard('admin')->user();
+        $user_find = Admin::find($id);
+        $validated_data = $request->validate([
+            'password' => 'required | confirmed |between: 6,100',
+            'change_role' => 'required',
+        ]);
+        if(Hash::check($request->password, $user->password)) {
+            //neu mat khau admin hop le thi co the thay doi quyen
+            $user->roles()->detach();
+            if ($request->change_role=='admin'){
 //            dd(1);
-            $user->roles()->attach(Roles::where('name', 'admin')->first());
-            $user->account = 'admin';
-            $user->save();
+                $user_find->roles()->attach(Roles::where('name', 'admin')->first());
+                $user_find->account = 'admin';
+                $user_find->save();
+            }
+            elseif ($request->change_role=='user'){
+//            dd(1);
+                $user_find->roles()->attach(Roles::where('name', 'user')->first());
+                $user_find->account = 'user';
+                $user_find->save();
+            }
+            elseif ($request->change_role=='staff'){
+//            dd(1);
+                $user_find->roles()->attach(Roles::where('name', 'staff')->first());
+                $user_find->account = 'staff';
+                $user_find->save();
+            }
+            return redirect()->route('admin.index')->with('success', 'Cấp quyền thành công!');
         }
-        if ($request->user_role){
-//            dd(1);
-            $user->roles()->attach(Roles::where('name', 'user')->first());
-            $user->account = 'user';
-            $user->save();
+        else{
+            return redirect()->back()->with('error', 'Mật khẩu admin chưa đúng, bạn vui lòng nhập lại!');
         }
 
-        return redirect()->route('admin.index')->with('success', 'Cấp quyền thành công!');
     }
 
 

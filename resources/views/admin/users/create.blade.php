@@ -105,6 +105,14 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label" for="name">Địa chỉ <span class="code-class">*</span></label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control" id="address" name="address" required>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-lg-7 offset-lg-5">
                             <div class="form-group mt-2">
                                 <button type="submit" class="btn btn-lg btn-primary">Lưu</button>
@@ -138,3 +146,36 @@
 {{--    <button type="submit" class="btn btn-primary">Tạo</button>--}}
 </form>
 @endsection
+@push('footer')
+    <script>
+        $(document).ready(function(){
+            var name = document.getElementById('name');
+            var phone = document.getElementById('phone');
+            var email = document.getElementById('email');
+            var address = document.getElementById('address');
+            var password = document.getElementById('password');
+
+            var new_password_confirmation = document.getElementById('new_password_confirmation');
+
+            name.oninvalid = function(event) {
+                event.target.setCustomValidity('Tên không được để trống!');
+            }
+            phone.oninvalid = function(event) {
+                event.target.setCustomValidity('Số điện thoại không được để trống!');
+            }
+            email.oninvalid = function(event) {
+                event.target.setCustomValidity('Địa chỉ email không được để trống!');
+            }
+            address.oninvalid = function(event) {
+                event.target.setCustomValidity('Địa chỉ không được để trống!');
+            }
+            password.oninvalid = function(event) {
+                event.target.setCustomValidity('Mật khẩu không được để trống!');
+            }
+            new_password_confirmation.oninvalid = function(event) {
+                event.target.setCustomValidity('Xác nhận mật khẩu không được để trống!');
+            }
+        })
+
+    </script>
+@endpush

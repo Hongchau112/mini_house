@@ -2,12 +2,48 @@
 'title' => ( $title ?? 'Quản lý tài khoản' )
 ])
 
+{{--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">--}}
+
 @section('content')
     @if (session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
         </div>
     @endif
+{{--    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">--}}
+{{--        <div class="modal-dialog" role="document">--}}
+{{--            <div class="modal-content">--}}
+{{--                <div class="modal-header">--}}
+{{--                    <input type="hidden" value="" id="user_role_id">--}}
+{{--                    <h5 class="modal-title" id="exampleModalLabel">Cập nhật quyền</h5>--}}
+{{--                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">--}}
+{{--                        <span aria-hidden="true">&times;</span>--}}
+{{--                    </button>--}}
+{{--                </div>--}}
+{{--                <form action="{{route('admin.assign_roles')}}" method="post">--}}
+{{--                    @csrf--}}
+{{--                    <div class="modal-body">--}}
+{{--                        <input type="hidden" name="email" id="email" value="{{$user_sub->email}}">--}}
+{{--                        <div class="form-group">--}}
+{{--                            <label class="form-label" for="role">Thay đổi quyền <span class="text-danger">*</span></label>--}}
+{{--                            <div class="form-control-wrap" style="width: 300px;">--}}
+{{--                                <select class="form-select">--}}
+{{--                                    <option value="user" {{$user_sub->account=='user' ? 'selected' : ''}}>Người dùng</option>--}}
+{{--                                    <option value="admin" {{$user_sub->account=='admin' ? 'selected' : ''}}>Quản trị </option>--}}
+{{--                                    <option value="staff" {{$user_sub->account=='staff' ? 'selected' : ''}}>Nhân viên</option>--}}
+{{--                                </select>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <div class="modal-footer">--}}
+{{--                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>--}}
+{{--                        <button type="submit" class="btn btn-primary">Lưu</button>--}}
+{{--                    </div>--}}
+{{--                </form>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+
     <div class="nk-content-body">
         <div class="nk-block">
             <div class="card card-bordered card-stretch">
@@ -18,11 +54,9 @@
                                 <div class="form-inline flex-nowrap gx-3">
                                     <div class="form-wrap w-150px">
                                         <select class="form-select form-select-sm"  id="filter-search" name="filter-search" data-placeholder="Lọc">
-{{--                                            <option value="">Bulk Action</option>--}}
                                             <option value="all">Tất cả</option>
                                             <option value="admin">Người quản trị</option>
                                             <option value="user">Khách trọ</option>
-{{--                                            <option value="delete">Delete User</option>--}}
                                         </select>
                                     </div>
                                 </div><!-- .form-inline -->
@@ -61,26 +95,26 @@
                                                             </a>
                                                         </div><!-- .dropdown -->
                                                     </li><!-- li -->
-                                                    <li>
-                                                        <div class="dropdown">
-                                                            <a href="#" class="btn btn-trigger btn-icon dropdown-toggle" data-toggle="dropdown">
-                                                                <em class="icon ni ni-setting"></em>
-                                                            </a>
-                                                            <div class="dropdown-menu dropdown-menu-xs dropdown-menu-right">
-                                                                <ul class="link-check">
-                                                                    <li><span>Show</span></li>
-                                                                    <li class="active"><a href="#">10</a></li>
-                                                                    <li><a href="#">20</a></li>
-                                                                    <li><a href="#">50</a></li>
-                                                                </ul>
-                                                                <ul class="link-check">
-                                                                    <li><span>Order</span></li>
-                                                                    <li class="active"><a href="#">DESC</a></li>
-                                                                    <li><a href="#">ASC</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </div><!-- .dropdown -->
-                                                    </li><!-- li -->
+{{--                                                    <li>--}}
+{{--                                                        <div class="dropdown">--}}
+{{--                                                            <a href="#" class="btn btn-trigger btn-icon dropdown-toggle" data-toggle="dropdown">--}}
+{{--                                                                <em class="icon ni ni-setting"></em>--}}
+{{--                                                            </a>--}}
+{{--                                                            <div class="dropdown-menu dropdown-menu-xs dropdown-menu-right">--}}
+{{--                                                                <ul class="link-check">--}}
+{{--                                                                    <li><span>Show</span></li>--}}
+{{--                                                                    <li class="active"><a href="#">10</a></li>--}}
+{{--                                                                    <li><a href="#">20</a></li>--}}
+{{--                                                                    <li><a href="#">50</a></li>--}}
+{{--                                                                </ul>--}}
+{{--                                                                <ul class="link-check">--}}
+{{--                                                                    <li><span>Order</span></li>--}}
+{{--                                                                    <li class="active"><a href="#">DESC</a></li>--}}
+{{--                                                                    <li><a href="#">ASC</a></li>--}}
+{{--                                                                </ul>--}}
+{{--                                                            </div>--}}
+{{--                                                        </div><!-- .dropdown -->--}}
+{{--                                                    </li><!-- li -->--}}
                                                 </ul><!-- .btn-toolbar -->
                                             </div><!-- .toggle-content -->
                                         </div><!-- .toggle-wrap -->
@@ -100,11 +134,11 @@
                             </div>
                         </div><!-- .card-search -->
                     </div><!-- .card-inner -->
-                    <form action="{{route('admin.assign_roles')}}" method="post">
-                        @csrf
+{{--                    <form action="{{route('admin.assign_roles')}}" method="post">--}}
+{{--                        @csrf--}}
+{{--                    </form>--}}
                     <div class="card-inner p-0" >
                         <div class="nk-tb-list nk-tb-ulist" id="list">
-
                             <div class="nk-tb-item nk-tb-head" >
                                 <div class="nk-tb-col nk-tb-col-check">
                                     <div class="custom-control custom-control-sm custom-checkbox notext">
@@ -116,12 +150,8 @@
                                 <div class="nk-tb-col tb-col-mb"><span class="sub-text">Số điện thoại</span></div>
                                 <div class="nk-tb-col tb-col-lg"><span class="sub-text">Giới tính</span></div>
                                 <div class="nk-tb-col tb-col-lg"><span class="sub-text">Trạng thái</span></div>
-                                <div class="nk-tb-col tb-col-md"><span class="sub-text">User</span></div>
-                                <div class="nk-tb-col tb-col-md"><span class="sub-text">Admin</span></div>
-                                <div class="nk-tb-col tb-col-md"><span class="sub-text">Đổi quyền</span></div>
-
-
-                                <div class="nk-tb-col nk-tb-col-tools text-right">
+                                <div class="nk-tb-col tb-col-md"><span class="sub-text">Quyền</span></div>
+                                <div class="nk-tb-col nk-tb-col-tools text-right"> Tùy chọn
                                 </div>
                             </div><!-- .nk-tb-item -->
 
@@ -136,8 +166,8 @@
                                     <div class="nk-tb-col">
                                         <a href="#">
                                             <div class="user-card">
-                                                <div class="user-avatar bg-primary">
-                                                    <span>AB</span>
+                                                <div class="user-avatar sq">
+                                                    <img src="/images/avt-admin.png">
                                                 </div>
                                                 <div class="user-info">
                                                     <span class="tb-lead">{{$user_sub->name}}<span class="dot dot-success d-md-none ml-1"></span></span>
@@ -177,22 +207,20 @@
                                             <span class="tb-status text-danger">Bị khóa</span>
                                         @endif
                                     </div>
-                                        <div class="nk-tb-col tb-col-md">
-                                            <input type="checkbox" name="role" {{($user_sub->account=='user') ? 'checked' : ''}}></span>
-                                        </div>
-
-                                        <div class="nk-tb-col tb-col-md">
-                                            <input type="checkbox" name="role" {{($user_sub->account=='admin') ? 'checked' : ''}}></span>
-                                        </div>
-
-                                        <div class="nk-tb-col tb-col-md">
-                                            <input type="hidden" name="email" id="email" value="{{$user_sub->email}}">
-                                            <input type="submit" value="Thay đổi" class="btn btn-sm btn-gray">
-                                        </div>
-                                    </form>
+                                    <div class="nk-tb-col tb-col-md">
+                                            @if($user_sub->account=='user')
+                                                <span class="badge badge-outline-primary">Người dùng</span>
+                                            @endif
+                                                @if($user_sub->account=='admin')
+                                                    <span class="badge badge-outline-primary">Quản trị</span>
+                                                @endif
+                                                @if($user_sub->account=='staff')
+                                                    <span class="badge badge-outline-primary">Nhân viên</span>
+                                                @endif
+{{--                                            <input type="checkbox" name="role" {{($user_sub->account=='user') ? 'checked' : ''}}>--}}
+                                    </div>
                                     <div class="nk-tb-col nk-tb-col-tools">
                                         <ul class="nk-tb-actions gx-1">
-
                                             <li>
                                                 <div class="drodown">
                                                     <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
@@ -200,6 +228,7 @@
                                                         <ul class="link-list-opt no-bdr">
                                                             <li><a href="{{route('admin.show', ['id' => $user_sub->id])}}"><em class="icon ni ni-eye"></em><span>Xem</span></a></li>
                                                             <li><a href="{{route('admin.edit', ['id' => $user_sub->id])}}"><em class="icon ni ni-repeat"></em><span>Sửa</span></a></li>
+                                                            <li><a href="{{route('admin.change_role', [$user_sub->id])}}"><em class="icon ni ni-activity-round"></em><span>Đổi quyền</span></a></li>
                                                             <li><a href="{{route('admin.block', ['id' => $user_sub->id])}}"><em class="icon ni ni-activity-round"></em><span>Block</span></a></li>
                                                         </ul>
                                                     </div>
@@ -275,4 +304,6 @@
             });
         });
     </script>
+
+
 @endpush

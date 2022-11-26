@@ -50,7 +50,7 @@
                                 <div class="data-item" data-toggle="modal" data-target="#profile-edit">
                                     <div class="data-col">
                                         <span class="data-label">Ngày sinh</span>
-                                        <span class="data-value">29 Feb, 1986</span>
+                                        <span class="data-value">{{date('d-m-Y', strtotime($user_show->birthday))}}</span>
                                     </div>
                                     <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
                                 </div><!-- data-item -->
