@@ -10,40 +10,6 @@
             {{ session('success') }}
         </div>
     @endif
-{{--    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">--}}
-{{--        <div class="modal-dialog" role="document">--}}
-{{--            <div class="modal-content">--}}
-{{--                <div class="modal-header">--}}
-{{--                    <input type="hidden" value="" id="user_role_id">--}}
-{{--                    <h5 class="modal-title" id="exampleModalLabel">Cập nhật quyền</h5>--}}
-{{--                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">--}}
-{{--                        <span aria-hidden="true">&times;</span>--}}
-{{--                    </button>--}}
-{{--                </div>--}}
-{{--                <form action="{{route('admin.assign_roles')}}" method="post">--}}
-{{--                    @csrf--}}
-{{--                    <div class="modal-body">--}}
-{{--                        <input type="hidden" name="email" id="email" value="{{$user_sub->email}}">--}}
-{{--                        <div class="form-group">--}}
-{{--                            <label class="form-label" for="role">Thay đổi quyền <span class="text-danger">*</span></label>--}}
-{{--                            <div class="form-control-wrap" style="width: 300px;">--}}
-{{--                                <select class="form-select">--}}
-{{--                                    <option value="user" {{$user_sub->account=='user' ? 'selected' : ''}}>Người dùng</option>--}}
-{{--                                    <option value="admin" {{$user_sub->account=='admin' ? 'selected' : ''}}>Quản trị </option>--}}
-{{--                                    <option value="staff" {{$user_sub->account=='staff' ? 'selected' : ''}}>Nhân viên</option>--}}
-{{--                                </select>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                    <div class="modal-footer">--}}
-{{--                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>--}}
-{{--                        <button type="submit" class="btn btn-primary">Lưu</button>--}}
-{{--                    </div>--}}
-{{--                </form>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
-
     <div class="nk-content-body">
         <div class="nk-block">
             <div class="card card-bordered card-stretch">
@@ -140,12 +106,7 @@
                     <div class="card-inner p-0" >
                         <div class="nk-tb-list nk-tb-ulist" id="list">
                             <div class="nk-tb-item nk-tb-head" >
-                                <div class="nk-tb-col nk-tb-col-check">
-                                    <div class="custom-control custom-control-sm custom-checkbox notext">
-                                        <input type="checkbox" class="custom-control-input" id="uid">
-                                        <label class="custom-control-label" for="uid"></label>
-                                    </div>
-                                </div>
+                                <div class="nk-tb-col"><span class="sub-text">STT</span></div>
                                 <div class="nk-tb-col"><span class="sub-text">Tài khoản</span></div>
                                 <div class="nk-tb-col tb-col-mb"><span class="sub-text">Số điện thoại</span></div>
                                 <div class="nk-tb-col tb-col-lg"><span class="sub-text">Giới tính</span></div>
@@ -154,20 +115,25 @@
                                 <div class="nk-tb-col nk-tb-col-tools text-right"> Tùy chọn
                                 </div>
                             </div><!-- .nk-tb-item -->
-
+                            @php
+                                $i=0;
+                            @endphp
                             @foreach($user_lists as $user_sub)
+                                @php
+                                    $i+=1;
+                                @endphp
                                 <div class="nk-tb-item">
                                     <div class="nk-tb-col nk-tb-col-check">
                                         <div class="custom-control custom-control-sm custom-checkbox notext">
-                                            <input type="checkbox" class="custom-control-input" id="uid1">
-                                            <label class="custom-control-label" for="uid1"></label>
+                                            <div>{{$i}}</div>
+{{--                                            <label class="custom-control-label" for="{{$i}}"></label>--}}
                                         </div>
                                     </div>
                                     <div class="nk-tb-col">
                                         <a href="#">
                                             <div class="user-card">
                                                 <div class="user-avatar sq">
-                                                    <img src="/images/avt-admin.png">
+                                                    <img src="{{asset('/images/'.$user_sub->avatar)}}">
                                                 </div>
                                                 <div class="user-info">
                                                     <span class="tb-lead">{{$user_sub->name}}<span class="dot dot-success d-md-none ml-1"></span></span>

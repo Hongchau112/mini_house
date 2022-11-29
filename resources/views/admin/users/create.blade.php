@@ -3,7 +3,7 @@
 ])
 
 @section('content')
-<form action="/admin/store" method="POST">
+<form action="/admin/store" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="nk-block nk-block-lg">
         <div class="nk-block-head">
@@ -17,6 +17,17 @@
             <div class="card-inner">
                 <form action="#" class="form-validate">
                     <div class="row g-gs">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="form-label">Ảnh đại diện <span class="code-class">*</span></label>
+                                <div class="form-control-wrap">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" name="avatar" id="avatar" required>
+                                        <label class="custom-file-label" for="avatar">Chọn...</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="form-label" for="name">Họ và tên <span class="code-class">*</span></label>
@@ -33,6 +44,14 @@
                                         <em class="icon ni ni-mail"></em>
                                     </div>
                                     <input type="text" class="form-control" id="email" name="email" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="form-label">Năm sinh <span class="code-class">*</span></label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control date-picker-alt" data-date-format="yyyy-mm-dd" name="birthday" id="birthday">
                                 </div>
                             </div>
                         </div>
@@ -154,7 +173,7 @@
             var email = document.getElementById('email');
             var address = document.getElementById('address');
             var password = document.getElementById('password');
-
+            var avatar = document.getElementById('avatar');
             var new_password_confirmation = document.getElementById('new_password_confirmation');
 
             name.oninvalid = function(event) {
@@ -174,6 +193,10 @@
             }
             new_password_confirmation.oninvalid = function(event) {
                 event.target.setCustomValidity('Xác nhận mật khẩu không được để trống!');
+            }
+            avatar.oninvalid = function (event){
+                event.target.setCustomValidity('Vui lòng chọn ảnh!');
+
             }
         })
 

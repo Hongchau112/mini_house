@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Rule;
 use Session;
+use App\Http\Controllers\Validator;
 use Symfony\Component\Console\Input\Input;
 
 class AdminController extends Controller
@@ -73,6 +74,7 @@ class AdminController extends Controller
 
     public function store(Request $request)
     {
+
         $admin_roles = Roles::where('name','admin')->first();
         $staff_roles = Roles::where('name','staff')->first();
         $user_roles = Roles::where('name','user')->first();
@@ -84,6 +86,8 @@ class AdminController extends Controller
             'sex' => 'required',
             'account' => 'required',
             'address' => 'required',
+            'avatar' => 'required',
+            'birthday' => 'required'
 
         ]);
 //        dd($validated_data['sex']);
@@ -96,6 +100,17 @@ class AdminController extends Controller
         $user->phone = $validated_data['phone'];
         $user->sex = $validated_data['sex'];
         $user->account = $validated_data['account'];
+        $user->address = $validated_data['account'];
+        $user->birthday = $validated_data['birthday'];
+
+
+        //save avatar
+        if($request->hasFile('avatar')){
+            $filename = time().'.'.request()->avatar->getClientOriginalExtension();
+            request()->avatar->move(public_path('images'), $filename);
+//            dd($filename);
+            $user->avatar = $filename;
+        }
         $user->save();
 
         if($user->account=='admin'){
@@ -172,6 +187,36 @@ class AdminController extends Controller
         $user_list = Admin::all();
         $user_edit = Admin::find($id);
         return view('admin.users.edit', compact('user', 'user_edit', 'user_list'));
+    }
+
+    public function update_account(Request $request, $id)
+    {
+//        dd($request->all());
+        $user = Auth::guard('admin')->user();
+        {
+            $validated_data = $request->validate([
+                'name' => 'required',
+                'email' => 'required', 'string', 'email', 'max:255', \Illuminate\Validation\Rule::unique('admins')->ignore($id),
+                'phone' => 'required', 'string', 'phone','between: 10,12', \Illuminate\Validation\Rule::unique('admins')->ignore($id),
+                'sex' => 'required',
+                'account' => 'required',
+                'address' => 'required',
+                'birthday' => 'required'
+            ]);
+
+            $user = Admin::find($id);
+            $user->name = $validated_data['name'];
+            $user->email = $validated_data['email'];
+            $user->phone = $validated_data['phone'];
+            $user->sex = $validated_data['sex'];
+            $user->account = $validated_data['account'];
+            $user->address = $validated_data['address'];
+            $user->birthday = $validated_data['birthday'];
+
+            $user->save();
+
+            return redirect()->route('admin.index')->with('success', 'Sửa thông tin tài khoản thành công!');
+        }
     }
 
     public function update(Request $request, $id)

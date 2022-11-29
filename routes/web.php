@@ -71,6 +71,8 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     Route::get('admin/show/{id}', [AdminController::class, 'show'])->name('show');
     Route::get('admin/edit/{id}', [AdminController::class, 'edit'])->name('edit');
     Route::patch('admin/update/{id}', [AdminController::class, 'update'])->name('update');
+    Route::post('admin/update_account/{id}', [AdminController::class, 'update_account'])->name('update_account');
+
     Route::get('admin/block/{id}', [AdminController::class, 'block'])->name('block');
     Route::get('admin/edit_password/{id}', [AdminController::class, 'edit_password'])->name('edit_password');
     Route::post('admin/change_password/{id}', [AdminController::class, 'change_password'])->name('change_password');

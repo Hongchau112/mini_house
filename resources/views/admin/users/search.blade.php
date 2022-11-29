@@ -1,33 +1,32 @@
 <div class="nk-tb-item nk-tb-head" >
-    <div class="nk-tb-col nk-tb-col-check">
-        <div class="custom-control custom-control-sm custom-checkbox notext">
-            <input type="checkbox" class="custom-control-input" id="uid">
-            <label class="custom-control-label" for="uid"></label>
-        </div>
-    </div>
+    <div class="nk-tb-col"><span class="sub-text">STT</span></div>
     <div class="nk-tb-col"><span class="sub-text">Tài khoản</span></div>
     <div class="nk-tb-col tb-col-mb"><span class="sub-text">Số điện thoại</span></div>
     <div class="nk-tb-col tb-col-lg"><span class="sub-text">Giới tính</span></div>
     <div class="nk-tb-col tb-col-lg"><span class="sub-text">Trạng thái</span></div>
-    <div class="nk-tb-col tb-col-md"><span class="sub-text">User</span></div>
-    <div class="nk-tb-col tb-col-md"><span class="sub-text">Admin</span></div>
-    <div class="nk-tb-col tb-col-md"><span class="sub-text">Đổi quyền</span></div>
-    <div class="nk-tb-col nk-tb-col-tools text-right">
+    <div class="nk-tb-col tb-col-md"><span class="sub-text">Quyền</span></div>
+    <div class="nk-tb-col nk-tb-col-tools text-right"> Tùy chọn
     </div>
 </div><!-- .nk-tb-item -->
+@php
+    $i=0;
+@endphp
 @foreach($user_lists as $user_sub)
+    @php
+        $i+=1;
+    @endphp
     <div class="nk-tb-item">
         <div class="nk-tb-col nk-tb-col-check">
             <div class="custom-control custom-control-sm custom-checkbox notext">
-                <input type="checkbox" class="custom-control-input" id="uid1">
-                <label class="custom-control-label" for="uid1"></label>
+                <div>{{$i}}</div>
+                {{--                                            <label class="custom-control-label" for="{{$i}}"></label>--}}
             </div>
         </div>
         <div class="nk-tb-col">
-            <a href="html/user-details-regular.html">
+            <a href="#">
                 <div class="user-card">
-                    <div class="user-avatar bg-primary">
-                        <span>AB</span>
+                    <div class="user-avatar sq">
+                        <img src="{{asset('/images/'.$user_sub->avatar)}}">
                     </div>
                     <div class="user-info">
                         <span class="tb-lead">{{$user_sub->name}}<span class="dot dot-success d-md-none ml-1"></span></span>
@@ -39,15 +38,15 @@
         <div class="nk-tb-col tb-col-mb">
             <span class="tb-amount">{{$user_sub->phone}}</span></span>
         </div>
-{{--        <div class="nk-tb-col tb-col-md">--}}
-{{--            @if($user_sub->account=='staff')--}}
-{{--                <span>Nhân viên</span>--}}
-{{--            @elseif($user_sub->account=='user')--}}
-{{--                <span>Người dùng</span>--}}
-{{--            @else--}}
-{{--                <span>Người quản trị</span>--}}
-{{--            @endif--}}
-{{--        </div>--}}
+        {{--                                    <div class="nk-tb-col tb-col-md">--}}
+        {{--                                        @if($user_sub->account=='staff')--}}
+        {{--                                            <span>Nhân viên</span>--}}
+        {{--                                        @elseif($user_sub->account=='user')--}}
+        {{--                                            <span>Người dùng</span>--}}
+        {{--                                        @else--}}
+        {{--                                            <span>Người quản trị</span>--}}
+        {{--                                        @endif--}}
+        {{--                                    </div>--}}
         <div class="nk-tb-col tb-col-lg">
             <ul class="list-status">
                 @if($user_sub->sex=='female')
@@ -67,19 +66,17 @@
                 <span class="tb-status text-danger">Bị khóa</span>
             @endif
         </div>
-
         <div class="nk-tb-col tb-col-md">
-            <input type="checkbox" name="user_role" {{$user_sub->hasRole('user') ? 'checked' : ''}}></span>
-        </div>
-
-
-        <div class="nk-tb-col tb-col-md">
-            <input type="checkbox" name="admin_role" {{$user_sub->hasRole('admin') ? 'checked' : ''}}></span>
-        </div>
-
-        <div class="nk-tb-col tb-col-md">
-            <input type="hidden" name="email" value="{{$user_sub->email}}">
-            <input type="submit" value="Thay đổi" class="btn btn-sm btn-gray">
+            @if($user_sub->account=='user')
+                <span class="badge badge-outline-primary">Người dùng</span>
+            @endif
+            @if($user_sub->account=='admin')
+                <span class="badge badge-outline-primary">Quản trị</span>
+            @endif
+            @if($user_sub->account=='staff')
+                <span class="badge badge-outline-primary">Nhân viên</span>
+            @endif
+            {{--                                            <input type="checkbox" name="role" {{($user_sub->account=='user') ? 'checked' : ''}}>--}}
         </div>
         <div class="nk-tb-col nk-tb-col-tools">
             <ul class="nk-tb-actions gx-1">
@@ -90,6 +87,7 @@
                             <ul class="link-list-opt no-bdr">
                                 <li><a href="{{route('admin.show', ['id' => $user_sub->id])}}"><em class="icon ni ni-eye"></em><span>Xem</span></a></li>
                                 <li><a href="{{route('admin.edit', ['id' => $user_sub->id])}}"><em class="icon ni ni-repeat"></em><span>Sửa</span></a></li>
+                                <li><a href="{{route('admin.change_role', [$user_sub->id])}}"><em class="icon ni ni-activity-round"></em><span>Đổi quyền</span></a></li>
                                 <li><a href="{{route('admin.block', ['id' => $user_sub->id])}}"><em class="icon ni ni-activity-round"></em><span>Block</span></a></li>
                             </ul>
                         </div>
