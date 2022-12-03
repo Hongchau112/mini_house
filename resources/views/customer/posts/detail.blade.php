@@ -13,6 +13,40 @@
             {{ session('success') }}
         </div>
     @endif
+    <style>
+        .rating {
+            display: flex;
+            margin-top: -10px;
+            flex-direction: row-reverse;
+            margin-left: -4px;
+            float: left
+        }
+        .rating>input {
+            display: none
+        }
+        .rating>label {
+            position: relative;
+            width: 19px;
+            font-size: 25px;
+            color: #eec80d;
+            cursor: pointer
+        }
+        .rating>label::before {
+            content: "\2605";
+            position: absolute;
+            opacity: 0
+        }
+        .rating>label:hover:before,
+        .rating>label:hover~label:before {
+            opacity: 1 !important
+        }
+        .rating>input:checked~label:before {
+            opacity: 1
+        }
+        .rating:hover>input:checked~label:before {
+            opacity: 0.4
+        }
+    </style>
     <div class="blog-single-page pt-70 pb-40">
         <div class="container">
             <div class="row">
@@ -20,7 +54,7 @@
                     <!-- blog box -->
                     <div class="blog-box p-0">
 
-                        <div class="blog_img mb-20"><img src="{{asset('/images/'.$post->image)}}" height="533px" width="800" alt=""></div>
+                        <div class="blog_img mb-20"><img src="{{asset('/images/posts/'.$post->image)}}" height="533px" width="800" alt=""></div>
                         <div class="blog-des">
                             @foreach($rooms as $room)
                                 @if($room->id==$post->room_id)
@@ -97,18 +131,31 @@
                         <div class="post-comment-form">
 
                             <form>
+                                <input type="hidden" name="name" id="cmt-name" value="{{$user->name}}" class="form-control" >
+                                <input type="hidden" name="name" id="cmt-phone" value="{{$user->phone}}"  class="form-control" >
+                                <input type="hidden" name="user_id" id="cmt-user" value="{{$user->id}}"  class="form-control" >
                                 <div class="row">
                                     <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <input type="text" name="name" id="cmt-name" placeholder="Tên của bạn" class="form-control" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <input type="text" name="phone" id="cmt-phone"  placeholder="Số điện thoại" class="form-control" required>
-                                        </div>
+                                        <div class="rating">
+                                            <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
+                                            <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
+                                            <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
+                                            <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
+                                            <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label> </div>
                                     </div>
                                 </div>
+{{--                                <div class="row">--}}
+{{--                                    <div class="col-lg-6">--}}
+{{--                                        <div class="form-group">--}}
+{{--                                            <input type="text" name="name" id="cmt-name" placeholder="Tên của bạn" class="form-control" required>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="col-lg-6">--}}
+{{--                                        <div class="form-group">--}}
+{{--                                            <input type="text" name="phone" id="cmt-phone"  placeholder="Số điện thoại" class="form-control" required>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
                                 <div class="form-group">
                                     <textarea class="form-control" id="cmt-content" placeholder="Bình luận" rows="5"></textarea>
                                 </div>
@@ -219,7 +266,7 @@
                 var name = $('#cmt-name').val();
                 var content = $('#cmt-content').val();
                 var phone = $('#cmt-phone').val();
-                var user_id = $('#user_id').val();
+                var user_id = $('#cmt-user').val();
                 console.log(post_id);
                 console.log(name);
                 console.log(content);

@@ -11,6 +11,7 @@
             </div>
             <form action="{{route('admin.posts.update', ['id' => $post->id])}}" method="post" enctype="multipart/form-data">
                 @csrf
+                @method('PATCH')
                 <div class="row g-4">
                     <div class="col-sm-8">
                         <img src="{{asset('/images/posts/'.$post->image)}}" width="150px" height="150px">
@@ -18,7 +19,7 @@
                             <label class="form-label">Thêm ảnh <span class="code-class">*</span></label>
                             <div class="form-control-wrap">
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input"  name="image" id="image" required>
+                                    <input type="file" class="custom-file-input"  name="image" id="image">
                                     <label class="custom-file-label" for="image">Chọn...</label>
                                 </div>
                             </div>

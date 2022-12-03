@@ -190,45 +190,5 @@
                 ]
             });
         })
-
-
-        {{--$(document).ready(function() {--}}
-        {{--    new Morris.Line({--}}
-        {{--        // ID of the element in which to draw the chart.--}}
-        {{--        element: 'myfirstchart',--}}
-        {{--        // Chart data records -- each entry in this array corresponds to a point on--}}
-        {{--        // the chart.--}}
-        {{--        data: [--}}
-        {{--            {date: '2022-10-10', booking: 4},--}}
-        {{--        ],--}}
-        {{--        // The name of the data record attribute that contains x-values.--}}
-        {{--        xkey: 'date',--}}
-        {{--        // A list of names of data record attributes that contain y-values.--}}
-        {{--        ykeys: ['date', 'booking'],--}}
-        {{--        // Labels for the ykeys -- will be displayed when you hover over the--}}
-        {{--        // chart.--}}
-        {{--        labels: ['Năm', 'Trạng thái', 'Đơn']--}}
-        {{--    });--}}
-
-        {{--    $('#select_date').change(function () {--}}
-        {{--        var thoigian = $(this).val();--}}
-
-        {{--        $.ajax({--}}
-        {{--            url: '{{route('admin.dashboard.statistic_order')}}',--}}
-        {{--            method: 'POST',--}}
-        {{--            dataType: 'JSON',--}}
-        {{--            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},--}}
-        {{--            data: {thoigian: thoigian},--}}
-        {{--            success: function (data) {--}}
-        {{--                // char.setData(data);--}}
-        {{--                var result = data;--}}
-        {{--                // location.reload();--}}
-        {{--                console.log(result);--}}
-        {{--            }--}}
-        {{--        })--}}
-        {{--    })--}}
-
-        {{--})--}}
-
     </script>
 @endpush

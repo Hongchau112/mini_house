@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use App\Models\Comment;
 use App\Models\Room;
 use App\Models\RoomCategory;
 use App\Models\Image;
@@ -256,6 +257,65 @@ class RoomController extends Controller
         return view('customer.rooms.filter_result' ,compact('rooms', 'user', 'images', 'services', 'room_categories'));
 
     }
+
+    public function send_comment(Request $request)
+    {
+//        var_dump($request);
+//        dd($request);
+//        dd($request->all());
+        $comment = new Comment();
+        $comment->name = $request['name'];
+        $comment->content = $request['content'];
+        $comment->room_id = $request['room_id'];
+        $comment->date = now();
+        $comment->phone = $request['phone'];
+        $comment->comment_parent_id = 0;
+        $comment->user_id = $request['user_id'];
+        $comment->post_id=null;
+        $comment->save();
+    }
+
+    public function load_comment(Request $request)
+    {
+        $room_id = $request->room_id;
+        $comments = Comment::where('room_id', $room_id)->where('status', 1)->where('comment_parent_id','=',0)->get();
+
+//        $comments = Comment::with('post')->where('post_id', $post_id)->get();
+        $cmt_reps = Comment::with('room')->where('comment_parent_id','>',0)->get();
+//        dd($food_id);
+        $output='';
+        if (count($comments)==0)
+        {
+            $output.='<div><p>Chưa có bình luận nào cho bài đăng này</p></div>';
+        }
+        else{
+            foreach ($comments as $key => $comment){
+                $user = \App\Models\Admin::find($comment->user_id);
+//                dd($user->avatar);
+                $output.= '<div class="media review-item"> <img src="/images/'.$user->avatar.'" class="mr-3" width="70px" height="70px" alt="...">
+                  <div class="media-body">
+                    <h5 class="mt-0">'.$comment->name.'<span>'.$comment->date.' - <a href=""></a></span></h5>
+                    <p class="mb-0">'.$comment->content.'</p>
+                  </div>
+                </div>
+ ';
+                foreach ($cmt_reps as $key => $reply_cmt){
+                    if($reply_cmt->comment_parent_id==$comment->id)
+                    {
+                        $output.= '<div class="media review-item"> <img src="/images/'.$user->avatar.'" class="mr-3" alt="...">
+                <div class="media-body">
+                    <h5 class="mt-0">'.$reply_cmt->name.' <span>'.$reply_cmt->date.' <a href=""></a></span></h5>
+                    <p class="mb-0">'.$reply_cmt->content.'</p>
+                </div>
+            </div>';
+                    }
+                }
+            }
+        }
+        echo $output;
+
+    }
+
 
 
 

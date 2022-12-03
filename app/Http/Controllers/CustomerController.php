@@ -15,11 +15,100 @@ use App\Models\ServiceRoom;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Session;
 
 class CustomerController extends Controller
 {
+    public function customer_login()
+    {
+        $user = '';
+        $room_categories = RoomCategory::all();
+        $post_categories = PostCategory::all();
+        return view('customer.login.login_auth', compact('post_categories', 'room_categories', 'user'));
+    }
+
+    public function login(Request $request)
+    {
+        $user = '';
+        $room_categories = RoomCategory::all();
+        $post_categories = PostCategory::all();
+        $credentials = $request->only('email', 'password');
+        $user = Admin::where('email', $request->email)->first();
+//        dd($user->password);
+        if (Auth::guard('admin')->attempt($credentials)) {
+//            dd(1);
+            Session::put('user_id', $user->id);
+            if ($user->status == 0) {
+                return view('customer.customer_login')->with('message', 'Tài khoản đã bị khóa!');
+            } else {
+                if ($request->has('rememberme')) {
+                    Cookie::queue('adminuser', $request->email, 1440);
+                    Cookie::queue('adminpwd', $request->password, 1440);
+
+                }
+//                dd(1);
+                if ($user->account == 'user') {
+                    return redirect()->route('customer.index', 'user');
+                }
+            }
+
+            }else{
+                return redirect()->route('customer.customer_login')->with('error', 'Email hoặc mật khẩu không đúng! Vui lòng thử lại.');
+            }
+    }
+
+    public function customer_register()
+    {
+        $user = '';
+        $room_categories = RoomCategory::all();
+        $post_categories = PostCategory::all();
+        return view('customer.login.register_auth', compact('post_categories', 'room_categories', 'user'));
+    }
+
+    public function store_customer(Request $request)
+    {
+//        dd($request->all());
+        $validated_data = $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:admins',
+            'password' => 'required|confirmed',
+            'phone' => 'required | between: 10,12',
+            'sex' => 'required',
+            'address' => 'required',
+            'avatar' => 'required',
+            'birthday' => 'required'
+        ]);
+//        dd(1);
+
+//        dd($validated_data['sex']);
+//dd(1);
+        $validated_data['password'] = Hash::make($request->new_password);
+        $customer = new Admin();
+        $customer->name = $validated_data['name'];
+        $customer->email = $validated_data['email'];
+        $customer->password = $validated_data['password'];
+        $customer->phone = $validated_data['phone'];
+        $customer->sex = $validated_data['sex'];
+        $customer->account = 'user';
+        $customer->address = $validated_data['address'];
+        $customer->birthday = $validated_data['birthday'];
+
+
+        //save avatar
+        if($request->hasFile('avatar')){
+            $filename = time().'.'.request()->avatar->getClientOriginalExtension();
+            request()->avatar->move(public_path('images'), $filename);
+//            dd($filename);
+            $customer->avatar = $filename;
+        }
+        $customer->save();
+
+        return redirect()->route('customer.customer_login')->with('success', 'Tạo tài khoản thành công!');
+    }
+
     public function index()
 
     {
@@ -49,15 +138,13 @@ class CustomerController extends Controller
         $user = Auth::guard('admin')->user();
         $post_categories = PostCategory::all();
         $room_categories = RoomCategory::all();
-//dd($request);
         $validated_data = $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:admins,email,'.$id,
-//            'email' => 'required', 'string', 'email', 'max:255', \Illuminate\Validation\Rule::unique('admins')->ignore($id),
             'phone' => 'required',
             'sex' => 'required',
-            'address' => 'nullable',
-            'subject' => 'nullable'
+            'address' => 'required',
+            'birthday' => 'required'
         ]);
 //dd(1);
         $user = Admin::find($id);
@@ -66,7 +153,7 @@ class CustomerController extends Controller
         $user->phone = $validated_data['phone'];
         $user->sex = $validated_data['sex'];
         $user->address = $validated_data['address'];
-        $user->subject = $validated_data['subject'];
+        $user->birthday = $validated_data['birthday'];
 
 
         if($request->hasFile('avatar')){
@@ -77,7 +164,7 @@ class CustomerController extends Controller
         }
         $user->save();
 
-        return redirect()->route('customer.index')->with('success', 'Sửa thông tin tài khoản thành công!');
+        return redirect()->back()->with('success', 'Sửa thông tin tài khoản thành công!');
 
     }
 

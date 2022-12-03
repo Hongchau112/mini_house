@@ -3,76 +3,100 @@
 ])
 
 @section('content')
-<!-- ================ Inner banner ================ -->
-<div class="inner-banner inner-banner-bg pt-70 pb-40">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-8 col-md-8 mb-30">
-                <!-- page-title -->
-                <div class="page-title">
-                    <h1>Register</h1>
-                </div>
-                <!-- page-title end -->
-            </div>
-            <div class="col-lg-4 col-md-4 mb-30">
-                <!-- breadcrumb -->
-                <ol class="breadcrumb mb-0">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Register</li>
-                </ol>
-                <!-- breadcrumb end -->
-            </div>
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
         </div>
+    @endif
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+    <!-- ================ Preloader ================ -->
+    <div id="preloader">
+        <div class="spinner-grow" role="status"> <span class="sr-only">Loading...</span> </div>
     </div>
-</div>
 <!-- ================ Register page ================ -->
 <div class="login-register-page pt-70 pb-70">
     <div class="container">
         <div class="row">
             <div class="col-lg-6 offset-lg-3">
                 <!-- register box -->
-                <div class="login-box">
-                    <form class="form-style-1 shadow p-30" action="{{route('customer.register_auth')}}" method="POST">
+                <div class="login-box" style="background-color: lightyellow;">
+                    <form class="form-style-1 shadow p-30" action="{{route('customer.store_customer')}}" method="POST">
                         @csrf
-                        <p>Don't have an account? Create your account, it takes less than a minute.</p>
+                        <p>Bạn chưa có tài khoản, hãy điền thông tin dưới đây để đăng ký tài khoản của nhà trọ nhé!</p>
                         <div class="form-group">
-                            <input type="text" class="form-control" id="name" name="name" value="{{old('name')}}" placeholder="Name">
+                            <label class="form-label">Họ và tên <span class="code-class">*</span></label>
+                            <input type="text" class="form-control" id="name" name="name" value="{{old('name')}}" required>
                             @if ($errors->has('name'))
                                 <span class="text-danger">{{ $errors->first('name') }}</span>
                             @endif
                         </div>
-                        <div class="form-group">
 
-                            <div class="form-check">
-                                <input type="radio" class="form-check-input" id="male"  name="sex" value="male">Nam
-                                <label class="form-check-label" for="radio1"></label>
-                            </div>
-                            <div class="form-check">
-                                <input type="radio" class="form-check-input" id="female" name="sex" value="female">Nữ
-                                <label class="form-check-label" for="radio2"></label>
-                            </div>
-                            <div class="form-check">
-                                <input type="radio" class="form-check-input" id="other" name="sex" value="other" >Khác
-                                <label class="form-check-label"></label>
-                                @if ($errors->has('sex'))
-                                    <span class="text-danger">{{ $errors->first('sex') }}</span>
-                                @endif
+                        <div class="form-group">
+                            <label class="form-label" for="fv-topics">Giới tính <span class="code-class">*</span></label>
+                            <div class="form-control-wrap ">
+                                <select class="form-control form-select" id="sex" name="sex" data-placeholder="Chọn" required>
+                                    <option label="Chọn" value="">Chọn</option>
+                                    <option value="male">Nam</option>
+                                    <option value="female">Nữ</option>
+                                    <option value="other">Khác</option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="form-label">Năm sinh: <span class="code-class">*</span></label>
+                            <input type="date" name="birthday" id="date">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email<span class="code-class">*</span></label>
 
-                            <input type="email" class="form-control" name="email" id="email" value="{{old('email')}}" placeholder="Email">
+                            <input type="email" class="form-control" name="email" id="email" required>
                             @if ($errors->has('email'))
                                 <span class="text-danger">{{ $errors->first('email') }}</span>
                             @endif
                         </div>
                         <div class="form-group">
-                            <input type="password" class="form-control" id="password" value="{{old('password')}}" name="password" placeholder="Password">
+                            <label class="form-label">Số điện thoại<span class="code-class">*</span></label>
+                            <input type="text" class="form-control" name="phone" id="phone" required>
+                            @if ($errors->has('email'))
+                                <span class="text-danger">{{ $errors->first('phone') }}</span>
+                            @endif
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Địa chỉ <span class="code-class">*</span></label>
+                            <input type="text" class="form-control" name="address" id="address" required>
+                            @if ($errors->has('address'))
+                                <span class="text-danger">{{ $errors->first('address') }}</span>
+                            @endif
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Mật khẩu <span class="code-class">*</span></label>
+
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Mật khẩu">
                             @if ($errors->has('password'))
                                 <span class="text-danger">{{ $errors->first('password') }}</span>
                             @endif
                         </div>
-                        <button type="submit" class="btn-style-1 w-100">Create an Account</button>
+                        <div class="form-group">
+                            <label class="form-label" for="new_password_confirmation">Xác nhận mật khẩu <span class="code-class">*</span></label>
+                            <div class="form-control-wrap">
+                                <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Ảnh đại diện <span class="code-class">*</span></label>
+                            <div class="form-control-wrap">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" name="avatar" id="avatar" required>
+                                    <label class="custom-file-label" for="avatar">Chọn...</label>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-style-1 w-100">Tạo tài khoản</button>
                     </form>
                 </div>
                 <!-- register box end -->
@@ -82,3 +106,6 @@
 </div>
 <!-- ================ Register page end ================ -->
 @endsection
+@push('footer')
+
+@endpush

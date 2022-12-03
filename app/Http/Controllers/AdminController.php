@@ -29,6 +29,7 @@ class AdminController extends Controller
         $user_lists = Admin::with('roles')->orderBy('id', 'ASC')->paginate(10);
 //        dd($user->password);
         if (Auth::guard('admin')->attempt($credentials)) {
+//            dd(1);
             Session::put('user_id', $user->id);
             if ($user->status == 0)
             {
@@ -36,21 +37,24 @@ class AdminController extends Controller
             }
             else{
                 if($request->has('rememberme')){
-                    Cookie::queue('adminuser', $request->name, 1440);
+                    Cookie::queue('adminuser', $request->email, 1440);
                     Cookie::queue('adminpwd', $request->password, 1440);
 
                 }
+//                dd(1);
                 if($user->account=='user')
                 {
                     return redirect()->route('customer.index', 'user');
                 }
-                else{
-                    if($user->roles()->where('name', 'admin'))
+                elseif ($user->account=='admin')
+                    {
+                        return view('admin.users.index', compact('user_lists', 'user'));
+                    }
+                elseif ($user->account=='staff')
                     {
                         return view('admin.users.index', compact('user_lists', 'user'));
                     }
                 }
-            }
         }else{
             return view('admin.custom_auth.login_form')->with('message', 'Tên đăng nhập hoặc mật khẩu không đúng!');
         }
@@ -100,7 +104,7 @@ class AdminController extends Controller
         $user->phone = $validated_data['phone'];
         $user->sex = $validated_data['sex'];
         $user->account = $validated_data['account'];
-        $user->address = $validated_data['account'];
+        $user->address = $validated_data['address'];
         $user->birthday = $validated_data['birthday'];
 
 

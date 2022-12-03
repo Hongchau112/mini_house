@@ -27,16 +27,11 @@
                                     <table class="nk-tb-list nk-tb-ulist">
                                         <thead>
                                         <tr class="nk-tb-item nk-tb-head">
-                                            <th class="nk-tb-col nk-tb-col-check">
-                                                <div class="custom-control custom-control-sm custom-checkbox notext">
-                                                    <input type="checkbox" class="custom-control-input" id="pid-all">
-                                                    <label class="custom-control-label" for="pid-all"></label>
-                                                </div>
-                                            </th>
+                                            <th class="nk-tb-col"><span class="sub-text">ID</span></th>
+
                                             <th class="nk-tb-col"><span class="sub-text">Người bình luận</span></th>
                                             <th class="nk-tb-col tb-col-lg"><span class="sub-text">Ngày bình luận</span></th>
-                                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">Bài đăng</span></th>
-                                            <th class="nk-tb-col tb-col-xxl"><span class="sub-text">Bình luận</span></th>
+                                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">Bài đăng/Phòng trọ</span></th>
                                             <th class="nk-tb-col tb-col-md"><span class="sub-text">Trạng thái</span></th>
                                             <th class="nk-tb-col nk-tb-col-tools text-right">
                                                 <div class="dropdown">
@@ -56,15 +51,16 @@
                                         @foreach($comments as $comment)
                                         <tr class="nk-tb-item">
                                             <td class="nk-tb-col nk-tb-col-check">
-                                                <div class="custom-control custom-control-sm custom-checkbox notext">
-                                                    <input type="checkbox" class="custom-control-input" id="{{$comment->id}}">
-                                                    <label class="custom-control-label" for="{{$comment->id}}"></label>
-                                                </div>
+                                                <div>{{$comment->id}}</div>
                                             </td>
                                             <td class="nk-tb-col">
                                                 <a href="" class="project-title">
-                                                    <div class="user-avatar sq bg-purple"><span>Guest</span></div>
-                                                    <div class="project-info">
+                                                    @foreach($users as $user)
+                                                        @if($user->id==$comment->user_id)
+                                                            <div class="user-avatar sq bg-purple"><img src="{{asset('/images/'.$user->avatar)}}"></div>
+                                                        @endif
+                                                    @endforeach
+                                                            <div class="project-info">
                                                         <h6 class="title">{{$comment->name}}</h6>
                                                     </div>
                                                 </a>
@@ -75,11 +71,19 @@
 
                                             </td>
                                             <td class="nk-tb-col tb-col-md">
-                                                @foreach($posts as $post)
-                                                    @if($comment->post_id==$post->id)
-                                                <div>{{$post->title}}</div>
-                                                    @endif
-                                                @endforeach
+                                                @if($comment->post_id != null)
+                                                    @foreach($posts as $post)
+                                                        @if($comment->post_id==$post->id)
+                                                    <div>{{$post->title}}</div>
+                                                        @endif
+                                                    @endforeach
+                                                @else
+                                                    @foreach($rooms as $room)
+                                                        @if($comment->room_id==$room->id)
+                                                            <div>{{$room->name}}</div>
+                                                        @endif
+                                                    @endforeach
+                                                @endif
                                             </td>
                                             <td class="nk-tb-col tb-col-mb">
                                                 <div class="tb-tnx-status" style="width: 80px; margin-right: 20px">
@@ -242,11 +246,11 @@
 {{--                                        </tbody>--}}
 {{--                                    </table>--}}
 {{--                                </div><!-- .card-inner -->--}}
-{{--                                <div class="card-inner">--}}
-{{--                                    <ul class="pagination justify-content-center justify-content-md-start">--}}
-{{--                                        {!!$comments->links('pagination::bootstrap-4')!!}--}}
-{{--                                    </ul><!-- .pagination -->--}}
-{{--                                </div><!-- .card-inner -->--}}
+                                <div class="card-inner">
+                                    <ul class="pagination justify-content-center justify-content-md-start">
+                                        {!!$comments->links('pagination::bootstrap-4')!!}
+                                    </ul><!-- .pagination -->
+                                </div><!-- .card-inner -->
 {{--                            </div><!-- .card-inner-group -->--}}
 {{--                        </div><!-- .card -->--}}
 {{--                    </div><!-- .nk-block -->--}}
@@ -262,7 +266,6 @@
             var status = $(this).data('comment_status');
             var id = $(this).data('comment_id');
             var post_id = $(this).attr('id');
-
             if(status==0) {
                 alert("Thay đổi thành không duyệt thành công");
             }else {

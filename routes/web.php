@@ -47,7 +47,7 @@ Route::post('admin/forgetPassword/', [ForgotPasswordController::class, 'forget_p
 
 Route::get('customer/register', [UserController::class, 'register_check'])->name('customer.register_check');
 Route::get('customer/login_auth', [UserController::class, 'login_auth'])->name('customer.login_auth');
-Route::post('customer/login', [UserController::class, 'login'])->name('customer.login');
+//Route::post('customer/login', [UserController::class, 'login'])->name('customer.login');
 //Route::get('customer/register_auth', [UserController::class, 'register_auth'])->name('customer.register_auth');
 Route::post('customer/register_auth', [UserController::class, 'register_auth'])->name('customer.register_auth');
 
@@ -179,7 +179,12 @@ Route::get('admin/transaction', [TransactionController::class, 'index'])->name('
 Route::post('guest/transaction/store', [TransactionController::class, 'store'])->name('guest.transaction.store');
 
 
-////customer info
+////customer info customer_login
+Route::get('customer/customer_login', [CustomerController::class, 'customer_login'])->name('customer.customer_login');
+Route::post('customer/login', [CustomerController::class, 'login'])->name('customer.login');
+Route::get('customer/customer_register', [CustomerController::class, 'customer_register'])->name('customer.customer_register');
+Route::post('customer/store_customer', [CustomerController::class, 'store_customer'])->name('customer.store_customer');
+
 Route::get('customer/logout', [CustomerController::class, 'logout'])->name('customer.logout');
 Route::get('customer/', [CustomerController::class, 'index'])->name('customer.index');
 Route::get('customer/edit_profile/{id}', [CustomerController::class, 'edit_profile'])->name('customer.edit_profile');
@@ -195,6 +200,9 @@ Route::get('customer/test_modal', [CustomerController::class, 'test_modal'])->na
 //rooms details
 Route::get('customer/rooms/listing', [CustomerController::class, 'listing'])->name('customer.rooms.listing');
 Route::get('customer/rooms/details/{id}', [CustomerController::class, 'details'])->name('customer.rooms.details');
+Route::post('customer/rooms/send_comment', [RoomController::class, 'send_comment'])->name('customer.rooms.send_comment');
+Route::post('customer/rooms/load_comment', [RoomController::class, 'load_comment'])->name('customer.rooms.load_comment');
+
 
 //wishlists
 Route::get('customer/wistlist/{id}', [WistlistController::class, 'add_wistlist'])->name('customer.add_wistlist');

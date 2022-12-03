@@ -53,7 +53,7 @@ class PostController extends Controller
         $room_category = RoomCategory::all();
         $post = Post::find($id);
         $post_category = PostCategory::all();
-        return view('admin.posts.create', compact('user', 'room_category', 'post', 'post_category'));
+        return view('admin.posts.edit', compact('user', 'room_category', 'post', 'post_category'));
     }
 
     public function update(Request $request, $id)
@@ -63,12 +63,11 @@ class PostController extends Controller
         $data = $request->validate([
             'title' => 'required',
             'content' => 'required',
-            'room_id' => 'nullable',
             'post_type_id' => 'required',
             'image' => 'required'
 
         ]);
-        $post = find($id);
+        $post = Post::find($id);
         $post->title = $data['title'];
         $post->content = $data['content'];
         $post->post_type_id = $data['post_type_id'];
@@ -81,7 +80,7 @@ class PostController extends Controller
         $post->save();
 
 
-        return redirect()->route('admin.posts.index', compact('user'))->with('success', 'Thêm bài đăng thành công!');
+        return redirect()->route('admin.posts.index', compact('user'))->with('success', 'Cập nhật bài đăng thành công!');
 
     }
 
@@ -129,19 +128,19 @@ class PostController extends Controller
 
     }
 
-    public function detail($id)
-    {
-        $user = Auth::guard('admin')->user();
-
-        $post = Post::find($id);
-        $images = Image::all();
-        $rooms = Room::all();
-        $room_categories = RoomCategory::all();
-        $post_categories = PostCategory::all();
-        $post_infos = Post::where('post_type_id', 2)->get();
-        return view('customer.posts.detail', compact('rooms', 'post_categories','images', 'post', 'room_categories', 'user', 'post_infos'));
-
-    }
+//    public function detail($id)
+//    {
+//        $user = Auth::guard('admin')->user();
+//
+//        $post = Post::find($id);
+//        $images = Image::all();
+//        $rooms = Room::all();
+//        $room_categories = RoomCategory::all();
+//        $post_categories = PostCategory::all();
+//        $post_infos = Post::where('post_type_id', 2)->get();
+//        return view('customer.posts.detail', compact('rooms', 'post_categories','images', 'post', 'room_categories', 'user', 'post_infos'));
+//
+//    }
 
     public function delete($id)
     {

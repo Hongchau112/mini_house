@@ -44,19 +44,19 @@
                 </div>
                 <br>
                 <div class="row">
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <label class="form-label" for="pay-amount-1">Phòng</label>
-                            <div class="form-control-wrap">
-                                <select class="browser-default custom-select" id="room_id" name="room_id">
-                                    <option selected>Chọn phòng</option>
-                                    @foreach($rooms as $room)
-                                        <option value="{{$room->id}}">{{$room->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </div>
+{{--                    <div class="col-lg-4">--}}
+{{--                        <div class="form-group">--}}
+{{--                            <label class="form-label" for="pay-amount-1">Phòng</label>--}}
+{{--                            <div class="form-control-wrap">--}}
+{{--                                <select class="browser-default custom-select" id="room_id" name="room_id">--}}
+{{--                                    <option selected>Chọn phòng</option>--}}
+{{--                                    @foreach($rooms as $room)--}}
+{{--                                        <option value="{{$room->id}}">{{$room->name}}</option>--}}
+{{--                                    @endforeach--}}
+{{--                                </select>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
                     <div class="col-lg-4">
                         <div class="form-group">
                             <label class="form-label" for="room_type_id">Danh mục bài<span class="text-danger">*</span></label>

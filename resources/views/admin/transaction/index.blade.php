@@ -71,7 +71,7 @@
                             </td>
                             <td class="tb-tnx-info">
                                 <div class="tb-tnx-desc">
-                                    <span class="title">{{$booking->user_name}}</span>
+                                    <a ><span class="title">{{$booking->user_name}}</span></a>
                                 </div>
                                 <div class="tb-tnx-date">
                                     <span class="date">{{$booking->date}}</span>

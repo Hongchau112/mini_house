@@ -24,7 +24,7 @@
                                 </select>
                             </div>
                         </div>
-                        <button><a href="{{route('admin.transactions.mail_reminder')}}">Gửi email</a></button>
+                        <button class="btn btn-wider btn-primary" style="margin-right: -553px;"><a style="color: white" href="{{route('admin.transactions.mail_reminder')}}">Gửi email nhắc thanh toán tiền phòng</a></button>
                         <div class="card-tools mr-n1">
                             <ul class="btn-toolbar">
                                 <li>
@@ -64,8 +64,8 @@
                                 <span class="tb-tnx-total">Tổng tiền</span>
                                 <span class="tb-tnx-status d-none d-md-inline-block">Trạng thái</span>
                             </th>
-                            <th class="tb-tnx-action">
-                                <span>&nbsp;</span>
+                            <th>
+                                <span></span>
                             </th>
                         </tr><!-- tb-tnx-item -->
                         </thead>
@@ -77,7 +77,7 @@
                                 </td>
                                 <td class="tb-tnx-info">
                                     <div class="tb-tnx-desc">
-                                        <span class="title">{{$booking->user_name}}</span>
+                                        <a href="{{route('admin.show', ['id'=>$booking->user_id])}}"><span class="title">{{$booking->user_name}}</span></a>
                                     </div>
                                     <div class="tb-tnx-date">
                                         <span class="date">{{$booking->date}}</span>

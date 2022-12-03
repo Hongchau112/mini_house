@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Middleware\Admin;
 use App\Models\Comment;
 use App\Models\Post;
+use App\Models\Room;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,10 +15,11 @@ class CommentController extends Controller
     {
         $users = \App\Models\Admin::all();
         $posts = Post::all();
+        $rooms = Room::all();
         $user = Auth::guard('admin')->user();
         $comments = Comment::with('post')->where('comment_parent_id', '=', 0)->orderBy('status', 'DESC')->paginate(10);
         $cmt_reps = Comment::with('post')->where('comment_parent_id','>',0)->get();
-        return view('admin.comments.index', compact('comments', 'user', 'cmt_reps', 'users', 'posts'));
+        return view('admin.comments.index', compact('comments', 'rooms', 'user', 'cmt_reps', 'users', 'posts'));
     }
 
     public function allow_comment(Request $request)
@@ -84,9 +86,11 @@ class CommentController extends Controller
         }
         else{
             foreach ($comments as $key => $comment){
+                $user = \App\Models\Admin::find($comment->user_id);
+//                dd($user->avatar);
                 $output.= '<div class="comment-box mb-30">
                             <div class="comment">
-                                <div class="author-thumb"><img src="/images/avt-cmt.png" alt=""></div>
+                                <div class="author-thumb"><img src="/images/'.$user->avatar.'" alt=""></div>
                                 <div class="comment-inner">
                                     <div class="comment-info clearfix">'.$comment->name.'
                                     <span> - Bình luận ngày '.$comment->date.'</span> </div>

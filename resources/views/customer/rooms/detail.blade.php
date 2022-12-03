@@ -14,6 +14,40 @@
         {{ session('success') }}
     </div>
 @endif
+<style>
+    .rating {
+        display: flex;
+        margin-top: -10px;
+        flex-direction: row-reverse;
+        margin-left: -4px;
+        float: left
+    }
+    .rating>input {
+        display: none
+    }
+    .rating>label {
+        position: relative;
+        width: 19px;
+        font-size: 25px;
+        color: #eec80d;
+        cursor: pointer
+    }
+    .rating>label::before {
+        content: "\2605";
+        position: absolute;
+        opacity: 0
+    }
+    .rating>label:hover:before,
+    .rating>label:hover~label:before {
+        opacity: 1 !important
+    }
+    .rating>input:checked~label:before {
+        opacity: 1
+    }
+    .rating:hover>input:checked~label:before {
+        opacity: 0.4
+    }
+</style>
 <div class="inner-banner inner-banner-bg pt-70 pb-40">
     <div class="container">
         <div class="row align-items-center">
@@ -65,7 +99,7 @@
                         <li class="nav-item"> <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1" aria-selected="true">Mô tả</a> </li>
                         <li class="nav-item"> <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2" aria-selected="false">Tiện nghi</a> </li>
                         <li class="nav-item"> <a class="nav-link" id="tab3-tab" data-toggle="tab" href="#tab3" role="tab" aria-controls="tab3" aria-selected="false">Tìm trọ tương tự</a> </li>
-{{--                        <li class="nav-item"> <a class="nav-link" id="tab4-tab" data-toggle="tab" href="#tab4" role="tab" aria-controls="tab4" aria-selected="false">Bình luận/Đánh giá</a> </li>--}}
+                        <li class="nav-item"> <a class="nav-link" id="tab4-tab" data-toggle="tab" href="#tab4" role="tab" aria-controls="tab4" aria-selected="false">Bình luận/Đánh giá</a> </li>
                     </ul>
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active p-15" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
@@ -143,10 +177,24 @@
                             </div>
                             <!-- rooms -->
                         </div>
-{{--                        <div class="tab-pane fade p-15" id="tab4" role="tabpanel" aria-labelledby="tab4-tab">--}}
-{{--                            <!-- reviews -->--}}
-{{--                            <h4 class="mb-6">Đánh giá</h4>--}}
-{{--                            <div class="reviews-wrapper">--}}
+                        <div class="tab-pane fade p-15" id="tab4" role="tabpanel" aria-labelledby="tab4-tab">
+                            <!-- reviews -->
+                            <h4 class="mb-6">Đánh giá</h4>
+                            <form>
+                                @csrf
+                                <div class="reviews-wrapper" id="comment_show">
+    <!-- review item -->
+
+                                </div>
+
+                                <div class="bg-white p-2">
+                                    <input type="hidden" id="room_id" value="{{$room->id}}" class="post_id">
+                                    {{--                                <input type="hidden"  value="" id=user_id class="cmt-userid">--}}
+
+                                </div>
+                            </form>
+{{--                            <div class="reviews-wrapper" id="comment-show">--}}
+{{--                                --}}
 {{--                                <!-- review item -->--}}
 {{--                                <div class="media review-item"> <img src="{{asset('boarding_house/img/Review/1.jpg')}}" class="mr-3" alt="...">--}}
 {{--                                    <div class="media-body">--}}
@@ -156,24 +204,43 @@
 {{--                                </div>--}}
 {{--                                <!-- review item end -->--}}
 {{--                                <!-- review item -->--}}
-{{--                                <div class="media review-item"> <img src="img/Review/2.jpg" class="mr-3" alt="...">--}}
-{{--                                    <div class="media-body">--}}
-{{--                                        <h5 class="mt-0">John Doe <span>January 01, 2020 - <a href="">Reply</a></span></h5>--}}
-{{--                                        <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipiscing elit amet consectetur piscing elit amet consectetur adipiscing elit sed et eletum nulla eu placerat felis etiam tincidunt orci lacus id varius dolor fermum sit amet.</p>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                                <!-- review item end -->--}}
-{{--                                <!-- review item -->--}}
-{{--                                <div class="media review-item"> <img src="img/Review/3.jpg" class="mr-3" alt="...">--}}
-{{--                                    <div class="media-body">--}}
-{{--                                        <h5 class="mt-0">John Doe <span>January 01, 2020 - <a href="">Reply</a></span></h5>--}}
-{{--                                        <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipiscing elit amet consectetur piscing elit amet consectetur adipiscing elit sed et eletum nulla eu placerat felis etiam tincidunt orci lacus id varius dolor fermum sit amet.</p>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                                <!-- review item end -->--}}
 {{--                            </div>--}}
-{{--                            <!-- reviews end -->--}}
-{{--                        </div>--}}
+                            <form>
+                                <input type="hidden" name="name" id="cmt-name" value="{{$user->name}}" class="form-control" >
+                                <input type="hidden" name="name" id="cmt-phone" value="{{$user->phone}}"  class="form-control" >
+                                <input type="hidden" name="user_id" id="cmt-user" value="{{$user->id}}"  class="form-control" >
+                                <br>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="rating">
+                                            <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
+                                            <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
+                                            <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
+                                            <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
+                                            <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label> </div>
+                                    </div>
+                                </div>
+                                {{--                                <div class="row">--}}
+                                {{--                                    <div class="col-lg-6">--}}
+                                {{--                                        <div class="form-group">--}}
+                                {{--                                            <input type="text" name="name" id="cmt-name" placeholder="Tên của bạn" class="form-control" required>--}}
+                                {{--                                        </div>--}}
+                                {{--                                    </div>--}}
+                                {{--                                    <div class="col-lg-6">--}}
+                                {{--                                        <div class="form-group">--}}
+                                {{--                                            <input type="text" name="phone" id="cmt-phone"  placeholder="Số điện thoại" class="form-control" required>--}}
+                                {{--                                        </div>--}}
+                                {{--                                    </div>--}}
+                                {{--                                </div>--}}
+
+                                <div class="form-group">
+                                    <textarea class="form-control" id="cmt-content" placeholder="Bình luận" rows="5"></textarea>
+                                </div>
+                                <button type="button" class="btn-style-1 text-uppercase" id="send-comment">Gửi</button>
+                                <div id="notify"></div>
+                            </form>
+                            <!-- reviews end -->
+                        </div>
                     </div>
                 </div>
                 <!-- tabs end -->
@@ -239,3 +306,56 @@
 </div>
 <!-- ================ Detail page end ================ -->
 @endsection
+@push('footer')
+    <script>
+        $(document).ready(function(){
+            load_comment();
+
+            function load_comment(){
+                var room_id=$('#room_id').val();
+                var _token = $('input[name="_token"]').val();
+                // alert(post_id);
+                $.ajax({
+                    url: '{{route('customer.rooms.load_comment')}}',
+                    type: "POST",
+                    data: {_token:_token, room_id: room_id},
+
+                    success:function(data){
+                        // console.log(data)
+                        $('#comment_show').html(data);
+                    }
+                });
+
+            }
+            // load_comment();
+
+
+            $('#send-comment').click(function(){
+                var room_id=$('#room_id').val();
+                var _token = $('input[name="_token"]').val();
+                var name = $('#cmt-name').val();
+                var content = $('#cmt-content').val();
+                var phone = $('#cmt-phone').val();
+                var user_id = $('#cmt-user').val();
+
+
+                $.ajax({
+                    url: '{{route('customer.rooms.send_comment')}}',
+                    type: "POST",
+                    data: {_token:_token, room_id: room_id, name: name, content: content, phone: phone, user_id: user_id},
+
+                    success:function(data){
+                        $('#notify').html('<p style="margin-top: 10px">Thêm bình luận thành công! Đang chờ duyệt nhá</p>');
+                        load_comment();
+                        $('#notify').fadeOut(5000);
+                        $('.comment-content').val('');
+                        // console.log(data);
+                    }
+                });
+            });
+            // load_comment();
+
+        })
+
+    </script>
+@endpush

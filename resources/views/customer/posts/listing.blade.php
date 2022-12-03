@@ -98,7 +98,7 @@
                                         @endif
                                     @endforeach
 {{--                                    <div class="blog_img mb-20"><img src="{{asset('/images/'.$image_path)}}" alt="" HEIGHT="250px" WIDTH="320PX"></div>--}}
-                                    <div class="post-img"> <a href="#"><img src="{{asset('/images/'.$image_path)}}" alt=""></a> </div>
+                                    <div class="post-img"> <a href="#"><img src="{{asset('/images/posts/'.$image_path)}}" alt=""></a> </div>
                                     <div class="pst-content">
                                         <p><a href="#">{{$post_info->title}}</a></p>
                                         <span class="date-type">{{$post_info->created_at}}</span> </div>
@@ -114,7 +114,13 @@
                             <h3 class="widget-title">Tags</h3>
                             <!-- widget title end -->
                             <!-- tags -->
-                            <div class="blog-tags"> <a href="">Business</a> <a href="">Traveling</a> <a href="">Developement</a> <a href="">Motion</a> <a href="">Writing</a> <a href="">Strategy</a> <a href="">Management</a> </div>
+                            <div class="blog-tags">
+                                <a href="">Business</a>
+                                <a href="">Traveling</a>
+                                <a href="">Developement</a>
+                                <a href="">Motion</a> <a href="">Writing</a>
+                                <a href="">Strategy</a>
+                                <a href="">Management</a> </div>
                             <!-- tags end -->
                         </div>
                         <!-- widget end -->
