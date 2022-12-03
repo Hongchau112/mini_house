@@ -68,7 +68,7 @@ class RoomController extends Controller
                 $output .= '
         <div class="col-md-2" style="margin-bottom:16px;">
         <img src="' . asset('images/' . $image->image_path) . '" class="img-thumbnail" width="175px" height="175"style="height: 175px;"/>
-        <button type="button" class="btn btn-link " id="' . $image->image_path . '"><a class="btn btn-danger" href="'.route('admin.rooms.delete_image',['id'=>$image->id]) .'">Xóa</a></button>
+        <div><button type="button" class="btn btn-link " id="' . $image->image_path . '" style="margin-left:27px;"> <a class="btn btn-danger"  href="'.route('admin.rooms.delete_image',['id'=>$image->id]) .'">Xóa</a></button></div>
         </div>
         ';
             }
@@ -95,8 +95,10 @@ class RoomController extends Controller
             'description' => 'required',
             'room_type_id' => 'required',
             'cost' => 'required',
-            'short_intro' => 'nullable',
-            'services' => 'required'
+            'short_intro' => 'required',
+            'services' => 'required',
+            'width' => 'required',
+            'length' => 'required'
         ]);
       $room = new Room();
         $room->name = $data['name'];
@@ -104,9 +106,12 @@ class RoomController extends Controller
         $room->room_type_id = $data['room_type_id'];
         $room->cost = $data['cost'];
         $room->short_intro = $data['short_intro'];
+        $room->width =  $data['width'];
+        $room->length =  $data['length'];
         $room->save();
-        //luu service
+        //luu servicedd
         $services = $request->services;
+//        dd($services = $request->services);
         foreach ($services as $service)
         {
             $serviceRoom = new ServiceRoom();
@@ -115,15 +120,8 @@ class RoomController extends Controller
             $serviceRoom->save();
         }
 
-
-
-
         $room_id = $room->id;
-
-
-
-
-        return redirect()->route('admin.rooms.index', compact('user', 'room', 'room_category'))->with('success', 'Thêm phòng thành công!');
+        return redirect()->route('admin.rooms.upload_images',['id' => $room_id])->with('success', 'Thêm phòng thành công, bạn vui lòng thêm hình ảnh cho phòng trọ!');
     }
 
     public function show($id)
@@ -167,7 +165,10 @@ class RoomController extends Controller
             'description' => 'required',
             'room_type_id' => 'required',
             'cost' => 'required',
-            'short_intro' => 'nullable'
+            'short_intro' => 'required',
+            'length' => 'required',
+            'width' => 'required'
+
         ]);
 
 
@@ -178,21 +179,8 @@ class RoomController extends Controller
         $room->room_type_id = $data['room_type_id'];
         $room->cost = $data['cost'];
         $room->short_intro = $data['short_intro'];
-
-        if ($request->has('bep'))
-        {
-            $room->bep=1;
-        }
-
-        if ($request->has('maylanh'))
-        {
-            $room->maylanh=1;
-        }
-        if ($request->has('gac'))
-        {
-            $room->gac=1;
-        }
-
+        $room->width =  $data['width'];
+        $room->length =  $data['length'];
         $room->save();
         return redirect()->route('admin.rooms.index', compact('user', 'room_category'))->with('success', 'Sửa thông tin thành công!');
     }
@@ -219,7 +207,7 @@ class RoomController extends Controller
         $room_category = RoomCategory::all();
         $search = $request->get('search');
 //        dd($search);
-        $rooms = Room::where('name', 'LIKE', '%' . $search . '%')->get();
+        $rooms = Room::where('name', 'LIKE', '%' . $search . '%')->orWhere('cost', 'LIKE', '%' . $search . '%')->get();
         if (count($rooms)>0)
 
             return view('admin.rooms.search', compact('rooms', 'user', 'room_category'));

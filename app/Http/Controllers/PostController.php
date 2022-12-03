@@ -47,7 +47,16 @@ class PostController extends Controller
         return view('admin.posts.create', compact('user', 'room_category', 'rooms', 'post_category'));
     }
 
-    public function store(Request $request)
+    public function edit($id)
+    {
+        $user = Auth::guard('admin')->user();
+        $room_category = RoomCategory::all();
+        $post = Post::find($id);
+        $post_category = PostCategory::all();
+        return view('admin.posts.create', compact('user', 'room_category', 'post', 'post_category'));
+    }
+
+    public function update(Request $request, $id)
     {
         $user = Auth::guard('admin')->user();
 
@@ -56,28 +65,67 @@ class PostController extends Controller
             'content' => 'required',
             'room_id' => 'nullable',
             'post_type_id' => 'required',
+            'image' => 'required'
 
         ]);
-
-        $post = new Post();
-        $image = $request->file('image');
-        if ($image)
-        {
-//            $post->image = $image->move('storage', $image->getClientOriginalName());
-        }
-
+        $post = find($id);
         $post->title = $data['title'];
-
         $post->content = $data['content'];
-
-        $post->room_id = $data['room_id'];
-
-        $post->post_type_id = ['post_type_id'];
-//        dd(1);
+        $post->post_type_id = $data['post_type_id'];
+        if($request->hasFile('image')){
+            $filename = time().'.'.request()->image->getClientOriginalExtension();
+            request()->image->move(public_path('images/posts'), $filename);
+//            dd($filename);
+            $post->image = $filename;
+        }
         $post->save();
 
 
-        return redirect()->route('admin.posts.index', compact('user'))->with('success', 'Thêm phòng thành công!');
+        return redirect()->route('admin.posts.index', compact('user'))->with('success', 'Thêm bài đăng thành công!');
+
+    }
+
+    public function detail($id)
+    {
+        $user = Auth::guard('admin')->user();
+
+        $post = Post::find($id);
+        $images = Image::all();
+        $rooms = Room::all();
+        $room_categories = RoomCategory::all();
+        $post_categories = PostCategory::all();
+        $post_infos = Post::where('post_type_id', 2)->get();
+        return view('customer.posts.detail', compact('rooms', 'post_categories','images', 'post', 'room_categories', 'user', 'post_infos'));
+
+    }
+
+    public function store(Request $request)
+    {
+//        dd($request->all());
+        $user = Auth::guard('admin')->user();
+
+        $data = $request->validate([
+            'title' => 'required',
+            'content' => 'required',
+            'room_id' => 'nullable',
+            'post_type_id' => 'required',
+            'image' => 'required'
+
+        ]);
+        $post = new Post();
+        $post->title = $data['title'];
+        $post->content = $data['content'];
+        $post->post_type_id = $data['post_type_id'];
+        if($request->hasFile('image')){
+            $filename = time().'.'.request()->image->getClientOriginalExtension();
+            request()->image->move(public_path('images/posts'), $filename);
+//            dd($filename);
+            $post->image = $filename;
+        }
+        $post->save();
+
+
+        return redirect()->route('admin.posts.index', compact('user'))->with('success', 'Thêm bài đăng thành công!');
 
     }
 

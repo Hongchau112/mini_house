@@ -28,13 +28,15 @@
             </div>
             <div class="ti-arrow-top-left">
                 <h3>Ảnh đã tải lên</h3>
+                <br>
             </div>
-            <div id="uploaded_images">
+            <div class="row" id="uploaded_images">
 
             </div>
         </div>
     </form>
     </br>
+    <a href="{{route('admin.rooms.index')}}" class="btn btn-dim btn-primary">Trở lại</a>
 
 @endsection
 @push('footer')

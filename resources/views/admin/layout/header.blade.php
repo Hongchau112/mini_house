@@ -51,7 +51,13 @@
                             <div class="dropdown-inner">
                                 <ul class="link-list">
                                     <li><a href="{{route('admin.show', ['id' => $user->id])}}"><em class="icon ni ni-user-alt"></em><span>Thông tin cá nhân</span></a></li>
+                                </ul>
+                            </div>
+                            <div class="dropdown-inner">
+                                <ul class="link-list">
+                                    <li><a href="{{ route('admin.edit', ['id'=>$user->id]) }}"><em class="icon ni ni-signout"></em><span>Chỉnh sửa thông tin</span></a></li>
                                     <li><a class="dark-switch" href="#"><em class="icon ni ni-moon"></em><span>Chế độ tối</span></a></li>
+
                                 </ul>
                             </div>
                             <div class="dropdown-inner">
@@ -59,6 +65,7 @@
                                     <li><a href="{{ route('admin.logout') }}"><em class="icon ni ni-signout"></em><span>Đăng xuất</span></a></li>
                                 </ul>
                             </div>
+
                         </div>
                     </li><!-- .dropdown -->
                 </ul><!-- .nk-quick-nav -->

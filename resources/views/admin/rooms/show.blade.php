@@ -33,10 +33,12 @@
                             </div><!-- .slider-nav -->
                         </div><!-- .product-gallery -->
                     </div><!-- .col -->
+
                     <div class="col-lg-6">
+                        <h3 class="product-price text-primary">{{number_format($room->cost)}} VND</h3>
                         <div class="product-info mt-5 mr-xxl-5">
-                            <h4 class="product-price text-primary">{{number_format($room->cost)}} VND</h4>
                             <h2 class="product-title">{{$room->name}}</h2>
+
 {{--                            <div class="product-rating">--}}
 {{--                                <ul class="rating">--}}
 {{--                                    <li><em class="icon ni ni-star-fill"></em></li>--}}
@@ -47,6 +49,9 @@
 {{--                                </ul>--}}
 {{--                                <div class="amount">(2 Reviews)</div>--}}
 {{--                            </div><!-- .product-rating -->--}}
+                            <div class="text-soft">
+                                <h6>Ngày trống: {{$room->created_at}}</h6>
+                            </div>
                             <div class="product-excrept text-soft">
                                 <p class="lead">{{$room->short_intro}}</p>
                                 <p >Chiều dài: {{$room->length}} m</p>
@@ -79,6 +84,7 @@
                             </div><!-- .product-meta -->
                             <div class="product-meta">
                                 <ul class="d-flex flex-wrap ailgn-center g-2 pt-1">
+
                                     <li class="w-140px">
                                         @if($room->status==0)
                                             <button class="btn btn-primary">Đặt phòng</button>
@@ -99,9 +105,8 @@
                     </div><!-- .col -->
                     <div class="col-lg-7">
                         <div class="product-details entry mr-xxl-3">
-                            <h3>Mô tả phòng {{$room->name}}</h3>
+                            <h3>Mô tả</h3>
                             <p>{!! $room->description !!}</p>
-
                         </div>
                     </div><!-- .col -->
                 </div><!-- .row -->

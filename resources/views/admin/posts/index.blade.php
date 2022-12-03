@@ -8,7 +8,7 @@
             {{ session('success') }}
         </div>
     @endif
-    @if($user->hasRole('admin'))
+    @if($user->account=='admin')
         <div class="nk-content-body">
             <div class="nk-block-head nk-block-head-sm">
                 <div class="nk-block-between">
@@ -79,14 +79,14 @@
                                                 <div class="dropdown-menu dropdown-menu-right">
                                                     <ul class="link-list-opt no-bdr">
                                                         <li><a href="{{route('customer.posts.details', ['id'=>$post->id])}}" target="_blank"><em class="icon ni ni-eye"></em><span>Xem bài đăng</span></a></li>
-{{--                                                        <li><a href="#"><em class="icon ni ni-edit"></em><span>Chỉnh sửa bài đăng</span></a></li>--}}
+                                                        <li><a href="{{route('admin.posts.edit', ['id'=>$post->id])}}"><em class="icon ni ni-edit"></em><span>Chỉnh sửa</span></a></li>
                                                         <li><a href="{{route('admin.posts.delete', ['id'=>$post->id])}}"><em class="icon ni ni-delete"></em><span>Xóa bài</span></a></li>
                                                     </ul>
                                                 </div>
                                             </div>
                                         </div>
                                         <a class="gallery-image popup-image" href="">
-                                                <img class="w-100 rounded-top" src="{{asset('/images/'.$post->image)}}" width="300px" height="250px" alt="">
+                                                <img class="w-100 rounded-top" src="{{asset('/images/posts/'.$post->image)}}" width="300px" height="250px" alt="">
                                         </a>
                                         <div class="project-details">
                                             <br>

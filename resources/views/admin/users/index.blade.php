@@ -130,7 +130,7 @@
                                         </div>
                                     </div>
                                     <div class="nk-tb-col">
-                                        <a href="#">
+                                        <a href="{{route('admin.show', ['id' => $user_sub->id])}}">
                                             <div class="user-card">
                                                 <div class="user-avatar sq">
                                                     <img src="{{asset('/images/'.$user_sub->avatar)}}">

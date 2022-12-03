@@ -213,6 +213,13 @@ class AdminController extends Controller
             $user->address = $validated_data['address'];
             $user->birthday = $validated_data['birthday'];
 
+            if($request->hasFile('avatar')){
+                $filename = time().'.'.request()->avatar->getClientOriginalExtension();
+                request()->avatar->move(public_path('images'), $filename);
+//            dd($filename);
+                $user->avatar = $filename;
+            }
+
             $user->save();
 
             return redirect()->route('admin.index')->with('success', 'Sửa thông tin tài khoản thành công!');

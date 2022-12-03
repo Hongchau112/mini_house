@@ -40,9 +40,9 @@
                                 @endif
                             @endforeach
                             @if($room->status==0)
-                                <li><a href="#">- Còn phòng</a></li>
+                                <li><span> - </span><a href="#">Còn phòng</a></li>
                                 @else
-                                    <li><a href="#">- Hết phòng</a></li>
+                                    <li><span> - </span><a href="#">Hết phòng</a></li>
                             @endif
                         </ul>
                         <h5 class="product-title"><a href="{{route('admin.rooms.show', ['id'=>$room->id])}}">{{$room->name}}</a></h5>

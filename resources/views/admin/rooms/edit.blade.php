@@ -12,25 +12,24 @@
                             <form action="{{route('admin.rooms.update', ['id'=>$room->id])}}" method="POST">
                                 @csrf
                                 @method('PATCH')
-
                                 <div class="row g-gs">
-                                    <div class="col-md-12" style="">
+                                    <div class="col-md-8" style="margin-left: 150px;">
                                         <div class="card card-bordered h-100" style="background-color: #e2e6ea;">
                                             <div class="card-inner">
                                                 <div class="form-group" >
-                                                    <label for="name" style="font-weight: bold">Phòng <span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" name="name" id="name" value="{{$room->name}}" placeholder="Vui lòng nhập tên phòng">
+                                                    <label for="name" style="font-weight: bold">Phòng  <span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" name="name" id="name" value="{{$room->name}}" placeholder="Vui lòng nhập tên phòng" required>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="name" style="font-weight: bold">Giới thiệu ngắn</label>
+                                                    <label for="name" style="font-weight: bold">Giới thiệu ngắn  <span class="text-danger">*</span> </label>
                                                     <div class="form-control-wrap">
-                                                        <textarea type="text" name="short_intro" class="form-control"  cols="2" placeholder="Giới thiệu ngắn">{{$room->short_intro}}</textarea>
+                                                        <textarea type="text" name="short_intro" class="form-control" cols="2" placeholder="Giới thiệu ngắn" required>{{$room->shor_intro}}</textarea>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="form-label" for="description">Mô tả <span class="text-danger">*</span></label>
                                                     <div class="form-control-wrap">
-                                                        <textarea class="form-control form-control-sm ckeditor"  id="description" name="description"  required>{{$room->description}}</textarea>
+                                                        <textarea class="form-control form-control-sm ckeditor" id="description" name="description"  required>value="{{$room->description}}"</textarea>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -46,29 +45,31 @@
                                                 </div>
 
                                                 <div class="row gy-4 align-center">
-                                                    <div class="col-lg-6">
+                                                    <div class="col-lg-4 col-sm-6">
                                                         <div class="form-group">
                                                             <div class="form-control-wrap">
-                                                                <label class="form-label" for="cost">Giá phòng <span class="text-danger">*</span></label>
-                                                                <input type="text" class="form-control" value="{{$room->cost}}" name="cost" id="cost" placeholder="Giá phòng">
+                                                                <input type="text" class="form-control form-control-outlined" value="{{$room->cost}}" name="cost" id="cost" required>
+                                                                <label class="form-label-outlined" for="cost">Giá cho thuê  <span class="text-danger">*</span></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4 col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <input type="text" class="form-control form-control-outlined" value="{{$room->width}}" name="width" id="width" required>
+                                                                <label class="form-label-outlined" for="width">Chiều rộng  <span class="text-danger">*</span></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4 col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <input type="text" class="form-control form-control-outlined" value="{{$room->length}}" name="length" id="length" required>
+                                                                <label class="form-label-outlined" for="length">Chiều dài  <span class="text-danger">*</span></label>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <span class="preview-title overline-title" style="margin-top: 20px;">Tiện ích <span class="text-danger">*</span> </span>
-                                                    <div class="g-3 align-center flex-wrap">
-                                                            @foreach($services as $service)
-                                                                <div class="g">
-                                                                    <div class="custom-control custom-control-sm custom-checkbox">
-                                                                        <input type="checkbox" class="custom-control-input"  name="services[]" id="service{{$service->id}}" >
-                                                                        <label class="custom-control-label" for="service{{$service->id}}">{{$service->service}}</label>
-                                                                    </div>
-                                                                </div>
-                                                            @endforeach
-                                                    </div>
-                                                </div>
-
                                             </div>
                                         </div>
                                     </div>

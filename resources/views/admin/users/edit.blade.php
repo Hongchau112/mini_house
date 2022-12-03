@@ -25,8 +25,18 @@
             <div class="card card-bordered">
                 <div class="card-inner">
                         <div class="row g-gs">
+
                             <div class="col-md-6">
+                                <img src="{{asset('/images/'.$user_edit->avatar)}}" width="150px" height="150px">
                                 <div class="form-group">
+                                    <label class="form-label" for="name">Ảnh đại diện<span class="code-class">*</span></label>
+                                    <div class="form-control-wrap">
+                                        <input type="file" class="custom-file-input" name="avatar" id="avatar">
+                                        <label class="custom-file-label" for="avatar">Chọn...</label>                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group" style="margin-top: 150px;">
                                     <label class="form-label" for="name">Họ và tên <span class="code-class">*</span></label>
                                     <div class="form-control-wrap">
                                         <input type="text" class="form-control" id="name" value="{{$user_edit->name}}" name="name" required>

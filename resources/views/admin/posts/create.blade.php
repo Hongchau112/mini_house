@@ -12,36 +12,38 @@
             <form action="{{route('admin.posts.store')}}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="row g-4">
-                    <div class="col-lg-8">
-                        <div class="form-group">
-                            <label for="photo">Tải ảnh lên</label>
-                            <input type="file" name="image" id="photo" accept="image/*" class="form-control-file">
-                        </div>
-                    </div>
-                </div>
-                <div class="row g-4">
-                    <div class="col-lg-8">
-                        <div class="form-group">
-                            <label class="form-label" for="full-name-1">Tiêu đề <span class="text-danger">*</span></label>
-                            <div class="form-control-wrap">
-                                <input type="text" class="form-control" id="title" name="title">
+                <div class="col-sm-8">
+                    <div class="form-group">
+                        <label class="form-label">Thêm ảnh <span class="code-class">*</span></label>
+                        <div class="form-control-wrap">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" name="image" id="image" required>
+                                <label class="custom-file-label" for="image">Chọn...</label>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row g-4">
-                    <div class="col-lg-8">
-                        <div class="form-group">
+                <div class="col-lg-8">
+                    <div class="form-group">
+                        <label class="form-label" for="full-name-1">Tiêu đề <span class="text-danger">*</span></label>
+                        <div class="form-control-wrap">
+                            <input type="text" class="form-control" id="title" name="title">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="form-group">
+                        <div class="form-control-wrap">
+                            <label class="form-label" for="description">Nội dung bài đăng <span class="text-danger">*</span></label>
                             <div class="form-control-wrap">
-                                <label class="form-label" for="description">Nội dung bài đăng <span class="text-danger">*</span></label>
-                                <div class="form-control-wrap">
-                                    <textarea class="form-control form-control-sm ckeditor" id="content" name="content"  required></textarea>
-                                </div>
+                                <textarea class="form-control form-control-sm ckeditor" id="content" name="content"  required></textarea>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row g-4">
+                </div>
+                <br>
+                <div class="row">
                     <div class="col-lg-4">
                         <div class="form-group">
                             <label class="form-label" for="pay-amount-1">Phòng</label>
@@ -69,16 +71,15 @@
                         </div>
                     </div>
                 </div>
+                <br>
                 <div class="row g-4">
                     <div class="col-8">
                         <div class="form-group">
-                            <button type="submit" class="btn btn-lg btn-primary">Lưu</button>
+                            <button type="submit" class="btn btn-lg btn-primary" style="margin-left: 250px;">Lưu</button>
+                            <a  href="{{route('admin.posts.index')}}" class="btn btn-lg btn-danger" style="color: white">Hủy</a>
                         </div>
                     </div>
                 </div>
-
-
-
             </form>
         </div>
     </div>
