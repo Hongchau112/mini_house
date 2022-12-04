@@ -15,7 +15,7 @@
                                 <div class="col-lg-6 col-md-6 mb-30">
                                     <!-- blog box -->
                                     <div class="blog-box shadow">
-                                        <div class="blog_img mb-20"><img src="{{asset('/images/'.$post->image)}}" alt="" HEIGHT="250px" WIDTH="320PX"></div>
+                                        <div class="blog_img mb-20"><img src="{{asset('/images/posts/'.$post->image)}}" alt="" HEIGHT="250px" WIDTH="320PX"></div>
 
                                         <div class="blog-des">
                                                 <h6>{{$post->created_at}}</h6>
@@ -63,7 +63,17 @@
                             <!-- widget title end -->
                             <!-- recent post -->
                             <div class="blog-recent-post">
-
+                                <div class="blog-recent-post">
+                                    @foreach($post_infos as $post_info)
+                                        <!-- recent single post -->
+                                        <div class="recent-single-post mb-20">
+                                            <div class="post-img"> <a href="#"><img src="{{asset('/images/posts/'.$post_info->image)}}" alt=""></a> </div>
+                                            <div class="pst-content">
+                                                <p><a href="#">{{$post_info->title}}</a></p>
+                                                <span class="date-type">{{$post_info->created_at}}</span> </div>
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
                             <!-- recent post end -->
                         </div>

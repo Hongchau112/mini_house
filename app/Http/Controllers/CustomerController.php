@@ -324,7 +324,7 @@ $post_categories = PostCategory::all();
         $get_category = RoomCategory::where('id', $room->room_type_id)->get()->first();
         $image = Image::where('room_id', $room->id)->get()->first();
         $user = Auth::guard('admin')->user();
-        $customers = User::where('room_id', $room->id)->get();
+        $customers = User::where('booking_id', $booking->id)->get();
 //        dd($customer->name);
         $room_categories = RoomCategory::all();
         $post_categories = PostCategory::all();

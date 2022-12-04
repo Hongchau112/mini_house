@@ -139,7 +139,7 @@
                                 </div>
                                 <div class="list-box-content">
                                     <div class="list-box-title">
-                                        <h3>{{$room->name}}<span>{{number_format($room->cost)}} VND<em></em></span></h3>
+                                        <h3>{{$room->name}}<span>{{number_format($room->cost)}} VND/tháng<em></em></span></h3>
                                     </div>
                                     {{--                                <div class="list-box-rating"> <span class="at-stars"> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="far fa-star"></i> </span> <em>1000 review</em> </div>--}}
                                     <ul class="hotel-featured">
@@ -150,6 +150,7 @@
                                                 @endif
                                             @endforeach
                                         @endforeach
+                                        <p>{{$room->short_intro}}</p>
                                         <li>
                                             <input type="hidden" id="room_id" value="{{$room->id}}">
                                             <a href="{{route('customer.add_wistlist', ['id'=>$room->id])}}" id="btn-wishlist"><i class="fa fa-heart"></i></a>

@@ -229,6 +229,10 @@ Route::post('customer/send_comment', [CommentController::class, 'send_comment'])
 Route::post('customer/load_comment', [CommentController::class, 'load_comment'])->name('customer.load_comment');
 
 //order
+Route::post('customer/booking/customer_order', [BookingController::class, 'customer_order'])->name('customer.customer_order');
+Route::post('customer/booking/load_user', [BookingController::class, 'load_user'])->name('customer.load_user');
+Route::get('customer/booking/delete_user/{id}', [BookingController::class, 'delete_user'])->name('customer.delete_user');
+
 Route::get('customer/booking/{id}', [BookingController::class, 'booking'])->name('customer.rooms.booking');
 Route::post('customer/booking/store', [BookingController::class, 'store'])->name('customer.booking.store');
 Route::get('customer/rooms/payment/{id}', [BookingController::class, 'payment'])->name('customer.rooms.payment');

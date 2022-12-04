@@ -84,20 +84,20 @@
                     <!-- tags share -->
                     <div class="tags-share mt-30 pb-15 d-inline-block w-100">
                         <div class="tags d-flex float-lg-left pt-15"> <span>Từ khóa :</span>
-{{--                            <ul>--}}
-{{--                                <li><a href="#">Design</a></li>--}}
-{{--                                <li><a href="#">business</a></li>--}}
-{{--                                <li><a href="#">corporate</a></li>--}}
-{{--                            </ul>--}}
-                        </div>
-                        <div class="share d-flex float-lg-right pt-15"> <span>Share :</span>
-                            <ul class="list-inline">
-                                <li class="list-inline-item"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                <li class="list-inline-item"><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                <li class="list-inline-item"><a href="#"><i class="fab fa-google-plus-g"></i></a></li>
-                                <li class="list-inline-item"><a href="#"><i class="fab fa-instagram"></i></a></li>
+                            <ul>
+                                <li><a href="#">Sinh viên</a></li>
+                                <li><a href="#">Thuê trọ</a></li>
+                                <li><a href="#">Phòng tránh</a></li>
                             </ul>
                         </div>
+{{--                        <div class="share d-flex float-lg-right pt-15"> <span>Share :</span>--}}
+{{--                            <ul class="list-inline">--}}
+{{--                                <li class="list-inline-item"><a href="#"><i class="fab fa-facebook-f"></i></a></li>--}}
+{{--                                <li class="list-inline-item"><a href="#"><i class="fab fa-twitter"></i></a></li>--}}
+{{--                                <li class="list-inline-item"><a href="#"><i class="fab fa-google-plus-g"></i></a></li>--}}
+{{--                                <li class="list-inline-item"><a href="#"><i class="fab fa-instagram"></i></a></li>--}}
+{{--                            </ul>--}}
+{{--                        </div>--}}
                     </div>
                     <!-- tags share end -->
                     <!-- comments area -->
@@ -123,13 +123,14 @@
                     <!-- post comments -->
                     <div class="post-comments mt-50 mb-30">
                         <!-- title -->
-                        <div class="blog-single-title">
-                            <h4>Để lại bình luận</h4>
-                        </div>
+
                         <!-- title end -->
                         <!-- post comment form -->
-                        <div class="post-comment-form">
-
+                        @if($user!=null)
+                            <div class="blog-single-title">
+                                <h4>Để lại bình luận</h4>
+                            </div>
+                            <div class="post-comment-form">
                             <form>
                                 <input type="hidden" name="name" id="cmt-name" value="{{$user->name}}" class="form-control" >
                                 <input type="hidden" name="name" id="cmt-phone" value="{{$user->phone}}"  class="form-control" >
@@ -144,27 +145,21 @@
                                             <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label> </div>
                                     </div>
                                 </div>
-{{--                                <div class="row">--}}
-{{--                                    <div class="col-lg-6">--}}
-{{--                                        <div class="form-group">--}}
-{{--                                            <input type="text" name="name" id="cmt-name" placeholder="Tên của bạn" class="form-control" required>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="col-lg-6">--}}
-{{--                                        <div class="form-group">--}}
-{{--                                            <input type="text" name="phone" id="cmt-phone"  placeholder="Số điện thoại" class="form-control" required>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
                                 <div class="form-group">
                                     <textarea class="form-control" id="cmt-content" placeholder="Bình luận" rows="5"></textarea>
                                 </div>
                                 <button type="button" class="btn-style-1 text-uppercase" id="send-comment">Gửi</button>
                                 <div id="notify"></div>
                             </form>
+                            </div>
+                        @else
+                            <p></p>
+                        @endif
 
 
-                        </div>
+
+
+
                         <!-- post comment form end -->
                     </div>
                     <!-- post comments end -->
@@ -199,15 +194,7 @@
                                 @foreach($post_infos as $post_info)
                                     <!-- recent single post -->
                                     <div class="recent-single-post mb-20">
-                                        @foreach($images as $image)
-                                            @if($post->room_id == $image->room_id)
-                                                @php
-                                                    $image_path = $image->image_path;
-                                                @endphp
-                                            @endif
-                                        @endforeach
-                                        {{--                                    <div class="blog_img mb-20"><img src="{{asset('/images/'.$image_path)}}" alt="" HEIGHT="250px" WIDTH="320PX"></div>--}}
-                                        <div class="post-img"> <a href="#"><img src="{{asset('/images/'.$image_path)}}" alt=""></a> </div>
+                                        <div class="post-img"> <a href="#"><img src="{{asset('/images/posts/'.$post_info->image)}}" alt=""></a> </div>
                                         <div class="pst-content">
                                             <p><a href="#">{{$post_info->title}}</a></p>
                                             <span class="date-type">{{$post_info->created_at}}</span> </div>
@@ -239,6 +226,11 @@
 @push('footer')
     <script>
         $(document).ready(function(){
+            $("input[type='radio']").click(function() {
+                var rating = $("input[name='rating']:checked").val();
+                console.log(rating);
+            })
+
             load_comment();
 
             function load_comment(){
@@ -267,15 +259,12 @@
                 var content = $('#cmt-content').val();
                 var phone = $('#cmt-phone').val();
                 var user_id = $('#cmt-user').val();
-                console.log(post_id);
-                console.log(name);
-                console.log(content);
-                console.log(phone);
+                var rating = $('input[name="rating"]:checked').val();
 
                 $.ajax({
                     url: '{{route('customer.posts.send_comment')}}',
                     type: "POST",
-                    data: {_token:_token, post_id: post_id, name: name, content: content, phone: phone, user_id: user_id},
+                    data: {_token:_token, post_id: post_id, name: name, content: content, phone: phone, user_id: user_id, rating: rating},
 
                     success:function(data){
                         $('#notify').html('<p style="margin-top: 10px">Thêm bình luận thành công! Đang chờ duyệt nhá</p>');

@@ -161,13 +161,7 @@
                                 </div>
 {{--                                <div class="list-box-rating"> <span class="at-stars"> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="far fa-star"></i> </span> <em>1000 review</em> </div>--}}
                                 <ul class="hotel-featured">
-                                    @foreach($serviceRooms as $serviceRoom)
-                                        @foreach($services as $service)
-                                            @if($serviceRoom->service_id==$service->id)
-                                                <li><span><i class="fas fa-home"></i>{{$service->getName()}}</span></li>
-                                            @endif
-                                        @endforeach
-                                    @endforeach
+                                    <p>{{$room->short_intro}}</p>
                                         <li>
                                             <input type="hidden" id="room_id" value="{{$room->id}}">
                                             <a href="{{route('customer.add_wistlist', ['id'=>$room->id])}}" id="btn-wishlist"><i class="fa fa-heart"></i></a>

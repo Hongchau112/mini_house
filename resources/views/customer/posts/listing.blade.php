@@ -22,27 +22,9 @@
                         <div class="col-lg-6 col-md-6 mb-30">
                             <!-- blog box -->
                             <div class="blog-box shadow">
-                                @foreach($images as $image)
-                                    @if($post->room_id == $image->room_id)
-                                        @php
-                                            $image_path = $image->image_path;
-                                        @endphp
-                                    @endif
-                                @endforeach
-                                    <div class="blog_img mb-20"><img src="{{asset('/images/'.$image_path)}}" alt="" HEIGHT="250px" WIDTH="320PX"></div>
+                                    <div class="blog_img mb-20"><img src="{{asset('/images/posts/'.$post->image)}}" alt="" HEIGHT="250px" WIDTH="320PX"></div>
 
                                 <div class="blog-des">
-                                    @foreach($rooms as $room)
-                                        @if($room->id==$post->room_id)
-                                            <h6 class="blog_date font-weight-normal text-muted">
-                                                @if($room->status==0)
-                                                    <span>Còn trống</span></h6>
-                                                @else
-                                                    <span>Đã đặt</span>
-                                                @endif
-                                                    <h6>{{$post->created_at}}</h6>
-                                        @endif
-                                    @endforeach
                                     <h5 class="mt-10 mb-6"><a href="{{route('customer.posts.details', ['id'=>$post->id])}}" class="text-dark">{{$post->title}}</a></h5>
                                     <p class="text-muted"></p>
                                     <div class="read_more">
@@ -90,15 +72,7 @@
                                 @foreach($post_infos as $post_info)
                                 <!-- recent single post -->
                                 <div class="recent-single-post mb-20">
-                                    @foreach($images as $image)
-                                        @if($post->room_id == $image->room_id)
-                                            @php
-                                                $image_path = $image->image_path;
-                                            @endphp
-                                        @endif
-                                    @endforeach
-{{--                                    <div class="blog_img mb-20"><img src="{{asset('/images/'.$image_path)}}" alt="" HEIGHT="250px" WIDTH="320PX"></div>--}}
-                                    <div class="post-img"> <a href="#"><img src="{{asset('/images/posts/'.$image_path)}}" alt=""></a> </div>
+                                    <div class="post-img"> <a href="#"><img src="{{asset('/images/posts/'.$post_info->image)}}" alt=""></a> </div>
                                     <div class="pst-content">
                                         <p><a href="#">{{$post_info->title}}</a></p>
                                         <span class="date-type">{{$post_info->created_at}}</span> </div>

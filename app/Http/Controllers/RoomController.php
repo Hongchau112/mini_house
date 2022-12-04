@@ -270,6 +270,7 @@ class RoomController extends Controller
         $comment->date = now();
         $comment->phone = $request['phone'];
         $comment->comment_parent_id = 0;
+        $comment->rating=$request['rating'];
         $comment->user_id = $request['user_id'];
         $comment->post_id=null;
         $comment->save();
@@ -277,6 +278,11 @@ class RoomController extends Controller
 
     public function load_comment(Request $request)
     {
+        $rating1 = '<i class="fas fa-star"></i>';
+        $rating2 = '<i class="fas fa-star"></i><i class="fas fa-star"></i>';
+        $rating3 = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>';
+        $rating4 = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>';
+        $rating5 = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>';
         $room_id = $request->room_id;
         $comments = Comment::where('room_id', $room_id)->where('status', 1)->where('comment_parent_id','=',0)->get();
 
@@ -291,10 +297,37 @@ class RoomController extends Controller
         else{
             foreach ($comments as $key => $comment){
                 $user = \App\Models\Admin::find($comment->user_id);
+                if ($comment->rating==1)
+                {
+                    $rating = $rating1;
+                }
+                elseif ($comment->rating==2)
+                {
+                    $rating = $rating2;
+                }
+                elseif ($comment->rating==3)
+                {
+                    $rating = $rating3;
+                }
+                elseif ($comment->rating==4)
+                {
+                    $rating = $rating4;
+                }
+                elseif ($comment->rating==5)
+                {
+                    $rating = $rating5;
+                }
+                else{
+                    $rating='';
+                }
+                $i=0;
 //                dd($user->avatar);
                 $output.= '<div class="media review-item"> <img src="/images/'.$user->avatar.'" class="mr-3" width="70px" height="70px" alt="...">
                   <div class="media-body">
-                    <h5 class="mt-0">'.$comment->name.'<span>'.$comment->date.' - <a href=""></a></span></h5>
+                    <h5 class="mt-0">'.$comment->name.' <span class="rating">
+                                       '.$rating.'
+                  </span> </h5><div style="padding: 3px;">'.$comment->date.' </div>
+
                     <p class="mb-0">'.$comment->content.'</p>
                   </div>
                 </div>

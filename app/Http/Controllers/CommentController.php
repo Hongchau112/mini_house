@@ -65,6 +65,7 @@ class CommentController extends Controller
         $comment->content = $request['content'];
         $comment->post_id = $request['post_id'];
         $comment->date = now();
+        $comment->rating = $request['rating'];
         $comment->phone = $request['phone'];
         $comment->comment_parent_id = 0;
         $comment->user_id = $request['user_id'];
@@ -73,6 +74,11 @@ class CommentController extends Controller
 
     public function load_comment(Request $request)
     {
+        $rating1 = '<i class="fas fa-star"></i>';
+        $rating2 = '<i class="fas fa-star"></i><i class="fas fa-star"></i>';
+        $rating3 = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>';
+        $rating4 = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>';
+        $rating5 = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>';
         $post_id = $request->post_id;
         $comments = Comment::where('post_id', $post_id)->where('status', 1)->where('comment_parent_id','=',0)->get();
 
@@ -87,6 +93,30 @@ class CommentController extends Controller
         else{
             foreach ($comments as $key => $comment){
                 $user = \App\Models\Admin::find($comment->user_id);
+                if ($comment->rating==1)
+                    {
+                        $rating = $rating1;
+                    }
+                elseif ($comment->rating==2)
+                {
+                    $rating = $rating2;
+                }
+                elseif ($comment->rating==3)
+                {
+                    $rating = $rating3;
+                }
+                elseif ($comment->rating==4)
+                {
+                    $rating = $rating4;
+                }
+                elseif ($comment->rating==5)
+                {
+                    $rating = $rating5;
+                }
+                else{
+                    $rating='';
+                }
+                $i=0;
 //                dd($user->avatar);
                 $output.= '<div class="comment-box mb-30">
                             <div class="comment">
@@ -94,7 +124,9 @@ class CommentController extends Controller
                                 <div class="comment-inner">
                                     <div class="comment-info clearfix">'.$comment->name.'
                                     <span> - Bình luận ngày '.$comment->date.'</span> </div>
-                                    <div class="rating"> </div>
+                                    <div class="rating">
+                                       '.$rating.'
+                  </div>
                                     <div class="text">'.$comment->content.'</div>
                                 </div>
                             </div>

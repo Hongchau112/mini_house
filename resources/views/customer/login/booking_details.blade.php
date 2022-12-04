@@ -63,13 +63,15 @@
                                     <span class="me-3">Ngày đặt: </span>
                                     <span class="me-3">{{$booking_detail->date}}</span>
 
-                                    @if($booking->booking_status=='old')
-                                        <span style="margin-left: 25px; padding: 12px; font-size: 13px; color: white;" class="badge rounded-pill bg-info">Đã trả phòng</span>
+                                    @if($booking->booking_status=='cancel')
+                                        <span style="margin-left: 25px; padding: 12px; font-size: 13px; color: white;" class="badge rounded-pill bg-info">Đã hủy</span>
 
-                                    @elseif($booking->booking_status=='booked')
-                                        <span style="margin-left: 25px; padding: 12px; font-size: 13px; color: white;" class="badge rounded-pill bg-info">Đặt thành công - Đang thuê</span>
+                                    @elseif($booking->booking_status=='new')
+                                        <span style="margin-left: 25px; padding: 12px; font-size: 13px; color: white;" class="badge rounded-pill bg-info">Đang xử lý</span>
                                     @elseif($booking->booking_status=='pending')
-                                        <span style="margin-left: 25px; padding: 12px; font-size: 13px; color: white;" class="badge rounded-pill bg-info">Đặt thành công - Chờ nhận phòng</span>
+                                        <span style="margin-left: 25px; padding: 12px; font-size: 13px; color: white;" class="badge rounded-pill bg-info">Đang xử lý</span>
+                                    @elseif($booking->booking_status=='success')
+                                        <span style="margin-left: 25px; padding: 12px; font-size: 13px; color: white;" class="badge rounded-pill bg-info"> Đang thuê</span>
                                     @endif
                                 </div>
                             </div>
@@ -83,7 +85,7 @@
                                             </div>
                                             <div class="flex-lg-grow-1 ms-3" style="margin-left: 20px;}">
                                                 <h6 class="small mb-0"><a href="#" class="text-reset">{{$room->name}}</a></h6>
-                                                <span class="small">{{$room->short_intro}}</span>
+                                                <span class="small">{{$get_category->getCategory()}}</span>
                                             </div>
                                         </div>
                                     </td>
@@ -93,22 +95,22 @@
                                 </tbody>
                                 <tfoot>
                                 <tr>
-                                    <td colspan="2">Dịch vụ phòng</td>
+                                    <td colspan="1">Dịch vụ phòng</td>
 
                                 </tr>
                                 @foreach($serviceRooms as $serviceRoom)
                                     @foreach($services as $service)
                                         @if($serviceRoom->service_id==$service->id)
                                             <tr>
-                                                <td colspan="2">{{$service->getName()}}</td>
-                                                <td class="text-end">{{number_format($service->getCost())}} đ</td>
+                                                <td >{{$service->getName()}}</td>
+                                                <td colspan="2" class="text-end">{{number_format($service->getCost())}} đ</td>
                                             </tr>
                                         @endif
                                     @endforeach
                                 @endforeach
                                 <tr class="fw-bold">
-                                    <td colspan="2">Tổng thanh toán</td>
-                                    <td class="text-end" style="font-weight: bold;">{{number_format($booking_detail->total_cost)}} đ</td>
+                                    <td colspan="1">Tổng thanh toán</td>
+                                    <td colspan="2" class="text-end" style="font-weight: bold;">{{number_format($booking_detail->total_cost)}} đ</td>
                                 </tr>
                                 </tfoot>
                             </table>
@@ -156,9 +158,12 @@
                             <h3 >Thông tin người ở trọ</h3>
                             <strong></strong>
                             <span>Số người: {{count($customers)}}</span>
+                            @php
+                                $i=1;
+                            @endphp
                             <hr>
-                            <h3 class="h6">Thông tin cá nhân</h3>
                             @foreach($customers as $customer)
+                                <h3 class="h6">Người {{$i}}</h3>
                                 <table class="table table-borderless">
                                     <tr>
                                         <td style="font-weight: bold;">Họ và tên:</td>
@@ -174,13 +179,30 @@
                                     </tr>
                                     <tr >
                                         <td style="font-weight: bold;">Giới tính:</td>
-                                        <td class="label"> {{$customer->sex}}</td>
+                                        @if($customer->sex=='female')
+                                            <td class="label">Nữ</td>
+                                        @elseif($customer->sex=='male')
+                                            <td class="label"> Nam</td>
+                                        @else
+                                            <td class="label"> Khác</td>
+                                        @endif
+
                                     </tr>
                                     <tr >
                                         <td style="font-weight: bold;">Nghề nghiệp</td>
-                                        <td class="label"> {{$customer->title}}</td>
+
+                                        @if($customer->title=='student')
+                                            <td class="label">Sinh viên</td>
+                                        @elseif($customer->title=='adult')
+                                            <td class="label">Người đi làm</td>
+                                        @else
+                                            <td class="label"> Khác</td>
+                                        @endif
                                     </tr>
                                 </table>
+                                @php
+                                    $i++;
+                                @endphp
                             @endforeach
                         </div>
                     </div>

@@ -22,10 +22,125 @@ use Illuminate\Support\Facades\Mail;
 
 class BookingController extends Controller
 {
+    public function load_user(Request $request)
+    {
+        $user_infos = User::where('booking_id', '=', null)->where('booking_people_id', '=', $request->user_id)->get();
+        $output='';
+        if (count($user_infos)==0)
+        {
+            $output.='<div><p>Vui lòng thêm thông tin cho người thuê trọ</p></div>';
+        }
+        else {
+            foreach ($user_infos as $user_info)
+            {
+                $output .= '<div class="card-body p-4" style="background-color: lightcyan;">
+                    <div class="row pt-1">
+                    <h6 class="col-6 mb-3">Thông tin người ở</h6>
+                    <div class="col-6 mb-3">
+                            <a class="btn btn-danger" href="'.route('customer.delete_user', ['id' =>$user_info->id]) . '">Xóa</a>
+                        </div>
+                    </div>
+                    <hr class="mt-0 mb-4">
+                    <div class="row pt-1">
+                        <div class="col-6 mb-3">
+                            <h6>Họ tên</h6>
+                            <p class="text-muted">'.$user_info->name.'</p>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>Số điện thoại</h6>
+                            <p class="text-muted">'.$user_info->phone.'</p>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>CCCD/CMND</h6>
+                            <p class="text-muted">'.$user_info->identified_no.'</p>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>Email</h6>
+                            <p class="text-muted">'.$user_info->email.'</p>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>Ngày sinh</h6>
+                            <p class="text-muted">'.$user_info->birthday.'</p>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>Giới tính</h6>
+                            <p class="text-muted">'.$user_info->sex.'</p>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>Nghề nghiệp</h6>
+                            <p class="text-muted">'.$user_info->title.'</p>
+                        </div>
+                        <input type="hidden" name="customer_id" value="'.$user_info->id.'">
+                    </div>
+                </div> <br>';
+    }
+    echo $output;
+        }
+    }
+
+    public function delete_user($id)
+    {
+        User::where('id', $id)->delete();
+        return back()->with('success', 'Xóa thông tin thành công!');
+    }
+
+
+    public function customer_order(Request $request)
+    {
+        $output = '';
+        $user_infos = User::where('booking_id', '=', null)->where('booking_people_id', '=', $request->user_id)->get();
+        if (count($user_infos)>=$request->room_limit)
+        {
+//            dd(1);
+            return redirect()->back()->with('error', 'Số người ở đã đạt đến số lượng tối đa, bạn không thể thêm được nữa!');
+        }
+        else{
+            $validated_data = $request->validate([
+                'name' => 'required',
+                'email' => 'required|email|unique:users',
+                'phone' => 'required',
+                'birthday' => 'required',
+                'sex' => 'required',
+                'address' => 'required',
+                'title' => 'required',
+                'identified_no' => 'required|string|min:9|max:12'
+            ]);
+
+            $customer = new User();
+            $customer->name = $validated_data['name'];
+            $customer->email = $validated_data['email'];
+            $customer->phone = $validated_data['phone'];
+            $customer->birthday = date('Y-m-d',strtotime($validated_data['birthday']));
+            $customer->sex = $validated_data['sex'];
+            $customer->address = $validated_data['address'];
+            $customer->title = $validated_data['title'];
+            $customer->booking_people_id = $request->user_id;
+            $customer->identified_no = $validated_data['identified_no'];
+//        $customer->room_id = $request->room_id;
+            $customer->save();
+
+            //so nguoi o tro
+            $user_infos = User::where('booking_id', '=', null)->get();
+
+            foreach ($user_infos as $info) {
+                $user_list[] = array(
+                    'name' => $customer->name,
+                    'email' =>  $customer->email,
+                    'phone' => $customer->phone,
+                    'birthday' => $customer->birthday,
+                    'sex' => $customer->sex,
+                    'address' => $customer->address,
+                    'identified_no' => $customer->identified_no,
+                    'title' => $customer->title,
+                );
+            }
+            $user_lists = json_encode($user_list);
+            echo "$user_lists";
+        }
+    }
+
     public function booking($id)
     {
-//        dd(1);
-//        dd(Session::get('user_id'));
         if(Session::get('user_id')==null)
             return redirect()->back()->with('error', 'Bạn vui lòng đăng nhập để thực hiện chức năng đặt phòng');
         else{
@@ -35,6 +150,7 @@ class BookingController extends Controller
 //            dd($room->room_type_id);
             $room_category = RoomCategory::find($room->room_type_id);
             $total_cost = $room->cost;
+            $room_limit = RoomCategory::find($room->room_type_id)->room_limit;
             //tinh tien dich vu
             $services = Service::all();
             $serviceRooms = ServiceRoom::where('room_id', $id)->get();
@@ -52,15 +168,15 @@ class BookingController extends Controller
 //            dd($total_cost);
 
             $user = Auth::guard('admin')->user();
-            return view('customer.rooms.order', compact('user', 'post_categories','serviceRooms','room', 'room_categories', 'room_category', 'total_cost', 'services'));
+            return view('customer.rooms.order', compact('user','room_limit', 'post_categories','serviceRooms','room', 'room_categories', 'room_category', 'total_cost', 'services'));
         }
 
     }
 
     public function store(Request $request)
     {
+//        dd($request);
         $user = Auth::guard('admin')->user();
-
         $booking_check = Booking::where('booking_room_id', '=' , $request->room_id)->exists();
 
         if($booking_check)
@@ -68,31 +184,11 @@ class BookingController extends Controller
             return redirect()->route('customer.rooms.listing', compact('user'))->with('error', 'Phòng đã được đặt, bạn không thể đặt thêm nữa');
         }
         $validated_data = $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'phone' => 'required',
-            'birthday' => 'required',
-            'sex' => 'required',
-            'address' => 'required',
-            'payment_method' => 'required',
-            'title' => 'required',
-            'identified_no' => 'required|string|min:9|max:12'
+            'payment_method' => 'required'
         ]);
 //        dd(1);
 
-        $customer = new User();
-        $customer->name = $validated_data['name'];
-        $customer->email = $validated_data['email'];
-        $customer->phone = $validated_data['phone'];
-        $customer->birthday = date('Y-m-d',strtotime($validated_data['birthday']));
-        $customer->sex = $validated_data['sex'];
-        $customer->address = $validated_data['address'];
-        $customer->title = $validated_data['title'];
-        $customer->identified_no = $validated_data['identified_no'];
-        $customer->room_id = $request->room_id;
-        $customer->save();
 
-//        dd($request->payment_method);
         $images = Image::all();
         $services = Service::all();
         $room = Room::find($request->room_id);
@@ -110,23 +206,25 @@ class BookingController extends Controller
 //dd(1);
             $dataBooking = [
                 'user_id' => $user->id,
-                'user_name' => $validated_data['name'],
-                'user_email' => $validated_data['email'],
-                'user_phone' => $validated_data['phone'],
-                'user_birthday' => date('Y-m-d H:i', strtotime($validated_data['birthday'])),
-                'user_sex' => $validated_data['sex'],
-                'booking_room_id' => $request->room_id,
-                'user_address' => $validated_data['address'],
-                'booking_status' => 'pending',
+                'booking_status' => 'new',
                 'payment_method' => $validated_data['payment_method'],
                 'payment' => 'no',
-                'date'=> now()
-
+                'date'=> now(),
+                'booking_room_id' => $room->id,
             ];
 
             //luu thong tin nguoi dat phong
             $booking = Booking::insert($dataBooking);
             $booking_inserted = Booking::where('booking_room_id', $room->id)->first();
+
+            //luu thong tin nguoi o tro
+            $user_infos = User::where('booking_id', '=', null)->where('booking_people_id', '=', $request->user_booked_id)->get();
+            foreach ($user_infos as $user_info){
+                $customer = User::find($user_info->id);
+                $customer->booking_id = $booking_inserted->id;
+                $customer->save();
+            }
+
             //luu thong tin bookking details
             $booking_detail = new BookingDetail();
             $booking_detail->payment_method = $dataBooking['payment_method'];
@@ -136,6 +234,7 @@ class BookingController extends Controller
             $booking_detail->date = now();
             $booking_detail->booking_status = "pending";
             $booking_detail->save();
+
             if($booking_inserted)
             {
                 $room->status = 1;

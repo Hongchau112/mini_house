@@ -193,19 +193,10 @@
 
                                 </div>
                             </form>
-{{--                            <div class="reviews-wrapper" id="comment-show">--}}
-{{--                                --}}
-{{--                                <!-- review item -->--}}
-{{--                                <div class="media review-item"> <img src="{{asset('boarding_house/img/Review/1.jpg')}}" class="mr-3" alt="...">--}}
-{{--                                    <div class="media-body">--}}
-{{--                                        <h5 class="mt-0">John Doe <span>January 01, 2020 - <a href="">Reply</a></span></h5>--}}
-{{--                                        <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipiscing elit amet consectetur piscing elit amet consectetur adipiscing elit sed et eletum nulla eu placerat felis etiam tincidunt orci lacus id varius dolor fermum sit amet.</p>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                                <!-- review item end -->--}}
-{{--                                <!-- review item -->--}}
-{{--                            </div>--}}
-                            <form>
+
+                            @if($user!=null)
+
+                                <form>
                                 <input type="hidden" name="name" id="cmt-name" value="{{$user->name}}" class="form-control" >
                                 <input type="hidden" name="name" id="cmt-phone" value="{{$user->phone}}"  class="form-control" >
                                 <input type="hidden" name="user_id" id="cmt-user" value="{{$user->id}}"  class="form-control" >
@@ -239,6 +230,9 @@
                                 <button type="button" class="btn-style-1 text-uppercase" id="send-comment">Gửi</button>
                                 <div id="notify"></div>
                             </form>
+                            @else
+                                <p></p>
+                            @endif
                             <!-- reviews end -->
                         </div>
                     </div>
@@ -337,15 +331,16 @@
                 var content = $('#cmt-content').val();
                 var phone = $('#cmt-phone').val();
                 var user_id = $('#cmt-user').val();
+                var rating = $('input[name="rating"]:checked').val();
 
 
                 $.ajax({
                     url: '{{route('customer.rooms.send_comment')}}',
                     type: "POST",
-                    data: {_token:_token, room_id: room_id, name: name, content: content, phone: phone, user_id: user_id},
+                    data: {_token:_token, room_id: room_id, name: name, content: content, phone: phone, user_id: user_id, rating: rating},
 
                     success:function(data){
-                        $('#notify').html('<p style="margin-top: 10px">Thêm bình luận thành công! Đang chờ duyệt nhá</p>');
+                        $('#notify').html('<p style="margin-top: 10px">Thêm bình luận thành công! Đang chờ duyệt.</p>');
                         load_comment();
                         $('#notify').fadeOut(5000);
                         $('.comment-content').val('');

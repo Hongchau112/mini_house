@@ -9,6 +9,7 @@ use App\Models\PostCategory;
 use App\Models\Room;
 use App\Models\RoomCategory;
 use App\Models\Service;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -23,7 +24,10 @@ class PostController extends Controller
         $rooms = Room::all();
         $posts = Post::all();
         $categories = RoomCategory::where('parent_category_id', 0)->get();
-        $post_infos = Post::where('post_type_id', 2)->get();
+        $subdays = Carbon::now()->subDays(7)->toDateString();
+        $now = Carbon::now()->toDateString();
+        $post_infos = Post::whereBetween('created_at',[$subdays, $now])->get();
+//        dd($post_infos);
         $images = Image::all();
         return view('customer.posts.listing', compact('user', 'rooms', 'posts', 'images', 'categories', 'post_infos'));
 
@@ -86,6 +90,8 @@ class PostController extends Controller
 
     public function detail($id)
     {
+        $user = '';
+
         $user = Auth::guard('admin')->user();
 
         $post = Post::find($id);
@@ -93,7 +99,7 @@ class PostController extends Controller
         $rooms = Room::all();
         $room_categories = RoomCategory::all();
         $post_categories = PostCategory::all();
-        $post_infos = Post::where('post_type_id', 2)->get();
+        $post_infos = Post::where('post_type_id', $post->post_type_id)->get();
         return view('customer.posts.detail', compact('rooms', 'post_categories','images', 'post', 'room_categories', 'user', 'post_infos'));
 
     }
@@ -185,7 +191,11 @@ class PostController extends Controller
         $images = Image::all();
         $services = Service::all();
         $user = Auth::guard('admin')->user();
-        return view('customer.posts.post_category', compact('user', 'room_categories','services', 'post_categories','posts' , 'images', 'post_selected', 'category'));
+        $subdays = Carbon::now()->subDays(7)->toDateString();
+        $now = Carbon::now()->toDateString();
+        $post_infos = Post::whereBetween('created_at',[$subdays, $now])->get();
+//        dd($post_infos);
+        return view('customer.posts.post_category', compact('user', 'post_infos', 'room_categories','services', 'post_categories','posts' , 'images', 'post_selected', 'category'));
 
     }
 

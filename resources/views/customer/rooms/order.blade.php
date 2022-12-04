@@ -3,69 +3,126 @@
 ])
 
 @section('content')
-    <div class="detail-page pt-70 pb-40">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-md-8 mb-30">
-                    <h3>Thông tin người đặt phòng trọ</h3>
-                    <br>
-                    <form class="form-style-1" action="{{route('customer.booking.store')}}" method="post">
-                        @csrf
-                        <div class="row">
-                            <div class="col-lg-4">
-                                <div class="form-group">
-                                    <label>Họ và tên<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" value="{{$user->name}}" name="name" id="name">
-                                    <span class="text-danger">@error('name'){{$message}}@enderror</span>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="form-group">
-                                    <label>Số điện thoại<span class="text-danger">*</span></label>
-                                    <input type="text" name="phone" value="{{$user->phone}}" id="phone" class="form-control">
-                                    <span class="text-danger" id="phone_error">@error('phone'){{$message}}@enderror</span>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="form-group">
-                                    <label>CCCD/CMND<span class="text-danger">*</span></label>
-                                    <input type="text" name="identified_no" id="identified_no" class="form-control">
-                                    <span class="text-danger" id="ident_error">@error('identified_no'){{$message}}@enderror</span>
-                                </div>
-                            </div>
+    @if (session('error'))
+        <div class="alert alert-danger" id="error">
+            {{ session('error') }}
+        </div>
+    @endif
+    @if (session('success'))
+        <div class="alert alert-success" id="success">
+            {{ session('success') }}
+        </div>
+    @endif
+    <style>
+
+        .radios {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .radios:after {
+            content: "";
+            clear: both;
+        }
+
+        .radio {
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            float: left;
+            height: 70px;
+            position: relative;
+            width: 120px;
+        }
+
+        .radio label {
+            background: #fff no-repeat center center;
+            bottom: 1px;
+            cursor: pointer;
+            display: block;
+            font-size: 0;
+            left: 1px;
+            position: absolute;
+            right: 1px;
+            text-indent: 100%;
+            top: 1px;
+            white-space: nowrap;
+        }
+
+        .radio + .radio {
+            margin-left: 25px;
+        }
+
+        .pagseguro label {
+            background-image: url(https://dl.dropbox.com/s/yvzrr9o54s2llkr/uol.png);
+        }
+
+        .paypal label {
+            background-image: url(https://dl.dropbox.com/s/i4z39zy2mtb7xq1/paypal.png);
+        }
+
+        .bankslip label {
+            background-image: url(https://dl.dropbox.com/s/myj41602bom0g8p/bankslip.png);
+        }
+
+        .radios input:focus + label {
+            outline: 2px dotted #21b4d0;
+        }
+
+        .radios input:checked + label {
+            outline: 4px solid #21b4d0;
+        }
+
+        .radios input:checked + label:after {
+            background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8dGl0bGU+Y2hlY2tlZDwvdGl0bGU+CiAgICA8ZyBpZD0iUGFnZS0xIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgICAgICA8ZyBpZD0iY2hlY2tlZCIgZmlsbC1ydWxlPSJub256ZXJvIj4KICAgICAgICAgICAgPHBhdGggZD0iTTEwLjAwNDkyODUsMjAgQzE1LjQ5NTMxNzksMjAgMjAsMTUuNDkzMDk2NiAyMCwxMCBDMjAsNC40OTcwNDE0MiAxNS40OTUzMTc5LDAgOS45OTUwNzE0NiwwIEM0LjUwNDY4MjExLDAgMCw0LjQ5NzA0MTQyIDAsMTAgQzAsMTUuNDkzMDk2NiA0LjUwNDY4MjExLDIwIDEwLjAwNDkyODUsMjAgWiIgZmlsbD0iIzIxQjREMCI+PC9wYXRoPgogICAgICAgICAgICA8cGF0aCBkPSJNOS4wNDQ0MDE1NCwxNiBDOC41OTA3MzM1OSwxNiA4LjIzMzU5MDczLDE1Ljc3NDM1OSA3Ljk1MzY2Nzk1LDE1LjQyNTY0MSBMNS4zMzc4Mzc4NCwxMi4xNjQxMDI2IEM1LjA5NjUyNTEsMTEuODc2OTIzMSA1LDExLjYxMDI1NjQgNSwxMS4yOTIzMDc3IEM1LDEwLjYyNTY0MSA1LjUzMDg4ODAzLDEwLjA5MjMwNzcgNi4xNDg2NDg2NSwxMC4wOTIzMDc3IEM2LjUwNTc5MTUxLDEwLjA5MjMwNzcgNi43ODU3MTQyOSwxMC4yNTY0MTAzIDcuMDM2Njc5NTQsMTAuNTUzODQ2MiBMOS4wMjUwOTY1MywxMy4wNTY0MTAzIEwxMi44MTg1MzI4LDYuNjg3MTc5NDkgQzEzLjA5ODQ1NTYsNi4yMzU4OTc0NCAxMy40MTY5ODg0LDYgMTMuODMyMDQ2Myw2IEMxNC40NDAxNTQ0LDYgMTUsNi40ODIwNTEyOCAxNSw3LjE0ODcxNzk1IEMxNSw3LjQwNTEyODIxIDE0LjkwMzQ3NDksNy42OTIzMDc2OSAxNC43MzkzODIyLDcuOTU4OTc0MzYgTDEwLjEyNTQ4MjYsMTUuMzY0MTAyNiBDOS44NjQ4NjQ4NiwxNS43NTM4NDYyIDkuNDY5MTExOTcsMTYgOS4wNDQ0MDE1NCwxNiBaIiBpZD0iUGF0aCIgZmlsbD0iI0ZGRkZGRiI+PC9wYXRoPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+);
+            bottom: -10px;
+            content: "";
+            display: inline-block;
+            height: 20px;
+            position: absolute;
+            right: -10px;
+            width: 20px;
+        }
+
+        @-moz-document url-prefix() {
+            .radios input:checked + label:after {
+                bottom: 0;
+                right: 0;
+                background-color: #21b4d0;
+            }
+        }
+    </style>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="add_user">
+                        <div class="form-group">
+                            <label>Họ và tên<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="name" id="name">
+                            <span class="text-danger">@error('name'){{$message}}@enderror</span>
+                        </div>
+                        <div class="form-group">
+                            <label>Số điện thoại<span class="text-danger">*</span></label>
+                            <input type="text" name="phone" id="phone" class="form-control">
+                            <span class="text-danger" id="phone_error">@error('phone'){{$message}}@enderror</span>
+                        </div>
+                        <div class="form-group">
+                            <label>Email<span class="text-danger">*</span></label>
+                            <input type="email" name="email" id="email" class="form-control">
+                            <span class="text-danger">@error('email'){{$message}}@enderror</span>
                         </div>
                         <div class="row">
-                            <div class="col-lg-4">
-                                <div class="form-group">
-                                    <label>Giới tính<span class="text-danger">*</span></label>
-                                    <select class="form-control" name="sex">
-                                        <option value="0">- Chọn -</option>
-                                        <option value="male">Nam</option>
-                                        <option value="female">Nữ</option>
-                                        <option value="other">Khác</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="form-group">
-                                    <label>Email<span class="text-danger">*</span></label>
-                                    <input type="email" name="email" value="{{$user->email}}" class="form-control">
-                                    <span class="text-danger">@error('email'){{$message}}@enderror</span>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="form-group">
-                                    <label>Ngày sinh<span class="text-danger">*</span></label>
-                                    <input name="birthday" type="text" id="datepickerdob" class="form-control">
-                                    <span class="text-danger">@error('birthday'){{$message}}@enderror</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-4">
+                            <div class="col-lg-6">
                                 <div class="form-group">
                                     <label>Nghề nghiệp<span class="text-danger">*</span></label>
-                                    <select class="form-control" name="title">
+                                    <select class="form-control" name="title" id="title">
                                         <option value="0">- Chọn -</option>
                                         <option value="student">Sinh viên</option>
                                         <option value="adult">Người đi làm</option>
@@ -76,14 +133,98 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label>Địa chỉ<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="address">
-                                    <span class="text-danger">@error('address'){{$message}}@enderror</span>
+                                    <label>CCCD/CMND<span class="text-danger">*</span></label>
+                                    <input type="text" name="identified_no" id="identified_no" class="form-control">
+                                    <span class="text-danger" id="ident_error">@error('identified_no'){{$message}}@enderror</span>
                                 </div>
                             </div>
                         </div>
+
+
+
+
                         <div class="row">
-                            <h4>Chọn phương thức thanh toán</h4>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>Ngày sinh <span class="text-danger">*</span></label>
+                                    <input name="birthday" type="date" id="birthday" class="form-control">
+                                    <span class="text-danger">@error('birthday'){{$message}}@enderror</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>Giới tính<span class="text-danger">*</span></label>
+                                    <select class="form-control" name="sex" id="sex">
+                                        <option value="0">- Chọn -</option>
+                                        <option value="male">Nam</option>
+                                        <option value="female">Nữ</option>
+                                        <option value="other">Khác</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" value="{{$room_limit}}" id="room_limit" name="room_limit">
+                            <input type="hidden" value="{{$user->id}}" id="user_id" name="user_id">
+
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+
+                            <label>Địa chỉ<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="address" name="address">
+                            <span class="text-danger">@error('address'){{$message}}@enderror</span>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary" id="submitBtn">Thêm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="detail-page pt-70 pb-40">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-8 mb-30">
+                    <h3>Thông tin người đặt phòng trọ</h3>
+                    <br>
+                    <form class="form-style-1" action="{{route('customer.booking.store')}}" method="post">
+                        @csrf
+                        <div class="col-md-12" id="show_user">
+
+
+                        </div>
+
+                        <br>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <button type="button" id="addUserBtn" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Thêm người ở</button>
+                            </div>
+                        </div>
+                        <br>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <h4>Chọn phương thức thanh toán</h4>
+                                </div>
+
+                            </div>
+{{--                            <div class="row">--}}
+{{--                                <div class="col-md-6">--}}
+{{--                                    <ul class="radios">--}}
+{{--                                        <li class="radio paypal">--}}
+{{--                                            <input type="radio" name="radio" id="paypal" value="free"><label class="free-label four col" for="paypal">Free</label>--}}
+{{--                                        </li>--}}
+
+{{--                                        <br>--}}
+{{--                                        <li class="radio bankslip">--}}
+{{--                                            <input type="radio" name="radio" id="bankslip" value="basic" checked><label class="basic-label four col" for="bankslip">Basic</label>--}}
+{{--                                        </li>--}}
+{{--                                    </ul>--}}
+
+{{--                                </div>--}}
+{{--                            </div>--}}
                             <br><br>
                             <div class="col-lg-12">
                                 <div class="form-check">
@@ -109,8 +250,10 @@
 
                         <input type="hidden" name="room_id" value="{{$room->id}}">
                         <input type="hidden" name="total_cost" value="{{$total_cost}}">
+                        <input type="hidden" id="user_booked_id" name="user_booked_id" value="{{$user->id}}">
                         <button type="submit" class="btn-style-1">Tiếp tục với thanh toán</button>
                     </form>
+
                 </div>
                 <div class="col-lg-4 col-md-4">
                     <style>
@@ -168,17 +311,85 @@
 @endsection
 @push('footer')
     <script type="text/javascript">
+        load_user();
+        function load_user(){
+            var room_id=$('#room_id').val();
+            var _token = $('input[name="_token"]').val();
+            var user_id = $('#user_id').val();
+            // alert(post_id);
+            $.ajax({
+                url: '{{route('customer.load_user')}}',
+                type: "POST",
+                data: {_token:_token, room_id: room_id, user_id: user_id},
+
+                success:function(data){
+                    // console.log(data)
+                    $('#show_user').html(data);
+                }
+            });
+
+        }
         function validation()
         {
             var email = document.getElementById('email');
             var ident = document.getElementById('identified_no');
 
-            var reg = /{9,12};
+            // var reg = /{9,12};
             if (reg.test(ident)==false)
             {
                 document.getElementById('ident_error').innerHTML= "Lỗi";
             }
         }
+
+
+        $('#exampleModal').on('show.bs.modal', function (event) {
+            preventDefault();
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var recipient = button.data('whatever') // Extract info from data-* attributes
+            var modal = $(this)
+            modal.find('.modal-title').text('New message to ' + recipient)
+            modal.find('.modal-body input').val(recipient)
+        })
+        var limit = {{ $room_category->room_limit }};
+
+        if (limit <= 0){
+            document.querySelector('#addUserBtn').disabled = true;
+        }
+
+
+        $('#submitBtn').click(function(){
+            if (limit <= 0){
+                document.querySelector('#addUserBtn').disabled = true;
+            }
+            //get data from customer form
+            var user_id = $('#user_id').val();
+            var name = $('#name').val();
+            var email = $('#email').val();
+            var address = $('#address').val();
+            var birthday = $('#birthday').val();
+            var phone = $('#phone').val();
+            var identified_no = $('#identified_no').val();
+            var title = $('#title :checked').val();
+            var sex = $('#sex :checked').val();
+            var _token = $('input[name="_token"]').val();
+            var room_limit = $('#room_limit').val();
+
+            $.ajax({
+                type: 'POST',
+                url: '{{route('customer.customer_order')}}',
+                data: {_token: _token, room_limit: room_limit,user_id: user_id,name: name, email: email, address: address, birthday: birthday, phone: phone, identified_no: identified_no, title: title, sex: sex},
+                success: function (response){
+                    // $('#exampleModal').modal("hide");
+                    // console.log(response);
+                    // $('#show_user').html(response);
+                    $('#add_user').trigger("reset");
+                    load_user();
+                    limit--
+                }
+            })
+
+
+        })
 
 
     </script>
