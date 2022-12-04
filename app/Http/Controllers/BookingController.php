@@ -318,6 +318,17 @@ class BookingController extends Controller
         else{
             $booking_detail->vnp_code ='error';
             $booking_detail->save();
+            Booking::where('id', $booking_id)->delete();
+            BookingDetail::where('booking_id', $booking_id)->delete();
+            $customers = User::where('booking_id', $booking_id)->get();
+
+            //
+            $room->status =0;
+            $room->save();
+            foreach ($customers as $customer)
+            {
+                User::where('id', $customer->id)->delete();
+            }
             return redirect()->route('customer.rooms.listing')->with('error', 'Có lỗi khi thanh toán, vui lòng thực hiện lại sau');
         }
 

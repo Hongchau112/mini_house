@@ -341,6 +341,8 @@
 
                     success:function(data){
                         $('#notify').html('<p style="margin-top: 10px">Thêm bình luận thành công! Đang chờ duyệt.</p>');
+                        $('#cmt-content').trigger("reset");
+
                         load_comment();
                         $('#notify').fadeOut(5000);
                         $('.comment-content').val('');

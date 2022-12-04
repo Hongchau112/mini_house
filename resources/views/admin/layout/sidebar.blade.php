@@ -21,58 +21,64 @@
                         <li class="nk-menu-heading">
                             <h6 class="overline-title text-primary-alt">Applications</h6>
                         </li><!-- .nk-menu-heading -->
-                        <li class="nk-menu-item has-sub">
-                            <a href="{{route('admin.index')}}" class="nk-menu-link">
-                                <span class="nk-menu-icon"><em class="icon ni ni-users"></em></span>
+{{--                        <li class="nk-menu-item">--}}
+{{--                            <a href="{{route('admin.index')}}" class="nk-menu-link">--}}
+{{--                                <span class="nk-menu-icon"><em class="icon ni ni-users"></em></span>--}}
+{{--                                <span class="nk-menu-text">Quản lý tài khoản</span>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+                        <li class="nk-menu-item {{request()->segment(2) == 'users' ? 'active current-page' : ''}}">
+                            <a href="{{route('admin.users.index')}}" class="nk-menu-link">
+                                <span class="nk-menu-icon"><em class="icon ni ni-sign-btc-alt"></em></span>
                                 <span class="nk-menu-text">Quản lý tài khoản</span>
                             </a>
-                        </li>
-                        <li class="nk-menu-item">
+                        </li><!-- .nk-menu-item -->
+                        <li class="nk-menu-item {{request()->segment(2) == 'room_categories' ? 'active current-page' : ''}}">
                             <a href="{{route('admin.room_categories.index')}}" class="nk-menu-link">
                                 <span class="nk-menu-icon"><em class="icon ni ni-sign-btc-alt"></em></span>
                                 <span class="nk-menu-text">Danh mục</span>
                             </a>
                         </li><!-- .nk-menu-item -->
-                        <li class="nk-menu-item has-sub">
+                        <li class="nk-menu-item has-sub {{request()->segment(2) == 'rooms' ? 'active current-page' : ''}}">
                             <a href="{{route('admin.rooms.index')}}" class="nk-menu-link nk-menu-toggle">
                                 <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
                                 <span class="nk-menu-text">Danh sách phòng</span>
                             </a>
-                            <ul class="nk-menu-sub">
+                            <ul class="nk-menu-sub {{request()->segment(2) == 'rooms' ? 'active current-page' : ''}}" >
                                 <li class="nk-menu-item">
                                     <a href="{{route('admin.rooms.index')}}" class="nk-menu-link"><span class="nk-menu-text">Danh sách</span></a>
                                 </li>
-                                <li class="nk-menu-item">
+                                <li class="nk-menu-item {{request()->segment(2) == 'rooms' ? 'active current-page' : ''}}">
                                     <a href="{{route('admin.rooms.card')}}" class="nk-menu-link"><span class="nk-menu-text">Thư viện</span></a>
                                 </li>
                             </ul><!-- .nk-menu-sub -->
                         </li><!-- .nk-menu-item -->
-                        <li class="nk-menu-item">
+                        <li class="nk-menu-item {{request()->segment(2) == 'post_categories' ? 'active current-page' : ''}}">
                             <a href="{{route('admin.post_categories.index')}}" class="nk-menu-link">
                                 <span class="nk-menu-icon"><em class="icon ni ni-sign-btc-alt"></em></span>
                                 <span class="nk-menu-text">Danh mục bài đăng</span>
                             </a>
                         </li><!-- .nk-menu-item -->
-                        <li class="nk-menu-item">
+                        <li class="nk-menu-item {{request()->segment(2) == 'posts' ? 'active current-page' : ''}}">
                             <a href="{{route('admin.posts.index')}}" class="nk-menu-link">
                                 <span class="nk-menu-icon"><em class="icon ni ni-sign-btc-alt"></em></span>
                                 <span class="nk-menu-text">Bài đăng</span>
                             </a>
                         </li><!-- .nk-menu-item -->
 
-                        <li class="nk-menu-item">
+                        <li class="nk-menu-item {{request()->segment(2) == 'comments' ? 'active current-page' : ''}}">
                             <a href="{{route('admin.comments.index')}}" class="nk-menu-link">
                                 <span class="nk-menu-icon"><em class="icon ni ni-sign-btc-alt"></em></span>
                                 <span class="nk-menu-text">Bình luận</span>
                             </a>
                         </li><!-- .nk-menu-item -->
-                        <li class="nk-menu-item">
+                        <li class="nk-menu-item {{request()->segment(2) == 'transactions' ? 'active current-page' : ''}}">
                             <a href="{{route('admin.transactions.index')}}" class="nk-menu-link">
                                 <span class="nk-menu-icon"><em class="icon ni ni-sign-btc-alt"></em></span>
                                 <span class="nk-menu-text">Đặt phòng</span>
                             </a>
                         </li><!-- .nk-menu-item -->
-                        <li class="nk-menu-item">
+                        <li class="nk-menu-item {{request()->segment(2) == 'dashboard' ? 'active current-page' : ''}}">
                             <a href="{{route('admin.dashboard.index')}}" class="nk-menu-link">
                                 <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
                                 <span class="nk-menu-text">Thống kê</span>

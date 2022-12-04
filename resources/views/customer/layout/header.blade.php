@@ -1,3 +1,8 @@
+<style>
+    li:hover{
+        background-color: #a6f1b5;
+    }
+</style>
 <header class="header">
     <!-- header upper -->
     <div class="header-upper-bar">
@@ -156,14 +161,17 @@
     <div class="header-lover">
         <div class="container">
             <div class="row align-items-center">
-                <div class="col-lg-3 col-md-12">
+                <div class="col-lg-3 col-md-12" style="position: relative">
                     <!-- brand -->
-                    <form class="search-form mb-50" method="POST" action="{{route('customer.search')}}">
+                    <form class="" method="POST" action="{{route('customer.search')}}">
                         @csrf
-                        <div class="logo"><input id="key-submit" name="key-submit" class="form-control" placeholder="Tìm kiếm..." value="">
-                        <button class="search-submit"><i class="fas fa-search"></i></button>
+                        <div style="position: relative;">
+                            <div class="logo" style="display: flex;">
+                                <input id="key-submit" name="key-submit" class="form-control" placeholder="Tìm kiếm..." value="">
+                                <button class="btn btn-success"><i class="fas fa-search"></i></button>
+                            </div>
+                            <div id="search-ajax" style="position: absolute;z-index: 100"></div>
                         </div>
-                        <div id="search-ajax"></div>
                     </form>
 {{--                    <div class="logo"><a class="navbar-brand p-0" href="index.html"><img src="{{asset('boarding_house/img/logo.png')}}" alt=""></a></div>--}}
                     <!-- brand end -->

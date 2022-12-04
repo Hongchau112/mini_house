@@ -68,7 +68,6 @@ class PostController extends Controller
             'title' => 'required',
             'content' => 'required',
             'post_type_id' => 'required',
-            'image' => 'required'
 
         ]);
         $post = Post::find($id);

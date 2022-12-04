@@ -70,6 +70,7 @@ class AdminController extends Controller
         return view('admin.users.index', compact('user_lists', 'user'));
     }
 
+
     public function create()
     {
         $user = Auth::guard('admin')->user();

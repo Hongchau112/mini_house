@@ -167,8 +167,6 @@
                             <input type="hidden" value="{{$room_limit}}" id="room_limit" name="room_limit">
                             <input type="hidden" value="{{$user->id}}" id="user_id" name="user_id">
 
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-
                             <label>Địa chỉ<span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="address" name="address">
                             <span class="text-danger">@error('address'){{$message}}@enderror</span>
@@ -177,7 +175,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                    <button type="button" class="btn btn-primary" id="submitBtn">Thêm</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="submitBtn">Thêm</button>
                 </div>
             </div>
         </div>
@@ -352,10 +350,6 @@
         })
         var limit = {{ $room_category->room_limit }};
 
-        if (limit <= 0){
-            document.querySelector('#addUserBtn').disabled = true;
-        }
-
 
         $('#submitBtn').click(function(){
             if (limit <= 0){
@@ -381,10 +375,17 @@
                 success: function (response){
                     // $('#exampleModal').modal("hide");
                     // console.log(response);
+                    // document.getElementById('#addUserBtn').classList.add('close');
+                    var element = document.getElementById('addUserBtn');
+                    // console.log(element);
+                    element.classList.add('.close');
                     // $('#show_user').html(response);
                     $('#add_user').trigger("reset");
                     load_user();
-                    limit--
+                    limit--;
+                    if (limit <= 0){
+                        document.querySelector('#addUserBtn').disabled = true;
+                    }
                 }
             })
 

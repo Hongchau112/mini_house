@@ -17,7 +17,7 @@ class UserController extends Controller
     public function index()
     {
         $user = Auth::guard('admin')->user();
-        $user_lists = Admin::with('roles')->orderBy('id', 'DESC')->paginate(10);
+        $user_lists = Admin::paginate(10);
         return view('admin.users.index', compact('user_lists', 'user'));
     }
 

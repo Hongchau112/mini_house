@@ -38,24 +38,6 @@
                                                 <ul class="list-inline select-all mb-10">
                                                     <li class="list-inline-item">Danh sách gồm {{count($rooms)}} phòng trọ</li>
                                                 </ul>
-{{--                                                <div class="table-responsive">--}}
-{{--                                                    <table class="table table-bordered bg-gray w-100 border-0">--}}
-{{--                                                        <tr>--}}
-{{--                                                            <td>Check In</td>--}}
-{{--                                                            <td>Jan 01, 2020 Wed</td>--}}
-{{--                                                        </tr>--}}
-{{--                                                        <tr>--}}
-{{--                                                            <td>Check Out</td>--}}
-{{--                                                            <td>Jan 01, 2020 Fri</td>--}}
-{{--                                                        </tr>--}}
-{{--                                                        <tr>--}}
-{{--                                                            <td>Room 1</td>--}}
-{{--                                                            <td>1  Adult(s)</td>--}}
-{{--                                                        </tr>--}}
-{{--                                                    </table>--}}
-{{--                                                </div>--}}
-{{--                                                <button type="button" class="btn-style-1" data-toggle="modal" data-target="#modify-search-Modal"><i class="fas fa-search"></i> Modify Search </button>--}}
-{{--                                            </div>--}}
                                         </div>
                                     </div>
                                 </div>
@@ -159,7 +141,40 @@
                                 <div class="list-box-title">
                                     <h3>{{$room->name}}<span>{{number_format($room->cost)}} VND<em></em></span></h3>
                                 </div>
-{{--                                <div class="list-box-rating"> <span class="at-stars"> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="far fa-star"></i> </span> <em>1000 review</em> </div>--}}
+                                @php
+                                    $sum_ratings=0;
+                                    $avarage_rating=0;
+                                    $sum =0;
+                                    $ratings = \App\Models\Comment::where('room_id', $room->id)->where('status',1)->where('rating','!=',null)->get();
+                                    $sum_ratings = count($ratings);
+                                    if ($sum_ratings==0){
+                                        $avarage_rating=0;
+                                    }
+                                    else{
+                                         foreach ($ratings as $rating)
+                                         {
+                                            $sum+=$rating->rating;
+                                         }
+                                         $avarage_rating = ($sum)/($sum_ratings);
+                                    }
+                                @endphp
+                                @if($avarage_rating==0)
+                                    <div class="list-box-rating"> <span class="at-stars">
+                                            <i class="far fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                    </span> <em>Chưa có đánh giá</em>
+                                    </div>
+                                @else
+                                    <div class="list-box-rating"> <span class="at-stars">
+                                            @for($i=0;$i<$avarage_rating;$i++)
+                                                <i class="fas fa-star"></i>
+                                            @endfor
+                                        </span> <em>{{$sum_ratings}} đánh giá</em>
+                                    </div>
+                                @endif
                                 <ul class="hotel-featured">
                                     <p>{{$room->short_intro}}</p>
                                         <li>

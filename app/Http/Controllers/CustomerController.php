@@ -272,11 +272,11 @@ class CustomerController extends Controller
         $images = Image::all();
 //        dd($data);
         $rooms = Room::where('name', 'LIKE', '%' .$data['search'].'%')->orWhere('cost', 'LIKE', '%' .$data['search'].'%')->get();
-        $output = '<ul class="dropdown-menu" style="display: block; position: relative; ">';
+        $output = '<ul class="dropdown-search">';
         foreach ($rooms as $room)
         {
             $output.='
-            <li style="padding: 5px; width: 300px; color: black; border: #0a0f18" class="list-group-item search_room_ajax"><a href ="/customer/rooms/details/'.$room->id.'">'.$room->name.'</a>
+            <li style="padding: 11px; width: 256px; font-size: 14px; color: black; border-bottom: 1px solid black;" class="list-group-item search_room_ajax"><a style="color: black;" href ="/customer/rooms/details/'.$room->id.'">'.$room->name.'</a>
             </li>';
         }
          $output.= '</ul>';

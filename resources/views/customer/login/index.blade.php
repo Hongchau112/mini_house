@@ -181,7 +181,7 @@
                 <div class="col-lg-4 col-md-6 mb-30">
                     <!-- blog box -->
                     <div class="blog-box shadow">
-                        <div class="blog_img mb-20"><img src="{{asset('/images/'.$post->image)}}" width="320px" height="250px" alt=""></div>
+                        <div class="blog_img mb-20"><img src="{{asset('/images/posts/'.$post->image)}}" width="320px" height="250px" alt=""></div>
                         <div class="blog-des">
                             <h6 class="blog_date font-weight-normal text-muted"><span>Thông tin</span> {{$post->created_at}}</h6>
                             <h5 class="mt-10 mb-6"><a href="{{route('customer.posts.details', ['id'=>$post->id])}}" class="text-dark">{{$post->title}}</a></h5>
