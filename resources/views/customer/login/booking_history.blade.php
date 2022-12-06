@@ -12,7 +12,7 @@
             {{ session('success') }}
         </div>
     @endif
-    <table class="table table-hover" style="width: 80%;margin-left: 170px;">
+    <table class="table table-hover" style="width: 80%; margin: 10px 0 200px 170px;">
         <thead>
         <tr>
             <th scope="col">STT</th>
@@ -35,10 +35,8 @@
                     @endif
                 @endforeach
                     <td>{{$get_booking->date}}</td>
-                @if($get_booking->booking_status=='pending')
-                    <td style="color: green;">Đang xử lý</td>
-                @elseif($get_booking->booking_status=='new')
-                    <td style="color: green;">Mới</td>
+                @if(($get_booking->booking_status=='pending') or ($get_booking->booking_status=='new'))
+                    <td> <span  class="btn btn-warning" style="color: white; font-size: 12px">Đang xử lý</span></td>
                 @elseif($get_booking->booking_status=='cancel')
                     <td style="color: green;">Đã hủy</td>
                 @elseif($get_booking->booking_status=='success')
@@ -46,8 +44,8 @@
                 @endif
                 <td><button class="btn btn-success" style="font-size: 12px;"><a href="{{route('customer.booking_details', ['id'=> $get_booking->id])}}" style="    color: white;
     font-weight: bold;">Xem chi tiết</a></button>
-                    @if($get_booking->booking_status=='pending')
-                        <button><a href="{{route('customer.cancel_booking', ['id'=>$get_booking->id])}}">Hủy</a></button>
+                    @if(($get_booking->booking_status=='pending') or ($get_booking->booking_status=='new'))
+                        <button class="btn btn-danger" style="font-size: 12px;" ><a style="color: white" href="{{route('customer.cancel_booking', ['id'=>$get_booking->id])}}">Hủy</a></button>
                     @endif
                 </td>
 

@@ -6,7 +6,7 @@
             </div>
             <div class="nk-header-brand d-xl-none">
                 <a href="#" class="logo-link">
-                    <img src="{{ asset('/dashlite/images/logo.png') }}" >
+                    <img src="{{ asset('/boarding_house/img/logo.png') }}" >
                 </a>
             </div><!-- .nk-header-brand -->
             <div class="nk-header-news d-none d-xl-block">
@@ -16,7 +16,7 @@
                             <em class="icon ni ni-card-view"></em>
                         </div>
                         <div class="nk-news-text">
-                            <p>Chào mừng bạn đến với nhà trọ CHOUCHOU</p>
+                            <p>Chào mừng bạn đến với nhatrogiatot</p>
                             <em class="icon ni ni-external"></em>
                         </div>
                     </a>

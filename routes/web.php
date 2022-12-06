@@ -148,9 +148,10 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     Route::get('admin/transaction/key_search', [TransactionController::class, 'key_search'])->name('transactions.key_search');
     Route::get('admin/transaction/payment_search', [TransactionController::class, 'payment_search'])->name('transactions.payment_search');
     Route::get('admin/transaction/mail_reminder', [TransactionController::class, 'mail_reminder'])->name('transactions.mail_reminder');
+    Route::get('admin/transaction/cancel_booking/{id}', [TransactionController::class, 'cancel_booking'])->name('cancel_booking');
 
     ////dashboard
-    Route::post('admin/dashboard/statistic_order', [DashboardController::class, 'statistic_order'])->name('dashboard.statistic_order');
+    Route::get('admin/dashboard/statistic_order', [DashboardController::class, 'statistic_order'])->name('dashboard.statistic_order');
     Route::get('admin/dashboard/index', [DashboardController::class, 'index'])->name('dashboard.index');
 //    Route::post('admin/dashboard/statistic_order', [DashboardController::class, 'statistic_order'])->name('dashboard.statistic_order');
 

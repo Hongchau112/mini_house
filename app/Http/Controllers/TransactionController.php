@@ -13,6 +13,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
 class TransactionController extends Controller
@@ -31,14 +32,14 @@ class TransactionController extends Controller
     {
         $user = Auth::guard('admin')->user();
         $booking = Booking::find($id);
-        $customer = User::where('booking_id', $booking->id)->get();
+        $customers = User::where('booking_id', $booking->id)->get();
         $user_booked = Admin::where('id', $booking->user_id)->get()->first();
         $room = Room::find($booking->booking_room_id);
         $booking_detail = BookingDetail::where('booking_id', $booking->id)->get()->first();
         $image = Image::where('room_id', $room->id)->get()->first();
         $room_category = RoomCategory::where('id', $room->room_type_id)->get()->first();
 //        return view('admin.transaction.show_details', compact('customer', 'user','booking', 'user_booked', 'booking_detail'));
-        return view('admin.transaction.show_details', compact('user','room_category', 'image','booking', 'room','user_booked', 'booking_detail', 'customer'));
+        return view('admin.transaction.booking_details', compact('user','customers','room_category', 'image','booking', 'room','user_booked', 'booking_detail'));
 
     }
 
@@ -75,6 +76,34 @@ class TransactionController extends Controller
 
     }
 
+    public function cancel_booking($id){
+        $booking=Booking::find($id);
+        $booked_user = Admin::where('id', $booking->user_id)->get()->first();
+        $booked_email = $booked_user->email;
+        $booking->booking_status = 'cancel';
+        $booking->save();
+        $booking_detail = BookingDetail::where('booking_id', $booking->id)->get()->first();
+        $booking_detail->booking_status ='cancel';
+        $booking_detail->save();
+        $title_mail = 'Hủy đặt phòng';
+        $room = Room::where('id', $booking->booking_room_id)->get()->first();
+        $room->status=0;
+        $room->save();
+        User::where('booking_id', $booking->id)->delete();
+        Mail::send('admin.transaction.cancel_booking',
+            ['room_name' => $room->name,
+                'date_booking' => $booking->date,
+                'user_name' => $booked_user->name,
+                'cost' => $booking_detail->total_cost,
+                'date_cancel' => Carbon::now()],
+            function ($message) use ($title_mail, $booked_email){
+                $message->to($booked_email)->subject($title_mail);
+                $message->from($booked_email, $title_mail);
+            });
+        return redirect()->back()->with('success', 'Cập nhật trạng thái thành công!');
+
+    }
+
     public function customer_profile($id)
     {
         $user = Auth::guard('admin')->user();
@@ -90,6 +119,7 @@ class TransactionController extends Controller
         $users = Admin::all();
 //        dd($search);
         $bookings = Booking::where('user_name', 'LIKE', '%' . $search . '%')->orWhere('user_phone','LIKE', '%' . $search . '%')->orWhere('date','LIKE', '%' . $search . '%')->get();
+
         if (count($bookings)>0)
 
             return view('admin.transaction.search', compact('bookings', 'user', 'users', 'booking_details'));
@@ -136,13 +166,13 @@ class TransactionController extends Controller
         {
             foreach ($customers as $cus)
                 {
-                    $remind_date = (Carbon::parse($booking->date))->addDay(8)->toDateString();
+                    $remind_date = (Carbon::parse($booking->date))->addDay(4)->toDateString();
 
                     if(($booking->user_id==$cus->id) && ($remind_date=$now))
                     {
                         $booking_detail = BookingDetail::where('booking_id', $booking->id)->get()->first();
                         $data['email'][] =  $cus->email;
-                        $date_expired = (Carbon::parse($booking->date))->addDay(10)->toDateString();
+                        $date_expired = (Carbon::parse($booking->date))->addDay(5)->toDateString();
                         $room_name = Room::find($booking->booking_room_id)->name;
                         $user_name = $cus->name;
                         $cost = $booking_detail->total_cost;
@@ -159,6 +189,6 @@ class TransactionController extends Controller
                     }
                 }
         }
-        return redirect()->back()->with('message', 'Gửi email thành công!');
+        return redirect()->back()->with('success', 'Gửi email thành công!');
     }
 }

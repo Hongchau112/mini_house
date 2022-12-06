@@ -11,29 +11,48 @@
                         @endphp
                     @endif
                 @endforeach
-                    <figure class="item"> <img src="{{asset('/images/'.$image_path)}}" width="300px" height="207px" alt="img description"> </figure>
+                    <figure class="item"> <img src="{{asset('/images/'.$image_path)}}" width="300px" height="260px" alt="img description"> </figure>
             </div>
             <div class="list-box-content">
                 <div class="list-box-title">
-                    <h3>Phòng {{$room->name}}<span>{{number_format($room->cost)}} VND<em></em></span></h3>
+                    <h3>{{$room->name}}<span>{{number_format($room->cost)}} VND<em></em></span></h3>
                 </div>
-                <div class="list-box-rating"> <span class="at-stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="far fa-star"></i>
-                    </span> <em>1000 review</em> </div>
+                @php
+                    $sum_ratings=0;
+                    $avarage_rating=0;
+                    $sum =0;
+                    $ratings = \App\Models\Comment::where('room_id', $room->id)->where('status',1)->where('rating','!=',null)->get();
+                    $sum_ratings = count($ratings);
+                    if ($sum_ratings==0){
+                        $avarage_rating=0;
+                    }
+                    else{
+                         foreach ($ratings as $rating)
+                         {
+                            $sum+=$rating->rating;
+                         }
+                         $avarage_rating = ($sum)/($sum_ratings);
+                    }
+                @endphp
+                @if($avarage_rating==0)
+                    <div class="list-box-rating"> <span class="at-stars">
+                                            <i class="far fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                    </span> <em>Chưa có đánh giá</em>
+                    </div>
+                @else
+                    <div class="list-box-rating"> <span class="at-stars">
+                                            @for($i=0;$i<$avarage_rating;$i++)
+                                <i class="fas fa-star"></i>
+                            @endfor
+                                        </span> <em>{{$sum_ratings}} đánh giá</em>
+                    </div>
+                @endif
                 <ul class="hotel-featured">
-                    @if($room->bep==1)
-                        <li><span><i class="fas fa-home"></i> Bếp nấu ăn</span></li>
-                    @endif
-                    @if($room->gac==1)
-                        <li><span><i class="fas fa-home"></i> Phòng có gác</span></li>
-                    @endif
-                    @if($room->maylanh==1)
-                        <li><span><i class="fas fa-sad-cry"></i> Máy lạnh</span></li>
-                    @endif
+                    <p>{{$room->short_intro}}</p>
                     <li>
                         <input type="hidden" id="room_id" value="{{$room->id}}">
                         <a href="{{route('customer.add_wistlist', ['id'=>$room->id])}}" id="btn-wishlist"><i class="fa fa-heart"></i></a>

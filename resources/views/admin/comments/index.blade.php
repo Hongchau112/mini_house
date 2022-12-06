@@ -33,17 +33,8 @@
                                             <th class="nk-tb-col tb-col-lg"><span class="sub-text">Ngày bình luận</span></th>
                                             <th class="nk-tb-col tb-col-lg"><span class="sub-text">Bài đăng/Phòng trọ</span></th>
                                             <th class="nk-tb-col tb-col-md"><span class="sub-text">Trạng thái</span></th>
-                                            <th class="nk-tb-col nk-tb-col-tools text-right">
-                                                <div class="dropdown">
-                                                    <a href="#" class="btn btn-xs btn-trigger btn-icon dropdown-toggle mr-n1" data-toggle="dropdown" data-offset="0,5"><em class="icon ni ni-more-h"></em></a>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <ul class="link-list-opt no-bdr">
-                                                            <li><a href="#"><em class="icon ni ni-check-round-cut"></em><span>Mark As Done</span></a></li>
-                                                            <li><a href="#"><em class="icon ni ni-archive"></em><span>Mark As Archive</span></a></li>
-                                                            <li><a href="#"><em class="icon ni ni-trash"></em><span>Remove Projects</span></a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
+                                            <th class="nk-tb-col tb-col-md">
+                                               <span>Tùy chọn</span>
                                             </th>
                                         </tr><!-- .nk-tb-item -->
                                         </thead>
@@ -54,16 +45,22 @@
                                                 <div>{{$comment->id}}</div>
                                             </td>
                                             <td class="nk-tb-col">
-                                                <a href="" class="project-title">
+
                                                     @foreach($users as $user)
                                                         @if($user->id==$comment->user_id)
-                                                            <div class="user-avatar sq bg-purple"><img src="{{asset('/images/'.$user->avatar)}}"></div>
-                                                        @endif
-                                                    @endforeach
+                                                        <a href="" class="project-title">
+                                                            <div class="user-avatar sq bg-purple">
+                                                                <img src="{{asset('/images/'.$user->avatar)}}">
+                                                            </div>
                                                             <div class="project-info">
-                                                        <h6 class="title">{{$comment->name}}</h6>
-                                                    </div>
-                                                </a>
+
+                                                                <h6 class="title">{{$user->name}}</h6>
+                                                            </div>
+
+                                                        </a>
+
+                                                    @endif
+                                                    @endforeach
                                             </td>
 
                                             <td class="nk-tb-col tb-col-lg">
@@ -101,8 +98,13 @@
                                                             <a href="#" class="dropdown-toggle btn btn-sm btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                                             <div class="dropdown-menu dropdown-menu-right">
                                                                 <ul class="link-list-opt no-bdr">
-                                                                    <li><a href="html/apps-kanban.html"><em class="icon ni ni-eye"></em><span>Xem bài đăng</span></a></li>
-                                                                    <li><a href="{{route('admin.comments.reply', ['id'=>$comment->id])}}"><em class="icon ni ni-edit"></em><span>Phản hồi</span></a></li>
+                                                                    @if($comment->room_id==null)
+                                                                        <li><a href="{{route('customer.posts.details', ['id' =>$comment->post_id])}}"><em class="icon ni ni-eye"></em><span>Xem bài đăng</span></a></li>
+                                                                        <li><a href="{{route('admin.comments.reply', ['id'=>$comment->id])}}"><em class="icon ni ni-edit"></em><span>Phản hồi</span></a></li>
+                                                                    @else
+                                                                        <li><a href="{{route('customer.rooms.details', ['id' =>$comment->room_id])}}"><em class="icon ni ni-eye"></em><span>Xem bài đăng</span></a></li>
+                                                                        <li><a href="{{route('admin.comments.reply', ['id'=>$comment->id])}}"><em class="icon ni ni-edit"></em><span>Phản hồi</span></a></li>
+                                                                    @endif
                                                                 </ul>
                                                             </div>
                                                         </div>

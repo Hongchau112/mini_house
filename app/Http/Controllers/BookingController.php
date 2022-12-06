@@ -144,6 +144,8 @@ class BookingController extends Controller
         if(Session::get('user_id')==null)
             return redirect()->back()->with('error', 'Bạn vui lòng đăng nhập để thực hiện chức năng đặt phòng');
         else{
+            $user = Auth::guard('admin')->user();
+
             $room_categories = RoomCategory::all();
             $post_categories = PostCategory::all();
             $room = Room::find($id);
@@ -151,6 +153,8 @@ class BookingController extends Controller
             $room_category = RoomCategory::find($room->room_type_id);
             $total_cost = $room->cost;
             $room_limit = RoomCategory::find($room->room_type_id)->room_limit;
+            //count user_info
+            $user_infos = User::where('booking_id', '=', null)->where('booking_people_id', '=', $user->id)->get();
             //tinh tien dich vu
             $services = Service::all();
             $serviceRooms = ServiceRoom::where('room_id', $id)->get();
@@ -167,7 +171,6 @@ class BookingController extends Controller
             }
 //            dd($total_cost);
 
-            $user = Auth::guard('admin')->user();
             return view('customer.rooms.order', compact('user','room_limit', 'post_categories','serviceRooms','room', 'room_categories', 'room_category', 'total_cost', 'services'));
         }
 
@@ -195,11 +198,18 @@ class BookingController extends Controller
 //        dd($room->id);
         $user_email = $user->email;
         $user_name = $user->name;
+        $room_limit = RoomCategory::find($room->room_type_id)->room_limit;
+        //count user_info
+        $user_infos = User::where('booking_id', '=', null)->where('booking_people_id', '=', $user->id)->get();
 
 //        dd(1);
         if($booking_check)
         {
             return redirect()->route('customer.rooms.listing', compact('user'))->with('error', 'Phòng đã được đặt, bạn không thể đặt thêm nữa');
+        }
+        elseif(count($user_infos) > $room_limit){
+
+            return redirect()->back()->with('error', 'Số người ở trọ vượt quá số lượng cho phép, vui lòng chọn lại!');
         }
         else {
 
@@ -211,6 +221,8 @@ class BookingController extends Controller
                 'payment' => 'no',
                 'date'=> now(),
                 'booking_room_id' => $room->id,
+                'user_name' => $user->name,
+                'user_phone' => $user->phone,
             ];
 
             //luu thong tin nguoi dat phong

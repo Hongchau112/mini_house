@@ -3,7 +3,7 @@
     <th class="tb-tnx-id"><span class="">ID Phòng</span></th>
     <th class="tb-tnx-info">
                                                             <span class="tb-tnx-desc d-none d-sm-inline-block">
-                                                                <span>ID người đặt</span>
+                                                                <span>Người đặt</span>
                                                             </span>
         <span class="tb-tnx-date d-md-inline-block d-none">
                                                                 <span class="d-md-none">Date</span>
@@ -16,8 +16,8 @@
         <span class="tb-tnx-total">Tổng tiền</span>
         <span class="tb-tnx-status d-none d-md-inline-block">Trạng thái</span>
     </th>
-    <th class="tb-tnx-action">
-        <span>&nbsp;</span>
+    <th>
+        <span></span>
     </th>
 </tr><!-- tb-tnx-item -->
 </thead>
@@ -29,7 +29,13 @@
         </td>
         <td class="tb-tnx-info">
             <div class="tb-tnx-desc">
-                <span class="title">{{$booking->user_name}}</span>
+                <a href="{{route('admin.show', ['id'=>$booking->user_id])}}">
+                    @foreach($users as $user)
+                        @if($user->id==$booking->user_id)
+                            <span class="title">{{$user->name}}</span>
+                        @endif
+                    @endforeach
+                </a>
             </div>
             <div class="tb-tnx-date">
                 <span class="date">{{$booking->date}}</span>
@@ -63,4 +69,3 @@
         </td>
     </tr><!-- tb-tnx-item -->
 @endforeach
-</tbody>

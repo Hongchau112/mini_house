@@ -32,13 +32,16 @@
                                                     <h3>Phòng trọ <i class="fas fa-plus-square float-right"></i> <i class="fas fa-minus-square float-right"></i></h3>
                                                 </div>
                                                 <!-- title widget end -->
-                                            </a> </div>
+                                            </a>
+                                        </div>
                                         <div id="collapseOne4-m" class="collapse show mt-10" aria-labelledby="headingOne4-d" data-parent="#filter-widget-accordion4-d">
                                             <div class="card-body">
                                                 <ul class="list-inline select-all mb-10">
                                                     <li class="list-inline-item">Danh sách gồm {{count($rooms)}} phòng trọ</li>
                                                 </ul>
                                         </div>
+                                    </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -116,6 +119,7 @@
                         </div>
                         <!-- sidebar end -->
                     </aside>
+
                 </div>
 
                 <div class="col-lg-9" id="list">
@@ -133,7 +137,7 @@
                                         @php
                                             $image_path = $image->image_path;
                                         @endphp
-                                        <figure class="item"> <img src="{{asset('/images/'.$image_path)}}" alt="img description" width="300px" height="208px"> </figure>
+                                        <figure class="item"> <img src="{{asset('/images/'.$image_path)}}" alt="img description" width="300px" height="260px"> </figure>
                                     @endif
                                 @endforeach
                             </div>

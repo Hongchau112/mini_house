@@ -79,14 +79,14 @@
                         </div>
                         <!-- widget end -->
                         <!-- widget -->
-                        <div class="widget mb-30">
-                            <!-- widget title -->
-                            <h3 class="widget-title">Tags</h3>
-                            <!-- widget title end -->
-                            <!-- tags -->
-                            <div class="blog-tags"> <a href="">Business</a> <a href="">Traveling</a> <a href="">Developement</a> <a href="">Motion</a> <a href="">Writing</a> <a href="">Strategy</a> <a href="">Management</a> </div>
-                            <!-- tags end -->
-                        </div>
+{{--                        <div class="widget mb-30">--}}
+{{--                            <!-- widget title -->--}}
+{{--                            <h3 class="widget-title">Tags</h3>--}}
+{{--                            <!-- widget title end -->--}}
+{{--                            <!-- tags -->--}}
+{{--                            <div class="blog-tags"> <a href="">Business</a> <a href="">Traveling</a> <a href="">Developement</a> <a href="">Motion</a> <a href="">Writing</a> <a href="">Strategy</a> <a href="">Management</a> </div>--}}
+{{--                            <!-- tags end -->--}}
+{{--                        </div>--}}
                         <!-- widget end -->
                     </aside>
                     <!-- aside end -->

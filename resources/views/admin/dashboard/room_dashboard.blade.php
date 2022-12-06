@@ -91,6 +91,14 @@
             </div><!-- .col -->
 
             <div class="col-xl-12 col-xxl-8">
+                <div class="card-tools" style="margin: 14px;width: 116px; font-size: 16px;">
+                        <select class="link-list-opt no-bdr" name="thoigian" id="select_date">
+                            <option value="1ngay">Hôm nay</option>
+                            <option value="7ngay">Trong tuần</option>
+                            <option value="30ngay">Trong tháng</option>
+                            <option value="365ngay">Trong năm</option>
+                        </select>
+                </div>
                 <div class="card card-bordered card-full">
                     <div class="card-inner border-bottom">
                         <div class="card-title-group">
@@ -102,7 +110,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="nk-tb-list">
+                    <div class="nk-tb-list" id="list">
                         <div class="nk-tb-item nk-tb-head">
                             <div class="nk-tb-col"><span>Phòng</span></div>
                             <div class="nk-tb-col tb-col-sm"><span>Người đặt</span></div>
@@ -190,5 +198,20 @@
                 ]
             });
         })
+
+        $('#select_date').on('change', function(){
+            var thoigian = $(this).val();
+            $.ajax({
+                url: '{{route('admin.dashboard.statistic_order')}}',
+                type: "GET",
+                data: {thoigian: thoigian},
+                success:function (data){
+                    $('#list').html(data);
+                    console.log(data);
+                }
+            });
+        });
     </script>
+
+
 @endpush

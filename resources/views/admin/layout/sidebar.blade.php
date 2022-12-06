@@ -2,8 +2,8 @@
     <div class="nk-sidebar-element nk-sidebar-head">
         <div class="nk-sidebar-brand">
             <a href="html/index.html" class="logo-link nk-sidebar-logo">
-                <img class="logo-light logo-img" src="{{asset('dashlite/images/logo.png')}}" srcset="{{asset('dashlite/images/logo2x.png 2x')}}" alt="logo">
-                <img class="logo-dark logo-img" src="{{asset('dashlite/images/logo-dark.png')}}" srcset="{{asset('dashlite/images/logo-dark2x.png 2x')}}" alt="logo-dark">
+                <img class="logo-light logo-img" src="{{asset('boarding_house/img/logo.png')}}" srcset="{{asset('boarding_house/img/logo.png')}}" alt="logo">
+                <img class="logo-dark logo-img" src="{{asset('boarding_house/img/logo.png')}}" srcset="{{asset('boarding_house/img/logo.png')}}" alt="logo-dark">
             </a>
         </div>
         <div class="nk-menu-trigger mr-n2">
@@ -19,7 +19,7 @@
                             <h6 class="overline-title text-primary-alt"></h6>
                         </li><!-- .nk-menu-item -->
                         <li class="nk-menu-heading">
-                            <h6 class="overline-title text-primary-alt">Applications</h6>
+                            <h6 class="overline-title text-primary-alt">Tổng quan</h6>
                         </li><!-- .nk-menu-heading -->
 {{--                        <li class="nk-menu-item">--}}
 {{--                            <a href="{{route('admin.index')}}" class="nk-menu-link">--}}

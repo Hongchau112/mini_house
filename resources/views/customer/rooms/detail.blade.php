@@ -48,26 +48,16 @@
         opacity: 0.4
     }
 </style>
-<div class="inner-banner inner-banner-bg pt-70 pb-40">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-8 col-md-8 mb-30">
-                <!-- page-title -->
-                <div class="page-title">
-                    <h1>Chi tiết phòng trọ</h1>
-                </div>
-                <!-- page-title end -->
+<div class="container">
+    <div class="row align-items-center">
+        <div class="col-lg-8 col-md-8 mb-30">
+            <!-- page-title -->
+            <div class="page-title">
+                <h1>Chi tiết phòng trọ</h1>
             </div>
-
-            <div class="col-lg-4 col-md-4 mb-30">
-                <!-- breadcrumb -->
-                <ol class="breadcrumb mb-0">
-                    <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
-                    <li class="breadcrumb-item active">Chi tiết phòng</li>
-                </ol>
-                <!-- breadcrumb end -->
-            </div>
+            <!-- page-title end -->
         </div>
+
     </div>
 </div>
 <!-- ================ Inner banner end ================ -->
@@ -268,12 +258,17 @@
                                                     <td>{{$room->width}} m</td>
                                                 </tr>
                                                 <tr>
+                                                    <td>Danh mục</td>
                                                     @foreach($room_categories as $room_cate_sub)
                                                         @if($room->room_type_id == $room_cate_sub->id)
                                                             <td>{{$room_cate_sub->name}}</td>
                                                         @endif
                                                     @endforeach
-                                                    <td>1 người</td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td>Ngày đăng</td>
+                                                    <td>{{date_format($room->created_at,"d-m-Y H:m:s")}}</td>
                                                 </tr>
                                             </table>
                                         </div>
@@ -291,7 +286,7 @@
                     <div class="help-us mb-30">
                         <h3>Chúng tôi có thể giúp gì được cho bạn?</h3>
                         <p>Nếu bạn chưa chọn được cho mình phòng trọ ưng ý, đừng ngần ngại nói với chúng tôi</p>
-                        <a class="view-detail-btn" href=""><i class="fas fa-phone-alt"></i> Contact Us</a> </div>
+                        <a class="view-detail-btn" href=""><i class="fas fa-phone-alt"></i> Liên hệ</a> </div>
                     <!-- help us end -->
                 </aside>
             </div>

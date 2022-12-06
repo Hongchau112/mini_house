@@ -26,7 +26,7 @@
     </style>
 </head>
 <body>
-<p>XIn chào {{$user_name}}<br><br>Chúng tôi sẽ liên hệ với anh chị để xác nhận việc đặt phòng. Khi nhận phòng vui lòng đem theo CCCD để làm thủ tục.</p>
+<p>XIn chào {{$user_name}}<br><br>Chúng mừng bạn đã đặt phòng thành công! Vui lòng liên hệ trực tiếp để thanh toán tiền phòng trong vòng 5 ngày sau ngày đặt phòng. Nêú không thì việc đặt phòng sẽ bị hủy. Khi nhận phòng vui lòng đem theo CCCD để làm thủ tục. </p>
 <table border="1px">
     <tr>
         <td class="th">

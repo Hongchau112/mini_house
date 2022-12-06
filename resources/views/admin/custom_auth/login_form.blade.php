@@ -26,10 +26,7 @@
             <div class="nk-content ">
                 <div class="nk-block nk-block-middle nk-auth-body  wide-xs">
                     <div class="brand-logo pb-4 text-center">
-                        <a href="#" class="logo-link">
-                            <img class="logo-light logo-img logo-img-lg" src="{{asset('dashlite/./images/logo.png')}}}" srcset="{{asset('dashlite/./images/logo2x.png 2x')}}" alt="logo">
-                            <img class="logo-dark logo-img logo-img-lg" src="{{asset('dashlite/./images/logo-dark.png')}}" srcset="{{asset('dashlite/./images/logo-dark2x.png 2x')}}" alt="logo-dark">
-                        </a>
+
                     </div>
                     @if(session()->has('message'))
                         <div class="alert {{session('alert') ?? 'alert-info'}}">
@@ -86,19 +83,19 @@
                                         <label class="custom-control-label" for="rememberme">Nhớ mật khẩu</label>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" style="text-align: center">
                                     <button class="btn btn-lg btn-primary btn-block">Đăng nhập</button>
                                 </div>
                             </form>
                             <div class="form-note-s2 text-center pt-4"> Bạn chưa có tài khoản? <a href="{{route('admin.register')}}">Tạo tài khoản</a>
                             </div>
-                            <div class="text-center pt-4 pb-3">
-                                <h6 class="overline-title overline-title-sap"><span>Hoặc</span></h6>
-                            </div>
-                            <ul class="nav justify-center gx-4">
-                                <li class="nav-item"><a class="nav-link" href="#">Facebook</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#">Google</a></li>
-                            </ul>
+{{--                            <div class="text-center pt-4 pb-3">--}}
+{{--                                <h6 class="overline-title overline-title-sap"><span>Hoặc</span></h6>--}}
+{{--                            </div>--}}
+{{--                            <ul class="nav justify-center gx-4">--}}
+{{--                                <li class="nav-item"><a class="nav-link" href="#">Facebook</a></li>--}}
+{{--                                <li class="nav-item"><a class="nav-link" href="#">Google</a></li>--}}
+{{--                            </ul>--}}
                         </div>
                     </div>
                 </div>

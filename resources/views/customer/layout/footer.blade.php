@@ -71,7 +71,7 @@
                     <div class="footer-newsletter-form">
                         <form>
                             <input placeholder="Email Adress..." type="text" required>
-                            <button type="submit">Subscribe</button>
+                            <button type="submit">Đăng ký</button>
                         </form>
                     </div>
                     <!-- footer newsletter form end -->
@@ -80,7 +80,7 @@
         </div>
     </div>
     <!-- footer copyright -->
-    <div class="copyright text-center mt-20">© <span class="current-year"></span> All Rights Reserved.</div>
+{{--    <div class="copyright text-center mt-20">© <span class="current-year"></span> All Rights Reserved.</div>--}}
     <!-- footer copyright end -->
 </footer>
 <!-- ================ Footer area end ================ -->

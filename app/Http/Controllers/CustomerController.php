@@ -74,7 +74,7 @@ class CustomerController extends Controller
         $validated_data = $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:admins',
-            'password' => 'required|confirmed',
+            'password' => 'required',
             'phone' => 'required | between: 10,12',
             'sex' => 'required',
             'address' => 'required',

@@ -54,20 +54,20 @@ class DashboardController extends Controller
         }
         $get_bookings=[];
         $now = Carbon::now('Asia/Ho_Chi_Minh')->toDateString();
-        $bookings = Booking::whereBetween('date',[$subdays, $now])->get();
+        $new_bookings = Booking::whereBetween('date',[$subdays, $now])->get();
+        $user = Auth::guard('admin')->user();
+        $users = \App\Models\Admin::where('account', 'user')->get()->count();
+        $posts = Post::all()->count();
+        $rooms = Room::all()->count();
+        $bookings = Booking::all()->count();
+        $booking_new = Booking::where('booking_status', 'new')->get()->count();
+        $booking_pending = Booking::where('booking_status', 'pending')->get()->count();
+        $booking_success = Booking::where('booking_status', 'success')->get()->count();
+        $booking_cancel = Booking::where('booking_status', 'cancel')->get()->count();
+        $booking_details = BookingDetail::all();
 
+        return view('admin.dashboard.result', compact('user','booking_details', 'new_bookings','users', 'posts', 'rooms', 'bookings', 'booking_new', 'booking_pending', 'booking_success', 'booking_cancel'));
         //get array
-        foreach ($bookings as $booking)
-        {
-            $get_booking[] = array(
-              'date' => $booking->date,
-              'status' => $booking->booking_status,
-                'booking' => 1
-            );
-        }
-//        dd($get_booking);
-        echo $data = json_encode($get_booking);
-
 
     }
 

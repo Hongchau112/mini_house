@@ -145,7 +145,7 @@
                                     </li>
                                     <li><a href="{{route('customer.logout')}}"><i class="fa fa-sign-out-alt" style="font-size: 18px;margin-top: 5px;"></i></a></li>
                                 @else
-                                    <li><a href="{{route('customer.customer_login')}}"><i class="fas fa-chevron-right"></i>Đăng nhập</a></li>
+                                    <li><a href="{{route('customer.customer_login')}} "class="header-request">Đăng nhập</a></li>
                                     <li><a href="{{route('customer.customer_register')}}" class="header-request">Đăng ký</a></li>
 
                             </ul>

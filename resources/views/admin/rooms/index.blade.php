@@ -69,12 +69,12 @@
                                         <div class="nk-tb-item nk-tb-head">
                                             <div class="nk-tb-col tb-col-sm"><span>ID</span></div>
                                             <div class="nk-tb-col tb-col-sm"><span>Tên</span></div>
-                                            <div class="nk-tb-col"><span>Số phòng</span></div>
+                                            <div class="nk-tb-col"><span>Ngày tạo</span></div>
                                             <div class="nk-tb-col"><span>Giá</span></div>
                                             <div class="nk-tb-col"><span>Trạng thái</span></div>
                                             <div class="nk-tb-col tb-col-md"><span>Loại phòng</span></div>
 {{--                                            <div class="nk-tb-col tb-col-md"><em class="tb-asterisk icon ni ni-star-round"></em></div>--}}
-                                            <div class="nk-tb-col nk-tb-col-tools">
+                                            <div class="nk-tb-col nk-tb-col-tools">Tùy chọn
 
                                             </div>
                                         </div><!-- .nk-tb-item -->
@@ -90,7 +90,7 @@
                                                         </span>
                                             </div>
                                             <div class="nk-tb-col">
-                                                <span class="tb-sub">{{$room->name}}</span>
+                                                <span class="tb-sub">{{date_format($room->created_at,"d-m-Y H:i:s")}}</span>
                                             </div>
                                             <div class="nk-tb-col">
                                                 <span class="tb-lead">{{number_format($room->cost)}} vnd</span>
