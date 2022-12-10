@@ -18,6 +18,7 @@ class PostController extends Controller
 {
     public function listing()
     {
+
 //        Session::get('user_id');
 //        dd(Session::get('user_id'));
         $user = Auth::guard('web')->user();
@@ -34,7 +35,12 @@ class PostController extends Controller
     }
 
     public function index ()
+
     {
+        if (\Illuminate\Support\Facades\Session::get('user_id')==null)
+        {
+            return redirect()->route('admin.login');
+        }
         $user = Auth::guard('web')->user();
         $rooms = Room::all();
         $posts = Post::orderBy('created_at', 'desc')->paginate(10);

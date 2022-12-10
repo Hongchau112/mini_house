@@ -11,12 +11,17 @@ use App\Models\Service;
 use App\Models\ServiceRoom;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Ramsey\Collection\Collection;
 
 class RoomController extends Controller
 {
     public function index ()
     {
+        if (Session::get('user_id')==null)
+        {
+            return redirect()->route('admin.login');
+        }
         $user = Auth::guard('web')->user();
         $room_category = RoomCategory::all();
         $rooms = Room::orderBy('created_at','desc')->paginate(10);
@@ -112,6 +117,7 @@ class RoomController extends Controller
         $room->short_intro = $data['short_intro'];
         $room->width =  $data['width'];
         $room->length =  $data['length'];
+        $room->area = $data['width'] * $data['length'];
         $room->save();
         //luu servicedd
         $services = $request->services;

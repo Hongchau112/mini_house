@@ -34,9 +34,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('admin/login', function(){ return view('admin.users.login');
-});
-
+//Route::get('admin/login', function(){ return view('admin.users.login');
+//});
 Route::get('admin/login_auth', [AuthController::class, 'login_auth'])->name('login');
 Route::post('admin/login', [AdminController::class, 'login'])->name('admin.login');
 Route::get('admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
@@ -44,6 +43,14 @@ Route::get('admin/register', [AuthController::class, 'register'])->name('admin.r
 Route::post('admin/register_auth', [AuthController::class, 'register_auth'])->name('admin.register_auth');
 Route::get('admin/forget-password', [ForgotPasswordController::class, 'show_forgotPassword'])->name('admin.show_forgotPassword');
 Route::post('admin/forgetPassword/', [ForgotPasswordController::class, 'forget_password'])->name('admin.forget_password');
+
+//Route::get('admin/login_auth', [AuthController::class, 'login_auth'])->name('login');
+//Route::post('admin/login', [AdminController::class, 'login'])->name('admin.login');
+//Route::get('admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
+//Route::get('admin/register', [AuthController::class, 'register'])->name('admin.register');
+//Route::post('admin/register_auth', [AuthController::class, 'register_auth'])->name('admin.register_auth');
+//Route::get('admin/forget-password', [ForgotPasswordController::class, 'show_forgotPassword'])->name('admin.show_forgotPassword');
+//Route::post('admin/forgetPassword/', [ForgotPasswordController::class, 'forget_password'])->name('admin.forget_password');
 
 Route::get('customer/register', [UserController::class, 'register_check'])->name('customer.register_check');
 Route::get('customer/login_auth', [UserController::class, 'login_auth'])->name('customer.login_auth');
@@ -60,7 +67,7 @@ Route::post('admin/images/load', [ImageController::class, 'load'])->name('admin.
 
 //Route::post('admin/login_auth', [AuthController::class, 'login_auth'])->name('admin.login_auth');
 
-Route::middleware(['admin'])->name('admin.')->group(function () {
+Route::middleware(['web'])->name('admin.')->group(function () {
     //auth controller
 //    Route::get('admin/register', [AuthController::class, 'register-auth'])->name('register');
 
@@ -225,6 +232,7 @@ Route::get('customer/posts/listing', [PostController::class, 'listing'])->name('
 Route::get('customer/posts/details/{id}', [PostController::class, 'detail'])->name('customer.posts.details');
 Route::get('customer/rooms/filter_price', [CustomerController::class, 'filter_price'])->name('customer.posts.filter_price');
 Route::get('customer/posts/search', [PostController::class, 'search'])->name('customer.posts.search');
+Route::get('customer/rooms/filter_area', [CustomerController::class, 'filter_area'])->name('customer.rooms.filter_area');
 
 
 //comments
@@ -254,3 +262,5 @@ Route::post('customer/global_search', [CustomerController::class, 'global_search
 Route::post('customer/search', [CustomerController::class, 'search'])->name('customer.search');
 Route::get('admin/customer_profile/{id}', [TransactionController::class, 'customer_profile'])->name('admin.customer_profile');
 Route::post('admin/update_status/{id}', [TransactionController::class, 'update_status'])->name('admin.update_status');
+
+//Route::get('chatify', [CustomerController::class, 'chatify'])->name('customer.chatify');

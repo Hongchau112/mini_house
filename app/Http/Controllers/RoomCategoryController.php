@@ -5,11 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\RoomCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class RoomCategoryController extends Controller
 {
     public function index()
     {
+        if (Session::get('user_id')==null)
+        {
+            return redirect()->route('admin.login');
+        }
         $user = Auth::guard('web')->user();
         $room_category = RoomCategory::paginate(10);
         return view('admin.room_categories.index', compact('user','room_category'));

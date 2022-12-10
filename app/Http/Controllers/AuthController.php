@@ -8,6 +8,7 @@ use App\Models\Admin;
 use App\Models\Roles;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
@@ -51,7 +52,6 @@ class AuthController extends Controller
         return view('admin.custom_auth.login_form')->with('message', 'Đăng ký tài khoản thành công');
 
     }
-
 
 
 

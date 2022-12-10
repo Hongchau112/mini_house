@@ -119,7 +119,7 @@
                         </div>
                         <div class="form-group">
                             <label>Số điện thoại<span class="text-danger">*</span></label>
-                            <input type="text" name="phone" id="phone" class="form-control">
+                            <input type="text" minlength="10" maxlength="11" name="phone" id="phone" class="form-control">
                             <small class="error"></small>
 
                         </div>
@@ -135,7 +135,7 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label>CCCD/CMND<span class="text-danger">*</span></label>
-                                    <input type="text" name="identified_no" id="identified_no" class="form-control">
+                                    <input type="text" minlength="10" maxlength="12" name="identified_no" id="identified_no" class="form-control">
                                     <span class="text-danger" id="ident_error"></span>
                                     <small class="error"></small>
                                 </div>
@@ -458,12 +458,12 @@
                 url: '{{route('customer.customer_order')}}',
                 data: {_token: _token, room_limit: room_limit,user_id: user_id,name: name, email: email, address: address, birthday: birthday, phone: phone, identified_no: identified_no, sex: sex},
                 success: function (response){
-                    // $('#exampleModal').modal("hide");
                     // console.log(response);
                     // document.getElementById('#addUserBtn').classList.add('close');
                     var element = document.getElementById('addUserBtn');
                     // console.log(element);
                     element.classList.add('.close');
+                    $('#submitBtn').attr("data-dismiss","modal");
                     // $('#show_user').html(response);
                     $('#add_user').trigger("reset");
                     load_user();

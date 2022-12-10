@@ -124,6 +124,11 @@ class CustomerController extends Controller
         return view('customer.login.index', compact('user', 'post_categories','images', 'rooms', 'room_categories', 'posts'));
     }
 
+//    public function chatify()
+//    {
+//        return ;
+//    }
+
     public function edit_profile($id)
     {
 
@@ -200,6 +205,7 @@ class CustomerController extends Controller
 
     public function filter_price(Request $request)
     {
+        $room_category = $request->get('room_category_id');
         $images = Image::all();
         $user = Auth::guard('web')->user();
         $services = Service::all();
@@ -209,21 +215,21 @@ class CustomerController extends Controller
 //        var_dump($filter_search);
         if($filter_search==0)
         {
-            $rooms = Room::where('cost', '<', 1000000)->get();
+            $rooms = Room::where('cost', '<', 1000000)->where('room_type_id', $room_category)->get();
 //            dd($rooms);
         }
         elseif ($filter_search==1)
         {
-            $rooms = DB::table('rooms')->whereBetween('cost',[1000000, 2000000])->get();
+            $rooms = DB::table('rooms')->where('room_type_id', $room_category)->whereBetween('cost',[1000000, 2000000])->get();
 
         }
         elseif ($filter_search==2)
         {
-            $rooms = DB::table('rooms')->whereBetween('cost',[2000001, 3000000])->get();
+            $rooms = DB::table('rooms')->where('room_type_id', $room_category)->whereBetween('cost',[2000001, 3000000])->get();
 //dd($rooms);
         }
         else{
-            $rooms = Room::where('cost', '>', 3000000)->get();
+            $rooms = Room::where('cost', '>', 3000000)->where('room_type_id', $room_category)->get();
         }
 //dd($rooms);
         if(count($rooms)>0)
@@ -239,6 +245,36 @@ class CustomerController extends Controller
 // dd($filter_search);
 
 
+    }
+
+    public function filter_area(Request $request)
+    {
+        $images = Image::all();
+        $user = Auth::guard('web')->user();
+        $services = Service::all();
+        $room_categories = RoomCategory::all();
+//        $rooms = Room::all();
+        $filter_area = $request->get('filter');
+//        dd($request->get('room_category_id'));
+        $room_category = $request->get('room_category_id');
+        if ($filter_area == 20) {
+            $rooms = Room::where('room_type_id', $room_category)->where('area', '<', 20)->get();
+        } elseif ($filter_area == 30) {
+            $rooms = DB::table('rooms')->where('room_type_id', $room_category)->whereBetween('area', [20, 30])->get();
+
+        } elseif ($filter_area == 40) {
+            $rooms = DB::table('rooms')->where('room_type_id', $room_category)->whereBetween('area', [30, 50])->get();
+//            dd($rooms);
+        } else {
+            $rooms = Room::where('room_type_id', $room_category)->where('area', '>', 50)->get();
+        }
+//dd($rooms);
+        if (count($rooms) > 0) {
+            return view('customer.rooms.filter_result', compact('rooms', 'user', 'images', 'services', 'room_categories'));
+
+        } else {
+            return view('customer.rooms.not_found', compact('user'));
+        }
     }
 
     public function show_category($id)

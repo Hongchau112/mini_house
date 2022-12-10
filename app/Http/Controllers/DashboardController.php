@@ -62,7 +62,8 @@ class DashboardController extends Controller
         }
 
         $now = Carbon::now('Asia/Ho_Chi_Minh')->toDateString();
-        $new_bookings = Booking::whereBetween('date',[$subdays, $now])->get();
+        $new_bookings = Booking::whereBetween('created_at',[$subdays, $now])->get();
+//        dd($new_bookings);
 //        $user = Auth::guard('web')->user();
         $users = \App\Models\User::where('account', 'user')->get()->count();
         $posts = Post::all()->count();

@@ -10,12 +10,17 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Symfony\Component\Console\Input\Input;
 
 class UserController extends Controller
 {
     public function index()
     {
+        if (Session::get('user_id')==null)
+        {
+            return redirect()->route('admin.login');
+        }
         $user = Auth::guard('web')->user();
         $user_lists = Admin::paginate(10);
         return view('admin.users.index', compact('user_lists', 'user'));

@@ -16,7 +16,12 @@
                             <em class="icon ni ni-card-view"></em>
                         </div>
                         <div class="nk-news-text">
-                            <p>Chào mừng bạn đến với nhatrogiatot</p>
+                            @if(session('newBooking'))
+                                <p class="alert alert-primary" role="alert">
+                                    There is a new order
+                                </p>
+                            @endif
+{{--                            <p>Chào mừng bạn đến với nhatrogiatot</p>--}}
                             <em class="icon ni ni-external"></em>
                         </div>
                     </a>

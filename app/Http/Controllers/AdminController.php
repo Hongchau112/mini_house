@@ -48,19 +48,20 @@ class AdminController extends Controller
                     return redirect()->route('customer.index', 'user');
                 }
                 elseif ($user->account=='admin')
-                    {
-                        return view('admin.users.index', compact('user_lists', 'user'));
-                    }
-                elseif ($user->account=='staff')
-                    {
-                        return view('admin.users.index', compact('user_lists', 'user'));
-                    }
+                {
+                    return view('admin.users.index', compact('user_lists', 'user'));
                 }
+                elseif ($user->account=='staff')
+                {
+                    return view('admin.users.index', compact('user_lists', 'user'));
+                }
+            }
         }else{
             return view('admin.custom_auth.login_form')->with('message', 'Tên đăng nhập hoặc mật khẩu không đúng!');
         }
 
     }
+
 
 
 
@@ -248,9 +249,10 @@ class AdminController extends Controller
     }
     public function logout()
     {
-        Auth::guard('web')->logout();
         Session::forget('user_id');
-        return redirect()->route('login');
+        Session::flush();
+        Auth::guard('web')->logout();
+        return redirect()->route('admin.login');
     }
 
     public function edit_password($id)

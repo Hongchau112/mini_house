@@ -232,6 +232,10 @@ class BookingController extends Controller
             $booking = Booking::insert($dataBooking);
             $booking_inserted = Booking::where('booking_room_id', $room->id)->first();
 
+            if ($booking_inserted)
+            {
+                session()->flash('newBooking', true);
+            }
             //luu thong tin nguoi o tro
             $user_infos = Customer::where('booking_id', '=', null)->where('booking_people_id', '=', $request->user_booked_id)->get();
             foreach ($user_infos as $user_info){
@@ -273,6 +277,7 @@ class BookingController extends Controller
                     $mail->from('hongchau2000st@gmail.com');
                     $mail->subject("Đặt phòng trọ thành công");
                 });
+
 
                 ///doi status cua phong sau khi dat
 

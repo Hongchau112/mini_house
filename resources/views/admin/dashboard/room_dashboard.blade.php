@@ -31,7 +31,11 @@
                     <div class="card-inner">
                         <div class="card-title-group align-start mb-0">
                             <div class="card-title">
+                                <span>
+                                    <button  style="margin-left: 10px;">Xem</button>
+                                </span>
                                 <h5 class="title">Phòng</h5>
+
                             </div>
                         </div>
                         <div class="invest-data">
@@ -41,9 +45,12 @@
                                     <h2 class="amount" style="font-size: 45px;"><span class="currency currency-usd">{{$rooms}}</span></h2>
                                 </div>
                             </div>
+
+
                             <div class="invest-data-ck" >
                                 <img src="/images/room1.png" width="75%" alt="jgf" style="margin-left: 40px;">
                             </div>
+
                         </div>
                     </div>
                 </div><!-- .card -->

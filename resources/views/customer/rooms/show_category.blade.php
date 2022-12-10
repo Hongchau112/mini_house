@@ -29,7 +29,7 @@
                                         <div class="card-header" id="headingOne4-d"> <a class="btn btn-link w-100 text-left" href="" data-toggle="collapse" data-target="#collapseOne4-m" aria-expanded="true" aria-controls="collapseOne4-m">
                                                 <!-- title widget -->
                                                 <div class="filter-title-widget">
-                                                    <h3>Phòng trọ <i class="fas fa-plus-square float-right"></i> <i class="fas fa-minus-square float-right"></i></h3>
+                                                    <h3>Phòng trọ<i class="fas fa-plus-square float-right"></i> <i class="fas fa-minus-square float-right"></i></h3>
                                                 </div>
                                                 <!-- title widget end -->
                                             </a> </div>
@@ -74,31 +74,21 @@
                                             <div class="card-header" id="headingOne3-d"> <a class="btn btn-link w-100 text-left" href="" data-toggle="collapse" data-target="#collapseOne3-m" aria-expanded="true" aria-controls="collapseOne3-m">
                                                     <!-- title widget -->
                                                     <div class="filter-title-widget">
-                                                        <h3>Các tiện ích<i class="fas fa-plus-square float-right"></i> <i class="fas fa-minus-square float-right"></i></h3>
+                                                        <h3>Diện tích<i class="fas fa-plus-square float-right"></i> <i class="fas fa-minus-square float-right"></i></h3>
                                                     </div>
                                                     <!-- title widget end -->
                                                 </a> </div>
                                             <form>
                                                 <div id="collapseOne3-m" class="collapse show mt-10" aria-labelledby="headingOne3-d" data-parent="#filter-widget-accordion3-d">
                                                     <div class="card-body">
-                                                        <ul class="list-inline select-all mb-10">
-                                                            <li class="list-inline-item"> <a href="">Tất cả</a> </li>
-                                                            <li class="list-inline-item"><a href="">Bỏ chọn</a></li>
-                                                        </ul>
-                                                        <div class="filter-checkbox-widget">
-                                                            <div class="form-check">
-                                                                <input class="form-check-input" name="service" value="gac" id="filter-gac" type="checkbox">
-                                                                <label class="form-check-label">Có gác</small> </label>
-                                                            </div>
-                                                            <div class="form-check">
-                                                                <input class="form-check-input" name="service" value="maylanh" id="filter-maylanh" type="checkbox">
-                                                                <label class="form-check-label">Tủ lạnh</label>
-                                                            </div>
-                                                            <div class="form-check">
-                                                                <input class="form-check-input" name="service" value="bep" id="filter-bep" type="checkbox">
-                                                                <label class="form-check-label">Chỗ nấu ăn</label>
-                                                            </div>
-                                                        </div>
+                                                        <select class="form-control" name="area" id="filter_area">
+                                                            <option >Chọn...</option>
+                                                            <option value="20">Dưới 20m2</option>
+                                                            <option value="30">Từ 20m2 đến 30m2</option>
+                                                            <option value="40">Từ 30m2 đến 50m2</option>
+                                                            <option value="50">Trên 50m2</option>
+                                                        </select>
+
                                                     </div>
                                                 </div>
                                             </form>
@@ -125,6 +115,7 @@
                             $serviceRooms = \App\Models\ServiceRoom::where('room_id', $room->id)->get();
                         @endphp
                         <div class="hotel-results-list">
+                            <input type="hidden" value="{{$room->room_type_id}}" id="room_category_id">
                             <!-- list box -->
                             <div class="list-box mb-30">
                                 <div class="owl-carousel list-box-carousel">
@@ -318,12 +309,28 @@
         $(document).ready(function(){
 
             $("#filter-price").on('change', function(){
+                var room_category_id = $('#room_category_id').val();
                 var filter = $(this).val();
                 console.log(filter);
                 $.ajax({
                     url: '{{route('customer.posts.filter_price')}}',
                     type: "GET",
-                    data: {'filter': filter},
+                    data: {'filter': filter, room_category_id: room_category_id},
+                    success:function (data){
+                        $('#list').html(data);
+                        console.log(data);
+                    }
+                });
+            });
+
+            $("#filter_area").on('change', function(){
+                var filter = $(this).val();
+                var room_category_id = $('#room_category_id').val();
+                console.log(filter);
+                $.ajax({
+                    url: '{{route('customer.rooms.filter_area')}}',
+                    type: "GET",
+                    data: {'filter': filter, room_category_id: room_category_id},
                     success:function (data){
                         $('#list').html(data);
                         console.log(data);

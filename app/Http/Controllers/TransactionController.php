@@ -16,11 +16,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 
 class TransactionController extends Controller
 {
     public function index()
     {
+        if (Session::get('user_id')==null)
+        {
+            return redirect()->route('admin.login');
+        }
         $users = Admin::all();
         $user = Auth::guard('web')->user();
         $bookings = Booking::orderBy('created_at', 'desc')->paginate(10);
@@ -131,7 +136,7 @@ class TransactionController extends Controller
         $user = Auth::guard('web')->user();
         $booking_details = BookingDetail::all();
         $bookings = Booking::all();
-        $users = Customer::all();
+        $users = User::all();
         $filter_search = $request->get('filter');
         if($filter_search=='all')
             return view('admin.transaction.search' ,compact('bookings', 'user', 'booking_details', 'users'));
@@ -157,21 +162,18 @@ class TransactionController extends Controller
     {
         $customers = User::all();
         $get_bookings = Booking::where('payment', 'no')->get();
-        $now = Carbon::now()->toDateString();
-
-        $date_remind =date_format(new \DateTime($now), 'd-m-Y');
-        $title_mail = "Nhắc nhở thanh toán trọ" .' '.$date_remind;
+        $date_remind =Carbon::now()->format('d-m-Y H:m:s');
+        $title_mail = "Nhắc nhở thanh toán trọ";
         foreach ($get_bookings as $booking)
         {
             foreach ($customers as $cus)
                 {
-                    $remind_date = (Carbon::parse($booking->date))->addDay(4)->toDateString();
+//                    $remind_date = (Carbon::parse($booking->date))->addDay(4)->toDateString();
 
-                    if(($booking->user_id==$cus->id) && ($remind_date=$now))
+                    if(($booking->user_id==$cus->id) && ($booking->date_expire=$date_remind))
                     {
                         $booking_detail = BookingDetail::where('booking_id', $booking->id)->get()->first();
                         $data['email'][] =  $cus->email;
-                        $date_expired = (Carbon::parse($booking->date))->addDay(5)->toDateString();
                         $room_name = Room::find($booking->booking_room_id)->name;
                         $user_name = $cus->name;
                         $cost = $booking_detail->total_cost;
@@ -180,7 +182,7 @@ class TransactionController extends Controller
                             'date_booking' => $booking->date,
                             'user_name' => $user_name,
                             'cost' => $cost,
-                            'date_expire' => $date_expired],
+                            'date_expire' => $booking->date_expire],
                             function ($message) use ($title_mail, $data){
                                 $message->to($data['email'])->subject($title_mail);
                                 $message->from($data['email'], $title_mail);
@@ -188,6 +190,6 @@ class TransactionController extends Controller
                     }
                 }
         }
-        return redirect()->back()->with('success', 'Gửi email thành công!');
+        return redirect()->back()->with('success', 'Gửi email nhắc nhở thanh toán đến người dùng thành công!');
     }
 }

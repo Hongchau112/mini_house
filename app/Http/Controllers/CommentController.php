@@ -10,11 +10,16 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class CommentController extends Controller
 {
     public function index()
     {
+        if (Session::get('user_id')==null)
+        {
+            return redirect()->route('admin.login');
+        }
         $users = \App\Models\User::all();
         $posts = Post::all();
         $rooms = Room::all();

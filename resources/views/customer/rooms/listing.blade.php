@@ -78,31 +78,21 @@
                                         <div class="card-header" id="headingOne3-d"> <a class="btn btn-link w-100 text-left" href="" data-toggle="collapse" data-target="#collapseOne3-m" aria-expanded="true" aria-controls="collapseOne3-m">
                                                 <!-- title widget -->
                                                 <div class="filter-title-widget">
-                                                    <h3>Các tiện ích<i class="fas fa-plus-square float-right"></i> <i class="fas fa-minus-square float-right"></i></h3>
+                                                    <h3>Diện tích<i class="fas fa-plus-square float-right"></i> <i class="fas fa-minus-square float-right"></i></h3>
                                                 </div>
                                                 <!-- title widget end -->
                                             </a> </div>
                                         <form>
                                         <div id="collapseOne3-m" class="collapse show mt-10" aria-labelledby="headingOne3-d" data-parent="#filter-widget-accordion3-d">
                                             <div class="card-body">
-                                                <ul class="list-inline select-all mb-10">
-                                                    <li class="list-inline-item"> <a href="">Tất cả</a> </li>
-                                                    <li class="list-inline-item"><a href="">Bỏ chọn</a></li>
-                                                </ul>
-                                                <div class="filter-checkbox-widget">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" name="service" value="gac" id="filter-gac" type="checkbox">
-                                                        <label class="form-check-label">Có gác</small> </label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" name="service" value="maylanh" id="filter-maylanh" type="checkbox">
-                                                        <label class="form-check-label">Tủ lạnh</label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" name="service" value="bep" id="filter-bep" type="checkbox">
-                                                        <label class="form-check-label">Chỗ nấu ăn</label>
-                                                    </div>
-                                                </div>
+                                                <select class="form-control" name="area" id="filter_area">
+                                                    <option >Chọn...</option>
+                                                    <option value="20">Dưới 20m2</option>
+                                                    <option value="30">Từ 20m2 đến 30m2</option>
+                                                    <option value="40">Từ 30m2 đến 50m2</option>
+                                                    <option value="50">Trên 50m2</option>
+                                                </select>
+
                                             </div>
                                         </div>
                                         </form>
@@ -333,22 +323,36 @@
                 });
             });
 
-            $(document).on('click', '.filter-checkbox-widget', function (){
-                var services=[];
-                  $('input[name="service"]:checked').each(function (element){
-                      services.push($('input[name="service"]:checked')[element].value);
-                      // console.log(services);
-                  });
+            $("#filter_area").on('change', function(){
+                var filter = $(this).val();
+                console.log(filter);
                 $.ajax({
-                    url: '{{route('customer.rooms.filter_service')}}',
+                    url: '{{route('customer.rooms.filter_area')}}',
                     type: "GET",
-                    data: {services: services},
+                    data: {'filter': filter},
                     success:function (data){
                         $('#list').html(data);
                         console.log(data);
                     }
                 });
-            })
+            });
+
+            {{--$(document).on('click', '.filter-checkbox-widget', function (){--}}
+            {{--    var services=[];--}}
+            {{--      $('input[name="service"]:checked').each(function (element){--}}
+            {{--          services.push($('input[name="service"]:checked')[element].value);--}}
+            {{--          // console.log(services);--}}
+            {{--      });--}}
+            {{--    $.ajax({--}}
+            {{--        url: '{{route('customer.rooms.filter_service')}}',--}}
+            {{--        type: "GET",--}}
+            {{--        data: {services: services},--}}
+            {{--        success:function (data){--}}
+            {{--            $('#list').html(data);--}}
+            {{--            console.log(data);--}}
+            {{--        }--}}
+            {{--    });--}}
+            {{--})--}}
 
 
 

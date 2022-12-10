@@ -143,6 +143,7 @@
                                         </div>
                                     </div>
                                     </li>
+                                    <li><a href="http://localhost:8000/chatify"><i class="fas fa-comment-dots" style="font-size: 21px;margin-top: 5px;"></i></a></li>
                                     <li><a href="{{route('customer.logout')}}"><i class="fa fa-sign-out-alt" style="font-size: 18px;margin-top: 5px;"></i></a></li>
                                 @else
                                     <li><a href="{{route('customer.customer_login')}} "class="header-request">Đăng nhập</a></li>

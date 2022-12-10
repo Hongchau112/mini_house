@@ -5,11 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\PostCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class PostCategoryController extends Controller
 {
     public function index()
     {
+        if (Session::get('user_id')==null)
+        {
+            return redirect()->route('admin.login');
+        }
         $user = Auth::guard('web')->user();
         $post_category = PostCategory::paginate(10);
         return view('admin.post_categories.index', compact('user','post_category'));
