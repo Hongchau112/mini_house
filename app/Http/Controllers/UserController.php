@@ -16,7 +16,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $user_lists = Admin::paginate(10);
         return view('admin.users.index', compact('user_lists', 'user'));
     }
@@ -28,7 +28,7 @@ class UserController extends Controller
 
     public function logout_user()
     {
-        Auth::guard('admin')->logout();
+        Auth::guard('web')->logout();
         return redirect()->route('customer.login_auth');
     }
 
@@ -37,30 +37,30 @@ class UserController extends Controller
         return view('customer.login.register_auth');
     }
 
-    public function register_auth(Request $request)
-    {
-        $user = new User();
-//        dd($request);
-        $validated_data = $request->validate([
-            'name' => 'required',
-            'email' => 'required|email',
-            'password' => 'required',
-            'phone' => 'required',
-            'sex' => 'required'
-        ]);
-        dd(1);
+//    public function register_auth(Request $request)
+//    {
+//        $user = new User();
+////        dd($request);
+//        $validated_data = $request->validate([
+//            'name' => 'required',
+//            'email' => 'required|email',
+//            'password' => 'required',
+//            'phone' => 'required',
+//            'sex' => 'required'
+//        ]);
+//        dd(1);
+//
+//        $validated_data['password'] = Hash::make($request->password);
+//
+//        $user->name = $validated_data['name'];
+//        $user->email = $validated_data['email'];
+//        $user->password = $validated_data['password'];
+//        $user->phone = $validated_data['phone'];
+//        $user->sex = $validated_data['sex'];
+//        $user->save();
+//        return route('customer.login_auth')->with('message', 'Đăng ký tài khoản thành công');
 
-        $validated_data['password'] = Hash::make($request->password);
-
-        $user->name = $validated_data['name'];
-        $user->email = $validated_data['email'];
-        $user->password = $validated_data['password'];
-        $user->phone = $validated_data['phone'];
-        $user->sex = $validated_data['sex'];
-        $user->save();
-        return route('customer.login_auth')->with('message', 'Đăng ký tài khoản thành công');
-
-    }
+//    }
 
 
 

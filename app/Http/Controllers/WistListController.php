@@ -21,7 +21,7 @@ class WistListController extends Controller
             return redirect()->back()->with('error', 'Vui lòng đăng nhập để thêm phòng vào danh sách yêu thích!');
         }
         else{
-            $id = Auth::guard('admin')->user()->id;
+            $id = Auth::guard('web')->user()->id;
             $wish = Wistlist::where('room_id', $room_id)->where('user_id', $id)->first();
             if(isset($wish))
             {
@@ -52,7 +52,7 @@ class WistListController extends Controller
         $room_categories = RoomCategory::all();
         $post_categories = PostCategory::all();
         $images = Image::all();
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $wishlists = Wistlist::where('user_id', $id)->get();
 //        dd($wishlist);
         return view('customer.rooms.wishlist', compact('post_categories','wishlists', 'user', 'rooms', 'images', 'room_categories'));
@@ -66,7 +66,7 @@ class WistListController extends Controller
 
     public function delete($id)
     {
-        $user_id = Auth::guard('admin')->user()->id;
+        $user_id = Auth::guard('web')->user()->id;
         Wistlist::where('id', $id)->where('user_id', $user_id)->delete();
         return redirect()->route('customer.show_wishlist', ['id'=>$user_id])->with('success', 'Xóa yêu thích thành công!');
 

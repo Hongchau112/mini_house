@@ -9,11 +9,12 @@ use Illuminate\Database\Eloquent\Model;
 class Admin extends Model implements AuthenticatableContract
 {
     use HasFactory;
+//    public $timestamps = true;
     use Authenticatable;
     protected $fillable = [
       'name', 'phone', 'email', 'password', 'address', 'birthday', 'sex', 'account', 'avatar'
     ];
-    protected $table='admins';
+    protected $table='users';
 
     public function roles(){
         return $this->belongsToMany(Roles::class);

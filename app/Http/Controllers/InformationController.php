@@ -17,16 +17,15 @@ class InformationController extends Controller
         $room_categories = RoomCategory::all();
         $rooms = Room::all();
         $images = Image::all();
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $post_categories = PostCategory::all();
         $posts = Post::all();
-        $user = Auth::guard('admin')->user();
         return view('customer.introduce.about_us', compact('user', 'room_categories', 'post_categories'));
     }
 
     public function categories()
     {
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $categories = RoomCategory::where('parent_category_id', 0)->get();
         return view('customer.introduce.categories', compact('user', 'categories'));
     }

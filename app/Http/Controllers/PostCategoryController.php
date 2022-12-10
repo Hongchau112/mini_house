@@ -10,21 +10,21 @@ class PostCategoryController extends Controller
 {
     public function index()
     {
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $post_category = PostCategory::paginate(10);
         return view('admin.post_categories.index', compact('user','post_category'));
     }
 
     public function create()
     {
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $post_category = PostCategory::all();
         return view('admin.post_categories.create', compact('user', 'post_category'));
     }
 
     public function store(Request $request)
     {
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $validated_data = $request->validate([
             'name' => 'required',
             'description' => 'required',
@@ -42,7 +42,7 @@ class PostCategoryController extends Controller
 
     public function edit($id)
     {
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $post_category = PostCategory::find($id);
         $categories = PostCategory::all();
         return view('admin.post_categories.edit', compact('user', 'post_category', 'categories'));
@@ -50,7 +50,7 @@ class PostCategoryController extends Controller
 
     public function update(Request $request, $id)
     {
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $validated_data = $request->validate([
             'name' => 'required',
             'description' => 'required',

@@ -9,7 +9,7 @@
 /*----------------------------------
 
 	Table of contents
-	
+
 	01. Common
 	02. Header
 	03. Slider
@@ -32,7 +32,7 @@
 	20. Contact Us
 	21. Gallery
 	22. Team
-	
+
 ----------------------------------*/
 
 /* Theme Font Use */
@@ -248,13 +248,15 @@ a:hover {
 	02. Header
 =================================== */
 .header-upper-bar {
-	background-color: #222222;
+    background-color: #edf6f5;
 }
 .header-navigation .navbar-nav .nav-link {
-	text-transform: uppercase;
-	padding: 16px 14px;
-	color: #8293a2;
-	font-size: 12px;
+    text-transform: uppercase;
+    padding: 16px 36px;
+    color: #052745;
+    font-weight: bold;
+    font-size: 13px;
+	/*font-size: 12px;*/
 	font-family: 'Montserrat', sans-serif;
 	-webkit-transition: all 0.3s ease-in-out;
 	-moz-transition: all 0.3s ease-in-out;
@@ -268,12 +270,14 @@ a:hover {
 	border-right: 1px solid #393939;
 }
 .header-navigation .navbar-nav .nav-link:hover, .header-navigation .navbar-nav li.active .nav-link {
-	background-color: #000;
-	color: #31b675;
+    background-color: #31b675;
+    color: #ebf2ef;
+    font-size: 14px;
+    font-weight: bold;
 }
 .header-navigation .navbar-nav .nav-item.dropdown .dropdown-menu {
 	margin: 0px;
-	background-color: #222222;
+	background-color: #dcfade;
 	border-radius: 0px;
 	border: 0px;
 	padding: 0px;
@@ -281,7 +285,7 @@ a:hover {
 .header-navigation .navbar-nav .nav-item.dropdown .dropdown-menu .dropdown-item {
 	font-family: 'Montserrat', sans-serif;
 	color: #8293a2;
-	font-size: 12px;
+	font-size: 14px;
 	padding: 10px 14px;
 	border-bottom: 1px solid #393939;
 	-webkit-transition: all 0.3s ease-in-out;
@@ -329,7 +333,7 @@ a:hover {
 	float: left;
 }
 .header-right-link ul li a {
-	color: #8293a2;
+	color: #048607;
 	padding: 6px 8px;
 }
 .header-right-link ul li {
@@ -371,6 +375,7 @@ a:hover {
 }
 .header-lover {
 	padding: 30px 0;
+    /*background-color: #dcfade;;*/
 }
 .header-call-us {
 	float: right;
@@ -1195,7 +1200,7 @@ a:hover {
 	14. Footer
 =================================== */
 footer {
-	background-color: #121212;
+	background-color: #dcfade;
 	position: relative;
 }
 .footer-top .about p {

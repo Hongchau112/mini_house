@@ -88,13 +88,13 @@
         <div id="myCarousel" class="carousel slide carousel-fade" data-ride="carousel">
             <div class="carousel-inner">
                 <!-- slider item -->
-                <div class="carousel-item active"> <img src="{{asset('boarding_house/img/slider/slidebar.png')}}" alt="" class="img-fluid"> </div>
+                <div class="carousel-item active"> <img src="{{asset('boarding_house/img/slider/slidebar2.png')}}" alt="" class="img-fluid"> </div>
                 <!-- slider item end -->
                 <!-- slider item -->
                 <div class="carousel-item"> <img src="{{asset('boarding_house/img/slider/slidebar1.png')}}" alt="" class="img-fluid"> </div>
                 <!-- slider item end -->
                 <!-- slider item -->
-                <div class="carousel-item"> <img src="{{asset('boarding_house/img/slider/slidebar2.png')}}" alt="" class="img-fluid"> </div>
+                <div class="carousel-item"> <img src="{{asset('boarding_house/img/slider/slidebar.png')}}" alt="" class="img-fluid"> </div>
                 <!-- slider item end -->
             </div>
             <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev"> <i class="fas fa-caret-left"></i></a> <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next"> <i class="fas fa-caret-right"></i></a> </div>

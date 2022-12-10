@@ -67,7 +67,7 @@
                                 <div class="card-inner p-0" >
                                     <div class="nk-tb-list" id="list">
                                         <div class="nk-tb-item nk-tb-head">
-                                            <div class="nk-tb-col tb-col-sm"><span>ID</span></div>
+                                            <div class="nk-tb-col tb-col-sm"><span>Mã</span></div>
                                             <div class="nk-tb-col tb-col-sm"><span>Tên</span></div>
                                             <div class="nk-tb-col"><span>Ngày tạo</span></div>
                                             <div class="nk-tb-col"><span>Giá</span></div>
@@ -81,7 +81,7 @@
                                         @foreach($rooms as $room)
                                         <div class="nk-tb-item">
                                             <div class="nk-tb-col nk-tb-col-check">
-                                                <div>{{$room->id}}</div>
+                                                <div>#{{$room->room_sku}}</div>
                                             </div>
                                             <div class="nk-tb-col tb-col-sm">
                                                         <span class="tb-product">

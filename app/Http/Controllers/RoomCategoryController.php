@@ -10,21 +10,21 @@ class RoomCategoryController extends Controller
 {
     public function index()
     {
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $room_category = RoomCategory::paginate(10);
         return view('admin.room_categories.index', compact('user','room_category'));
     }
 
     public function create()
     {
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $room_category = RoomCategory::all();
         return view('admin.room_categories.create', compact('user', 'room_category'));
     }
 
     public function store(Request $request)
     {
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $validated_data = $request->validate([
             'name' => 'required',
             'description' => 'required',
@@ -42,7 +42,7 @@ class RoomCategoryController extends Controller
 
     public function edit($id)
     {
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $room_category = RoomCategory::find($id);
         $categories = RoomCategory::all();
         return view('admin.room_categories.edit', compact('user', 'room_category', 'categories'));
@@ -50,7 +50,7 @@ class RoomCategoryController extends Controller
 
     public function update(Request $request, $id)
     {
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $validated_data = $request->validate([
             'name' => 'required',
             'description' => 'required',

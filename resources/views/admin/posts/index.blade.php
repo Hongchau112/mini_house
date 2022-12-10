@@ -94,7 +94,7 @@
                                         </div>
                                         <div class="project-meta">
                                             <br>
-                                            <span class="badge badge-dim badge-warning"><em class="icon ni ni-clock"></em><span>Đăng ngày {{$post->created_at}}</span></span>
+                                            <span class="badge badge-dim badge-warning"><em class="icon ni ni-clock"></em><span>Đăng ngày {{date_format($post->created_at,"d-m-Y H:i:s")}}</span></span>
                                         </div>
                                     </div>
                                 </div>

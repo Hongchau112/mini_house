@@ -6,6 +6,8 @@ use App\Http\Middleware\Admin;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\Room;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,13 +15,43 @@ class CommentController extends Controller
 {
     public function index()
     {
-        $users = \App\Models\Admin::all();
+        $users = \App\Models\User::all();
         $posts = Post::all();
         $rooms = Room::all();
-        $user = Auth::guard('admin')->user();
-        $comments = Comment::with('post')->where('comment_parent_id', '=', 0)->orderBy('status', 'DESC')->paginate(10);
+        $user = Auth::guard('web')->user();
+        $comments = Comment::with('post')->where('comment_parent_id', '=', 0)->orderBy('date', 'DESC')->paginate(10);
         $cmt_reps = Comment::with('post')->where('comment_parent_id','>',0)->get();
         return view('admin.comments.index', compact('comments', 'rooms', 'user', 'cmt_reps', 'users', 'posts'));
+    }
+
+    public function not_approve()
+    {
+        $users = \App\Models\User::all();
+        $posts = Post::all();
+        $rooms = Room::all();
+        $user = Auth::guard('web')->user();
+        $comments = Comment::with('post')->where('comment_parent_id', '=', 0)->where('status', 0)->orderBy('date', 'DESC')->paginate(10);
+        $cmt_reps = Comment::with('post')->where('comment_parent_id','>',0)->get();
+        return view('admin.comments.index', compact('comments', 'rooms', 'user', 'cmt_reps', 'users', 'posts'));
+    }
+
+    public function key_search(Request $request)
+    {
+        $user = Auth::guard('web')->user();
+        $search = $request->get('search');
+        $users = \App\Models\User::all();
+        $posts = Post::all();
+        $rooms = Room::all();
+        $user = Auth::guard('web')->user();
+        $cmt_reps = Comment::with('post')->where('comment_parent_id','>',0)->get();
+
+//        dd($search);
+        $comments = Comment::orderBy('date','desc')->where('comment_parent_id', '=', 0)->where('content', 'LIKE', '%' . $search . '%')->orWhere('id', 'LIKE', '%' . $search . '%')->orWhere('date', 'LIKE', '%' . $search . '%')->orWhere('name', 'LIKE', '%' . $search . '%')->get();
+        if (count($comments)>0)
+
+            return view('admin.comments.search', compact('comments', 'rooms', 'user', 'cmt_reps', 'users', 'posts'));
+        else
+            return view('admin.rooms.not_found', compact('user'));
     }
 
     public function allow_comment(Request $request)
@@ -32,17 +64,19 @@ class CommentController extends Controller
 
     public function reply($id)
     {
-        $user = Auth::guard('admin')->user();
-
+        $user = Auth::guard('web')->user();
         $comment = Comment::find($id);
+        $user_cmt = User::where('id', $comment->user_id)->get()->first();
+//        dd($user_cmt->id);
+
         $comments = Comment::with('post')->where('comment_parent_id', '=', 0)->orderBy('status', 'DESC')->paginate(10);
         $cmt_reps = Comment::with('post')->where('comment_parent_id','>',0)->get();
-        return view('admin.comments.reply_cmt', compact('comment', 'comments', 'cmt_reps', 'user'));
+        return view('admin.comments.reply_cmt', compact('comment','user_cmt', 'comments', 'cmt_reps', 'user'));
     }
 
     public function reply_comment(Request $request)
     {
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $data = $request->all();
         $comment = new Comment();
         $comment->name = "ChauAdmin";
@@ -50,7 +84,7 @@ class CommentController extends Controller
         $comment->post_id = $data['post_id'];
         $comment->comment_parent_id = $data['comment_id'];
         $comment->date = now();
-//        $comment->user_id = $user->id;
+        $comment->user_id = $user->id;
         $comment->status = 1;
         $comment->save();
 
@@ -64,7 +98,7 @@ class CommentController extends Controller
         $comment->name = $request['name'];
         $comment->content = $request['content'];
         $comment->post_id = $request['post_id'];
-        $comment->date = now();
+        $comment->date = Carbon::now();
         $comment->rating = $request['rating'];
         $comment->phone = $request['phone'];
         $comment->comment_parent_id = 0;
@@ -92,7 +126,7 @@ class CommentController extends Controller
         }
         else{
             foreach ($comments as $key => $comment){
-                $user = \App\Models\Admin::find($comment->user_id);
+                $user = \App\Models\User::find($comment->user_id);
                 if ($comment->rating==1)
                     {
                         $rating = $rating1;

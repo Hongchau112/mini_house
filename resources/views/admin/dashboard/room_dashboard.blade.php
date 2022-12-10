@@ -91,22 +91,25 @@
             </div><!-- .col -->
 
             <div class="col-xl-12 col-xxl-8">
-                <div class="card-tools" style="margin: 14px;width: 116px; font-size: 16px;">
+                <div class="row">
+                    <div class="card-tools" style="margin: 14px;width: 116px; font-size: 16px;">
                         <select class="link-list-opt no-bdr" name="thoigian" id="select_date">
-                            <option value="1ngay">Hôm nay</option>
-                            <option value="7ngay">Trong tuần</option>
-                            <option value="30ngay">Trong tháng</option>
-                            <option value="365ngay">Trong năm</option>
+                            <option value="7ngay">Tuần qua</option>
+                            <option value="30ngay">Tháng qua</option>
+                            <option value="365ngay">Năm qua</option>
                         </select>
+                    </div>
+{{--                    <div class="col-lg-6" style="background-color: #12808b">--}}
+{{--                        <div style="margin: 15px; text-align: center;font-size: 21px; font-weight: bold;color: white;"> Tổng doanh thu: {{number_format($total)}} VND</div>--}}
+
+{{--                    </div>--}}
                 </div>
-                <div class="card card-bordered card-full">
+
+                <div class="card card-bordered card-full" style="margin-top: 25px;">
                     <div class="card-inner border-bottom">
                         <div class="card-title-group">
                             <div class="card-title">
-                                <h6 class="title">Các đơn mới</h6>
-                            </div>
-                            <div class="card-tools">
-                                <a href="#" class="link">View All</a>
+                                <h6 class="title">Các đơn đặt phòng</h6>
                             </div>
                         </div>
                     </div>
@@ -124,7 +127,7 @@
                             <div class="nk-tb-col">
                                 <div class="align-center">
                                     <div class="user-avatar user-avatar-sm bg-light">
-                                        <span>P1</span>
+                                        <span>{{$new_booking->room_id}}</span>
                                     </div>
                                     <span class="tb-sub ml-2">{{$new_booking->room_id}}</span></span>
                                 </div>

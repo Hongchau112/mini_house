@@ -12,5 +12,6 @@ class Booking extends Model
         'user_name', 'user_phone', 'user_email', 'user_sex', 'user_birthday', 'user_address', 'room_id', 'payment_method'
     ];
     protected $table='booking';
+//    public $timestamps=false;
 
 }

@@ -17,8 +17,8 @@ class DashboardController extends Controller
 
     public function index()
     {
-        $user = Auth::guard('admin')->user();
-        $users = \App\Models\Admin::where('account', 'user')->get()->count();
+        $user = Auth::guard('web')->user();
+        $users = \App\Models\User::where('account', 'user')->get()->count();
         $posts = Post::all()->count();
         $rooms = Room::all()->count();
         $bookings = Booking::all()->count();
@@ -26,19 +26,27 @@ class DashboardController extends Controller
         $booking_pending = Booking::where('booking_status', 'pending')->get()->count();
         $booking_success = Booking::where('booking_status', 'success')->get()->count();
         $booking_cancel = Booking::where('booking_status', 'cancel')->get()->count();
-        $new_bookings = Booking::where('booking_status', 'new')->get();
+        $new_bookings = Booking::all();
         $booking_details = BookingDetail::all();
 //        dd($booking_details);
-        return view('admin.dashboard.room_dashboard', compact('user','booking_details', 'new_bookings','users', 'posts', 'rooms', 'bookings', 'booking_new', 'booking_pending', 'booking_success', 'booking_cancel'));
+        $total = 0;
+        $all_bookings = Booking::all();
+        foreach ($all_bookings as $get_price)
+        {
+            $booking_detail_p = BookingDetail::where('booking_id', $get_price->id)->get()->first();
+            $total += $booking_detail_p->total_cost;
+        }
+
+        return view('admin.dashboard.room_dashboard', compact('user','total','booking_details', 'new_bookings','users', 'posts', 'rooms', 'bookings', 'booking_new', 'booking_pending', 'booking_success', 'booking_cancel'));
     }
 
     public function statistic_order(Request $request)
     {
         $data = '';
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $thoigian = $request->thoigian;
 //        dd($thoigian);
-        $subdays = Carbon::now()->subDays(365)->toDateString();
+        $subdays = Carbon::now()->subDays(7)->toDateString();
         //xu ly ngay
         if ($thoigian=='7ngay')
         {
@@ -52,11 +60,11 @@ class DashboardController extends Controller
         {
             $subdays = Carbon::now()->subDays(365)->toDateString();
         }
-        $get_bookings=[];
+
         $now = Carbon::now('Asia/Ho_Chi_Minh')->toDateString();
         $new_bookings = Booking::whereBetween('date',[$subdays, $now])->get();
-        $user = Auth::guard('admin')->user();
-        $users = \App\Models\Admin::where('account', 'user')->get()->count();
+//        $user = Auth::guard('web')->user();
+        $users = \App\Models\User::where('account', 'user')->get()->count();
         $posts = Post::all()->count();
         $rooms = Room::all()->count();
         $bookings = Booking::all()->count();
@@ -65,8 +73,14 @@ class DashboardController extends Controller
         $booking_success = Booking::where('booking_status', 'success')->get()->count();
         $booking_cancel = Booking::where('booking_status', 'cancel')->get()->count();
         $booking_details = BookingDetail::all();
+        $total = 0;
+        foreach ($new_bookings as $get_price)
+        {
+            $booking_detail_p = BookingDetail::where('booking_id', $get_price->id)->get()->first();
+            $total += $booking_detail_p->total_cost;
+        }
 
-        return view('admin.dashboard.result', compact('user','booking_details', 'new_bookings','users', 'posts', 'rooms', 'bookings', 'booking_new', 'booking_pending', 'booking_success', 'booking_cancel'));
+        return view('admin.dashboard.result', compact('user', 'total','booking_details', 'new_bookings','users', 'posts', 'rooms', 'bookings', 'booking_new', 'booking_pending', 'booking_success', 'booking_cancel'));
         //get array
 
     }

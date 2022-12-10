@@ -20,7 +20,7 @@ class PostController extends Controller
     {
 //        Session::get('user_id');
 //        dd(Session::get('user_id'));
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $rooms = Room::all();
         $posts = Post::all();
         $categories = RoomCategory::where('parent_category_id', 0)->get();
@@ -35,16 +35,16 @@ class PostController extends Controller
 
     public function index ()
     {
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $rooms = Room::all();
-        $posts = Post::paginate(10);
+        $posts = Post::orderBy('created_at', 'desc')->paginate(10);
         $images = Image::all();
         return view ('admin.posts.index', compact('user', 'rooms', 'posts', 'images'));
     }
 
     public function create()
     {
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $room_category = RoomCategory::all();
         $rooms = Room::all();
         $post_category = PostCategory::all();
@@ -53,7 +53,7 @@ class PostController extends Controller
 
     public function edit($id)
     {
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $room_category = RoomCategory::all();
         $post = Post::find($id);
         $post_category = PostCategory::all();
@@ -62,7 +62,7 @@ class PostController extends Controller
 
     public function update(Request $request, $id)
     {
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
 
         $data = $request->validate([
             'title' => 'required',
@@ -91,7 +91,7 @@ class PostController extends Controller
     {
         $user = '';
 
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
 
         $post = Post::find($id);
         $images = Image::all();
@@ -106,7 +106,7 @@ class PostController extends Controller
     public function store(Request $request)
     {
 //        dd($request->all());
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
 
         $data = $request->validate([
             'title' => 'required',
@@ -120,6 +120,7 @@ class PostController extends Controller
         $post->title = $data['title'];
         $post->content = $data['content'];
         $post->post_type_id = $data['post_type_id'];
+        $post->created_at = date_format(now(),"d-m-Y H:i:s");
         if($request->hasFile('image')){
             $filename = time().'.'.request()->image->getClientOriginalExtension();
             request()->image->move(public_path('images/posts'), $filename);
@@ -156,7 +157,7 @@ class PostController extends Controller
 
     public function search(Request $request)
     {
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $images = Image::all();
         $rooms = Room::all();
         $categories = RoomCategory::all();
@@ -189,7 +190,7 @@ class PostController extends Controller
         $room_categories = RoomCategory::all();
         $images = Image::all();
         $services = Service::all();
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $subdays = Carbon::now()->subDays(7)->toDateString();
         $now = Carbon::now()->toDateString();
         $post_infos = Post::whereBetween('created_at',[$subdays, $now])->get();

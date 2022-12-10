@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Admin;
 use App\Models\Booking;
 use App\Models\BookingDetail;
+use App\Models\Customer;
 use App\Models\Image;
 use App\Models\Post;
 use App\Models\PostCategory;
@@ -38,11 +39,11 @@ class CustomerController extends Controller
         $credentials = $request->only('email', 'password');
         $user = Admin::where('email', $request->email)->first();
 //        dd($user->password);
-        if (Auth::guard('admin')->attempt($credentials)) {
+        if (Auth::guard('web')->attempt($credentials)) {
 //            dd(1);
             Session::put('user_id', $user->id);
             if ($user->status == 0) {
-                return view('customer.customer_login')->with('message', 'Tài khoản đã bị khóa!');
+                return redirect()->route('customer.customer_login')->with('message', 'Tài khoản đã bị khóa!');
             } else {
                 if ($request->has('rememberme')) {
                     Cookie::queue('adminuser', $request->email, 1440);
@@ -116,16 +117,17 @@ class CustomerController extends Controller
         $room_categories = RoomCategory::all();
         $rooms = Room::all();
         $images = Image::all();
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $post_categories = PostCategory::all();
         $posts = Post::all();
+//        dd(Auth::guard('admin')->user());
         return view('customer.login.index', compact('user', 'post_categories','images', 'rooms', 'room_categories', 'posts'));
     }
 
     public function edit_profile($id)
     {
 
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $post_categories = PostCategory::all();
         $room_categories = RoomCategory::all();
 
@@ -135,7 +137,7 @@ class CustomerController extends Controller
 
     public function update_profile(Request $request, $id)
     {
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $post_categories = PostCategory::all();
         $room_categories = RoomCategory::all();
         $validated_data = $request->validate([
@@ -147,7 +149,7 @@ class CustomerController extends Controller
             'birthday' => 'required'
         ]);
 //dd(1);
-        $user = Admin::find($id);
+        $user = User::find($id);
         $user->name = $validated_data['name'];
         $user->email = $validated_data['email'];
         $user->phone = $validated_data['phone'];
@@ -170,7 +172,7 @@ class CustomerController extends Controller
 
     public function listing()
     {
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $post_categories = PostCategory::all();
         $rooms = Room::paginate(5);
         $room_categories = RoomCategory::all();
@@ -182,7 +184,7 @@ class CustomerController extends Controller
 
     public function details($id)
     {
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $room = Room::find($id);
         $images = Image::all();
         $services = Service::all();
@@ -199,7 +201,7 @@ class CustomerController extends Controller
     public function filter_price(Request $request)
     {
         $images = Image::all();
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $services = Service::all();
         $room_categories = RoomCategory::all();
 //        $rooms = Room::all();
@@ -257,7 +259,7 @@ class CustomerController extends Controller
         $images = Image::all();
         $post_categories = PostCategory::all();
         $services = Service::all();
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         return view('customer.rooms.show_category', compact('user', 'services', 'post_categories','rooms', 'room_categories' , 'images', 'room_selected', 'category'));
 
     }
@@ -265,7 +267,7 @@ class CustomerController extends Controller
     public function global_search(Request $request)
     {
         $data = $request->all();
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $services = Service::all();
         $room_categories = RoomCategory::all();
         $post_categories = PostCategory::all();
@@ -276,7 +278,7 @@ class CustomerController extends Controller
         foreach ($rooms as $room)
         {
             $output.='
-            <li style="padding: 11px; width: 256px; font-size: 14px; color: black; border-bottom: 1px solid black;" class="list-group-item search_room_ajax"><a style="color: black;" href ="/customer/rooms/details/'.$room->id.'">'.$room->name.'</a>
+            <li style=";padding: 11px; width: 256px; font-size: 14px; color: black; border-bottom: 1px solid black;" class="list-group-item search_room_ajax hover"><a style="color: black;" href ="/customer/rooms/details/'.$room->id.'">'.$room->name.'</a>
             </li>';
         }
          $output.= '</ul>';
@@ -285,7 +287,7 @@ class CustomerController extends Controller
 
     public function search(Request $request)
     {
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $data = $request->all();
 //        dd($data);
         $room_categories = RoomCategory::all();
@@ -297,7 +299,7 @@ class CustomerController extends Controller
 
     public function booking_history($id)
     {
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $rooms = Room::all();
         $customer_id = Session::get('user_id');
         $room_categories = RoomCategory::all();
@@ -323,8 +325,8 @@ $post_categories = PostCategory::all();
         $room = Room::where('id', $booking->booking_room_id)->get()->first();
         $get_category = RoomCategory::where('id', $room->room_type_id)->get()->first();
         $image = Image::where('room_id', $room->id)->get()->first();
-        $user = Auth::guard('admin')->user();
-        $customers = User::where('booking_id', $booking->id)->get();
+        $user = Auth::guard('web')->user();
+        $customers = Customer::where('booking_id', $booking->id)->get();
 //        dd($customer->name);
         $room_categories = RoomCategory::all();
         $post_categories = PostCategory::all();
@@ -335,14 +337,10 @@ $post_categories = PostCategory::all();
         return view('customer.login.booking_details', compact('booking', 'post_categories','serviceRooms','customers', 'booking_detail', 'services','get_category', 'image','room', 'room_categories', 'images', 'user'));
     }
 
-    public function test_modal()
-    {
-        return view('customer.rooms.test_modal');
-    }
 
     public function logout()
     {
-        Auth::guard('admin')->logout();
+        Auth::guard('web')->logout();
         Session::forget('user_id');
         return redirect()->route('customer.index');
     }

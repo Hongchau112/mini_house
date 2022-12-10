@@ -19,15 +19,9 @@ class User extends Authenticatable
      */
     protected $table='users';
     public $timestamps=false;
+    use \Illuminate\Auth\Authenticatable;
     protected $fillable = [
-        'name',
-        'email',
-        'phone',
-        'identified_no',
-        'address',
-        'title',
-        'sex',
-        'birthday'
+        'name', 'phone', 'email', 'password', 'address', 'birthday', 'sex', 'account', 'avatar'
     ];
 
     public function room()

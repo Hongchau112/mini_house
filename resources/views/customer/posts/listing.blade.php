@@ -43,10 +43,10 @@
                     <!-- aside -->
                     <aside>
                         <!-- search form -->
-                        <form class="search-form mb-50">
-                            <input type="text" class="form-control" name="key-search" id="key-search" placeholder="Tìm kiếm ..." value="">
-                            <button class="search-submit"><i class="fas fa-search"></i></button>
-                        </form>
+{{--                        <form class="search-form mb-50">--}}
+{{--                            <input type="text" class="form-control" name="key-search" id="key-search" placeholder="Tìm kiếm ..." value="">--}}
+{{--                            <button class="search-submit"><i class="fas fa-search"></i></button>--}}
+{{--                        </form>--}}
                         <!-- search form end -->
                         <!-- widget -->
                         <div class="widget mb-50">

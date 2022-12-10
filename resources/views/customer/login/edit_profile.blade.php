@@ -67,7 +67,7 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label>Email<span class="text-danger">*</span></label>
+                                    <label>Email <span class="text-danger">*</span></label>
                                     <input type="email" name="email" value="{{$user->email}}" class="form-control" required>
                                 </div>
                             </div>
@@ -75,13 +75,13 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label>Địa chỉ</label>
+                                    <label>Địa chỉ <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" name="address" id="address" value="{{$user->address}}">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label class="form-label">Ngày sinh</label>
+                                    <label class="form-label">Ngày sinh <span class="text-danger">*</span></label>
                                     <div class="form-control-wrap">
                                         <input type="text" name="birthday" value="{{$user->birthday}}" class="form-control date-picker">
                                     </div>
@@ -103,7 +103,7 @@
 
 
                         </div>
-                        <button type="submit" class="btn-style-1">Cập nhật</button>
+                        <button type="submit" class="btn-style-1" style="margin-left: 200px;">Cập nhật</button>
                     </form>
                     <!-- contact form end -->
                 </div>
@@ -117,7 +117,7 @@
                                 <div class="card-header">Ảnh đại diện</div>
                                 <div class="card-body text-center">
                                     <!-- Profile picture image-->
-                                    <img class="img-account-profile rounded-circle mb-2" src="{{asset('images/' .$user->avatar)}}" alt="">
+                                    <img class="" src="{{asset('images/' .$user->avatar)}}" alt="">
                                     <!-- Profile picture help block-->
 {{--                                    <div class="small font-italic text-muted mb-4">File hình ảnh</div>--}}
                                     <!-- Profile picture upload button-->

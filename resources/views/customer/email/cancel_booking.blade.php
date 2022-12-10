@@ -77,7 +77,7 @@
             Hủy đặt
         </td>
         <td>
-            {{$date_cancel}}
+            {{date_format($date_cancel, 'd-m-Y H:m:s')}}
         </td>
     </tr>
 

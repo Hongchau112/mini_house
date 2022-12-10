@@ -1,16 +1,16 @@
 <style>
-    li:hover{
-        background-color: #a6f1b5;
+    .search_room_ajax:hover{
+        background-color: lightblue;
     }
 </style>
-<header class="header">
+<header class="header ">
     <!-- header upper -->
-    <div class="header-upper-bar">
+    <div class="header-upper-bar fixed-top" >
         <div class="container">
             <div class="row d-flex align-items-center">
                 <div class="col-lg-8 col-md-6 col-sm-4 col-2">
                     <!-- header navigation -->
-                    <nav class="navbar header-navigation navbar-expand-lg p-0">
+                    <nav class="navbar header-navigation navbar-expand-lg p-0 " >
                         <!-- mobile Toggle -->
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTheme" aria-controls="navbarTheme" aria-expanded="false" aria-label="Toggle navigation"> <span></span> <span></span> <span></span> </button>
                         <!-- mobile toggle end -->
@@ -102,7 +102,7 @@
                                     @endif
                                 @endforeach
                                 <li class=""><a class="nav-link" href="{{route('customer.about_us')}}">Liên hệ</a></li>
-                                <li class=""><a class="nav-link" href="{{route('customer.rooms.listing')}}">Tất cả trọ</a></li>
+{{--                                <li class=""><a class="nav-link" href="{{route('customer.rooms.listing')}}">Tất cả trọ</a></li>--}}
 
 
 
@@ -131,7 +131,7 @@
                                     <li>
                                     <div class="dropdown" >
 
-                                        <button class="btn btn-secondary dropdown-toggle" style="font-size: 12px;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <button class="btn btn-success" style="font-size: 12px;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <i class="fa fa-user" style="font-size: 15px"></i>
                                         </button>
                                         <div class="dropdown-menu" style="font-size: 12px;" aria-labelledby="dropdownMenuButton">
@@ -158,7 +158,7 @@
     </div>
     <!-- header upper end -->
     <!-- header lover -->
-    <div class="header-lover">
+    <div class="header-lover" style="margin-top: 65px;">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-3 col-md-12" style="position: relative">

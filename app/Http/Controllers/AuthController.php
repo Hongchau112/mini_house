@@ -38,7 +38,7 @@ class AuthController extends Controller
         $user_roles = Roles::where('name','user')->first();
 
         $validated_data['password'] = Hash::make($request->password);
-        $user = new Admin();
+        $user = new User();
         $user->name = $validated_data['name'];
         $user->email = $validated_data['email'];
         $user->password = $validated_data['password'];
@@ -46,7 +46,7 @@ class AuthController extends Controller
         $user->sex = $validated_data['sex'];
         $user->account = "user";
         $user->save();
-        $user->roles()->attach($user_roles);
+//        $user->roles()->attach($user_roles);
 
         return view('admin.custom_auth.login_form')->with('message', 'Đăng ký tài khoản thành công');
 

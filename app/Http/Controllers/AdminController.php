@@ -7,6 +7,7 @@ use App\Models\Roles;
 use App\Models\Room;
 use App\Models\Social;
 use App\Models\Login;
+use App\Models\User;
 use Illuminate\Support\Facades\Cookie;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Database\Eloquent\Model;
@@ -23,12 +24,12 @@ class AdminController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
-        $user = Admin::where('email', $request->email)->first();
+        $user = User::where('email', $request->email)->first();
         $rooms = Room::all();
         $images = Image::all();
-        $user_lists = Admin::with('roles')->orderBy('id', 'ASC')->paginate(10);
+        $user_lists = User::paginate(10);
 //        dd($user->password);
-        if (Auth::guard('admin')->attempt($credentials)) {
+        if (Auth::guard('web')->attempt($credentials)) {
 //            dd(1);
             Session::put('user_id', $user->id);
             if ($user->status == 0)
@@ -65,15 +66,15 @@ class AdminController extends Controller
 
     public function index()
     {
-        $user = Auth::guard('admin')->user();
-        $user_lists = Admin::paginate(10);
+        $user = Auth::guard('web')->user();
+        $user_lists = User::orderBy('created_at', 'desc')->paginate(10);
         return view('admin.users.index', compact('user_lists', 'user'));
     }
 
 
     public function create()
     {
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         return view('admin.users.create', ['user' => $user]);
     }
 
@@ -85,7 +86,7 @@ class AdminController extends Controller
         $user_roles = Roles::where('name','user')->first();
         $validated_data = $request->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:admins',
+            'email' => 'required|email|unique:users',
             'new_password' => 'required|confirmed',
             'phone' => 'required | between: 10,12',
             'sex' => 'required',
@@ -95,16 +96,19 @@ class AdminController extends Controller
             'birthday' => 'required'
 
         ]);
+
+
 //        dd($validated_data['sex']);
 
         $validated_data['password'] = Hash::make($request->new_password);
-        $user = new Admin();
+        $user = new User();
         $user->name = $validated_data['name'];
         $user->email = $validated_data['email'];
         $user->password = $validated_data['password'];
         $user->phone = $validated_data['phone'];
         $user->sex = $validated_data['sex'];
         $user->account = $validated_data['account'];
+        $user->status = 1;
         $user->address = $validated_data['address'];
         $user->birthday = $validated_data['birthday'];
 
@@ -118,22 +122,13 @@ class AdminController extends Controller
         }
         $user->save();
 
-        if($user->account=='admin'){
-            $user->roles()->attach($admin_roles);
-        }
-        elseif ($user->account=='staff'){
-            $user->roles()->attach($staff_roles);
-        }
-        else {
-            $user->roles()->attach($user_roles);
-        }
 
         return redirect()->route('admin.index')->with('success', 'Tạo tài khoản thành công!');
     }
 
     public function change_role($id)
     {
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $user_find = Admin::find($id);
         return view('admin.users.change_role', compact('user', 'user_find'));
     }
@@ -142,8 +137,8 @@ class AdminController extends Controller
     public function assign_roles(Request $request, $id)
     {
 //        dd($request->change_role);
-        $user = Auth::guard('admin')->user();
-        $user_find = Admin::find($id);
+        $user = Auth::guard('web')->user();
+        $user_find = User::find($id);
         $validated_data = $request->validate([
             'password' => 'required | confirmed |between: 6,100',
             'change_role' => 'required',
@@ -180,24 +175,24 @@ class AdminController extends Controller
 
     public function show($id)
     {
-        $user = Auth::guard('admin')->user();
-        $userList = Admin::all();
-        $user_show = Admin::find($id);
+        $user = Auth::guard('web')->user();
+        $userList = User::all();
+        $user_show = User::find($id);
         return view('admin.users.show', compact('user', 'user_show', 'userList'));
     }
 
     public function edit($id)
     {
-        $user = Auth::guard('admin')->user();
-        $user_list = Admin::all();
-        $user_edit = Admin::find($id);
+        $user = Auth::guard('web')->user();
+        $user_list = User::all();
+        $user_edit = User::find($id);
         return view('admin.users.edit', compact('user', 'user_edit', 'user_list'));
     }
 
     public function update_account(Request $request, $id)
     {
 //        dd($request->all());
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         {
             $validated_data = $request->validate([
                 'name' => 'required',
@@ -209,7 +204,7 @@ class AdminController extends Controller
                 'birthday' => 'required'
             ]);
 
-            $user = Admin::find($id);
+            $user = User::find($id);
             $user->name = $validated_data['name'];
             $user->email = $validated_data['email'];
             $user->phone = $validated_data['phone'];
@@ -233,7 +228,7 @@ class AdminController extends Controller
 
     public function update(Request $request, $id)
     {
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         {
             $validated_data = $request->validate([
                 'name' => 'required',
@@ -242,7 +237,7 @@ class AdminController extends Controller
                 'phone' => 'nullable'
             ]);
 
-            $user = Admin::find($id);
+            $user = User::find($id);
             $user->name = $validated_data['name'];
             $user->email = $validated_data['email'];
             $user->phone = $validated_data['phone'];
@@ -253,21 +248,21 @@ class AdminController extends Controller
     }
     public function logout()
     {
-        Auth::guard('admin')->logout();
+        Auth::guard('web')->logout();
         Session::forget('user_id');
-        return redirect()->route('admin.login_auth');
+        return redirect()->route('login');
     }
 
     public function edit_password($id)
     {
-        $user = Auth::guard('admin')->user();
-        $user_list = Admin::all();
-        $user_edit = Admin::find($id);
+        $user = Auth::guard('web')->user();
+        $user_list = User::all();
+        $user_edit = User::find($id);
         return view('admin.users.password', compact('user', 'user_edit', 'user_list'));
     }
 
     public function change_password(Request $request) {
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $user_password_old = $user->password; //mật khẩu cũ
 
         $request->validate([
@@ -285,9 +280,9 @@ class AdminController extends Controller
     }
     public function block($id)
     {
-        $user = Auth::guard('admin')->user();
-        $user_list = Admin::all();
-        $user_lock = Admin::find($id);
+        $user = Auth::guard('web')->user();
+        $user_list = User::all();
+        $user_lock = User::find($id);
 
         if ($user_lock->status == 0)
         {

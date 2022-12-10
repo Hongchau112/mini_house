@@ -37,7 +37,7 @@ Route::get('/', function () {
 Route::get('admin/login', function(){ return view('admin.users.login');
 });
 
-Route::get('admin/login_auth', [AuthController::class, 'login_auth'])->name('admin.login_auth');
+Route::get('admin/login_auth', [AuthController::class, 'login_auth'])->name('login');
 Route::post('admin/login', [AdminController::class, 'login'])->name('admin.login');
 Route::get('admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
 Route::get('admin/register', [AuthController::class, 'register'])->name('admin.register');
@@ -126,9 +126,11 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
 
     ////Comments
     Route::get('admin/comments', [CommentController::class, 'index'])->name('comments.index');
+    Route::get('admin/comments/not_approve', [CommentController::class, 'not_approve'])->name('comments.not_approve');
     Route::post('admin/allow_comment', [CommentController::class, 'allow_comment'])->name('comments.allow_comment');
     Route::post('admin/reply_comment', [CommentController::class, 'reply_comment'])->name('comments.reply_comment');
     Route::get('admin/comments/reply/{id}', [CommentController::class, 'reply'])->name('comments.reply');
+    Route::get('admin/comments/key_search', [CommentController::class, 'key_search'])->name('comments.key_search');
 
     //user-comment
 

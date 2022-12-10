@@ -1,11 +1,13 @@
+
 <footer class="pt-50">
     <div class="footer-top">
         <div class="container">
             <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-6 mb-30">
+                <div class="col-lg-3 col-md-3 col-sm-6 mb-30" style="font-size: 14px;
+color: #05592a;">
                     <!-- title -->
-                    <div class="title mb-10">
-                        <h3>Liên hệ</h3>
+                    <div class="title mb-10" style="color: black">
+                        <h3 style="color: #0a7859">Liên hệ</h3>
                     </div>
                     <!-- title end -->
                     <!-- text -->
@@ -15,43 +17,42 @@
                     </div>
                     <!-- end text -->
                     <!-- footer social -->
-                    <div class="footer-social"> <a href=""><i class="fab fa-facebook-square"></i></a> <a href=""><i class="fab fa-twitter-square"></i></a> <a href=""><i class="fab fa-linkedin"></i></a> <a href=""><i class="fab fa-pinterest-square"></i></a> <a href=""><i class="fab fa-google-plus-square"></i></a> </div>
+                    <div class="footer-social"> <a href=""><i class="fab fa-facebook-square" style="color: black;"></i></a>
+                        <a href=""><i class="fab fa-twitter-square" style="color: black;"></i></a>
+                        <a href=""><i class="fab fa-linkedin" style="color: black;"></i></a>
+                        <a href=""><i class="fab fa-google-plus-square" style="color: black;"></i></a> </div>
                     <!-- footer social end -->
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 mb-30">
                     <!-- title -->
                     <div class="title mb-10">
-                        <h3>Truy cập nhanh</h3>
+                        <h3 style="color: #0a7859">Truy cập nhanh</h3>
                     </div>
                     <!-- title end -->
                     <!-- footer link -->
                     <ul class="footer-link">
-                        <li><i class="fas fa-caret-right"></i> <a href="#">Trang chủ</a> </li>
-                        <li><i class="fas fa-caret-right"></i> <a href="#">Liên hệ</a> </li>
-                        <li><i class="fas fa-caret-right"></i> <a href="#">Dịch vụ</a> </li>
-                        <li><i class="fas fa-caret-right"></i> <a href="#">Danh sách trọ</a> </li>
-                        <li><i class="fas fa-caret-right"></i> <a href="#">Bài đăng</a> </li>
-                        <li><i class="fas fa-caret-right"></i> <a href="#">Hỏi đáp</a> </li>
+                        <li><i class="fas fa-caret-right"></i> <a href="#" style="color: black;">Trang chủ</a> </li>
+                        <li><i class="fas fa-caret-right"></i> <a href="#"  style="color: black;">Liên hệ</a> </li>
+                        <li><i class="fas fa-caret-right"></i> <a href="#" style="color: black;">Dịch vụ</a> </li>
+                        <li><i class="fas fa-caret-right"></i> <a href="#" style="color: black;">Danh sách trọ</a> </li>
+                        <li><i class="fas fa-caret-right"></i> <a href="#" style="color: black;">Bài đăng</a> </li>
                     </ul>
                     <!-- footer link end -->
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 mb-30">
+                <div class="col-lg-3 col-md-3 col-sm-8 mb-30">
                     <!-- title -->
                     <div class="title mb-10">
-                        <h3>Các bài đăng gần đây</h3>
+                        <h3 style="color: #0a7859">Tin nổi bật</h3>
                     </div>
                     <!-- title end -->
                     <!-- recent-posts -->
                     <div class="footer-recent-post">
                         <!-- footer recent post item -->
-                        <div class="footer-recent-post-item"> <a href="">
-                                <p>Bài đăng 1</p>
-                                <small><i class="far fa-calendar-alt pr-6"></i> 01 Oct 2020</small></a> </div>
+                        <div class="footer-recent-post-item">
+                                <p style="font-size: 14px; color: #085715">nhatrogiatot có giao diện đẹp và thân thiện với người dùng, vì vậy website luôn thu hút được một lượng rất lớn người truy cập hàng tháng</p>
+                        </div>
                         <!-- footer recent post item end -->
                         <!-- footer recent post item -->
-                        <div class="footer-recent-post-item"> <a href="">
-                                <p>Bài đăng 2</p>
-                                <small><i class="far fa-calendar-alt pr-6"></i> 01 Oct 2020</small></a> </div>
                         <!-- footer recent post item end -->
                     </div>
                     <!-- recent-posts end -->
@@ -59,7 +60,7 @@
                 <div class="col-lg-3 col-md-3 col-sm-6 mb-30">
                     <!-- title -->
                     <div class="title mb-10">
-                        <h3>Bản tin</h3>
+                        <h3 style="color: #0a7859">Bản tin</h3>
                     </div>
                     <!-- title end -->
                     <!-- footer newsletter text -->
@@ -70,7 +71,7 @@
                     <!-- footer newsletter form -->
                     <div class="footer-newsletter-form">
                         <form>
-                            <input placeholder="Email Adress..." type="text" required>
+                            <input placeholder="Địa chỉ email..." type="text" required style="border-color: #0a7859">
                             <button type="submit">Đăng ký</button>
                         </form>
                     </div>

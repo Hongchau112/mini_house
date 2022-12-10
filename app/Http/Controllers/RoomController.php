@@ -17,15 +17,15 @@ class RoomController extends Controller
 {
     public function index ()
     {
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $room_category = RoomCategory::all();
-        $rooms = Room::paginate(10);
+        $rooms = Room::orderBy('created_at','desc')->paginate(10);
         return view ('admin.rooms.index', compact('user', 'rooms', 'room_category'));
     }
 
     public function create()
     {
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $room_category = RoomCategory::all();
         $services = Service::all();
         return view('admin.rooms.create', compact('user', 'room_category', 'services'));
@@ -33,14 +33,14 @@ class RoomController extends Controller
 
     public function upload_images($id)
     {
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $room = Room::find($id);
         return view('admin.rooms.test', compact('user', 'room'));
     }
 
     public function save_images(Request $request, $id)
     {
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $room = Room::find($id);
         $get_image = $request->file('file');
         if($get_image){
@@ -88,7 +88,7 @@ class RoomController extends Controller
     public function store(Request $request)
     {
 
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $room_category = RoomCategory::all();
 
         $data = $request->validate([
@@ -101,7 +101,10 @@ class RoomController extends Controller
             'width' => 'required',
             'length' => 'required'
         ]);
+        $random = bin2hex(random_bytes(4));
+//        dd($random);
       $room = new Room();
+        $room->room_sku = $random;
         $room->name = $data['name'];
         $room->description = $data['description'];
         $room->room_type_id = $data['room_type_id'];
@@ -127,7 +130,7 @@ class RoomController extends Controller
 
     public function show($id)
     {
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $room = Room::find($id);
         $categories= RoomCategory::all();
         $room_category='';
@@ -149,7 +152,7 @@ class RoomController extends Controller
 
     public function edit($id)
     {
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $categories = RoomCategory::all();
         $room = Room::find($id);
         $serviceRooms = ServiceRoom::where('room_id', $id)->get();
@@ -159,7 +162,7 @@ class RoomController extends Controller
 
     public function update(Request $request, $id)
     {
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $room_category = RoomCategory::all();
         $data = $request->validate([
             'name' => 'required',
@@ -194,7 +197,7 @@ class RoomController extends Controller
 
     public function room_card()
     {
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $room_category = RoomCategory::all();
         $rooms = Room::all();
         $images = Image::all();
@@ -204,11 +207,11 @@ class RoomController extends Controller
 
     public function room_search(Request $request)
     {
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $room_category = RoomCategory::all();
         $search = $request->get('search');
 //        dd($search);
-        $rooms = Room::where('name', 'LIKE', '%' . $search . '%')->orWhere('cost', 'LIKE', '%' . $search . '%')->get();
+        $rooms = Room::where('name', 'LIKE', '%' . $search . '%')->orWhere('room_sku', 'LIKE', '%' . $search . '%')->orWhere('cost', 'LIKE', '%' . $search . '%')->get();
         if (count($rooms)>0)
 
             return view('admin.rooms.search', compact('rooms', 'user', 'room_category'));
@@ -218,7 +221,7 @@ class RoomController extends Controller
 
     public function filter_search(Request $request)
     {
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $rooms = Room::all();
         $room_category = RoomCategory::all();
         $filter_search = $request->get('filter');
@@ -240,7 +243,7 @@ class RoomController extends Controller
     {
         $services = $request->services;
 //        dd($services);
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
 //        $rooms = Room::all();
         $room_categories = RoomCategory::all();
         $room_filters = '';

@@ -48,7 +48,7 @@
                     <table class="table table-tranx" id="list">
                         <thead>
                         <tr class="tb-tnx-head">
-                            <th class="tb-tnx-id"><span class="">ID Phòng</span></th>
+                            <th class="tb-tnx-id"><span class="">Mã Phòng</span></th>
                             <th class="tb-tnx-info">
                                                             <span class="tb-tnx-desc d-none d-sm-inline-block">
                                                                 <span>Người đặt</span>
@@ -73,7 +73,10 @@
                         @foreach($bookings as $booking)
                             <tr class="tb-tnx-item">
                                 <td class="tb-tnx-id">
-                                    <a href="{{route('admin.rooms.show', ['id'=>$booking->booking_room_id])}}"><span>{{$booking->booking_room_id}}</span></a>
+                                    @php
+                                        $room_sku = \App\Models\Room::find($booking->booking_room_id)->room_sku;
+                                    @endphp
+                                    <a href="{{route('admin.rooms.show', ['id'=>$booking->booking_room_id])}}"><span>{{$room_sku}}</span></a>
                                 </td>
                                 <td class="tb-tnx-info">
                                     <div class="tb-tnx-desc">
@@ -86,7 +89,7 @@
                                         </a>
                                     </div>
                                     <div class="tb-tnx-date">
-                                        <span class="date">{{$booking->date}}</span>
+                                        <span class="date">{{date_format($booking->created_at, 'd-m-Y H:m:s')}}</span>
                                     </div>
                                 </td>
                                 <td class="tb-tnx-amount is-alt">

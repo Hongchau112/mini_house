@@ -133,7 +133,7 @@
                                             @php
                                                 $image_path = $image->image_path;
                                             @endphp
-                                            <figure class="item"> <img src="{{asset('/images/'.$image_path)}}" alt="img description" width="300px" height="208px"> </figure>
+                                            <figure class="item"> <img src="{{asset('/images/'.$image_path)}}" alt="img description" width="300px" height="260px"> </figure>
                                         @endif
                                     @endforeach
                                 </div>

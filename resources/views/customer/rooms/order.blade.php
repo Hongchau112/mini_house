@@ -104,7 +104,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Người ở trọ</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -123,23 +123,11 @@
                             <small class="error"></small>
 
                         </div>
-                        <div class="form-group">
-                            <label>Email<span class="text-danger">*</span></label>
-                            <input type="email" name="email" id="email" class="form-control">
-                            <small class="error"></small>
-
-                        </div>
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label>Nghề nghiệp<span class="text-danger">*</span></label>
-                                    <select class="form-control" name="title" id="title">
-                                        <option value="0">- Chọn -</option>
-                                        <option value="student">Sinh viên</option>
-                                        <option value="adult">Người đi làm</option>
-                                        <option value="other">Khác</option>
-                                    </select>
-                                    <span class="text-danger"></span>
+                                    <label>Email<span class="text-danger">*</span></label>
+                                    <input type="email" name="email" id="email" class="form-control">
                                     <small class="error"></small>
 
                                 </div>
@@ -161,8 +149,7 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label>Ngày sinh <span class="text-danger">*</span></label>
-                                    <input name="birthday" type="date" id="birthday" class="form-control">
-                                    <span class="text-danger">@error('birthday'){{$message}}@enderror</span>
+                                    <input name="birthday" max="{{$year}}" type="date" id="birthday" class="form-control">
                                     <small class="error"></small>
                                 </div>
                             </div>
@@ -186,7 +173,6 @@
 
                             <label>Địa chỉ<span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="address" name="address">
-                            <span class="text-danger">@error('address'){{$message}}@enderror</span>
                             <small class="error"></small>
 
                         </div>
@@ -221,27 +207,21 @@
                         <br>
                         <br>
                         <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>Ngày nhận phòng<span class="text-danger">*</span></label>
+                                    <input name="date_expire" min="{{$min}}" max="{{$max}}" type="date" id="date_expire" class="form-control">
+{{--                                    <span class="text-danger">@error('date_expire'){{$message}}@enderror</span>--}}
+                                    <small class="error"></small>
+                                </div>
+                            </div>
+
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <h4>Chọn phương thức thanh toán</h4>
                                 </div>
 
                             </div>
-{{--                            <div class="row">--}}
-{{--                                <div class="col-md-6">--}}
-{{--                                    <ul class="radios">--}}
-{{--                                        <li class="radio paypal">--}}
-{{--                                            <input type="radio" name="radio" id="paypal" value="free"><label class="free-label four col" for="paypal">Free</label>--}}
-{{--                                        </li>--}}
-
-{{--                                        <br>--}}
-{{--                                        <li class="radio bankslip">--}}
-{{--                                            <input type="radio" name="radio" id="bankslip" value="basic" checked><label class="basic-label four col" for="bankslip">Basic</label>--}}
-{{--                                        </li>--}}
-{{--                                    </ul>--}}
-
-{{--                                </div>--}}
-{{--                            </div>--}}
                             <br><br>
                             <div class="col-lg-6">
                                 <div class="form-check">
@@ -259,7 +239,6 @@
                                         Thanh toán với VNPAY
                                     </label>
                                 </div>
-{{--                                <a href="{{route('customer.payment.vnpay_online', ['id'=>$room->id])}}"><img src="/images/vnpay.jpg"></a>--}}
                             </div>
                             <div class="col-lg-6 mb-20">
                             </div>
@@ -268,7 +247,7 @@
                         <input type="hidden" name="room_id" value="{{$room->id}}">
                         <input type="hidden" name="total_cost" value="{{$total_cost}}">
                         <input type="hidden" id="user_booked_id" name="user_booked_id" value="{{$user->id}}">
-                        <button type="submit" class="btn-style-1">Tiếp tục với thanh toán</button>
+                        <button type="submit" class="btn-style-1" style="margin-left: 160px">Tiếp tục với thanh toán</button>
                     </form>
 
                 </div>
@@ -292,6 +271,9 @@
                                     <td style="text-align: left;">{{$room_category->name}}</td>
                                 </tr>
                                 <tr>
+                                    <td class="label">Mã phòng: </td>
+                                    <td style=" font-weight: bold;text-align: left;">{{$room->room_sku}}</td>
+                                </tr>
                                 <tr>
                                     <td class="label">Tên phòng</td>
                                     <td style="text-align: left;">{{$room->name}}</td>
@@ -330,99 +312,95 @@
 @endsection
 @push('footer')
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.js"></script>
-    <script>
-        $(document).ready(function(){
-                const form = document.getElementById('add_user');
-                const name = document.getElementById('name');
-                const email = document.getElementById('email');
-                const phone = document.getElementById('phone');
-                const address = document.getElementById('address');
-                const birthday = document.getElementById('birthday');
-                const identified_no = document.getElementById('identified_no');
-                // console.log(name);
-                form.addEventListener('submit', e => {
-                    e.preventDefault();
-                    validateInputs();
-                })
+{{--    <script>--}}
+{{--        $(document).ready(function(){--}}
+{{--           --}}
 
-                const setError = (element, message) => {
-                    const inputControl = element.parentElement;
-                    const Error = inputControl.querySelector('.error');
-                    Error.innerText = message;
-                    inputControl.classList.add('error');
-                }
-
-                const validateInputs = () => {
-                    const user_name = name.value.trim();
-                    const user_email = email.value.trim();
-
-                    const user_phone = phone.value.trim();
-
-                    const user_address = address.value.trim();
-
-                    const user_birthday = birthday.value.trim();
-
-                    const user_title = title.value.trim();
-                    const user_identified_no = identified_no.value.trim();
-
-                    const now = new Date();
-                    const validMindate = new Date(
-                        now.getFullYear() -18,
-                        now.getMonth(),
-                        now.getDate());
-
-                    var birth = new Date(user_birthday);
-
-                    const validEmail = email => {
-                        const testEmail = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ ;
-                        return testEmail.test(String(email).toLowerCase());
-                    }
-
-                    if (user_name === '') {
-                        setError(name, 'Trường này không được bỏ trống!');
-                    }
-
-                    if (user_email === '') {
-                        setError(email, 'Trường này không được bỏ trống!');
-                    }
-                    else if(!validEmail(user_email)) {
-                        setError(email, 'Địa chỉ email không hợp lệ!');
-                    }
-
-                    if (user_phone === '') {
-                        setError(phone, 'Trường này không được bỏ trống!');
-                    }
-
-                    if (user_birthday === '') {
-                        setError(birthday, 'Trường này không được bỏ trống!');
-                    }
-                    else if(birth>validMindate){
-                        setError(birthday, 'Bạn chưa đủ 18 tuổi!');
-                    }
-
-                    if (user_address === '') {
-                        setError(address, 'Trường này không được bỏ trống!');
-                    }
-
-                    if (user_identified_no === '') {
-                        setError(identified_no, 'Trường này không được bỏ trống!');
-                    }
-
-                    if (user_sex === '') {
-                        setError(sex, 'Trường này không được bỏ trống!');
-                    }
-
-                    if (user_title === '') {
-                        setError(title, 'Trường này không được bỏ trống!');
-                    }
-
-
-
-                }
-
-        })
-    </script>
+{{--        })--}}
+{{--    </script>--}}
     <script type="text/javascript">
+        function validate_form() {
+
+            const form = document.getElementById('add_user');
+            const name = document.getElementById('name');
+            const email = document.getElementById('email');
+            const phone = document.getElementById('phone');
+            const address = document.getElementById('address');
+            const birthday = document.getElementById('birthday');
+            const identified_no = document.getElementById('identified_no');
+            const sex = document.getElementById('sex');
+            // console.log(name);
+            form.addEventListener('submit', e => {
+                e.preventDefault();
+                validateInputs();
+            })
+
+            const setError = (element, message) => {
+                const inputControl = element.parentElement;
+                const Error = inputControl.querySelector('.error');
+                Error.innerText = message;
+                inputControl.classList.add('error');
+            }
+
+            const validateInputs = () => {
+                const user_name = name.value.trim();
+                const user_email = email.value.trim();
+
+                const user_phone = phone.value.trim();
+
+                const user_address = address.value.trim();
+
+                const user_birthday = birthday.value.trim();
+                const user_identified_no = identified_no.value.trim();
+                // const user_sex = sex.options[sex.selectedIndex].value;
+
+                const now = new Date();
+                const validMindate = new Date(
+                    now.getFullYear() - 18,
+                    now.getMonth(),
+                    now.getDate());
+
+                var birth = new Date(user_birthday);
+
+                const validEmail = email => {
+                    const testEmail = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                    return testEmail.test(String(email).toLowerCase());
+                }
+
+                if (user_name === '') {
+                    setError(name, 'Trường này không được bỏ trống!');
+                }
+
+                if (user_email === '') {
+                    setError(email, 'Trường này không được bỏ trống!');
+                } else if (!validEmail(user_email)) {
+                    setError(email, 'Địa chỉ email không hợp lệ!');
+                }
+
+                if (user_phone === '') {
+                    setError(phone, 'Trường này không được bỏ trống!');
+                }
+
+                if (user_birthday === '') {
+                    setError(birthday, 'Trường này không được bỏ trống!');
+                } else if (birth > validMindate) {
+                    setError(birthday, 'Bạn chưa đủ 18 tuổi!');
+                }
+
+                if (user_address === '') {
+                    setError(address, 'Trường này không được bỏ trống!');
+                }
+
+                if (user_identified_no === '') {
+                    setError(identified_no, 'Trường này không được bỏ trống!');
+                }
+
+                // if (user_sex === '') {
+                //     setError(sex, 'Trường này không được bỏ trống!');
+                // }
+
+            }
+        }
         load_user();
         function load_user(){
             var room_id=$('#room_id').val();
@@ -450,13 +428,15 @@
             modal.find('.modal-title').text('New message to ' + recipient)
             modal.find('.modal-body input').val(recipient)
         })
+        var user=0;
         var limit = {{ $room_category->room_limit }};
-        var user = {{ count($get_users = \App\Models\User::where('booking_id', '=', null)->where('booking_people_id', '=', $user->id)->get()) }}
+        user = {{ count($get_users = \App\Models\Customer::where('booking_id', '=', null)->where('booking_people_id', '=', $user->id)->get()) }}
         if ((limit <= 0 ) || (user >= limit))
             document.querySelector('#addUserBtn').disabled = true;
 
 
         $('#submitBtn').click(function(){
+            validate_form();
 
             if ((limit <= 0 ) || (user>=limit)){
                 document.querySelector('#addUserBtn').disabled = true;
@@ -469,7 +449,6 @@
             var birthday = $('#birthday').val();
             var phone = $('#phone').val();
             var identified_no = $('#identified_no').val();
-            var title = $('#title :checked').val();
             var sex = $('#sex :checked').val();
             var _token = $('input[name="_token"]').val();
             var room_limit = $('#room_limit').val();
@@ -477,7 +456,7 @@
             $.ajax({
                 type: 'POST',
                 url: '{{route('customer.customer_order')}}',
-                data: {_token: _token, room_limit: room_limit,user_id: user_id,name: name, email: email, address: address, birthday: birthday, phone: phone, identified_no: identified_no, title: title, sex: sex},
+                data: {_token: _token, room_limit: room_limit,user_id: user_id,name: name, email: email, address: address, birthday: birthday, phone: phone, identified_no: identified_no, sex: sex},
                 success: function (response){
                     // $('#exampleModal').modal("hide");
                     // console.log(response);

@@ -13,7 +13,7 @@
 @foreach($rooms as $room)
     <div class="nk-tb-item">
         <div class="nk-tb-col nk-tb-col-check">
-            <div>{{$room->id}}</div>
+            <div>#{{$room->room_sku}}</div>
         </div>
         <div class="nk-tb-col tb-col-sm">
                                                         <span class="tb-product">

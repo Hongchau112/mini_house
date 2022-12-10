@@ -8,6 +8,29 @@
             <div class="nk-content-inner">
                 <div class="nk-content-body">
                     <div class="nk-block-head nk-block-head-sm">
+                        <div class="nk-block-between">
+                            <div class="nk-block-head-content">
+                                <div class="toggle-wrap nk-block-tools-toggle">
+                                    <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>
+                                    <div class="toggle-expand-content" data-content="pageMenu">
+                                        <ul class="nk-block-tools g-3">
+                                            <li>
+                                                <div class="form-control-wrap">
+                                                    <div class="form-icon form-icon-right">
+                                                        <em class="icon ni ni-search"></em>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="key_search" placeholder="Tìm kiếm nhanh...">
+                                                </div>
+                                            </li>
+                                            <li class="nk-block-tools-opt">
+                                                <a href="#" data-target="addProduct" class="toggle btn btn-icon btn-primary d-md-none"><em class="icon ni ni-plus"></em></a>
+                                                {{--                                                <a href="#" data-target="addProduct" class="toggle btn btn-primary d-none d-md-inline-flex"><em class="icon ni ni-plus"></em><span>Add Product</span></a>--}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div><!-- .nk-block-head-content -->
+                        </div><!-- .nk-block-between -->
                         <div>
                             @if($comments->count() == 0)
                                 <div class="card-inner p-0">
@@ -24,7 +47,7 @@
                         <div class="card card-bordered card-stretch">
                             <div class="card-inner-group">
                                 <div class="card-inner p-0">
-                                    <table class="nk-tb-list nk-tb-ulist">
+                                    <table class="nk-tb-list nk-tb-ulist" id="list">
                                         <thead>
                                         <tr class="nk-tb-item nk-tb-head">
                                             <th class="nk-tb-col"><span class="sub-text">ID</span></th>
@@ -85,9 +108,9 @@
                                             <td class="nk-tb-col tb-col-mb">
                                                 <div class="tb-tnx-status" style="width: 80px; margin-right: 20px">
                                                     @if($comment->status==0)
-                                                        <input type="button" data-comment_status="1" data-comment_id = "{{$comment->id}}" id="{{$comment->post_id}}" class="btn btn-danger btn-xs comment-approve-btn" value="Duyệt" ></input>
+                                                        <input type="button" data-comment_status="1" data-comment_id = "{{$comment->id}}" id="{{$comment->post_id}}" class="btn btn-danger btn-xs comment-approve-btn" value="Chưa duyệt" ></input>
                                                     @else
-                                                        <input type="button"  data-comment_status="0" data-comment_id = "{{$comment->id}}" id="{{$comment->post_id}}" class="btn btn-primary btn-xs comment-approve-btn" value="Bỏ Duyệt" ></input>
+                                                        <input type="button"  data-comment_status="0" data-comment_id = "{{$comment->id}}" id="{{$comment->post_id}}" class="btn btn-primary btn-xs comment-approve-btn" value="Đã duyệt" ></input>
                                                     @endif
                                                 </div>
                                             </td>
@@ -308,6 +331,23 @@
                 }
             });
 
+
+
+        })
+        $(document).ready(function() {
+
+            $("#key_search").on('keyup', function () {
+                var search = $(this).val();
+                $.ajax({
+                    url: '{{route('admin.comments.key_search')}}',
+                    type: "GET",
+                    data: {'search': search},
+                    success: function (data) {
+                        $('#list').html(data);
+                        console.log(data);
+                    }
+                })
+            })
         })
     </script>
 @endpush

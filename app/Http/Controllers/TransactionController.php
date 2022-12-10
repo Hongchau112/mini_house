@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Admin;
 use App\Models\Booking;
 use App\Models\BookingDetail;
+use App\Models\Customer;
 use App\Models\Image;
 use App\Models\Payment;
 use App\Models\Room;
@@ -21,8 +22,8 @@ class TransactionController extends Controller
     public function index()
     {
         $users = Admin::all();
-        $user = Auth::guard('admin')->user();
-        $bookings = Booking::paginate(10);
+        $user = Auth::guard('web')->user();
+        $bookings = Booking::orderBy('created_at', 'desc')->paginate(10);
         $booking_details = BookingDetail::all();
         return view('admin.transaction.listing', compact('user', 'bookings', 'users', 'booking_details'));
 
@@ -30,10 +31,10 @@ class TransactionController extends Controller
 
     public  function show($id)
     {
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $booking = Booking::find($id);
-        $customers = User::where('booking_id', $booking->id)->get();
-        $user_booked = Admin::where('id', $booking->user_id)->get()->first();
+        $customers = Customer::where('booking_id', $booking->id)->get();
+        $user_booked = User::where('id', $booking->user_id)->get()->first();
         $room = Room::find($booking->booking_room_id);
         $booking_detail = BookingDetail::where('booking_id', $booking->id)->get()->first();
         $image = Image::where('room_id', $room->id)->get()->first();
@@ -47,19 +48,17 @@ class TransactionController extends Controller
     {
 
         $booking=Booking::find($id);
-        $booked_user = Admin::where('id', $booking->user_id)->get()->first();
+        $booked_user = User::where('id', $booking->user_id)->get()->first();
         $booked_email = $booked_user->email;
         $booking->booking_status = $request->booking_status;
         $booking->save();
         $booking_detail = BookingDetail::where('booking_id', $booking->id)->get()->first();
-        $booking_detail->booking_status =$request->booking_status;
-        $booking_detail->save();
         $title_mail = 'Hủy đặt phòng';
         if ($booking->booking_status=='cancel'){
             $room = Room::where('id', $booking->booking_room_id)->get()->first();
             $room->status=0;
             $room->save();
-            User::where('booking_id', $booking->id)->delete();
+            Customer::where('booking_id', $booking->id)->delete();
             Mail::send('admin.transaction.cancel_booking',
                 ['room_name' => $room->name,
                     'date_booking' => $booking->date,
@@ -78,7 +77,7 @@ class TransactionController extends Controller
 
     public function cancel_booking($id){
         $booking=Booking::find($id);
-        $booked_user = Admin::where('id', $booking->user_id)->get()->first();
+        $booked_user = User::where('id', $booking->user_id)->get()->first();
         $booked_email = $booked_user->email;
         $booking->booking_status = 'cancel';
         $booking->save();
@@ -89,7 +88,7 @@ class TransactionController extends Controller
         $room = Room::where('id', $booking->booking_room_id)->get()->first();
         $room->status=0;
         $room->save();
-        User::where('booking_id', $booking->id)->delete();
+        Customer::where('booking_id', $booking->id)->delete();
         Mail::send('admin.transaction.cancel_booking',
             ['room_name' => $room->name,
                 'date_booking' => $booking->date,
@@ -106,17 +105,17 @@ class TransactionController extends Controller
 
     public function customer_profile($id)
     {
-        $user = Auth::guard('admin')->user();
-        $user_show = User::find($id);
+        $user = Auth::guard('web')->user();
+        $user_show = Customer::find($id);
         return view('admin.transaction.customer_profile', compact('user', 'user_show'));
     }
 
     public function key_search(Request $request)
     {
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $booking_details = BookingDetail::all();
         $search = $request->get('key_search');
-        $users = Admin::all();
+        $users = Customer::all();
 //        dd($search);
         $bookings = Booking::where('user_name', 'LIKE', '%' . $search . '%')->orWhere('user_phone','LIKE', '%' . $search . '%')->orWhere('date','LIKE', '%' . $search . '%')->get();
 
@@ -129,10 +128,10 @@ class TransactionController extends Controller
 
     public function payment_search(Request $request)
     {
-        $user = Auth::guard('admin')->user();
+        $user = Auth::guard('web')->user();
         $booking_details = BookingDetail::all();
         $bookings = Booking::all();
-        $users = Admin::all();
+        $users = Customer::all();
         $filter_search = $request->get('filter');
         if($filter_search=='all')
             return view('admin.transaction.search' ,compact('bookings', 'user', 'booking_details', 'users'));
@@ -156,7 +155,7 @@ class TransactionController extends Controller
     //gui mail nhac nho dong tien tro
     public function mail_reminder()
     {
-        $customers = Admin::all();
+        $customers = User::all();
         $get_bookings = Booking::where('payment', 'no')->get();
         $now = Carbon::now()->toDateString();
 

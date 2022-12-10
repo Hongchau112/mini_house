@@ -66,11 +66,19 @@
                             </a>
                         </li><!-- .nk-menu-item -->
 
-                        <li class="nk-menu-item {{request()->segment(2) == 'comments' ? 'active current-page' : ''}}">
-                            <a href="{{route('admin.comments.index')}}" class="nk-menu-link">
+                        <li class="nk-menu-item has-sub {{request()->segment(2) == 'comments' ? 'active current-page' : ''}}">
+                            <a href="{{route('admin.comments.index')}}" class="nk-menu-link nk-menu-toggle">
                                 <span class="nk-menu-icon"><em class="icon ni ni-sign-btc-alt"></em></span>
                                 <span class="nk-menu-text">Bình luận</span>
                             </a>
+                            <ul class="nk-menu-sub {{request()->segment(2) == 'comments' ? 'active current-page' : ''}}" >
+                                <li class="nk-menu-item {{request()->segment(2) == 'rooms' ? 'active current-page' : ''}}">
+                                    <a href="{{route('admin.comments.index')}}" class="nk-menu-link"><span class="nk-menu-text">Tất cả</span></a>
+                                </li>
+                                <li class="nk-menu-item {{request()->segment(2) == 'rooms' ? 'active current-page' : ''}}">
+                                    <a href="{{route('admin.comments.not_approve')}}" class="nk-menu-link"><span class="nk-menu-text">Bình luận chờ duyệt</span></a>
+                                </li>
+                            </ul><!-- .nk-menu-sub -->
                         </li><!-- .nk-menu-item -->
                         <li class="nk-menu-item {{request()->segment(2) == 'transactions' ? 'active current-page' : ''}}">
                             <a href="{{route('admin.transactions.index')}}" class="nk-menu-link">
