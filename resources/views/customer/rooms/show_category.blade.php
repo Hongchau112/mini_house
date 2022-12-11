@@ -2,20 +2,21 @@
     'title' => ( $title ?? 'Trang chủ' )
 ])
 @section('content')
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-    @if (session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
-    @endif
 
 
     <!-- ================ Listing page ================ -->
-    <div class="listing-page pt-70 pb-40">
+    <div class="listing-page pt-70 pb-40" style="margin-top: 108px;">
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
         <div class="container">
             <div class="row">
                 <div class="col-lg-3">

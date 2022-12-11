@@ -13,7 +13,7 @@
             {{ session('success') }}
         </div>
     @endif
-    <div class="blog-page pt-70 pb-40">
+    <div class="blog-page pt-70 pb-40" style="margin-top: 108px;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8"  >

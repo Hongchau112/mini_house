@@ -8,7 +8,7 @@
             {{ session('success') }}
         </div>
     @endif
-    @if($user->account=='admin')
+    @if(($user->account=='admin') or($user->account=='staff'))
         <div class="container-fluid">
             <div class="nk-content-inner">
                 <div class="nk-content-body">
@@ -123,7 +123,7 @@
                 </div>
             </div>
         </div>
-    @elseif($user->has_role('user'))
+    @elseif($user->account=='user')
         <p></p>
     @endif
 @endsection

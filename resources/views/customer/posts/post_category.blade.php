@@ -3,7 +3,7 @@
 ])
 
 @section('content')
-    <div class="blog-page pt-70 pb-40">
+    <div class="blog-page pt-70 pb-40" style="margin-top: 108px;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8"  >
@@ -67,10 +67,10 @@
                                     @foreach($post_infos as $post_info)
                                         <!-- recent single post -->
                                         <div class="recent-single-post mb-20">
-                                            <div class="post-img"> <a href="#"><img src="{{asset('/images/posts/'.$post_info->image)}}" alt=""></a> </div>
+                                            <div class="post-img"> <a href="{{route('customer.posts.details', ['id'=>$post_info->id])}}"><img src="{{asset('/images/posts/'.$post_info->image)}}" alt=""></a> </div>
                                             <div class="pst-content">
-                                                <p><a href="#">{{$post_info->title}}</a></p>
-                                                <span class="date-type">{{$post_info->created_at}}</span> </div>
+                                                <p><a href="{{route('customer.posts.details', ['id'=>$post_info->id])}}">{{$post_info->title}}</a></p>
+                                                <span class="date-type">{{date_format($post_info->created_at,'d-m-Y H:m:s')}}</span> </div>
                                         </div>
                                     @endforeach
                                 </div>

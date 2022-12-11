@@ -252,7 +252,7 @@ class AdminController extends Controller
         Session::forget('user_id');
         Session::flush();
         Auth::guard('web')->logout();
-        return redirect()->route('admin.login');
+        return redirect()->route('login');
     }
 
     public function edit_password($id)

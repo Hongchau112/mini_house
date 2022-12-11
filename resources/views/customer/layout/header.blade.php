@@ -3,9 +3,9 @@
         background-color: lightblue;
     }
 </style>
-<header class="header ">
+<header class="header fixed-top">
     <!-- header upper -->
-    <div class="header-upper-bar fixed-top" >
+    <div class="header-upper-bar " >
         <div class="container">
             <div class="row d-flex align-items-center">
                 <div class="col-lg-8 col-md-6 col-sm-4 col-2">
@@ -17,7 +17,7 @@
                         <!-- top Menu -->
                         <div class="collapse navbar-collapse" id="navbarTheme">
                             <ul class="navbar-nav align-items-start align-items-lg-center">
-                                <li class="active"><a class="nav-link" href="{{route('customer.index')}}">Trang chủ</a></li>
+                                <li class="{{request()->segment(2) == '/' ? 'active' : ''}}"><a class="nav-link" href="{{route('customer.index')}}">Trang chủ</a></li>
 {{--                                <ul class="navbar-nav navbar-left" >--}}
                                     @php
                                         $count=0;
@@ -32,7 +32,7 @@
 
                                         @if($count < 6)
                                             @if($cate->parent_category_id==0)
-                                                <li class="nav-item dropdown">
+                                                <li class="nav-item dropdown " style="width: 160px">
                                                     @php
                                                         $flag = 0;
                                                     @endphp
@@ -73,7 +73,7 @@
 
                                     @if($count < 6)
                                         @if($cate->parent_category_id==0)
-                                            <li class="nav-item dropdown">
+                                            <li class="nav-item dropdown" style="width: 160px">
                                                 @php
                                                     $flag = 0;
                                                 @endphp
@@ -143,7 +143,7 @@
                                         </div>
                                     </div>
                                     </li>
-                                    <li><a href="http://localhost:8000/chatify"><i class="fas fa-comment-dots" style="font-size: 21px;margin-top: 5px;"></i></a></li>
+                                    <li><a href="http://localhost:8000/chatify/79"><i class="fas fa-comment-dots" style="font-size: 21px;margin-top: 5px;"></i></a></li>
                                     <li><a href="{{route('customer.logout')}}"><i class="fa fa-sign-out-alt" style="font-size: 18px;margin-top: 5px;"></i></a></li>
                                 @else
                                     <li><a href="{{route('customer.customer_login')}} "class="header-request">Đăng nhập</a></li>
@@ -159,7 +159,7 @@
     </div>
     <!-- header upper end -->
     <!-- header lover -->
-    <div class="header-lover" style="margin-top: 65px;">
+    <div class="header-lover" style="background-color: #edf6f5;">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-3 col-md-12" style="position: relative">
@@ -199,7 +199,7 @@
                                 <div class="iocn-holder"><i class="far fa-envelope"></i></div>
                                 <div class="text-holder">
                                     <h6>Email liên hệ</h6>
-                                    <p class="mb-0"><a href="mailto:info@exampal.com">info@exampal.com</a></p>
+                                    <p class="mb-0"><a href="mailto:info@exampal.com">nhatrogiatot.com</a></p>
                                 </div>
                             </li>
                         </ul>

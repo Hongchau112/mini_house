@@ -15,7 +15,17 @@
 <!-- ================ Inner banner ================ -->
 
 <!-- ================ Listing page ================ -->
-    <div class="listing-page pt-70 pb-40">
+    <div class="listing-page pt-70 pb-40" style="margin-top: 120px;">
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
         <div class="container">
             <div class="row">
                 <div class="col-lg-3">

@@ -18,7 +18,7 @@
         <div class="spinner-grow" role="status"> <span class="sr-only">Loading...</span> </div>
     </div>
 <!-- ================ Register page ================ -->
-<div class="login-register-page pt-70 pb-70">
+<div class="login-register-page pt-70 pb-70" style="margin-top: 108px;">
     <div class="container">
         <div class="row">
             <div class="col-lg-6 offset-lg-3">

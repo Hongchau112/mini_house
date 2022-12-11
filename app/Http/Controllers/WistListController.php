@@ -54,6 +54,7 @@ class WistListController extends Controller
         $images = Image::all();
         $user = Auth::guard('web')->user();
         $wishlists = Wistlist::where('user_id', $id)->get();
+//        dd($wishlists);
 //        dd($wishlist);
         return view('customer.rooms.wishlist', compact('post_categories','wishlists', 'user', 'rooms', 'images', 'room_categories'));
     }
@@ -68,8 +69,8 @@ class WistListController extends Controller
     {
         $user_id = Auth::guard('web')->user()->id;
         Wistlist::where('id', $id)->where('user_id', $user_id)->delete();
-        return redirect()->route('customer.show_wishlist', ['id'=>$user_id])->with('success', 'Xóa yêu thích thành công!');
-
+//        return redirect()->route('customer.show_wishlist', ['id'=>$user_id])->with('success', 'Xóa yêu thích thành công!');
+        return redirect()->back()->with('alert', 'Xóa mục phòng yêu thích thành công!');
     }
 
 }

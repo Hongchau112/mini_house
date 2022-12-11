@@ -47,7 +47,7 @@
             opacity: 0.4
         }
     </style>
-    <div class="blog-single-page pt-70 pb-40">
+    <div class="blog-single-page pt-70 pb-40" style="margin-top: 108px;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8">
@@ -65,31 +65,24 @@
                                         @else
                                             <span>Đã đặt</span>
                                         @endif
-                                        {{$post->created_at}}</h6>
+                                            {{date_format($post_info->created_at,'d-m-Y H:m:s')}}</h6>
                                     <div><h3>{{number_format($room->cost)}} đ</h3></div>
                                 @endif
                             @endforeach
                             <h5 class="mt-10 mb-6"><a href="#" class="text-dark">{{$post->title}}</a></h5>
                             <p class="text-muted">{!!$post->content!!}</p>
-                            <h6 class="mb-10">Mô tả về phòng:</h6>
-                            <div class="row">
-                                <div class="col-lg-6 mb-20">
-                                    <button class="btn btn-outline-light">Trở về</button>
-                                </div>
-                            </div>
-
                         </div>
                     </div>
                     <!-- blog box end -->
                     <!-- tags share -->
-                    <div class="tags-share mt-30 pb-15 d-inline-block w-100">
-                        <div class="tags d-flex float-lg-left pt-15"> <span>Từ khóa :</span>
-                            <ul>
-                                <li><a href="#">Sinh viên</a></li>
-                                <li><a href="#">Thuê trọ</a></li>
-                                <li><a href="#">Phòng tránh</a></li>
-                            </ul>
-                        </div>
+{{--                    <div class="tags-share mt-30 pb-15 d-inline-block w-100">--}}
+{{--                        <div class="tags d-flex float-lg-left pt-15"> <span>Từ khóa :</span>--}}
+{{--                            <ul>--}}
+{{--                                <li><a href="#">Sinh viên</a></li>--}}
+{{--                                <li><a href="#">Thuê trọ</a></li>--}}
+{{--                                <li><a href="#">Phòng tránh</a></li>--}}
+{{--                            </ul>--}}
+{{--                        </div>--}}
 {{--                        <div class="share d-flex float-lg-right pt-15"> <span>Share :</span>--}}
 {{--                            <ul class="list-inline">--}}
 {{--                                <li class="list-inline-item"><a href="#"><i class="fab fa-facebook-f"></i></a></li>--}}
@@ -98,7 +91,7 @@
 {{--                                <li class="list-inline-item"><a href="#"><i class="fab fa-instagram"></i></a></li>--}}
 {{--                            </ul>--}}
 {{--                        </div>--}}
-                    </div>
+{{--                    </div>--}}
                     <!-- tags share end -->
                     <!-- comments area -->
                     <div class="comments-area mt-50">
@@ -194,10 +187,10 @@
                                 @foreach($post_infos as $post_info)
                                     <!-- recent single post -->
                                     <div class="recent-single-post mb-20">
-                                        <div class="post-img"> <a href="#"><img src="{{asset('/images/posts/'.$post_info->image)}}" alt=""></a> </div>
+                                        <div class="post-img"> <a href="{{route('customer.posts.details', ['id'=>$post_info->id])}}"><img src="{{asset('/images/posts/'.$post_info->image)}}" alt=""></a> </div>
                                         <div class="pst-content">
-                                            <p><a href="#">{{$post_info->title}}</a></p>
-                                            <span class="date-type">{{$post_info->created_at}}</span> </div>
+                                            <p><a href="{{route('customer.posts.details', ['id'=>$post_info->id])}}">{{$post_info->title}}</a></p>
+                                            <span class="date-type">{{date_format($post_info->created_at,'d-m-Y H:m:s')}}</span> </div>
                                     </div>
                                 @endforeach
                             </div>
@@ -207,10 +200,10 @@
                         <!-- widget -->
                         <div class="widget mb-30">
                             <!-- widget title -->
-                            <h3 class="widget-title">Tags</h3>
+{{--                            <h3 class="widget-title">Tags</h3>--}}
                             <!-- widget title end -->
                             <!-- tags -->
-                            <div class="blog-tags"> <a href="">Business</a> <a href="">Traveling</a> <a href="">Developement</a> <a href="">Motion</a> <a href="">Writing</a> <a href="">Strategy</a> <a href="">Management</a> </div>
+{{--                            <div class="blog-tags"> <a href="">Business</a> <a href="">Traveling</a> <a href="">Developement</a> <a href="">Motion</a> <a href="">Writing</a> <a href="">Strategy</a> <a href="">Management</a> </div>--}}
                             <!-- tags end -->
                         </div>
                         <!-- widget end -->
@@ -267,7 +260,7 @@
                     data: {_token:_token, post_id: post_id, name: name, content: content, phone: phone, user_id: user_id, rating: rating},
 
                     success:function(data){
-                        $('#notify').html('<p style="margin-top: 10px">Thêm bình luận thành công! Đang chờ duyệt nhá</p>');
+                        $('#notify').html('<p style="margin-top: 12px; color: #0a7859; font-weight: bold">Thêm bình luận thành công! Chờ được duyệt. </p>');
                         load_comment();
                         $('#notify').fadeOut(5000);
                         $('.comment-content').val('');

@@ -27,7 +27,7 @@ class PostController extends Controller
         $categories = RoomCategory::where('parent_category_id', 0)->get();
         $subdays = Carbon::now()->subDays(7)->toDateString();
         $now = Carbon::now()->toDateString();
-        $post_infos = Post::whereBetween('created_at',[$subdays, $now])->get();
+        $post_infos = Post::orderBy('created_at', 'desc')->limit(5)->get();
 //        dd($post_infos);
         $images = Image::all();
         return view('customer.posts.listing', compact('user', 'rooms', 'posts', 'images', 'categories', 'post_infos'));
@@ -104,7 +104,7 @@ class PostController extends Controller
         $rooms = Room::all();
         $room_categories = RoomCategory::all();
         $post_categories = PostCategory::all();
-        $post_infos = Post::where('post_type_id', $post->post_type_id)->get();
+        $post_infos = Post::orderBy('created_at', 'desc')->limit(5)->get();
         return view('customer.posts.detail', compact('rooms', 'post_categories','images', 'post', 'room_categories', 'user', 'post_infos'));
 
     }
@@ -199,7 +199,7 @@ class PostController extends Controller
         $user = Auth::guard('web')->user();
         $subdays = Carbon::now()->subDays(7)->toDateString();
         $now = Carbon::now()->toDateString();
-        $post_infos = Post::whereBetween('created_at',[$subdays, $now])->get();
+        $post_infos = Post::orderBy('created_at', 'desc')->limit(5)->get();
 //        dd($post_infos);
         return view('customer.posts.post_category', compact('user', 'post_infos', 'room_categories','services', 'post_categories','posts' , 'images', 'post_selected', 'category'));
 

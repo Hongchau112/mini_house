@@ -3,7 +3,7 @@
 ])
 
 @section('main')
-    <div class="nk-content nk-content-fluid">
+    <div class="nk-content nk-content-fluid" style="background-color: white;">
         <div class="container-xl wide-lg">
             <div class="nk-content-body">
                 <div class="nk-block-head nk-block-head-sm">

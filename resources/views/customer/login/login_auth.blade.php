@@ -17,7 +17,7 @@
         <div class="spinner-grow" role="status"> <span class="sr-only">Loading...</span> </div>
     </div>
 <!-- ================ Login page ================ -->
-<div class="login-register-page pt-70 pb-70">
+<div class="login-register-page pt-70 pb-70" style="margin-top: 108px;">
     <div class="container">
         <div class="row">
             <div class="col-lg-6 offset-lg-3">
@@ -46,7 +46,7 @@
                         <div class="form-group">
                             <button type="submit" class="btn-style-1 w-100">Đăng nhập</button>
                         </div>
-                        <p class="mb-0">Chưa có tài khoản <a href="{{route('customer.register_auth')}}">Đăng ký ngay!</a></p>
+                        <p class="mb-0">Chưa có tài khoản <a href="{{route('customer.customer_register')}}">Đăng ký ngay!</a></p>
                     </form>
                 </div>
                 <!-- login box end -->

@@ -202,6 +202,7 @@ Route::post('customer/update_profile/{id}', [CustomerController::class, 'update_
 Route::get('customer/booking_history/{id}', [CustomerController::class, 'booking_history'])->name('customer.booking_history');
 Route::get('customer/booking_history/show/{id}', [CustomerController::class, 'booking_details'])->name('customer.booking_details');
 
+Route::get('customer/booking_success_message', [BookingController::class, 'booking_success_message'])->name('customer.booking_success_message');
 
 //test-modal
 Route::get('customer/test_modal', [CustomerController::class, 'test_modal'])->name('customer.test_modal');

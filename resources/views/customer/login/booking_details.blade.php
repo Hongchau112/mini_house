@@ -44,8 +44,8 @@
             {{ session('success') }}
         </div>
     @endif
-    <div class="container-fluid">
-
+    <div class="about-page pt-70 pb-60" style="margin-top: 130px;">
+        <div class="container-fluid">
         <div class="container">
             <!-- Title -->
             <div class="d-flex justify-content-between align-items-center py-3">
@@ -125,11 +125,15 @@
                                     <p style="font-size: 14px;">
                                         @if($booking_detail->payment_method=='cash')
                                         <span>Thanh toán tiền mặt khi nhận phòng</span>
-                                    @elseif($booking_detail->payment_method=='vnpay')
+                                            <img src="/images/unpay.jpg" width="100px">
+
+                                        @elseif($booking_detail->payment_method=='vnpay')
                                             <span>Thanh toán bằng VNPAY <span style="margin-left: 10px" class="badge bg-success rounded-pill">Đã thanh toán</span></span>
-                                        @endif<br>
+
+                                            <img src="/images/paid.png" width="100px">
+                                    @endif<br>
                                     </p>
-                                    <img src="/images/paid.png" width="100px">
+
                                 </div>
                                 <div class="col-lg-6">
                                     <h3 class="h6">Người thanh toán</h3>
@@ -188,17 +192,6 @@
                                         @endif
 
                                     </tr>
-                                    <tr >
-                                        <td style="font-weight: bold;">Nghề nghiệp</td>
-
-                                        @if($customer->title=='student')
-                                            <td class="label">Sinh viên</td>
-                                        @elseif($customer->title=='adult')
-                                            <td class="label">Người đi làm</td>
-                                        @else
-                                            <td class="label"> Khác</td>
-                                        @endif
-                                    </tr>
                                 </table>
                                 @php
                                     $i++;
@@ -209,5 +202,6 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
 @endsection

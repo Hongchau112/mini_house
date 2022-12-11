@@ -2,6 +2,11 @@
     'title' => ( $title ?? 'Thống kê' )
 ])
 @section('content')
+    <style>
+        text {
+            font-family: Sans-serif !important;
+        }
+    </style>
     <div class="nk-block">
         <div class="row g-gs">
             <div class="col-md-4" style="height: 260px;">
@@ -32,7 +37,7 @@
                         <div class="card-title-group align-start mb-0">
                             <div class="card-title">
                                 <span>
-                                    <button  style="margin-left: 10px;">Xem</button>
+{{--                                    <button  style="margin-left: 10px;">Xem</button>--}}
                                 </span>
                                 <h5 class="title">Phòng</h5>
 
@@ -82,101 +87,59 @@
                     </div>
                 </div><!-- .card -->
             </div><!-- .col -->
-            <div class="col-md-12 col-xxl-4">
-{{--                <div class="card-tools">--}}
-{{--                    <form action="" method="post">--}}
-{{--                        @csrf--}}
-{{--                        <select class="link-list-opt no-bdr" id="select_date">--}}
-{{--                            <option value="7ngay">Trong tuần</option>--}}
-{{--                            <option value="30ngay">Trong tháng</option>--}}
-{{--                            <option value="365ngay">Trong năm</option>--}}
-{{--                        </select>--}}
-{{--                    </form>--}}
-{{--                </div>--}}
-
-                <div id="chart" style="height: 400px;"></div>
-            </div><!-- .col -->
-
             <div class="col-xl-12 col-xxl-8">
                 <div class="row">
-                    <div class="card-tools" style="margin: 14px;width: 116px; font-size: 16px;">
-                        <select class="link-list-opt no-bdr" name="thoigian" id="select_date">
-                            <option value="7ngay">Tuần qua</option>
-                            <option value="30ngay">Tháng qua</option>
-                            <option value="365ngay">Năm qua</option>
+                    <div class="card-tools" style="margin: 14px; font-size: 16px;">
+                        <select class="link-list-opt no-bdr" name="thoigian" id="select_date" style="width: 150px; padding: 10px;">
+                            <option value="all" selected="selected">Tất cả</option>
+                            <option value="7ngay" >6 ngày trước</option>
+                            <option value="30ngay">30 ngày trước</option>
+                            <option value="365ngay" >Một năm trước</option>
                         </select>
                     </div>
-{{--                    <div class="col-lg-6" style="background-color: #12808b">--}}
-{{--                        <div style="margin: 15px; text-align: center;font-size: 21px; font-weight: bold;color: white;"> Tổng doanh thu: {{number_format($total)}} VND</div>--}}
+                    {{--                    <div class="col-lg-6" style="background-color: #12808b">--}}
+                    {{--                        <div style="margin: 15px; text-align: center;font-size: 21px; font-weight: bold;color: white;"> Tổng doanh thu: {{number_format($total)}} VND</div>--}}
 
-{{--                    </div>--}}
+                    {{--                    </div>--}}
                 </div>
+            <div class="col-md-6" style="margin-left: 260px;" id="list">
+                <table>
+                    <thead style="background-color: #afefcd; font-size: 20px;">
+                        <th style="width: 300px; text-align: center; padding: 20px; ">Trạng thái</th>
+                        <th style="width: 400px;text-align: center; padding: 20px">Số lượng</th>
+                    </thead>
+                    <tbody style="background-color: #f2ffed; font-size: 20px;">
+                    <tr>
+                        <td style="width: 300px; text-align: center; padding: 20px">Tất cả</td>
+                        <td style="width: 300px; text-align: center; padding: 20px"> {{$all}}</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 300px; text-align: center; padding: 20px">Mới</td>
+                        <td style="width: 300px; text-align: center; padding: 20px"> {{$new_bookings}}</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 300px; text-align: center; padding: 20px">Đang xử lý</td>
+                        <td style="width: 300px; text-align: center; padding: 20px">{{$pending_bookings}}</td>
+                    </tr>
 
-                <div class="card card-bordered card-full" style="margin-top: 25px;">
-                    <div class="card-inner border-bottom">
-                        <div class="card-title-group">
-                            <div class="card-title">
-                                <h6 class="title">Các đơn đặt phòng</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="nk-tb-list" id="list">
-                        <div class="nk-tb-item nk-tb-head">
-                            <div class="nk-tb-col"><span>Phòng</span></div>
-                            <div class="nk-tb-col tb-col-sm"><span>Người đặt</span></div>
-                            <div class="nk-tb-col tb-col-lg"><span>Ngày</span></div>
-                            <div class="nk-tb-col"><span>Giá</span></div>
-                            <div class="nk-tb-col tb-col-sm"><span>Trạng thái</span></div>
-                            <div class="nk-tb-col"><span>&nbsp;</span></div>
-                        </div>
-                        @foreach($new_bookings as $new_booking)
-                        <div class="nk-tb-item">
-                            <div class="nk-tb-col">
-                                <div class="align-center">
-                                    <div class="user-avatar user-avatar-sm bg-light">
-                                        <span>{{$new_booking->room_id}}</span>
-                                    </div>
-                                    <span class="tb-sub ml-2">{{$new_booking->room_id}}</span></span>
-                                </div>
-                            </div>
-                            <div class="nk-tb-col tb-col-sm">
-                                <div class="user-card">
-                                    <div class="user-avatar user-avatar-xs bg-pink-dim">
-                                        <span>JC</span>
-                                    </div>
-                                    <div class="user-name">
-                                        <span class="tb-lead">{{$new_booking->user_id}}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="nk-tb-col tb-col-lg">
-                                <span class="tb-sub">{{$new_booking->date}}</span>
-                            </div>
-                            <div class="nk-tb-col">
-                                @foreach($booking_details as $detail)
-                                    @if($detail->booking_id==$new_booking->id)
-                                        <span class="tb-sub tb-amount">{{number_format($detail->total_cost)}}<span> đ</span></span>
-                                    @endif
-                                @endforeach
-                            </div>
-                            <div class="nk-tb-col tb-col-sm">
-                                <span class="badge badge-dot badge-dot-xs badge-warning">Đơn Mới</span>
-                            </div>
-                            <div class="nk-tb-col nk-tb-col-action">
-                                <div class="dropdown">
-                                    <a class="text-soft dropdown-toggle btn btn-sm btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-chevron-right"></em></a>
-                                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-xs">
-                                        <ul class="link-list-plain">
-                                            <li><a href="{{route('admin.transactions.show', ['id' => $new_booking->id])}}">Xem</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        @endforeach
-                    </div>
-                </div><!-- .card -->
+                    <tr>
+                        <td style="width: 300px; text-align: center; padding: 20px">Thành công</td>
+                        <td style="width: 300px; text-align: center; padding: 20px">{{$success_bookings}}</td>
+                    </tr>
+
+                    <tr>
+                        <td style="width: 300px; text-align: center; padding: 20px">Đã hủy</td>
+                        <td style="width: 300px; text-align: center; padding: 20px">{{$cancel_bookings}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+
+
+{{--                <div id="chart" style="height: 400px;"></div>--}}
             </div><!-- .col -->
+
+
         </div>
     </div>
 @endsection
@@ -186,28 +149,29 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
     <script type="text/javascript">
 
-        $(document).ready(function() {
-            // thongke();
-            var colorDanger = "#FF1744";
-            Morris.Donut({
-                element: 'chart',
-                resize: true,
-                colors: [
-                    '#E0F7FA',
-                    '#B2EBF2',
-                    '#80DEEA',
-                    '#4DD0E1'
-                ],
-                //labelColor:"#cccccc", // text color
-                //backgroundColor: '#333333', // border color
-                data: [
-                    {label: "Đơn mới", value: <?php echo $booking_new ?>},
-                    {label: "Đơn đang xử lý", value:<?php echo $booking_pending ?>},
-                    {label: "Đơn thành công", value:<?php echo $booking_success ?>},
-                    {label: "Đơn hủy", value:<?php echo $booking_cancel ?>},
-                ]
-            });
-        })
+        {{--$(document).ready(function() {--}}
+        {{--    // thongke();--}}
+        {{--    var colorDanger = "#FF1744";--}}
+        {{--    Morris.Donut({--}}
+        {{--        element: 'chart',--}}
+        {{--        resize: true,--}}
+        {{--        colors: [--}}
+        {{--            '#E0F7FA',--}}
+        {{--            '#B2EBF2',--}}
+        {{--            '#80DEEA',--}}
+        {{--            '#4DD0E1'--}}
+        {{--        ],--}}
+        {{--        // labelColor:"#cccccc", // text color--}}
+        {{--        //backgroundColor: '#333333', // border color--}}
+        {{--        gridTextFamily: "sans-serif",--}}
+        {{--        data: [--}}
+        {{--            {label: "Đơn mới", value: <?php echo $booking_new ?>},--}}
+        {{--            {label: "Đơn đang xử lý", value:<?php echo $booking_pending ?>},--}}
+        {{--            {label: "Đơn thành công", value:<?php echo $booking_success ?>},--}}
+        {{--            {label: "Đơn hủy", value:<?php echo $booking_cancel ?>},--}}
+        {{--        ]--}}
+        {{--    });--}}
+        {{--})--}}
 
         $('#select_date').on('change', function(){
             var thoigian = $(this).val();

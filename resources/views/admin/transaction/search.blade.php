@@ -6,7 +6,7 @@
                                                                 <span>Người đặt</span>
                                                             </span>
         <span class="tb-tnx-date d-md-inline-block d-none">
-                                                                <span class="d-md-none">Date</span>
+{{--                                                                <span class="d-md-none">Date</span>--}}
                                                                 <span class="d-none d-md-block">
                                                                     <span>Ngày giao dịch</span>
                                                                 </span>

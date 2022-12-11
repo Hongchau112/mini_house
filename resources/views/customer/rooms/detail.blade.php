@@ -88,7 +88,7 @@
                     <ul class="nav nav-tabs nav-pills nav-justified" id="myTab" role="tablist">
                         <li class="nav-item"> <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1" aria-selected="true">Mô tả</a> </li>
                         <li class="nav-item"> <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2" aria-selected="false">Tiện nghi</a> </li>
-                        <li class="nav-item"> <a class="nav-link" id="tab3-tab" data-toggle="tab" href="#tab3" role="tab" aria-controls="tab3" aria-selected="false">Tìm trọ tương tự</a> </li>
+{{--                        <li class="nav-item"> <a class="nav-link" id="tab3-tab" data-toggle="tab" href="#tab3" role="tab" aria-controls="tab3" aria-selected="false">Tìm trọ tương tự</a> </li>--}}
                         <li class="nav-item"> <a class="nav-link" id="tab4-tab" data-toggle="tab" href="#tab4" role="tab" aria-controls="tab4" aria-selected="false">Bình luận/Đánh giá</a> </li>
                     </ul>
                     <div class="tab-content" id="myTabContent">
@@ -118,55 +118,55 @@
                             </div>
                             <!-- ameneties end -->
                         </div>
-                        <div class="tab-pane fade p-15" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
-                            <!-- rooms -->
-                            <h4 class="mb-6">Phòng cùng danh mục</h4>
-                            <div class="room-type-wrapper">
-                                <!-- list box -->
-                                @foreach($roomSameCategory as $same_room)
-                                <div class="list-box mb-30">
-                                    <div class="list-box-img">
-                                            @foreach($images as $image)
-                                                @if($same_room->id == $image->room_id)
-                                                    @php
-                                                        $image_path = $image->image_path;
-                                                    @endphp
+{{--                        <div class="tab-pane fade p-15" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">--}}
+{{--                            <!-- rooms -->--}}
+{{--                            <h4 class="mb-6">Phòng cùng danh mục</h4>--}}
+{{--                            <div class="room-type-wrapper">--}}
+{{--                                <!-- list box -->--}}
+{{--                                @foreach($roomSameCategory as $same_room)--}}
+{{--                                <div class="list-box mb-30">--}}
+{{--                                    <div class="list-box-img">--}}
+{{--                                            @foreach($images as $image)--}}
+{{--                                                @if($same_room->id == $image->room_id)--}}
+{{--                                                    @php--}}
+{{--                                                        $image_path = $image->image_path;--}}
+{{--                                                    @endphp--}}
 
 {{--                                                    <figure class="item"> <img src="{{asset('/images/'.$image_path)}}" width="500px" height="470px" alt="img description"> </figure>--}}
-                                                @endif
-                                            @endforeach
-                                                <img src="{{asset('/images/'.$image_path)}}" width="260px" height="225px" alt="room">
-                                    </div>
-                                    <div class="list-box-content">
-                                        <div class="list-box-title">
-                                            <h3>{{$same_room->name}}<span>{{number_format($same_room->cost)}} đ<em>/tháng</em></span></h3>
-                                            <address>Loại phòng: {{$room_category->name}}</address>
-                                        </div>
-                                        <ul class="hotel-featured">
-                                            @php
-                                                $serviceSame = \App\Models\ServiceRoom::where('room_id', $same_room->id)->get();
-                                            @endphp
-                                            @foreach($serviceSame as $room_service_s)
-                                                @foreach($services as $service)
-                                                    @if($room_service_s->service_id==$service->id)
-                                                        <li><span><i class="fas fa-swimming-pool"></i>{{$service->getName()}}</span></li>
-                                                    @endif
-                                                @endforeach
-                                            @endforeach
-                                        </ul>
-                                        <div class="btn-wrapper mt-20 d-inline-block w-100"> <a class="view-detail-btn" href="{{route('customer.rooms.details', ['id'=>$same_room->id])}}">Chi tiết</a>
-                                            @if($same_room->status==0)
-                                                <a class="book-now-btn ml-6" href="{{route('customer.rooms.booking', ['id' =>$same_room->id])}}">Đặt ngay</a>
-                                            @else
-                                                <button class="btn btn-outline-danger">Hết phòng</button>
-                                            @endif </div>
-                                    </div>
-                                </div>
-                                @endforeach
-                                <!-- list box end -->
-                            </div>
-                            <!-- rooms -->
-                        </div>
+{{--                                                @endif--}}
+{{--                                            @endforeach--}}
+{{--                                                <img src="{{asset('/images/'.$image_path)}}" width="260px" height="225px" alt="room">--}}
+{{--                                    </div>--}}
+{{--                                    <div class="list-box-content">--}}
+{{--                                        <div class="list-box-title">--}}
+{{--                                            <h3>{{$same_room->name}}<span>{{number_format($same_room->cost)}} đ<em>/tháng</em></span></h3>--}}
+{{--                                            <address>Loại phòng: {{$room_category->name}}</address>--}}
+{{--                                        </div>--}}
+{{--                                        <ul class="hotel-featured">--}}
+{{--                                            @php--}}
+{{--                                                $serviceSame = \App\Models\ServiceRoom::where('room_id', $same_room->id)->get();--}}
+{{--                                            @endphp--}}
+{{--                                            @foreach($serviceSame as $room_service_s)--}}
+{{--                                                @foreach($services as $service)--}}
+{{--                                                    @if($room_service_s->service_id==$service->id)--}}
+{{--                                                        <li><span><i class="fas fa-swimming-pool"></i>{{$service->getName()}}</span></li>--}}
+{{--                                                    @endif--}}
+{{--                                                @endforeach--}}
+{{--                                            @endforeach--}}
+{{--                                        </ul>--}}
+{{--                                        <div class="btn-wrapper mt-20 d-inline-block w-100"> <a class="view-detail-btn" href="{{route('customer.rooms.details', ['id'=>$same_room->id])}}">Chi tiết</a>--}}
+{{--                                            @if($same_room->status==0)--}}
+{{--                                                <a class="book-now-btn ml-6" href="{{route('customer.rooms.booking', ['id' =>$same_room->id])}}">Đặt ngay</a>--}}
+{{--                                            @else--}}
+{{--                                                <button class="btn btn-outline-danger">Hết phòng</button>--}}
+{{--                                            @endif </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                                @endforeach--}}
+{{--                                <!-- list box end -->--}}
+{{--                            </div>--}}
+{{--                            <!-- rooms -->--}}
+{{--                        </div>--}}
                         <div class="tab-pane fade p-15" id="tab4" role="tabpanel" aria-labelledby="tab4-tab">
                             <!-- reviews -->
                             <h4 class="mb-6">Đánh giá</h4>
@@ -249,6 +249,10 @@
                                         </ul>
                                         <div class="table-responsive">
                                             <table class="table table-bordered bg-gray w-100 border-0">
+                                                <tr>
+                                                    <td>Mã phòng:</td>
+                                                    <td>#{{$room->room_sku}} </td>
+                                                </tr>
                                                 <tr>
                                                     <td>Chiều dài: </td>
                                                     <td>{{$room->length}} m</td>

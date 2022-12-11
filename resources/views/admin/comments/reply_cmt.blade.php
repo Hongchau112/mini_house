@@ -86,7 +86,7 @@
                                             </div>
 
                                             <p class="mt-3 mb-4 pb-2">
-                                                {{$comment->content}}
+                                                {{$cmt_reply->content}}
                                             </p>
                                             <div class="small d-flex justify-content-start">
 

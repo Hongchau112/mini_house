@@ -8,7 +8,8 @@
             {{ session('success') }}
         </div>
     @endif
-    @if($user->account=='admin')
+    @if(($user->account=='admin') or($user->account=='staff'))
+
         <div class="nk-content-body">
             <div class="nk-block-head nk-block-head-sm">
                 <div class="nk-block-between">

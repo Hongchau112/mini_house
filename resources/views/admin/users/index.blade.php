@@ -22,7 +22,8 @@
                                         <select class="form-select form-select-sm"  id="filter-search" name="filter-search" data-placeholder="Lọc">
                                             <option value="all">Tất cả</option>
                                             <option value="admin">Người quản trị</option>
-                                            <option value="user">Khách trọ</option>
+                                            <option value="user">Người dùng</option>
+                                            <option value="staff">Nhân viên</option>
                                         </select>
                                     </div>
                                 </div><!-- .form-inline -->

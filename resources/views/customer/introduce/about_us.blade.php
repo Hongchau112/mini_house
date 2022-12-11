@@ -4,7 +4,7 @@
 
 @section('content')
 
-    <div class="about-page pt-70 pb-60">
+    <div class="about-page pt-70 pb-60" style="margin-top: 233px;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 mb-30">
@@ -23,7 +23,7 @@
                 </div>
                 <div class="col-lg-6 mb-30">
                     <!-- about video -->
-                    <div class="feature-img"> <img src="{{asset('boarding_house/img/about-us.jfif')}}" width="500px" class="rounded" alt=""> </div>
+                    <div class="feature-img"> <img src="{{asset('boarding_house/img/im.jpg')}}" width="500px" class="rounded" alt=""> </div>
                     <!-- about video end -->
                 </div>
             </div>
@@ -37,7 +37,7 @@
             <div class="row">
                 <div class="col-lg-6 mb-30">
                     <!-- feature img -->
-                    <div class="feature-img"> <img src="{{asset('boarding_house/img/about-us1.jfif')}}" class="rounded" width="500px" alt=""> </div>
+                    <div class="feature-img"> <img src="{{asset('boarding_house/img/img.jpg')}}" class="rounded" width="560px" alt=""> </div>
                     <!-- feature img end -->
                 </div>
                 <div class="col-lg-6 mb-30">

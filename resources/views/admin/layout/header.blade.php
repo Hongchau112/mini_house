@@ -12,8 +12,8 @@
             <div class="nk-header-news d-none d-xl-block">
                 <div class="nk-news-list">
                     <a class="nk-news-item" href="#">
-                        <div class="nk-news-icon">
-                            <em class="icon ni ni-card-view"></em>
+                        <div class="nk-news-">
+                            <em class="icon ni ni-"></em>
                         </div>
                         <div class="nk-news-text">
                             @if(session('newBooking'))
@@ -62,6 +62,7 @@
                                 <ul class="link-list">
                                     <li><a href="{{ route('admin.edit', ['id'=>$user->id]) }}"><em class="icon ni ni-signout"></em><span>Chỉnh sửa thông tin</span></a></li>
                                     <li><a class="dark-switch" href="#"><em class="icon ni ni-moon"></em><span>Chế độ tối</span></a></li>
+                                    <li><a href="http://localhost:8000/chatify/"><i class="fa fa-facebook-messenger"></i><span>Tin nhắn</span></a></li>
 
                                 </ul>
                             </div>

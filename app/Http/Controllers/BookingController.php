@@ -16,6 +16,7 @@ use App\Models\Service;
 use App\Models\ServiceRoom;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,8 +35,18 @@ class BookingController extends Controller
         }
         else {
             foreach ($user_infos as $user_info)
-
             {
+                if ($user_info->sex=='female')
+                {
+                    $gioitinh = "Nữ";
+                }
+                elseif ($user_info->sex=='male')
+                {
+                    $gioitinh = "Nam";
+                }
+                else {
+                    $gioitinh = "Khác";
+                }
                 $output .= '<div class="card-body p-4" style="background-color: lightcyan;">
                     <div class="row pt-1">
                     <h6 class="col-6 mb-3">Thông tin người ở</h6>
@@ -67,7 +78,7 @@ class BookingController extends Controller
                         </div>
                         <div class="col-6 mb-3">
                             <h6>Giới tính</h6>
-                            <p class="text-muted">'.$user_info->sex.'</p>
+                            <p class="text-muted">'.$gioitinh.'</p>
                         </div>
                         <input type="hidden" name="customer_id" value="'.$user_info->id.'">
                     </div>
@@ -95,6 +106,7 @@ class BookingController extends Controller
             return redirect()->back()->with('error', 'Số người ở đã đạt đến số lượng tối đa, bạn không thể thêm được nữa!');
         }
         else{
+
             $validated_data = $request->validate([
                 'name' => 'required',
                 'email' => 'required|email|unique:customers',
@@ -102,8 +114,12 @@ class BookingController extends Controller
                 'birthday' => 'required',
                 'sex' => 'required',
                 'address' => 'required',
-                'identified_no' => 'required|string|min:9|max:12'
+                'identified_no' => 'required|string|min:10|max:12|unique:customers'
             ]);
+
+            $email = Customer::where('email', $validated_data['email'])->first();
+            $identified_no = Customer::where('identified_no', $validated_data['identified_no'])->first();
+//dd($identified_no);
 
             $customer = new Customer();
             $customer->name = $validated_data['name'];
@@ -115,6 +131,8 @@ class BookingController extends Controller
             $customer->booking_people_id = $request->user_id;
             $customer->identified_no = $validated_data['identified_no'];
             $customer->save();
+
+
 
             //so nguoi o tro
             $user_infos = Customer::where('booking_id', '=', null)->where('booking_people_id','=', $request->user_id)->get();
@@ -182,7 +200,7 @@ class BookingController extends Controller
         $room = Room::find($request->room_id);
 
 
-        if(($booking_check) && ($room->status==1))
+        if($booking_check)
         {
             return redirect()->route('customer.rooms.listing', compact('user'))->with('error', 'Phòng đã được đặt, bạn không thể đặt thêm nữa');
         }
@@ -225,13 +243,18 @@ class BookingController extends Controller
                 'user_name' => $user->name,
                 'date_expire' => $validated_data['date_expire'],
                 'user_phone' => $user->phone,
+                'room_sku' => $room->room_sku,
                 'created_at' => Carbon::now()
             ];
 
             //luu thong tin nguoi dat phong
             $booking = Booking::insert($dataBooking);
             $booking_inserted = Booking::where('booking_room_id', $room->id)->first();
-
+            if($booking_inserted)
+            {
+                $room->status = 1;
+                $room->save();
+            }
             if ($booking_inserted)
             {
                 session()->flash('newBooking', true);
@@ -252,12 +275,6 @@ class BookingController extends Controller
             $booking_detail->total_cost = $request->total_cost;
             $booking_detail->date = now();
             $booking_detail->save();
-
-            if($booking_inserted)
-            {
-                $room->status = 1;
-                $room->save();
-            }
 
             if($validated_data['payment_method']=='cash')
             {
@@ -280,8 +297,11 @@ class BookingController extends Controller
 
 
                 ///doi status cua phong sau khi dat
+                $room_categories = RoomCategory::all();
+                $post_categories = PostCategory::all();
 
-                return redirect()->route('customer.rooms.listing', ['id'=>$booking_inserted->id])->with('success', 'Đặt phòng thành công, bạn vui lòng kiểm tra email để biết thêm chi tiết!');
+                return view('customer.rooms.success_message', compact('user', 'room', 'booking', 'room_categories', 'post_categories'));
+//                return redirect()->route('customer.rooms.listing', ['id'=>$booking_inserted->id])->with('success', 'Đặt phòng thành công, bạn vui lòng kiểm tra email để biết thêm chi tiết!');
             }
             elseif ($validated_data['payment_method']=='vnpay')
             {
@@ -334,9 +354,11 @@ class BookingController extends Controller
                 $mail->from('hongchau2000st@gmail.com');
                 $mail->subject("Đặt phòng trọ thành công");
             });
+            $room_categories = RoomCategory::all();
+            $post_categories = PostCategory::all();
 
-
-            return redirect()->route('customer.rooms.listing')->with('success', 'Đặt phòng thành công, bạn vui lòng kiểm tra email để biết thêm chi tiết!');
+            return view('customer.rooms.success_message', compact('user', 'room', 'booking', 'room_categories', 'post_categories'));
+//            return redirect()->route('customer.rooms.listing')->with('success', 'Đặt phòng thành công, bạn vui lòng kiểm tra email để biết thêm chi tiết!');
         }
         else{
             $booking_detail->vnp_code ='error';
@@ -474,6 +496,12 @@ class BookingController extends Controller
             });
         return redirect()->back()->with('success', 'Hủy đặt hàng thành công');
     }
+
+//    public function booking_success_message()
+//    {
+//        $user = Auth::guard('web')->user();
+//        return view('customer.rooms.success_message',compact())
+//    }
 
 
 

@@ -3,16 +3,7 @@
 ])
 
 @section('content')
-    @if (session('error'))
-        <div class="alert alert-danger" id="error">
-            {{ session('error') }}
-        </div>
-    @endif
-    @if (session('success'))
-        <div class="alert alert-success" id="success">
-            {{ session('success') }}
-        </div>
-    @endif
+
     <style>
         .form-group.error input {
             border-color: red;
@@ -102,6 +93,15 @@
     </style>
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Người ở trọ</h5>
@@ -135,7 +135,7 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label>CCCD/CMND<span class="text-danger">*</span></label>
-                                    <input type="text" minlength="10" maxlength="12" name="identified_no" id="identified_no" class="form-control">
+                                    <input type="text"  name="identified_no" id="identified_no" class="form-control">
                                     <span class="text-danger" id="ident_error"></span>
                                     <small class="error"></small>
                                 </div>
@@ -186,7 +186,17 @@
             </div>
         </div>
     </div>
-    <div class="detail-page pt-70 pb-40">
+    <div class="detail-page pt-70 pb-40" style="margin-top: 170px;">
+        @if (session('error'))
+            <div class="alert alert-danger" id="error">
+                {{ session('error') }}
+            </div>
+        @endif
+        @if (session('success'))
+            <div class="alert alert-success" id="success">
+                {{ session('success') }}
+            </div>
+        @endif
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 col-md-8 mb-30" style="background-color: #ccffea; padding: 20px;">
@@ -394,6 +404,9 @@
                 if (user_identified_no === '') {
                     setError(identified_no, 'Trường này không được bỏ trống!');
                 }
+                else if ((user_identified_no._length > 12) || (user_identified_no._length <9)) {
+                    setError(identified_no, 'Vui lòng nhập CCCD hợp lệ!');
+                }
 
                 // if (user_sex === '') {
                 //     setError(sex, 'Trường này không được bỏ trống!');
@@ -458,6 +471,7 @@
                 url: '{{route('customer.customer_order')}}',
                 data: {_token: _token, room_limit: room_limit,user_id: user_id,name: name, email: email, address: address, birthday: birthday, phone: phone, identified_no: identified_no, sex: sex},
                 success: function (response){
+                    // response.errors;
                     // console.log(response);
                     // document.getElementById('#addUserBtn').classList.add('close');
                     var element = document.getElementById('addUserBtn');

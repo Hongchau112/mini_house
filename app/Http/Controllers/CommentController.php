@@ -98,7 +98,11 @@ class CommentController extends Controller
     public function send_comment(Request $request)
     {
 //        var_dump($request);
-//        dd($request);
+//        dd($request);if
+        if (Session::get('user_id')==null)
+        {
+            return redirect()->back('error', 'Bạn vui lòng đăng nhập để thực hiện chức năng này!');
+        }
         $comment = new Comment();
         $comment->name = $request['name'];
         $comment->content = $request['content'];
@@ -159,7 +163,7 @@ class CommentController extends Controller
 //                dd($user->avatar);
                 $output.= '<div class="comment-box mb-30">
                             <div class="comment">
-                                <div class="author-thumb"><img src="/images/'.$user->avatar.'" alt=""></div>
+                                <div class="author-thumb"><img src="http://localhost:8000/images/'.$user->avatar.'" alt=""></div>
                                 <div class="comment-inner">
                                     <div class="comment-info clearfix">'.$comment->name.'
                                     <span> - Bình luận ngày '.$comment->date.'</span> </div>

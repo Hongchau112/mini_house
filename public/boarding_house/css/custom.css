@@ -252,10 +252,10 @@ a:hover {
 }
 .header-navigation .navbar-nav .nav-link {
     text-transform: uppercase;
-    padding: 16px 36px;
+    padding: 16px 25px;
     color: #052745;
     font-weight: bold;
-    font-size: 13px;
+    font-size: 11px;
 	/*font-size: 12px;*/
 	font-family: 'Montserrat', sans-serif;
 	-webkit-transition: all 0.3s ease-in-out;
@@ -272,7 +272,7 @@ a:hover {
 .header-navigation .navbar-nav .nav-link:hover, .header-navigation .navbar-nav li.active .nav-link {
     background-color: #31b675;
     color: #ebf2ef;
-    font-size: 14px;
+    font-size: 10px;
     font-weight: bold;
 }
 .header-navigation .navbar-nav .nav-item.dropdown .dropdown-menu {
@@ -285,7 +285,7 @@ a:hover {
 .header-navigation .navbar-nav .nav-item.dropdown .dropdown-menu .dropdown-item {
 	font-family: 'Montserrat', sans-serif;
 	color: #8293a2;
-	font-size: 14px;
+	font-size: 11px;
 	padding: 10px 14px;
 	border-bottom: 1px solid #393939;
 	-webkit-transition: all 0.3s ease-in-out;
@@ -374,7 +374,7 @@ a:hover {
 	color: #fff;
 }
 .header-lover {
-	padding: 30px 0;
+	padding: 10px 0;
     /*background-color: #dcfade;;*/
 }
 .header-call-us {
@@ -648,7 +648,7 @@ a:hover {
 	padding-bottom: 6px;
 	position: relative;
 	margin-bottom: 20px;
-	font-size: 20px;
+	font-size: 15px;
 	display: inline-block;
 }
 .popular-hotel-box h4 a:before {
@@ -1666,6 +1666,7 @@ footer {
 }
 .detail-tabs .nav-pills .nav-link:hover {
 	border-top: 2px solid #cccbcb;
+    font-size: 11px;
 }
 .detail-tabs .nav-pills .nav-link.active {
 	background-color: #31b675;

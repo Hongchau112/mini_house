@@ -115,11 +115,12 @@ class CustomerController extends Controller
     {
         $user = '';
         $room_categories = RoomCategory::all();
-        $rooms = Room::all();
+        $rooms = Room::orderBy('created_at', 'desc')->limit(10)->get();
         $images = Image::all();
         $user = Auth::guard('web')->user();
         $post_categories = PostCategory::all();
-        $posts = Post::all();
+        $posts = Post::orderBy('created_at', 'desc')->limit(6)->get();
+//        dd($posts);
 //        dd(Auth::guard('admin')->user());
         return view('customer.login.index', compact('user', 'post_categories','images', 'rooms', 'room_categories', 'posts'));
     }
@@ -258,15 +259,15 @@ class CustomerController extends Controller
 //        dd($request->get('room_category_id'));
         $room_category = $request->get('room_category_id');
         if ($filter_area == 20) {
-            $rooms = Room::where('room_type_id', $room_category)->where('area', '<', 20)->get();
+            $rooms = Room::where('area', '<', 20)->get();
         } elseif ($filter_area == 30) {
-            $rooms = DB::table('rooms')->where('room_type_id', $room_category)->whereBetween('area', [20, 30])->get();
+            $rooms = DB::table('rooms')->whereBetween('area', [20, 30])->get();
 
         } elseif ($filter_area == 40) {
-            $rooms = DB::table('rooms')->where('room_type_id', $room_category)->whereBetween('area', [30, 50])->get();
+            $rooms = DB::table('rooms')->whereBetween('area', [30, 50])->get();
 //            dd($rooms);
         } else {
-            $rooms = Room::where('room_type_id', $room_category)->where('area', '>', 50)->get();
+            $rooms = Room::where('area', '>', 50)->get();
         }
 //dd($rooms);
         if (count($rooms) > 0) {
@@ -302,6 +303,7 @@ class CustomerController extends Controller
 
     public function global_search(Request $request)
     {
+        $rooms=0;
         $data = $request->all();
         $user = Auth::guard('web')->user();
         $services = Service::all();
@@ -309,8 +311,9 @@ class CustomerController extends Controller
         $post_categories = PostCategory::all();
         $images = Image::all();
 //        dd($data);
-        $rooms = Room::where('name', 'LIKE', '%' .$data['search'].'%')->orWhere('cost', 'LIKE', '%' .$data['search'].'%')->get();
-        $output = '<ul class="dropdown-search">';
+        $rooms = Room::where('name', 'LIKE', '%' .$data['search'].'%')->orWhere('cost', 'LIKE', '%' .$data['search'].'%')->orWhere('room_sku', 'LIKE', '%' .$data['search'].'%')->get();
+        $room_count = count($rooms);
+        $output = '<ul class="dropdown-search"><li style=";padding: 5px; width: 256px; font-size: 14px; color: black; border-bottom: 1px solid black;" class="list-group-item search_room_ajax hover"><p>Có '.$room_count.' kết quả</p></li>';
         foreach ($rooms as $room)
         {
             $output.='

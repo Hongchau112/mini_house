@@ -160,25 +160,19 @@
         </div>
     </div>
     <div class="nk-block nk-block-lg">
-        <div class="nk-block-head">
-            <div class="nk-block-head-content">
-                <h4 class="title nk-block-title"></h4>
-                <p>Xem chi tiết đơn</p>
-            </div>
-        </div>
         <div class="row g-gs">
             <div class="col-sm-12 col-lg-12">
 
                     <div class="card-inner">
                         <div class="container py-5 h-100">
-                            <div class="row d-flex justify-content-center align-items-center h-100">
+                            <div class="row d-flex justify-content-center align-items-center h-100" style="background-color: lightgray;">
                                 <div class="col-md-10 col-lg-12 col-xl-12">
                                     <div class="card card-stepper" style="border-radius: 16px; font-size: 18px;">
                                         <div class="card-header p-4">
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <div>
                                                     <div class="col-lg-12">
-                                                        <span style="margin-right: 130px">Ngày đặt: </span><span class="fw-bold text-body">{{$booking_detail->date}}</span>
+                                                        <span style="margin-right: 130px">Ngày đặt: </span><span class="fw-bold text-body">{{date_format($booking->created_at, 'd-m-Y H:m:s')}}</span>
                                                     </div>
                                                     <div class="col-lg-12">
                                                         <span  style="margin-right: 67px"> Người đặt phòng: </span><span class="fw-bold text-body">{{$user_booked->name}}</span>
@@ -192,6 +186,15 @@
                                             <div class="d-flex flex-row mb-4 pb-2">
                                                 <div class="flex-fill" style="margin-left: 40px;">
                                                     <table>
+                                                        <tr>
+                                                            <td>
+                                                                Mã phòng:
+
+                                                            </td>
+                                                            <td>
+                                                                #{{$room->room_sku}}
+                                                            </td>
+                                                        </tr>
                                                         <tr>
                                                             <td>
                                                                 Phòng đặt:
@@ -230,10 +233,36 @@
                                                                     @endif
                                                                 </p>
                                                             </td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <td> Thanh toán:
+
+                                                            </td>
+                                                            <td>
+                                                                <p class="text-muted">
+                                                                    @if($booking->payment=='yes')
+                                                                        <span class="btn btn-success">Đã thanh toán</span>
+                                                                    @elseif($booking->payment=='no')
+                                                                        <span class="btn btn-danger">Chưa thanh toán</span>
+                                                                    @endif
+                                                                </p>
+                                                            </td>
+
                                                         </tr>
                                                     </table>
-
-                                                    <p class="text-muted" style="margin-top: 65px;"><span class="btn btn-warning">Trạng thái đơn:  </span></p>
+                                                    <p class="text-muted" style="margin-top: 65px;">
+                                                        <span class="text-body" style="margin-right: 20px;">Trạng thái đơn:  </span>
+                                                        @if($booking->booking_status=='new')
+                                                            <span class="btn btn-warning">Mới</span>
+                                                        @elseif($booking->booking_status=='pending')
+                                                            <span class="btn btn-primary">Đang xử lý</span>
+                                                        @elseif($booking->booking_status=='success')
+                                                            <span class="btn btn-success">Thành công</span>
+                                                        @elseif($booking->booking_status=='cancel')
+                                                            <span class="btn btn-danger">Đã hủy</span>
+                                                        @endif
+                                                    </p>
                                                 </div>
                                                 <div>
                                                     <img class="align-self-center img-fluid"
@@ -241,7 +270,7 @@
                                                 </div>
                                             </div>
                                             <ul id="progressbar-1" class="mx-0 mt-0 mb-5 px-0 pt-0 pb-4">
-                                                @if($booking_detail->booking_status=='new')
+                                                @if($booking->booking_status=='new')
                                                     <li class="step0 active" id="step1">
                                                         <span style="margin-left: 22px; margin-top: 12px;">Mới</span>
                                                     </li>
@@ -252,7 +281,7 @@
                                     <span
                                         style="margin-left: 185px">Thành công</span>
                                                     </li>
-                                                @elseif($booking_detail->booking_status=='pending')
+                                                @elseif($booking->booking_status=='pending')
                                                     <li class="step0 active" id="step1">
                                                         <span style="margin-left: 22px; margin-top: 12px;">Mới</span>
                                                     </li>
@@ -263,7 +292,7 @@
                                     <span
                                         style="margin-left: 185px">Thành công</span>
                                                     </li>
-                                                @elseif($booking_detail->booking_status=='success')
+                                                @elseif($booking->booking_status=='success')
                                                     <li class="step0 active" id="step1">
                                                         <span style="margin-left: 22px; margin-top: 12px;">Mới</span>
                                                     </li>
@@ -274,7 +303,7 @@
                                     <span
                                         style="margin-left: 185px">Thành công</span>
                                                     </li>
-                                                @elseif($booking_detail->booking_status=='cancel')
+                                                @elseif($booking->booking_status=='cancel')
                                                     <li class="step0 active" id="step1">
                                                         <span style="margin-left: 22px; margin-top: 12px;">Mới</span>
                                                     </li>
@@ -291,8 +320,11 @@
                                         </div>
                                         <div class="card-footer p-4">
                                             <div class="d-flex justify-content-between" style="margin-left: 400px;">
-                                                <h5 class="fw-normal mb-0"><button id="btn" class="btn btn-success">Cập nhật đơn</button>
-                                                    <button id="cancel_booking" class="btn btn-danger" >Hủy đơn</button>
+                                                <h5 class="fw-normal mb-0">
+                                                    @if(($booking->booking_status=='new') or ($booking->booking_status=='pending'))
+                                                        <button id="btn" class="btn btn-success">Cập nhật đơn</button>
+                                                        <button id="cancel_booking" class="btn btn-danger" >Hủy đơn</button>
+                                                    @endif
                                                 </h5>
                                                 {{--                            <h5 class="fw-normal mb-0"><a href="#!">Hủy</a></h5>--}}
                                                 <div class="border-start h-100"></div>
@@ -307,37 +339,30 @@
                     </div><!-- .card-inner -->
             </div><!-- .col -->
             @foreach($customers as $customer)
-                <div class="col-sm-6 col-lg-4">
-                <div class="card card-bordered">
+                <div class="col-sm-6 col-lg-4" style="margin-left: 25px;">
+                <div class="card card-bordered" style="background-color: lightcyan;">
                     <div class="card-inner">
                         <div class="team">
                             <div class="team-options">
                             </div>
                             <div class="user-card user-card-s2">
-                                <div class="user-avatar lg bg-primary">
-                                    <img src="{{asset('/images/avt.png')}}" alt="">
-                                    <div class="status dot dot-lg dot-success"></div>
-                                </div>
+                                <h4>Người ở trọ</h4>
                                 <div class="user-info">
                                     <h6>{{$customer->name}}</h6>
-                                    @if($customer->title=='student')
-                                        <span class="sub-text">Sinh viên</span>
-                                    @elseif($customer->title=='adult')
-                                        <span class="sub-text">Người đi làm</span>
-                                    @else
-                                        <span class="sub-text">Khác</span>
-                                    @endif
                                 </div>
                             </div>
                             <ul class="team-info">
                                 <li><span>Giới tính</span>
                                     <span>Nữ</span></li>
                                 <li><span>Số điện thoại</span><span>{{$customer->phone}}</span></li>
-                                <li><span>Email</span><span>{{$customer->email}}</span></li>
+                                <li><span>CCCD/CMND</span><span>{{$customer->identified_no}}</span></li>
+                                <li><span>Ngày sinh</span><span>{{($customer->birthday)}}</span></li>
+                                <li><span>Địa chỉ</span><span>{{$customer->address}}</span></li>
+
                             </ul>
-                            <div class="team-view">
-                                <a href="#" class="btn btn-block btn-dim btn-primary"><span>Chờ xác nhận</span></a>
-                            </div>
+{{--                            <div class="team-view">--}}
+{{--                                <a href="#" class="btn btn-block btn-dim btn-primary"><span></span></a>--}}
+{{--                            </div>--}}
                         </div><!-- .team -->
                     </div><!-- .card-inner -->
                 </div><!-- .card -->

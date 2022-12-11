@@ -85,13 +85,13 @@
 {{--            </div>--}}
 {{--        </div>--}}
         <!-- search area end -->
-        <div id="myCarousel" class="carousel slide carousel-fade" data-ride="carousel">
+        <div id="myCarousel" class="carousel slide carousel-fade" data-ride="carousel" style="margin-top: 108px;">
             <div class="carousel-inner">
                 <!-- slider item -->
                 <div class="carousel-item active"> <img src="{{asset('boarding_house/img/slider/slidebar2.png')}}" alt="" class="img-fluid"> </div>
                 <!-- slider item end -->
                 <!-- slider item -->
-                <div class="carousel-item"> <img src="{{asset('boarding_house/img/slider/slidebar1.png')}}" alt="" class="img-fluid"> </div>
+{{--                <div class="carousel-item"> <img src="{{asset('boarding_house/img/slider/slidebar1.png')}}" alt="" class="img-fluid"> </div>--}}
                 <!-- slider item end -->
                 <!-- slider item -->
                 <div class="carousel-item"> <img src="{{asset('boarding_house/img/slider/slidebar.png')}}" alt="" class="img-fluid"> </div>
@@ -127,12 +127,12 @@
     <!-- ================ About area end ================ -->
 
     <!-- ================ Most popular hotel ================ -->
-    <div class="most-popular-hotel pt-70 pb-70 position-relative">
+    <div class="most-popular-hotel pt-70 pb-70 position-relative" style="background-color: white;">
         <div class="bg-style-1"></div>
         <div class="container">
             <!-- section title -->
             <div class="section-title text-center">
-                <h2>Nhà trọ phổ biến gần đây</h2>
+                <h2><button class="btn btn-success" style="font-size: 27px; background-color: #31b675;">Nhà trọ phổ biến gần đây</button></h2>
                 <span class="dashed-border"></span> </div>
             <!-- section title -->
         </div>
@@ -140,7 +140,7 @@
             <!-- popular hotel carousel -->
             <div class="popular-hotel-carousel owl-carousel owl-theme">
                 @foreach($rooms as $room)
-                <div class="item">
+                <div class="item" style="background-color: #e4ffe3;">
 
                     <!-- popular hotel box -->
                     <div class="popular-hotel-box">
@@ -168,12 +168,12 @@
 
 
     <!-- ================ Blog area ================ -->
-    <div class="blog-area pt-70 pb-40 position-relative">
+    <div class="blog-area pt-70 pb-40 position-relative" style="background-color: white;">
         <div class="bg-style-1"></div>
         <div class="container">
             <!-- section title -->
             <div class="section-title text-center">
-                <h2>Bài đăng gần đây</h2>
+                <h2><button class="btn btn-success" style="font-size: 27px; background-color: #31b675;">Bài đăng gần đây</button></h2>
                 <span class="dashed-border"></span> </div>
             <!-- section title -->
             <div class="row">

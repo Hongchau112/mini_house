@@ -166,7 +166,18 @@
                                         <span class="text-body">Thanh toán qua ví VNPAY</span>
                                     @endif
                                 </p>
-                                <p class="text-muted"><span class="text-body">Trạng thái đơn:  </span></p>
+                                <p class="text-muted">
+                                    <span class="text-body">Trạng thái đơn:  </span>
+                                    @if($booking_detail->booking_status=='new')
+                                        <span>Mới</span>
+                                    @elseif($booking_detail->booking_status=='pending')
+                                        <span>Đang xử lý</span>
+                                    @elseif($booking_detail->booking_status=='success')
+                                        <span>Thành công</span>
+                                    @elseif($booking_detail->booking_status=='cancel')
+                                        <span>Đã hủy</span>
+                                    @endif
+                                </p>
                             </div>
                             <div>
                                 <img class="align-self-center img-fluid"

@@ -59,6 +59,7 @@ class TransactionController extends Controller
         $booking->save();
         $booking_detail = BookingDetail::where('booking_id', $booking->id)->get()->first();
         $title_mail = 'Hủy đặt phòng';
+        $title_success = "Xác nhận hoàn tất giao dịch đặt phòng";
         if ($booking->booking_status=='cancel'){
             $room = Room::where('id', $booking->booking_room_id)->get()->first();
             $room->status=0;
@@ -73,6 +74,25 @@ class TransactionController extends Controller
                 function ($message) use ($title_mail, $booked_email){
                     $message->to($booked_email)->subject($title_mail);
                     $message->from($booked_email, $title_mail);
+                });
+
+        }
+        if ($booking->booking_status=='success'){
+            $booking->payment = 'yes';
+            $booking->save();
+            $room = Room::where('id', $booking->booking_room_id)->get()->first();
+            $room->status=1;
+            $room->save();
+
+            Mail::send('admin.transaction.booking_success',
+                ['room_name' => $room->name,
+                    'date_booking' => $booking->date,
+                    'user_name' => $booked_user->name,
+                    'cost' => $booking_detail->total_cost,
+                    'date_cancel' => Carbon::now()],
+                function ($message) use ($title_success, $booked_email){
+                    $message->to($booked_email)->subject($title_success);
+                    $message->from($booked_email, $title_success);
                 });
 
         }
@@ -117,13 +137,14 @@ class TransactionController extends Controller
 
     public function key_search(Request $request)
     {
+//        dd($request->get('key_search'));
         $user = Auth::guard('web')->user();
         $booking_details = BookingDetail::all();
         $search = $request->get('key_search');
-        $users = Customer::all();
+        $users = User::all();
 //        dd($search);
-        $bookings = Booking::where('user_name', 'LIKE', '%' . $search . '%')->orWhere('user_phone','LIKE', '%' . $search . '%')->orWhere('date','LIKE', '%' . $search . '%')->get();
-
+        $bookings = Booking::orderBy('created_at', 'desc')->where('user_name', 'LIKE', '%' . $search . '%')->orWhere('created_at', 'LIKE', '%' . $search . '%')->orWhere('room_sku', 'LIKE', '%' . $search . '%')->get();
+//dd($bookings);
         if (count($bookings)>0)
 
             return view('admin.transaction.search', compact('bookings', 'user', 'users', 'booking_details'));
@@ -142,7 +163,7 @@ class TransactionController extends Controller
             return view('admin.transaction.search' ,compact('bookings', 'user', 'booking_details', 'users'));
         else
         {
-            $booking_filters = Booking::where('payment', $filter_search)->get();
+            $booking_filters = Booking::orderBy('created_at', 'desc')->where('payment', $filter_search)->get();
 //        dd($user_list);
 //            dd($booking_filters);
             if(count($booking_filters) > 0){
